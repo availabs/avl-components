@@ -1,10 +1,9 @@
 import React, { Component } from 'react';
-import 'styles/tailwind.css';
-import * as themes from 'layouts/components/Themes'
+import * as themes from '../Themes'
 
-import SideNav from 'layouts/components/Nav/Side'
-import TopNav from 'layouts/components/Nav/Top'
-import HeaderBar from 'layouts/components/HeaderBar'
+import SideNav from '../Nav/Side'
+import TopNav from '../Nav/Top'
+import HeaderBar from '../HeaderBar'
 
 
 class Layout extends Component {

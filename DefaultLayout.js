@@ -1,9 +1,9 @@
 import React from 'react';
 import { Route, Redirect } from "react-router-dom";
-import Layouts from 'layouts/components/Layouts'
-import * as themes from 'layouts/components/Themes'
+import Layouts from './components/Layouts'
+import * as themes from './components/Themes'
 
-import ComponentFactory from "layouts/ComponentFactory"
+import ComponentFactory from "./ComponentFactory"
 
 import LoadingPage from "./components/Loading/LoadingPage"
 
@@ -13,7 +13,7 @@ const DefaultLayout = ({ component, ...rest }) => {
     return (
       <Layout {...rest}>
         <Route {...rest} render={matchProps => (
-          <div style={{background:"#f0f7f9"}}>
+          <div>
             <LoadingPage />
           </div>
         )} />

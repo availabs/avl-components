@@ -1,6 +1,5 @@
 import React, { Component } from "react"
-import * as Inputs from 'layouts/components/Forms/Inputs'
-import 'styles/tailwind.css';
+import * as Inputs from './Inputs'
 
 const InputContainer = Inputs.InputContainer
 

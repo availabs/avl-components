@@ -1,7 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 // import { classNames } from "../utils";
-import Icon from "layouts/components/Icons";
+import Icon from "../Icons";
 
 export function classNames(...classes) {
   return classes.filter(Boolean).join(' ');

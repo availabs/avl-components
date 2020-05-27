@@ -1,5 +1,4 @@
 import React from "react"
-import 'styles/tailwind.css';
 const noop = ()=> {}
 
 export default  ({children, open, toggle=noop}) => (
