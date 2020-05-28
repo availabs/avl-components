@@ -55,7 +55,7 @@ const processConfig = (config, i = 0) => {
   const Component = applyWrappers(getComponent(config), config),
     children = get(config, "children", []);
 
-console.log("CONFIG PROPS:", config.props)
+// console.log("CONFIG PROPS:", config.props)
   return React.createElement(Component,
     { ...config.props, key: getKey(config, i) },
     children.map((child, i) => processConfig(child, i))

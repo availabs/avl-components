@@ -4,8 +4,8 @@ import { connect } from "react-redux"
 
 const FAKE_USER = {
   groups: [],
-  authLevel: 10,
-  authed: true,
+  authLevel: 5,
+  authed: false,
   id: "fake-user-id"
 }
 
