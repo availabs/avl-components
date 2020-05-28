@@ -9,18 +9,17 @@ export function classNames(...classes) {
 
 
 export default ({ active, to, icon, className, children, theme, type='side' }) => {
-  
+
 
   let sideClasses = active ? theme.sidebarItemActive : theme.sidebarItem
   let topClasses = active ? theme.topnavItemActive : theme.topnavItem
-  let linkClasses = type === 'side' ? sideClasses : topClasses 
+  let linkClasses = type === 'side' ? sideClasses : topClasses
   return (
     <Link to={to} className={linkClasses}>
       <Icon icon={icon} className={theme.menuIcon} />
       {children}
     </Link>
   );
-  
+
 
 };
-

@@ -3,6 +3,8 @@ import { Route, Redirect } from "react-router-dom";
 import Layouts from './components/Layouts'
 import * as themes from './components/Themes'
 
+import { ThemeContext } from "./wrappers/with-theme"
+
 import ComponentFactory from "./ComponentFactory"
 
 import LoadingPage from "./components/Loading/LoadingPage"
@@ -20,7 +22,6 @@ const DefaultLayout = ({ component, ...rest }) => {
       </Layout>
     )
   }
-console.log("REST:", rest)
   return sendToLgin(rest) ?
   (
     <Redirect
@@ -33,8 +34,13 @@ console.log("REST:", rest)
     <Layout {...rest.layoutSettings} {...rest}>
       <Route
         {...rest}
-        theme={themes[rest.layoutSettings.theme] || themes['light']}
-        render={matchProps => (<ComponentFactory {...matchProps} {...rest} config={ component }/>)}
+        render={
+          matchProps => (
+            <ThemeContext.Provider value={ themes[rest.layoutSettings.theme] }>
+              <ComponentFactory {...matchProps} {...rest} config={ component }/>
+            </ThemeContext.Provider>
+          )
+        }
       />
     </Layout>
   )
