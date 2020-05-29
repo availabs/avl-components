@@ -26,8 +26,8 @@ const MobileMenu = ({open, toggle, menuItems=[], theme, location}) => (
 )
 
 
-const DesktopMenu = ({menuItems=[], open, toggle, fixed, theme, location}) => (
-  <div className={`max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 z-20 h-16  ${theme.sidebarBg}  ${theme.topMenuBorder}`}>
+const DesktopMenu = ({menuItems=[], open, toggle, fixed, theme, location, width}) => (
+  <div className={`${width} mx-auto px-4 sm:px-6 lg:px-8 z-20 h-16  ${theme.sidebarBg}  ${theme.topMenuBorder}`}>
     <div className="flex justify-between h-16">
       <div className="flex">
         <div className="flex-shrink-0 flex items-center">

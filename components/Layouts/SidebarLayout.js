@@ -27,7 +27,7 @@ class Layout extends Component {
 
     const theme = themes[this.props.theme]
     return (
-      <div className={`${theme.bg}`}>
+      <div className={`${theme.bg} `}>
         {this.props.nav === 'top' ? (
           <div className={this.props.fixed ? `fixed left-0 top-0 w-full z-10` : ''}>
 
@@ -37,6 +37,7 @@ class Layout extends Component {
                 menuItems={this.props.menus}
                 fixed={this.props.fixed}
                 theme={theme}
+                width={this.props.maxWidth}
               />
 
           </div>
@@ -53,8 +54,8 @@ class Layout extends Component {
             </div>
           </div>
         ) : '' }
-      	<div className={`mx-auto min-h-screen ${this.props.maxWidth} ${this.props.nav === 'top' && this.props.fixed ? 'mt-16' : ''}`} >
-          <div className="flex">
+      	<div className={`min-h-screen ${this.props.maxWidth} `} >
+          <div className="flex h-full">
           {this.props.nav === 'side' ? (
             <SideNav
               open={this.state.menuOpen}
@@ -63,17 +64,15 @@ class Layout extends Component {
               fixed={this.props.fixed}
               theme={theme}
             />) :''}
-            <div className="w-0 flex-1 ">
+            <div className="w-0 flex-1 h-full">
               <main className={`
-                  flex-1 relative z-0 pt-2 pb-6 focus:outline-none
+                  flex-1 z-0 focus:outline-none min-h-screen
                   ${theme.contentBg}
                   ${this.props.headerBar ? 'mt-16' : ''}
                   ${this.props.fixed && this.props.nav === 'side' ?  `md:ml-${theme.sidebarW}` : '' }`
                 }
               >
-                <div >
-                  {this.props.children}
-                </div>
+                {this.props.children}
               </main>
             </div>
           </div>
