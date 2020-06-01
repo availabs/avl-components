@@ -9,6 +9,8 @@ import ComponentFactory from "./ComponentFactory"
 
 import LoadingPage from "./components/Loading/LoadingPage"
 
+import get from "lodash.get"
+
 const DefaultLayout = ({ component, ...rest }) => {
   const Layout = Layouts[rest.layout] || Layouts['Sidebar']
   if ( rest.isAuthenticating && rest.authLevel >= 0  ) {
@@ -22,6 +24,7 @@ const DefaultLayout = ({ component, ...rest }) => {
       </Layout>
     )
   }
+  const theme = get(rest, ["layoutSettings", "theme"], "light");
   return sendToLgin(rest) ?
   (
     <Redirect
@@ -36,7 +39,7 @@ const DefaultLayout = ({ component, ...rest }) => {
         {...rest}
         render={
           matchProps => (
-            <ThemeContext.Provider value={ themes[rest.layoutSettings.theme] }>
+            <ThemeContext.Provider value={ get(themes, theme, null) }>
               <ComponentFactory {...matchProps} {...rest} config={ component }/>
             </ThemeContext.Provider>
           )

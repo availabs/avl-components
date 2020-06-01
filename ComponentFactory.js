@@ -2,8 +2,8 @@ import React from 'react'
 // import TrackVisibility from 'react-on-screen';
 // import CensusCharts from 'components/CensusCharts'
 
-// import DmsComponents from "components/DMS"
-// import DmsWrappers from "components/DMS/wrappers"
+import DmsComponents from "components/DMS"
+import DmsWrappers from "components/DMS/wrappers"
 
 import BaseWrappers from "./wrappers"
 
@@ -11,11 +11,11 @@ import get from "lodash.get"
 
 const ComponentLibrary = {
     //...CensusCharts,
-    //...DmsComponents
+    ...DmsComponents
 }
 
 const Wrappers = {
-  //...DmsWrappers,
+  ...DmsWrappers,
   ...BaseWrappers
 }
 
