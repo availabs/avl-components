@@ -11,6 +11,6 @@ const FAKE_USER = {
 
 export default Component => {
   const defaultProps = Component.defaultProps || {},
-    mapStateToProps = state => ({ user: { ...FAKE_USER }, ...defaultProps });
+    mapStateToProps = (state, props) => ({ user: { ...FAKE_USER }, ...defaultProps, ...props });
   return connect(mapStateToProps, null)(Component);
 }
