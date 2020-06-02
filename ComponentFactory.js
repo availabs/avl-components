@@ -9,14 +9,27 @@ import BaseWrappers from "./wrappers"
 
 import get from "lodash.get"
 
-const ComponentLibrary = {
+let ComponentLibrary = {
     //...CensusCharts,
-    ...DmsComponents
+    // ...DmsComponents
 }
 
-const Wrappers = {
-  ...DmsWrappers,
+let WrapperLibrary = {
+  // ...DmsWrappers,
   ...BaseWrappers
+}
+
+export const addComponents = comps => {
+  ComponentLibrary = {
+    ...ComponentLibrary,
+    ...comps
+  }
+}
+export const addWrappers = wraps => {
+  WrapperLibrary = {
+    ...WrapperLibrary,
+    ...wraps
+  }
 }
 
 const getKey = (config, i) => get(config, "key", `key-${ i }`);
@@ -38,14 +51,14 @@ const applyWrappers = (Component, config) => {
   return get(config, "wrappers", [])
     .reduce((a, c) => {
       if (typeof c === "string") {
-        return get(Wrappers, c, d => d)(a);
+        return get(WrapperLibrary, c, d => d)(a);
       }
       else if (typeof c === "function") {
         return c(a);
       }
       else if (typeof c === "object") {
         const { type, options } = c;
-        return get(Wrappers, type, d => d)(a, options);
+        return get(WrapperLibrary, type, d => d)(a, options);
       }
       return a;
     }, Component);
