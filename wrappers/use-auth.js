@@ -10,7 +10,6 @@ const FAKE_USER = {
 }
 
 export default Component => {
-  const defaultProps = Component.defaultProps || {},
-    mapStateToProps = (state, props) => ({ user: { ...FAKE_USER }, ...defaultProps, ...props });
+  const mapStateToProps = (state, props) => ({ user: { ...FAKE_USER } });
   return connect(mapStateToProps, null)(Component);
 }

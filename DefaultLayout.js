@@ -11,47 +11,43 @@ import LoadingPage from "./components/Loading/LoadingPage"
 
 import get from "lodash.get"
 
-const DefaultLayout = ({ component, ...rest }) => {
-  const Layout = Layouts[rest.layout] || Layouts['Sidebar']
+const DefaultLayout = ({ component, path, exact, layoutSettings, ...rest }) => {
+  const Layout = get(Layouts, rest.layout, Layouts["Sidebar"]),
+    themeName = get(layoutSettings, "theme", "light"),
+    theme = get(themes, themeName, null);
   if ( rest.isAuthenticating && rest.authLevel >= 0  ) {
     return (
-      <Layout {...rest}>
-        <Route {...rest} render={matchProps => (
-          <div>
-            <LoadingPage />
-          </div>
-        )} />
-      </Layout>
+      <ThemeContext.Provider value={ theme }>
+        <Layout { ...rest }>
+          <Route { ...rest }>
+            <div><LoadingPage /></div>
+          </Route>
+        </Layout>
+      </ThemeContext.Provider>
     )
   }
-  const theme = get(rest, ["layoutSettings", "theme"], "light");
   return sendToLgin(rest) ?
   (
     <Redirect
-      to={{
+      to={ {
         pathname: "/login",
-        state: { from: rest.router.location }
-      }}
+        state: { from: get(rest, ["router", "location"]) }
+      } }
     />
   ) : (
-    <Layout {...rest.layoutSettings} {...rest}>
-      <Route
-        {...rest}
-        render={
-          matchProps => (
-            <ThemeContext.Provider value={ get(themes, theme, null) }>
-              <ComponentFactory {...matchProps} {...rest} config={ component }/>
-            </ThemeContext.Provider>
-          )
-        }
-      />
-    </Layout>
+    <ThemeContext.Provider value={ theme }>
+      <Layout { ...layoutSettings } { ...rest }>
+        <Route path={ path } exact={ exact }>
+          <ComponentFactory config={ component }/>
+        </Route>
+      </Layout>
+    </ThemeContext.Provider>
   )
 }
 
 function sendToLgin (props) {
   const requiredAuthLevel = props.authLevel !== undefined ? props.authLevel : props.auth ? 1 : -1;
-  return props.user.authLevel < requiredAuthLevel;
+  return get(props , ["user", "authLevel"], -1) < requiredAuthLevel;
 }
 
 export default DefaultLayout

@@ -64,10 +64,11 @@ const applyWrappers = (Component, config) => {
     }, Component);
 }
 
-const processConfig = (config, i = 0) => {
+export const processConfig = (config, i = 0) => {
   const Component = applyWrappers(getComponent(config), config),
     children = get(config, "children", []);
 
+// console.log("CHILDEN:", children)
 // console.log("CONFIG PROPS:", config.props)
   return React.createElement(Component,
     { ...config.props, key: getKey(config, i) },
@@ -75,4 +76,4 @@ const processConfig = (config, i = 0) => {
   );
 }
 
-export default ({ config, ...rest }) => processConfig(config)
+export default ({ config }) => processConfig(config)

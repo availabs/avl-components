@@ -1,16 +1,12 @@
 import React from "react"
 import NavItem from './Item'
-import { withRouter } from "react-router";
-//import NavItem from './NavItem'
 
-
-
-const MobileMenu = ({open, toggle, menuItems=[], theme, location}) => (
+const MobileMenu = ({open, toggle, menuItems=[], theme}) => (
   <div className={`${open ? 'sm:hidden' : 'hidden'} ${theme.menuBg}`}>
       <div className="pt-2 pb-3">
         {menuItems.map((page,i) => {
                 return (
-                  <NavItem key={i} to={page.path} icon={page.icon} theme={theme} active={page.path === location.pathname}>
+                  <NavItem key={i} to={ page.path } icon={page.icon} theme={theme}>
                   {page.name}
                 </NavItem>
                 )
@@ -26,7 +22,7 @@ const MobileMenu = ({open, toggle, menuItems=[], theme, location}) => (
 )
 
 
-const DesktopMenu = ({menuItems=[], open, toggle, fixed, theme, location, width}) => (
+const DesktopMenu = ({menuItems=[], open, toggle, fixed, theme, width}) => (
   <div className={`${width} mx-auto px-4 sm:px-6 lg:px-8 z-20 h-16  ${theme.sidebarBg}  ${theme.topMenuBorder}`}>
     <div className="flex justify-between h-16">
       <div className="flex">
@@ -36,7 +32,7 @@ const DesktopMenu = ({menuItems=[], open, toggle, fixed, theme, location, width}
         <div className="hidden sm:-my-px sm:ml-6 sm:flex">
           {menuItems.map((page,i) => {
             return (
-              <NavItem key={i} to={page.path} icon={page.icon} theme={theme} active={page.path === location.pathname} type={'top'}>
+              <NavItem key={i} to={page.path} icon={page.icon} theme={theme} type='top'>
                 {page.name}
               </NavItem>
             )
@@ -63,12 +59,9 @@ const DesktopMenu = ({menuItems=[], open, toggle, fixed, theme, location, width}
 
 
 
-const TopMenu =  (props) => (
+export default ({ ...props }) => (
   <nav className={`${props.theme.menuBg} h-16  ${props.theme.sidebarBorder}`}>
     <DesktopMenu {...props} />
     <MobileMenu {...props} />
   </nav>
 )
-
-
-export default withRouter(TopMenu)

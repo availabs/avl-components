@@ -1,9 +1,7 @@
 import React from "react"
 import SidebarItem from './Item'
-import { withRouter } from "react-router";
 
-
-const MobileSidebar = ({open, toggle, menuItems=[], theme, location}) => (
+const MobileSidebar = ({open, toggle, menuItems=[], theme}) => (
 	<div style={{display: open ? 'block' : 'none' }} className="md:hidden">
 	    <div className="fixed inset-0 z-20 transition-opacity ease-linear duration-300">
 	      <div className="absolute inset-0 bg-gray-600 opacity-75" />
@@ -22,49 +20,46 @@ const MobileSidebar = ({open, toggle, menuItems=[], theme, location}) => (
 	          <nav className="">
 	            {menuItems.map((page,i) => {
             		return (
-            			<SidebarItem key={i} to={page.path} icon={page.icon} theme={theme} active={page.path === location.pathname}>
+            			<SidebarItem key={i} to={page.path} icon={page.icon} theme={theme}>
         					{page.name}
       					</SidebarItem>
             		)
            		})}
 	          </nav>
 	        </div>
-	       
+
 	      </div>
 	      <div className="flex-shrink-0 w-14">
 	        {/* Force sidebar to shrink to fit close icon */}
 	      </div>
 	    </div>
   </div>
-) 
+)
 
-const DesktopSidebar = ({menuItems=[], fixed, theme, location}) => (
+const DesktopSidebar = ({menuItems=[], fixed, theme, ...rest}) => (
 	<div className={`hidden md:flex md:flex-shrink-0 z-20 ${theme.menuBg} ${fixed ? 'fixed top-0 h-screen' : ''} ${theme.sidebarBorder}`}>
       <div className={`flex flex-col w-${theme.sidebarW}`}>
         <div className={`w-${theme.sidebarW} flex-1 flex flex-col pb-4 overflow-y-auto`}>
           <div className='px-6 pt-4 pb-8 logo-text gray-900' >Logo{/* Logo Goes Here */}</div>
           <nav className="flex-1">
-            {menuItems.map((page,i) => {
+            {menuItems.map((page, i) => {
             	return (
-            		<SidebarItem key={i} to={page.path} icon={page.icon} theme={theme} active={page.path === location.pathname}>
-        				{page.name}
-      				</SidebarItem>
+            		<SidebarItem key={ i } to={ page.path } icon={page.icon} theme={theme}>
+        					{ page.name }
+      					</SidebarItem>
             	)
            	})}
           </nav>
         </div>
-       
+
       </div>
     </div>
 )
 
 
-const SideNav = (props) => (
+export default ({ ...props }) => (
 	<React.Fragment>
 		<MobileSidebar {...props} />
 		<DesktopSidebar {...props} />
 	</React.Fragment>
 )
-
-
-export default withRouter(SideNav)
