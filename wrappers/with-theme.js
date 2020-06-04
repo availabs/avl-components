@@ -5,7 +5,7 @@ import { light } from "../components/Themes"
 export const ThemeContext = React.createContext(light)
 
 export default Component =>
-  (props = {}) =>
+  ({ ...props }) =>
     <ThemeContext.Consumer>
       { theme => <Component { ...props } theme={ theme }/> }
     </ThemeContext.Consumer>

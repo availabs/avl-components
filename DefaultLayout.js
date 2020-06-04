@@ -1,4 +1,5 @@
 import React from 'react';
+import { useLocation } from "react-router"
 import { Route, Redirect } from "react-router-dom";
 import Layouts from './components/Layouts'
 import * as themes from './components/Themes'
@@ -11,38 +12,40 @@ import LoadingPage from "./components/Loading/LoadingPage"
 
 import get from "lodash.get"
 
-const DefaultLayout = ({ component, path, exact, layoutSettings, ...rest }) => {
-  const Layout = get(Layouts, rest.layout, Layouts["Sidebar"]),
+const DefaultLayout = ({ component, path, exact, layoutSettings, ...props }) => {
+  const Layout = get(Layouts, props.layout, Layouts["Sidebar"]),
     themeName = get(layoutSettings, "theme", "light"),
-    theme = get(themes, themeName, null);
-  if ( rest.isAuthenticating && rest.authLevel >= 0  ) {
+    theme = get(themes, themeName, null),
+    location = useLocation();
+
+  if (props.isAuthenticating && !props.authed) {
     return (
       <ThemeContext.Provider value={ theme }>
-        <Layout { ...rest }>
-          <Route { ...rest }>
-            <div><LoadingPage /></div>
+        <Layout { ...props }>
+          <Route { ...props }>
+            <LoadingPage />
           </Route>
         </Layout>
       </ThemeContext.Provider>
     )
   }
-  return sendToLgin(rest) ?
-  (
-    <Redirect
-      to={ {
-        pathname: "/login",
-        state: { from: get(rest, ["router", "location"]) }
-      } }
-    />
-  ) : (
-    <ThemeContext.Provider value={ theme }>
-      <Layout { ...layoutSettings } { ...rest }>
-        <Route path={ path } exact={ exact }>
-          <ComponentFactory config={ component }/>
-        </Route>
-      </Layout>
-    </ThemeContext.Provider>
-  )
+  return sendToLgin(props) ?
+    (
+      <Redirect
+        to={ {
+          pathname: "/login",
+          state: { from: get(location, "pathname") }
+        } }
+      />
+    ) : (
+      <ThemeContext.Provider value={ theme }>
+        <Layout { ...layoutSettings } { ...props }>
+          <Route path={ path } exact={ exact }>
+            <ComponentFactory config={ component }/>
+          </Route>
+        </Layout>
+      </ThemeContext.Provider>
+    )
 }
 
 function sendToLgin (props) {
