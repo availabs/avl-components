@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 // import { classNames } from "../utils";
 import Icon from "../Icons";
 
-import { useLocation, useRouteMatch, useParams } from "react-router"
+import { useLocation } from "react-router-dom"
 
 export function classNames(...classes) {
   return classes.filter(Boolean).join(' ');

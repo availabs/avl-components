@@ -1,6 +1,5 @@
 import React from 'react';
-import { useLocation } from "react-router"
-import { Route, Redirect } from "react-router-dom";
+import { Route, Redirect, useLocation } from "react-router-dom";
 import Layouts from './components/Layouts'
 import * as themes from './components/Themes'
 

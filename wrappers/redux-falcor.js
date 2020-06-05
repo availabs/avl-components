@@ -1,5 +1,3 @@
-import React from "react"
-
 import { connect } from "react-redux"
 import { reduxFalcor } from "utils/redux-falcor"
 
@@ -10,7 +8,7 @@ export default (Component, options = {}) => {
   } = options;
   const mS2P = (state, props) => ({
     ...mapStateToProps(state, props),
-    falcorCache: state.graph
+    falcorCache: state.falcorCache
   })
   return connect(mapStateToProps, mapDispatchToProps)(reduxFalcor(Component));
 }
