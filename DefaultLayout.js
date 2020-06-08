@@ -22,7 +22,10 @@ const DefaultLayout = ({ component, path, exact, layoutSettings, ...props }) => 
       <ThemeContext.Provider value={ theme }>
         <Layout { ...props }>
           <Route { ...props }>
-            <LoadingPage />
+            <div className="fixed top-0 left-0 w-screen h-screen z-50"
+              style={ { backgroundColor: "rgba(0, 0, 0, 0.5)" } }>
+              <LoadingPage />
+            </div>
           </Route>
         </Layout>
       </ThemeContext.Provider>
