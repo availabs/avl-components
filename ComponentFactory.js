@@ -28,17 +28,15 @@ export const addWrappers = wraps => {
 
 const getKey = (config, i) => get(config, "key", `key-${ i }`);
 
-const BasicJSX = ({ Comp, props, children }) =>
-  <Comp { ...props }>{ children }</Comp>
-
-const getBasicJSX = config => ({ children }) =>
-  <BasicJSX Comp={ config.type } props={ get(config, "props", {}) }>
+const getBasicJSX = config => ({ children, ...props }) =>
+  <config.type { ...props }>
     { children }
-  </BasicJSX>
+  </config.type>
 
 const getComponent = config =>
   typeof config === "function" ? config :
   typeof config === "string" ? () => <React.Fragment>{ config }</React.Fragment> :
+  typeof get(config, "type", null) === "function" ? config.type :
   get(ComponentLibrary, config.type, getBasicJSX(config));
 
 const applyWrappers = (Component, config) => {
@@ -58,7 +56,7 @@ const applyWrappers = (Component, config) => {
     }, Component);
 }
 
-export const processConfig = (config, i = 0) => {
+const processConfig = (config, i = 0) => {
   const Component = applyWrappers(getComponent(config), config),
     children = get(config, "children", []);
 

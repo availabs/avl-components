@@ -11,7 +11,9 @@ export const light = {
 	headerBg: 'bg-white',
 	headerShadow: 'shadow',
 	contentBg: 'bg-gray-100',
-	contentBgHover: 'hover:bg-gray-200'
+	contentBgDarker1: 'hover:bg-gray-200',
+	contentBgDarker2: 'hover:bg-gray-300',
+	contentBgDarker3: 'hover:bg-gray-400'
 }
 
 export const dark = {
@@ -24,7 +26,9 @@ export const dark = {
 	headerBg: 'bg-gray-800',
 	headerShadow: 'shadow',
 	contentBg: 'bg-gray-100',
-	contentBgHover: 'hover:bg-gray-200'
+	contentBgDarker1: 'hover:bg-gray-200',
+	contentBgDarker2: 'hover:bg-gray-300',
+	contentBgDarker3: 'hover:bg-gray-400'
 }
 
 export const blue = {
@@ -37,7 +41,9 @@ export const blue = {
 	headerBg: 'bg-indigo-800',
 	headerShadow: 'shadow',
 	contentBg: 'bg-gray-100',
-	contentBgHover: 'hover:bg-gray-200'
+	contentBgDarker1: 'hover:bg-gray-200',
+	contentBgDarker2: 'hover:bg-gray-300',
+	contentBgDarker3: 'hover:bg-gray-400'
 }
 
 export const flat = {
