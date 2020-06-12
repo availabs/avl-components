@@ -69,7 +69,10 @@ class Layout extends Component {
                   flex-1 z-0 focus:outline-none min-h-screen
                   ${theme.contentBg}
                   ${this.props.headerBar ? 'mt-16' : ''}
-                  ${this.props.fixed && this.props.nav === 'side' ?  `md:ml-${theme.sidebarW}` : '' }`
+                  ${this.props.fixed && this.props.nav === 'side' ?  `md:ml-${theme.sidebarW}` : '' }
+                  ${this.props.fixed && this.props.nav === 'top' ?  `mt-16` : '' }`
+
+
                 }
               >
                 {this.props.children}
