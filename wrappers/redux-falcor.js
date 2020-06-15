@@ -6,9 +6,9 @@ export default (Component, options = {}) => {
     mapStateToProps = () => ({}),
     mapDispatchToProps = null
   } = options;
-  const mS2P = (state, props) => ({
-    ...mapStateToProps(state, props),
-    falcorCache: state.falcorCache
-  })
+  // const mS2P = (state, props) => ({
+  //   ...mapStateToProps(state, props),
+  //   falcorCache: state.falcorCache
+  // })
   return connect(mapStateToProps, mapDispatchToProps)(reduxFalcor(Component));
 }
