@@ -11,9 +11,9 @@ export const light = {
 	headerBg: 'bg-white',
 	headerShadow: 'shadow',
 	contentBg: 'bg-gray-100',
-	contentBgDarker1: 'hover:bg-gray-200',
-	contentBgDarker2: 'hover:bg-gray-300',
-	contentBgDarker3: 'hover:bg-gray-400'
+	contentBgDarker1: 'bg-gray-200',
+	contentBgDarker2: 'bg-gray-300',
+	contentBgDarker3: 'bg-gray-400'
 }
 
 export const dark = {
@@ -21,15 +21,15 @@ export const dark = {
 	menuBg: 'bg-gray-800',
 	sidebarW: '56',
 	sidebarBorder: '',
-	
+
 	sidebarItem: 'text-gray-300 rounded-md hover:text-white hover:bg-gray-700 focus:outline-none focus:text-white focus:bg-gray-700',
 	sidebarItemActive: 'bg-gray-900 focus:outline-none focus:bg-gray-700',
 	headerBg: 'bg-gray-800',
 	headerShadow: 'shadow',
 	contentBg: 'bg-gray-100',
-	contentBgDarker1: 'hover:bg-gray-200',
-	contentBgDarker2: 'hover:bg-gray-300',
-	contentBgDarker3: 'hover:bg-gray-400'
+	contentBgDarker1: 'bg-gray-200',
+	contentBgDarker2: 'bg-gray-300',
+	contentBgDarker3: 'bg-gray-400'
 }
 
 export const blue = {
@@ -42,9 +42,9 @@ export const blue = {
 	headerBg: 'bg-indigo-800',
 	headerShadow: 'shadow',
 	contentBg: 'bg-gray-100',
-	contentBgDarker1: 'hover:bg-gray-200',
-	contentBgDarker2: 'hover:bg-gray-300',
-	contentBgDarker3: 'hover:bg-gray-400'
+	contentBgDarker1: 'bg-gray-200',
+	contentBgDarker2: 'bg-gray-300',
+	contentBgDarker3: 'bg-gray-400'
 }
 
 export const flat = {
