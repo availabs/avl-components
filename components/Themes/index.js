@@ -1,5 +1,8 @@
 export const light = {
 	bg: 'bg-gray-200',
+	shadow: 'shadow',
+	ySpace: 'py-6',
+	width: 'max-w-7xl mx-auto',
 	menuBg: 'bg-white',
 	sidebarW: '48',
 	sidebarBorder: 'border-r border-gray-200',

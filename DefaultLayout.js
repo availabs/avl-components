@@ -17,6 +17,8 @@ const DefaultLayout = ({ component, path, exact, layoutSettings, ...props }) => 
     theme = get(themes, themeName, null),
     location = useLocation();
 
+  console.log('theme', theme)
+
   if (props.isAuthenticating && !props.authed) {
     return (
       <ThemeContext.Provider value={ theme }>
@@ -43,7 +45,7 @@ const DefaultLayout = ({ component, path, exact, layoutSettings, ...props }) => 
       <ThemeContext.Provider value={ theme }>
         <Layout { ...layoutSettings } { ...props }>
           <Route path={ path } exact={ exact }>
-            <ComponentFactory config={ component }/>
+            <ComponentFactory config={ component } theme={theme} />
           </Route>
         </Layout>
       </ThemeContext.Provider>
