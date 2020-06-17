@@ -68,11 +68,12 @@ const Header = ({title, breadcrumbs, subtitle, actions=[], theme={}}) => (
 	    </div>
 	    <div className="mt-4 flex-shrink-0 flex md:mt-0 md:ml-4">
 	    {actions.map(action => (
-	    	<span className="shadow-sm rounded-md">
-	    		<LinkButton to={action.href} theme={theme} type={action.type ? action.type : 'button'}>
-	    			{action.name}
-	    		</LinkButton>
-	    	</span>
+	    	action
+	    	// {*/<span className="shadow-sm rounded-md">
+	    	// 	<LinkButton to={action.href} theme={theme} type={action.type ? action.type : 'button'}>
+	    	// 		{action.name}
+	    	// 	</LinkButton>
+	    	// </span>*/}
 	    ))}
 	      
 	    </div>
