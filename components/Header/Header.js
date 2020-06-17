@@ -71,7 +71,7 @@ const Header = ({ title, breadcrumbs, subtitle, actions=[] }) => {
   		    </div>) : <span/>}
   	    </div>
   	    <div className="mt-4 flex-shrink-0 flex md:mt-0 md:ml-4">
-  	    { actions }
+  	    { actions.map(a => <span className='ml-2'>{a}</span>) }
 
   	    </div>
   	  </div>
