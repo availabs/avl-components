@@ -1,9 +1,9 @@
-import React, { Component } from "react"
-import { Button, LinkButton } from '../Button/Button'
+import React from "react"
+// import { Button, LinkButton } from '../Button/Button'
 
 import { useTheme } from "../../wrappers/with-theme"
 
-const noop = () => {}
+// const noop = () => {}
 
 const Header = ({ title, breadcrumbs, subtitle, actions=[] }) => {
     const theme = useTheme();
