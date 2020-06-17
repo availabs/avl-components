@@ -87,7 +87,7 @@ const Header = ({ title, breadcrumbs, subtitle, actions=[] }) => {
                 Comp,
                 ...rest
               } = processArg(a);
-              return <Comp key={ i } { ...rest }/>
+              return <Comp className="ml-2" key={ i } { ...rest }/>
             })
           }
 
