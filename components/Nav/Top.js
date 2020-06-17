@@ -23,10 +23,10 @@ const MobileMenu = ({open, toggle, menuItems=[], theme}) => (
 
 
 const DesktopMenu = ({menuItems=[], open, toggle, fixed, theme, width}) => (
-  <div className={`${width} mx-auto px-4 sm:px-6 lg:px-8 z-20 h-16  ${theme.sidebarBg}  ${theme.topMenuBorder}`}>
-    <div className="flex justify-between h-16">
+  <div className={`${theme.width} mx-auto px-4 sm:px-6 lg:px-8 z-20 ${theme.topNavHeight ? theme.topNavHeight : 'h-16'}  ${theme.sidebarBg}  ${theme.topMenuBorder}`}>
+    <div className={`flex justify-between ${theme.topNavHeight ? theme.topNavHeight : 'h-16'}`}>
       <div className="flex">
-        <div className="flex-shrink-0 flex items-center">
+        <div className={`flex-shrink-0 flex items-center ${theme.text}`}>
           Logo
         </div>
         <div className="hidden sm:-my-px sm:ml-6 sm:flex">

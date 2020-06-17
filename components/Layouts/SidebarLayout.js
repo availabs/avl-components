@@ -67,7 +67,7 @@ class Layout extends Component {
             <div className="w-0 flex-1 h-full">
               <main className={`
                   flex-1 z-0 focus:outline-none min-h-screen h-full
-                  ${theme.contentBg}
+                  
                   ${this.props.headerBar ? 'mt-16' : ''}
                   ${this.props.fixed && this.props.nav === 'side' ?  `md:ml-${theme.sidebarW}` : '' }
                   ${this.props.fixed && this.props.nav === 'top' ?  `mt-16` : '' }`
