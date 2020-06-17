@@ -39,12 +39,13 @@ export const flat = {
 	headerBg: 'custom-bg',
 	headerShadow: '',
 	contentBg: 'custom-bg',
+	accent1: 'bg-gray-200',
+	accent2: 'bg-gray-300',
+	accent3: 'bg-gray-400',
+	lighter: 'bg-gray-50',
 	button: 'inline-flex items-center px-4 py-2 border border-gray-300 text-sm leading-5 font-medium rounded-md text-gray-700 bg-white hover:text-gray-500 focus:outline-none focus:shadow-outline-blue focus:border-blue-300 active:text-gray-800 active:bg-gray-50 transition duration-150 ease-in-out',
 	buttonPrimary: 'inline-flex items-center px-4 py-2 border border-transparent text-sm leading-5 font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-500 focus:outline-none focus:shadow-outline-indigo focus:border-indigo-700 active:bg-indigo-700 transition duration-150 ease-in-out',
 }
-
-
-
 
 export const dark = {
 	bg: 'bg-gray-300',
@@ -68,6 +69,32 @@ export const dark = {
 	accent2: 'bg-gray-500',
 	accent3: 'bg-gray-400',
 	lighter: 'bg-gray-700',
+	button: 'inline-flex items-center px-4 py-2 border border-gray-300 text-sm leading-5 font-medium rounded-md text-gray-700 bg-white hover:text-gray-500 focus:outline-none focus:shadow-outline-blue focus:border-blue-300 active:text-gray-800 active:bg-gray-50 transition duration-150 ease-in-out',
+	buttonPrimary: 'inline-flex items-center px-4 py-2 border border-gray-300 text-sm leading-5 font-medium rounded-md text-gray-700 bg-white hover:text-gray-500 focus:outline-none focus:shadow-outline-blue focus:border-blue-300 active:text-gray-800 active:bg-gray-50 transition duration-150 ease-in-out',
+}
+
+export const blue = {
+	bg: 'bg-gray-200',
+	menuBg: 'bg-indigo-800',
+	sidebarW: '56',
+	sidebarBorder: '',
+	shadow: 'shadow',
+	ySpace: 'py-5',
+	text: 'text-gray-300',
+	width: 'max-w-7xl mx-auto',
+	menuIcon: 'mr-3 h-4 w-4',
+	topNavHeight: 'h-16',
+	topnavItem: 'ml-3 my-3 px-3 py-1 inline-flex items-center rounded-md text-sm font-medium text-gray-300 hover:text-white hover:bg-gray-700 focus:outline-none focus:text-white focus:bg-gray-700',
+	topnavItemActive: 'ml-3 my-3 px-3 py-1 inline-flex items-center rounded-md text-sm font-medium text-white bg-gray-900 focus:outline-none focus:text-white focus:bg-gray-700',
+	sidebarItem: 'mt-1 group flex items-center px-2 py-2 text-sm leading-5 font-medium text-gray-300 rounded-md hover:text-white hover:bg-gray-700 focus:outline-none focus:text-white focus:bg-gray-700 transition ease-in-out duration-150',
+	sidebarItemActive: 'group flex items-center px-2 py-2 text-sm leading-5 font-medium text-white rounded-md bg-gray-900 focus:outline-none focus:bg-gray-700 transition ease-in-out duration-150',
+	headerBg: 'bg-gray-800',
+	headerShadow: 'shadow',
+	contentBg: 'bg-gray-100',
+	accent1: 'bg-gray-200',
+	accent2: 'bg-gray-300',
+	accent3: 'bg-gray-400',
+	light: "bg-gray-50",
 	button: 'inline-flex items-center px-4 py-2 border border-gray-300 text-sm leading-5 font-medium rounded-md text-gray-700 bg-white hover:text-gray-500 focus:outline-none focus:shadow-outline-blue focus:border-blue-300 active:text-gray-800 active:bg-gray-50 transition duration-150 ease-in-out',
 	buttonPrimary: 'inline-flex items-center px-4 py-2 border border-gray-300 text-sm leading-5 font-medium rounded-md text-gray-700 bg-white hover:text-gray-500 focus:outline-none focus:shadow-outline-blue focus:border-blue-300 active:text-gray-800 active:bg-gray-50 transition duration-150 ease-in-out'
 }
