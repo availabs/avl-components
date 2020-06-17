@@ -11,9 +11,10 @@ export const light = {
 	headerBg: 'bg-white',
 	headerShadow: 'shadow',
 	contentBg: 'bg-gray-100',
-	contentBgDarker1: 'bg-gray-200',
-	contentBgDarker2: 'bg-gray-300',
-	contentBgDarker3: 'bg-gray-400'
+	accent1: 'bg-gray-200',
+	accent2: 'bg-gray-300',
+	accent3: 'bg-gray-400',
+	lighter: 'bg-gray-50'
 }
 
 export const dark = {
@@ -27,9 +28,10 @@ export const dark = {
 	headerBg: 'bg-gray-800',
 	headerShadow: 'shadow',
 	contentBg: 'bg-gray-100',
-	contentBgDarker1: 'bg-gray-200',
-	contentBgDarker2: 'bg-gray-300',
-	contentBgDarker3: 'bg-gray-400'
+	accent1: 'bg-gray-600',
+	accent2: 'bg-gray-500',
+	accent3: 'bg-gray-400',
+	lighter: 'bg-gray-700'
 }
 
 export const blue = {
@@ -42,9 +44,10 @@ export const blue = {
 	headerBg: 'bg-indigo-800',
 	headerShadow: 'shadow',
 	contentBg: 'bg-gray-100',
-	contentBgDarker1: 'bg-gray-200',
-	contentBgDarker2: 'bg-gray-300',
-	contentBgDarker3: 'bg-gray-400'
+	accent1: 'bg-gray-200',
+	accent2: 'bg-gray-300',
+	accent3: 'bg-gray-400',
+	lighter: 'bg-gray-50'
 }
 
 export const flat = {
