@@ -1,7 +1,7 @@
 export const light = {
 	bg: 'bg-gray-200',
 	shadow: 'shadow',
-	ySpace: 'py-6',
+	ySpace: 'py-4',
 	width: 'max-w-7xl mx-auto',
 	menuBg: 'bg-white',
 	sidebarW: '48',
@@ -25,7 +25,7 @@ export const light = {
 
 export const flat = {
 	bg: 'custom-bg',
-	ySpace: 'py-6',
+	ySpace: 'py-4',
 	menuBg: 'custom-bg',
 	width: 'max-w-5xl mx-auto',
 	text: 'text-blue-800',
