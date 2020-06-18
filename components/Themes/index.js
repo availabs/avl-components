@@ -9,14 +9,16 @@ const button = [
 	},
 	{ Block: "w-full" }
 ]
+const compositions = {
+	defaults: ["button", "buttonPrimary"], // <-- these are generated in theme during composeDefaults
+																				// these should be commonly used classNames
+	button
+}
 
 const TEST_THEME_BASE = {
 	button: "border border-gray-300 bg-gray-100 hover:bg-gray-300",
 	buttonPrimary: "bg-blue-300 text-white hover:bg-blue-500",
-	compositions: {
-		defaults: ["button", "buttonPrimary"], // <-- these are generated in theme during composeDefaults
-		button
-	}
+	compositions
 }
 
 const compose = (definition, theme) => {
