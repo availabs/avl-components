@@ -26,18 +26,14 @@ const compose = (definition, theme) => {
 	const [type, ...rest] = definition.split(/(?<!^)(?=[A-Z])/);
 	if (!theme.compositions[type]) return "";
 
-	const composed = theme.compositions[type].reduce((a, c) => {
+	return theme.compositions[type].reduce((a, c) => {
 		let option = c.default || "";
 		for (const o in c) {
 			if (rest.includes(o)) option = c[o];
-			if (option in theme) {
-				option = theme[option];
-			}
 		}
 		a.push(option);
 		return a;
 	}, []).filter(Boolean).join(" ");
-	return composed;
 }
 
 const composeDefaults = theme => {
@@ -98,9 +94,16 @@ export const light = {
 	accent2: 'bg-gray-300',
 	accent3: 'bg-gray-400',
 	lighter: 'bg-gray-50',
-	
-	button: 'inline-flex items-center px-4 py-2 border border-gray-300 text-sm leading-5 font-medium rounded-md text-gray-700 bg-white hover:text-gray-500 focus:outline-none focus:shadow-outline-blue focus:border-blue-300 active:text-gray-800 active:bg-gray-50 transition duration-150 ease-in-out',
-	buttonPrimary: 'inline-flex items-center px-4 py-2 border border-transparent text-sm leading-5 font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-500 focus:outline-none focus:shadow-outline-indigo focus:border-indigo-700 active:bg-indigo-700 transition duration-150 ease-in-out',
+	button: `
+		inline-flex items-center
+		px-4 py-2 border border-gray-300
+		text-sm leading-5 font-medium
+		rounded-md text-gray-700 bg-white
+		hover:text-gray-500
+		focus:outline-none focus:shadow-outline-blue focus:border-blue-300
+		active:text-gray-800 active:bg-gray-50 transition duration-150 ease-in-out
+		disabled:cursor-not-allowed`,
+	buttonPrimary: 'inline-flex items-center px-4 py-2 border border-transparent text-sm leading-5 font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-500 focus:outline-none focus:shadow-outline-indigo focus:border-indigo-700 active:bg-indigo-700 transition duration-150 ease-in-out disabled:cursor-not-allowed'
 	tableRow: 'bg-white border-b border-gray-200 hover:bg-gray-50',
 	tableRowStriped: 'bg-white even:bg-gray-50'
 
@@ -136,6 +139,7 @@ export const flat = {
 	tableRowStriped: 'bg-white even:bg-gray-50',
 	tableCell: 'px-6 py-4 whitespace-no-wrap text-sm leading-5 text-gray-600',
 	tableCellCondensed: 'px-3 py-2 whitespace-no-wrap text-sm leading-5 text-gray-600'
+
 }
 
 export const dark = {
@@ -165,6 +169,7 @@ export const dark = {
 	buttonText: 'text-sm text-blue-500 hover:text-blue-300',
 	tableRow: 'bg-white border-b border-gray-200',
 	tableRowStriped: 'bg-white even:bg-gray-50'
+
 }
 
 export const blue = {
