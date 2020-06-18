@@ -3,8 +3,8 @@ const button = [
 	{ default: "rounded inline-flex items-center justify-center transition duration-150 ease-in-out disabled:cursor-not-allowed" }, // <-- applied to all buttons
 	{ default: "button", // <-- this is pulled from the theme during composeDefaults
 		Primary: "buttonPrimary", // <-- this is pulled from the theme during composeDefaults
-		Success: "bg-green-500 text-white hover:bg-green-700 disabled:opacity-50 disabled:bg-green-500",
-		Danger: "bg-red-500 text-white hover:bg-red-700 disabled:opacity-50 disabled:bg-red-500",
+		Success: "text-green-500 border-2 border-green-500 hover:bg-green-200 hover:text-green-700 hover:border-green-700 disabled:opacity-50 disabled:text-green-500 disabled:border-green-500",
+		Danger: "text-red-500 border-2 border-red-500 hover:bg-red-200 hover:text-red-700 hover:border-red-700 disabled:opacity-50 disabled:text-red-500 disabled:border-red-500",
 		Text: "border-2 border-transparent hover:bg-gray-200"
 	},
 	{ default: "py-1 px-4",
@@ -193,8 +193,8 @@ export const blue = {
 const TEST_THEME_BASE = {
 	...light,
 
-	button: "border border-gray-300 bg-gray-100 hover:bg-gray-300 disabled:text-gray-400 disabled:bg-gray-100",
-	buttonPrimary: "bg-blue-500 text-white hover:bg-blue-700 disabled:opacity-50 disabled:bg-blue-500",
+	button: "border-2 border-gray-300 hover:border-gray-400 hover:bg-gray-300 disabled:text-gray-400 disabled:border-gray-200 disabled:bg-transparent",
+	buttonPrimary: "text-blue-500 border-2 border-blue-500 hover:bg-blue-200 hover:text-blue-700 hover:border-blue-700 disabled:opacity-50 disabled:text-blue-500 disabled:border-blue-500",
 
 	compositions
 }
