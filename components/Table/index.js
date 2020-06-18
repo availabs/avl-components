@@ -51,7 +51,7 @@ function renderCell(cell) {
     )
 }
 
-function Table({columns, data, height, tableClass, actions, csvDownload}) {
+function Table({columns, data, height, tableClass, actions, csvDownload,...props}) {
     const theme = useTheme();
     const filterTypes = React.useMemo(
         () => ({
@@ -107,7 +107,7 @@ function Table({columns, data, height, tableClass, actions, csvDownload}) {
         useSortBy,
     );
     if (!rows) return null;
-    let downloadData;
+    //let downloadData;
     // if (csvDownload.length){
     //     downloadData = [...rows.map(r => r.original)]
     //     downloadData = downloadData.map(row => {
@@ -127,7 +127,7 @@ function Table({columns, data, height, tableClass, actions, csvDownload}) {
     return (
         <div class="flex flex-col">
             <div class="-my-2 py-2 overflow-x-auto sm:-mx-6 sm:px-6 lg:-mx-8 lg:px-8">
-                <div class="align-middle inline-block min-w-full shadow overflow-hidden sm:rounded-lg border-b border-gray-200">
+                <div class={`align-middle inline-block min-w-full ${theme.shadow} overflow-hidden sm:rounded-lg border-b border-gray-200`}>
                 <table {...getTableProps()} class="min-w-full">
                     <thead>
                     {headerGroups.map((headerGroup,i) => (
@@ -170,10 +170,9 @@ function Table({columns, data, height, tableClass, actions, csvDownload}) {
                         (row, i) => {
                             prepareRow(row);
                             return (
-                                <React.Fragment key={i}>
+                                
                                 <tr {...row.getRowProps()}
-                                    className={row.cells
-                                        .filter(cell => cell.column.expandable === 'true').length ? "expandable" : ""}
+                                    className={`${props.striped ? theme.tableRowStriped : theme.tableRow}`}
                                     onClick={(e) => {
                                         if (document.getElementById(`expandable${i}`)){
                                             document.getElementById(`expandable${i}`).style.display =
@@ -216,25 +215,7 @@ function Table({columns, data, height, tableClass, actions, csvDownload}) {
                                             )
                                         : null */}
                                 </tr>
-                                <tr
-                                    id={`expandable${i}`} style={{backgroundColor: 'rgba(0,0,0,0.06)',
-                                    display: 'none'}}>
-                                    {row.cells
-                                        .filter(cell => cell.column.expandable === 'true')
-                                        .map(cell => {
-                                            return (
-                                                <td {...cell.getCellProps()}
-                                                    colSpan={
-                                                        row.cells.filter(cell => cell.column.expandable !== 'true').length +
-                                                        (actions ? Object.keys(actions).length : 0)
-                                                    }>
-                                                    {renderCell(cell)}
-                                                </td>
-                                            )
-                                        })
-                                    }
-                                </tr>
-                                </React.Fragment>
+                                
                             )
                         }
                     )}
