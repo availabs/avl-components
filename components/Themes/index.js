@@ -1,3 +1,75 @@
+const TEST_THEME_BASE = {
+	button: "border border-gray-300 bg-gray-100 hover:bg-gray-300",
+	"buttonPrimary": "bg-blue-300 text-white hover:bg-blue-500",
+	compositions: {
+		defaults: ["button", "buttonPrimary"],
+		button: [
+			{ default: "rounded inline-flex items-center justify-center transition duration-150 ease-in-out" },
+			{ default: "button",
+				Primary: "buttonPrimary"
+			},
+			{ default: "py-1 px-4",
+				Large: "py-2 px-6",
+				Small: "py-0 px-2"
+			},
+			{ Block: "w-full" }
+		]
+	}
+}
+
+const compose = (definition, theme) => {
+	const [type, ...rest] = definition.split(/(?<!^)(?=[A-Z])/);
+	if (!theme.compositions[type]) return "";
+
+	const composed = theme.compositions[type].reduce((a, c) => {
+		let option = c.default || "";
+		for (const o in c) {
+			if (rest.includes(o)) option = c[o];
+			if (option in theme) {
+				option = theme[option];
+			}
+		}
+		a.push(option);
+		return a;
+	}, []).filter(Boolean).join(" ");
+	return composed;
+}
+
+const composeDefaults = theme => {
+	const composedTheme = JSON.parse(JSON.stringify(theme));
+	if (composedTheme.compositions) {
+		const { defaults = [], ...rest } = composedTheme.compositions;
+
+		for (const type in rest) {
+			composedTheme.compositions[type].forEach(options => {
+				for (const option in options) {
+					if (options[option] in composedTheme) {
+						const className = composedTheme[options[option]];
+						delete composedTheme[options[option]];
+						options[option] = className;
+					}
+				}
+			});
+		}
+		defaults.forEach(definition => compose(definition, composedTheme));
+	}
+	return composedTheme;
+}
+const handler = {
+	get: (theme, definition, receiver) => {
+		if (definition in theme) return theme[definition];
+		const composed = compose(definition, theme);
+		theme[definition] = composed;
+		return composed;
+	}
+}
+export const TEST_THEME =  new Proxy(composeDefaults(TEST_THEME_BASE), handler);
+console.log("buttonSmall:", TEST_THEME.buttonSmall)
+console.log("buttonPrimaryBlock:", TEST_THEME.buttonPrimaryBlock)
+console.log("button:", TEST_THEME.button)
+TEST_THEME.test = "TESTING SET";
+console.log("TEST_THEME.test", TEST_THEME.test)
+
 export const light = {
 	bg: 'bg-gray-200',
 	shadow: 'shadow',
