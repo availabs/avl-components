@@ -1,11 +1,10 @@
 import React from 'react'
 import {useFilters, useGlobalFilter, useSortBy, useTable} from 'react-table'
 // import {CSVLink, CSVDownload} from 'react-csv';
+
 // A great library for fuzzy filtering/sorting items
 import matchSorter from 'match-sorter'
-import {Link} from "react-router-dom";
-// import _ from 'lodash'
-// import MultiSelectFilter from "../../filters/multi-select-filter";
+
 import { useTheme } from "../../wrappers/with-theme"
 
 
@@ -34,20 +33,10 @@ function fuzzyTextFilterFn(rows, id, filterValue) {
 fuzzyTextFilterFn.autoRemove = val => !val;
 
 function renderCell(cell) {
-    console.log('render cell', cell)
     return (
-        cell.column.link ?
-            <Link
-                to={typeof cell.column.link === 'boolean' ? cell.row.original.link : cell.column.link(cell.row.original.link)}>
-                {
-                    cell.column.formatValue ?
-                        cell.column.formatValue(cell.value) :
-                        cell.render('Cell')
-                }
-            </Link> :
-            cell.column.formatValue ?
-                cell.column.formatValue(cell.value) :
-                cell.render('Cell')
+        cell.column.formatValue ?
+            cell.column.formatValue(cell.value) :
+            cell.render('Cell')
     )
 }
 
@@ -169,14 +158,18 @@ function Table({columns, data, height, tableClass, actions, csvDownload,...props
                     {rows.map(
                         (row, i) => {
                             prepareRow(row);
+                            console.log('row', row, row.getRowProps())
                             return (
-                                
                                 <tr {...row.getRowProps()}
+
                                     className={`${props.striped ? theme.tableRowStriped : theme.tableRow}`}
                                     onClick={(e) => {
                                         if (document.getElementById(`expandable${i}`)){
                                             document.getElementById(`expandable${i}`).style.display =
                                             document.getElementById(`expandable${i}`).style.display === 'none' ? 'table-row' : 'none'
+                                        }
+                                        if(props.onRowClick) {
+                                            props.onRowClick(row)
                                         }
                                     }}
                                 >
@@ -187,7 +180,7 @@ function Table({columns, data, height, tableClass, actions, csvDownload,...props
                                         //     cell.value = cell.row.original[cell.column.Header]
                                         // }
                                         return (
-                                            <td className='px-6 py-4 whitespace-no-wrap text-sm leading-5 font-medium text-gray-900' {...cell.getCellProps()}>
+                                            <td className={`${props.condensed ? theme.tableCellCondensed : theme.tableCell} ${cell.column.className}`} {...cell.getCellProps()}>
                                                 {renderCell(cell)}
                                             </td>
                                         )
