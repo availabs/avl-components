@@ -1,11 +1,10 @@
 import React from 'react'
 import {useFilters, useGlobalFilter, useSortBy, useTable} from 'react-table'
 // import {CSVLink, CSVDownload} from 'react-csv';
+
 // A great library for fuzzy filtering/sorting items
 import matchSorter from 'match-sorter'
-import {Link} from "react-router-dom";
-// import _ from 'lodash'
-// import MultiSelectFilter from "../../filters/multi-select-filter";
+
 import { useTheme } from "../../wrappers/with-theme"
 
 
@@ -34,24 +33,14 @@ function fuzzyTextFilterFn(rows, id, filterValue) {
 fuzzyTextFilterFn.autoRemove = val => !val;
 
 function renderCell(cell) {
-    console.log('render cell', cell)
     return (
-        cell.column.link ?
-            <Link
-                to={typeof cell.column.link === 'boolean' ? cell.row.original.link : cell.column.link(cell.row.original.link)}>
-                {
-                    cell.column.formatValue ?
-                        cell.column.formatValue(cell.value) :
-                        cell.render('Cell')
-                }
-            </Link> :
-            cell.column.formatValue ?
-                cell.column.formatValue(cell.value) :
-                cell.render('Cell')
+        cell.column.formatValue ?
+            cell.column.formatValue(cell.value) :
+            cell.render('Cell')
     )
 }
 
-function Table({columns, data, height, tableClass, actions, csvDownload}) {
+function Table({columns, data, height, tableClass, actions, csvDownload,...props}) {
     const theme = useTheme();
     const filterTypes = React.useMemo(
         () => ({
@@ -107,7 +96,7 @@ function Table({columns, data, height, tableClass, actions, csvDownload}) {
         useSortBy,
     );
     if (!rows) return null;
-    let downloadData;
+    //let downloadData;
     // if (csvDownload.length){
     //     downloadData = [...rows.map(r => r.original)]
     //     downloadData = downloadData.map(row => {
@@ -127,7 +116,7 @@ function Table({columns, data, height, tableClass, actions, csvDownload}) {
     return (
         <div class="flex flex-col">
             <div class="-my-2 py-2 overflow-x-auto sm:-mx-6 sm:px-6 lg:-mx-8 lg:px-8">
-                <div class="align-middle inline-block min-w-full shadow overflow-hidden sm:rounded-lg border-b border-gray-200">
+                <div class={`align-middle inline-block min-w-full ${theme.shadow} overflow-hidden sm:rounded-lg border-b border-gray-200`}>
                 <table {...getTableProps()} class="min-w-full">
                     <thead>
                     {headerGroups.map((headerGroup,i) => (
@@ -169,15 +158,18 @@ function Table({columns, data, height, tableClass, actions, csvDownload}) {
                     {rows.map(
                         (row, i) => {
                             prepareRow(row);
+                            console.log('row', row, row.getRowProps())
                             return (
-                                <React.Fragment key={i}>
                                 <tr {...row.getRowProps()}
-                                    className={row.cells
-                                        .filter(cell => cell.column.expandable === 'true').length ? "expandable" : ""}
+
+                                    className={`${props.striped ? theme.tableRowStriped : theme.tableRow}`}
                                     onClick={(e) => {
                                         if (document.getElementById(`expandable${i}`)){
                                             document.getElementById(`expandable${i}`).style.display =
                                             document.getElementById(`expandable${i}`).style.display === 'none' ? 'table-row' : 'none'
+                                        }
+                                        if(props.onRowClick) {
+                                            props.onRowClick(row)
                                         }
                                     }}
                                 >
@@ -188,7 +180,7 @@ function Table({columns, data, height, tableClass, actions, csvDownload}) {
                                         //     cell.value = cell.row.original[cell.column.Header]
                                         // }
                                         return (
-                                            <td className='px-6 py-4 whitespace-no-wrap text-sm leading-5 font-medium text-gray-900' {...cell.getCellProps()}>
+                                            <td className={`${props.condensed ? theme.tableCellCondensed : theme.tableCell} ${cell.column.className}`} {...cell.getCellProps()}>
                                                 {renderCell(cell)}
                                             </td>
                                         )
@@ -216,25 +208,7 @@ function Table({columns, data, height, tableClass, actions, csvDownload}) {
                                             )
                                         : null */}
                                 </tr>
-                                <tr
-                                    id={`expandable${i}`} style={{backgroundColor: 'rgba(0,0,0,0.06)',
-                                    display: 'none'}}>
-                                    {row.cells
-                                        .filter(cell => cell.column.expandable === 'true')
-                                        .map(cell => {
-                                            return (
-                                                <td {...cell.getCellProps()}
-                                                    colSpan={
-                                                        row.cells.filter(cell => cell.column.expandable !== 'true').length +
-                                                        (actions ? Object.keys(actions).length : 0)
-                                                    }>
-                                                    {renderCell(cell)}
-                                                </td>
-                                            )
-                                        })
-                                    }
-                                </tr>
-                                </React.Fragment>
+                                
                             )
                         }
                     )}

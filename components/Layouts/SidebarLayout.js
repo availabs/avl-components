@@ -54,7 +54,7 @@ class Layout extends Component {
             </div>
           </div>
         ) : '' }
-      	<div className={`min-h-screen ${this.props.maxWidth} `} >
+      	<div className={`min-h-screen ${this.props.maxWidth} mx-auto`} >
           <div className="flex h-full">
           {this.props.nav === 'side' ? (
             <SideNav

@@ -19,7 +19,7 @@ const processArg = arg => {
 const Header = ({ title, breadcrumbs, subtitle, actions=[] }) => {
     const theme = useTheme();
   	return (
-      <header className={`${theme.menuBg} ${theme.ySpace} ${theme.shadow} px-4 sm:px-6 lg:px-8`}>
+      <header className={`${theme.headerBg} ${theme.ySpace} ${theme.headerShadow} px-4 sm:px-6 lg:px-8`}>
   	  	{breadcrumbs ?
   	  	(<div >
   		    <nav className="sm:hidden">
