@@ -1,5 +1,5 @@
 const button = [
-	{ default: "rounded inline-flex items-center justify-center transition duration-150 ease-in-out" },
+	{ default: "rounded inline-flex items-center justify-center transition duration-150 ease-in-out" }, // <-- applied to all buttons
 	{ default: "button", // <-- this is pulled from the theme during composeDefaults
 		Primary: "buttonPrimary" // <-- this is pulled from the theme during composeDefaults
 	},
