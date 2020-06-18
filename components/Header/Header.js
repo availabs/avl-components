@@ -1,9 +1,20 @@
 import React from "react"
-// import { Button, LinkButton } from '../Button/Button'
+import { Button, LinkButton } from '../Button/Button'
 
 import { useTheme } from "../../wrappers/with-theme"
 
-// const noop = () => {}
+const processArg = arg => {
+  const {
+    comp = null,
+    type = "button",
+    ...rest
+  } = arg
+  return {
+    Comp: comp ? comp : type === "link" ? LinkButton : Button,
+    type: "button",
+    ...rest
+  }
+}
 
 const Header = ({ title, breadcrumbs, subtitle, actions=[] }) => {
     const theme = useTheme();
@@ -71,7 +82,14 @@ const Header = ({ title, breadcrumbs, subtitle, actions=[] }) => {
   		    </div>) : <span/>}
   	    </div>
   	    <div className="mt-4 flex-shrink-0 flex md:mt-0 md:ml-4">
-  	    { actions.map(a => <span className='ml-2'>{a}</span>) }
+    	    { actions.map((a, i) => {
+              let {
+                Comp,
+                ...rest
+              } = processArg(a);
+              return <Comp className="ml-2" key={ i } { ...rest }/>
+            })
+          }
 
   	    </div>
   	  </div>
