@@ -25,18 +25,14 @@ const compose = (definition, theme) => {
 	const [type, ...rest] = definition.split(/(?<!^)(?=[A-Z])/);
 	if (!theme.compositions[type]) return "";
 
-	const composed = theme.compositions[type].reduce((a, c) => {
+	return theme.compositions[type].reduce((a, c) => {
 		let option = c.default || "";
 		for (const o in c) {
 			if (rest.includes(o)) option = c[o];
-			if (option in theme) {
-				option = theme[option];
-			}
 		}
 		a.push(option);
 		return a;
 	}, []).filter(Boolean).join(" ");
-	return composed;
 }
 
 const composeDefaults = theme => {
