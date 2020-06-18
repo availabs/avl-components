@@ -103,7 +103,7 @@ export const light = {
 		focus:outline-none focus:shadow-outline-blue focus:border-blue-300
 		active:text-gray-800 active:bg-gray-50 transition duration-150 ease-in-out
 		disabled:cursor-not-allowed`,
-	buttonPrimary: 'inline-flex items-center px-4 py-2 border border-transparent text-sm leading-5 font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-500 focus:outline-none focus:shadow-outline-indigo focus:border-indigo-700 active:bg-indigo-700 transition duration-150 ease-in-out disabled:cursor-not-allowed'
+	buttonPrimary: 'inline-flex items-center px-4 py-2 border border-transparent text-sm leading-5 font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-500 focus:outline-none focus:shadow-outline-indigo focus:border-indigo-700 active:bg-indigo-700 transition duration-150 ease-in-out disabled:cursor-not-allowed',
 	tableRow: 'bg-white border-b border-gray-200 hover:bg-gray-50',
 	tableRowStriped: 'bg-white even:bg-gray-50'
 
