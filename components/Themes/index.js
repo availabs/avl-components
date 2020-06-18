@@ -1,19 +1,21 @@
+const button = [
+	{ default: "rounded inline-flex items-center justify-center transition duration-150 ease-in-out" },
+	{ default: "button", // <-- this is pulled from the theme during composeDefaults
+		Primary: "buttonPrimary" // <-- this is pulled from the theme during composeDefaults
+	},
+	{ default: "py-1 px-4",
+		Large: "py-2 px-6",
+		Small: "py-0 px-2"
+	},
+	{ Block: "w-full" }
+]
+
 const TEST_THEME_BASE = {
 	button: "border border-gray-300 bg-gray-100 hover:bg-gray-300",
-	"buttonPrimary": "bg-blue-300 text-white hover:bg-blue-500",
+	buttonPrimary: "bg-blue-300 text-white hover:bg-blue-500",
 	compositions: {
-		defaults: ["button", "buttonPrimary"],
-		button: [
-			{ default: "rounded inline-flex items-center justify-center transition duration-150 ease-in-out" },
-			{ default: "button",
-				Primary: "buttonPrimary"
-			},
-			{ default: "py-1 px-4",
-				Large: "py-2 px-6",
-				Small: "py-0 px-2"
-			},
-			{ Block: "w-full" }
-		]
+		defaults: ["button", "buttonPrimary"], // <-- these are generated in theme during composeDefaults
+		button
 	}
 }
 
