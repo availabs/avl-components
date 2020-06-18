@@ -51,16 +51,17 @@ const composeDefaults = theme => {
 				}
 			});
 		}
-		defaults.forEach(definition => compose(definition, composedTheme));
+		defaults.forEach(definition => {
+			const composed = compose(definition, composedTheme);
+			composedTheme[definition] = composed;
+		});
 	}
 	return composedTheme;
 }
 const handler = {
 	get: (theme, definition, receiver) => {
 		if (definition in theme) return theme[definition];
-		const composed = compose(definition, theme);
-		theme[definition] = composed;
-		return composed;
+		return compose(definition, theme);
 	}
 }
 export const TEST_THEME =  new Proxy(composeDefaults(TEST_THEME_BASE), handler);
