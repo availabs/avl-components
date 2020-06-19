@@ -114,10 +114,10 @@ function Table({columns, data, height, tableClass, actions, csvDownload,...props
     // }
 
     return (
-        <div class="flex flex-col">
-            <div class="-my-2 py-2 overflow-x-auto sm:-mx-6 sm:px-6 lg:-mx-8 lg:px-8">
-                <div class={`align-middle inline-block min-w-full ${theme.shadow} overflow-hidden sm:rounded-lg border-b border-gray-200`}>
-                <table {...getTableProps()} class="min-w-full">
+        <div className="flex flex-col">
+            <div className="-my-2 py-2 overflow-x-auto sm:-mx-6 sm:px-6 lg:-mx-8 lg:px-8">
+                <div className={`align-middle inline-block min-w-full ${theme.shadow} overflow-hidden sm:rounded-lg border-b border-gray-200`}>
+                <table {...getTableProps()} className="min-w-full">
                     <thead>
                     {headerGroups.map((headerGroup,i) => (
                         <tr {...headerGroup.getHeaderGroupProps()} key ={i}>
@@ -158,7 +158,7 @@ function Table({columns, data, height, tableClass, actions, csvDownload,...props
                     {rows.map(
                         (row, i) => {
                             prepareRow(row);
-                            console.log('row', row, row.getRowProps())
+                            // console.log('row', row, row.getRowProps())
                             return (
                                 <tr {...row.getRowProps()}
 
