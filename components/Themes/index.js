@@ -20,10 +20,16 @@ const composeDefaults = theme => {
 		for (const type in rest) {
 			composedTheme.compositions[type].forEach(options => {
 				for (const option in options) {
-					if (options[option] in composedTheme) {
-						const className = composedTheme[options[option]];
-						delete composedTheme[options[option]];
-						options[option] = className;
+					let value = options[option],
+						doRemove = true;
+					if (/^@.+$/.test(value)) {
+						doRemove = false;
+						value = value.slice(1);
+					}
+					if (value in composedTheme) {
+						const remove = value;
+						options[option] = composedTheme[value];
+						doRemove && delete composedTheme[remove];
 					}
 				}
 			});
@@ -40,42 +46,6 @@ const handler = {
 		if (definition in theme) return theme[definition];
 		return compose(definition, theme);
 	}
-}
-
-export const light = {
-	bg: 'bg-gray-100',
-	shadow: 'shadow',
-	ySpace: 'py-4',
-	width: 'max-w-7xl mx-auto',
-	menuBg: 'bg-white',
-	sidebarW: '48',
-	sidebarBorder: 'border-r border-gray-200',
-	text: 'text-gray-800',
-	menuIcon: 'mr-3 h-6 w-6',
-	topMenuBorder: 'border-b border-gray-200',
-	headerShadow: '',
-	topnavItem: 'mr-4 inline-flex items-center px-1 pt-1 border-b-2 border-transparent text-sm font-medium leading-5 text-gray-500 hover:text-gray-700 hover:border-gray-300 focus:outline-none focus:text-gray-700 focus:border-gray-300 transition duration-150 ease-in-out',
-	topnavItemActive: 'mr-4 inline-flex items-center px-1 pt-1 border-b-2 border-indigo-500 text-sm font-medium leading-5 text-gray-900 focus:outline-none hover:bg-indigo-100 focus:border-indigo-700 transition duration-150 ease-in-out',
-	sidebarItem: 'mb-1 group flex pl-3 pr-4 py-2 border-l-4 border-transparent text-base font-medium text-gray-600 hover:text-gray-800 hover:bg-gray-50 hover:border-gray-300 focus:outline-none focus:text-gray-800 focus:bg-gray-50 focus:border-gray-300 transition duration-150 ease-in-out',
-	sidebarItemActive: 'mb-1 group flex pl-3 pr-4 py-2 border-l-4 border-indigo-500 text-base font-medium text-indigo-700 bg-indigo-50 focus:outline-none focus:text-indigo-800 hover:bg-indigo-100 focus:bg-indigo-100 focus:border-indigo-700 transition duration-150 ease-in-out',
-	headerBg: '',
-	contentBg: 'bg-gray-100',
-	accent1: 'bg-gray-200',
-	accent2: 'bg-gray-300',
-	accent3: 'bg-gray-400',
-	lighter: 'bg-gray-50',
-	button: `
-		inline-flex items-center
-		px-4 py-2 border border-gray-300
-		text-sm leading-5 font-medium
-		rounded-md text-gray-700 bg-white
-		hover:text-gray-500
-		focus:outline-none focus:shadow-outline-blue focus:border-blue-300
-		active:text-gray-800 active:bg-gray-50 transition duration-150 ease-in-out
-		disabled:cursor-not-allowed`,
-	buttonPrimary: 'inline-flex items-center px-4 py-2 border border-transparent text-sm leading-5 font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-500 focus:outline-none focus:shadow-outline-indigo focus:border-indigo-700 active:bg-indigo-700 transition duration-150 ease-in-out disabled:cursor-not-allowed',
-	tableRow: 'bg-white border-b border-gray-200 hover:bg-gray-50',
-	tableRowStriped: 'bg-white even:bg-gray-50'
 }
 
 export const flat = {
@@ -170,24 +140,82 @@ export const blue = {
 	tableRowStriped: 'bg-white even:bg-gray-50'
 }
 
+export const light = {
+	bg: 'bg-gray-100',
+	shadow: 'shadow',
+	ySpace: 'py-4',
+	width: 'max-w-7xl mx-auto',
+	menuBg: 'bg-gray-50',
+	sidebarW: '48',
+	sidebarBorder: 'border-r border-gray-200',
+	text: 'text-gray-800',
+	textLight: "text-gray-400",
+	textContrast: "text-white",
+	placeholder: 'placeholder-gray-400',
+	menuIcon: 'mr-3 h-6 w-6',
+	topMenuBorder: 'border-b border-gray-200',
+	headerShadow: '',
+	topnavItem: 'mr-4 inline-flex items-center px-1 pt-1 border-b-2 border-transparent text-sm font-medium leading-5 text-gray-500 hover:text-gray-700 hover:border-gray-300 focus:outline-none focus:text-gray-700 focus:border-gray-300 transition duration-150 ease-in-out',
+	topnavItemActive: 'mr-4 inline-flex items-center px-1 pt-1 border-b-2 border-indigo-500 text-sm font-medium leading-5 text-gray-900 bg-indigo-100 focus:outline-none hover:bg-indigo-200 focus:border-indigo-700 transition duration-150 ease-in-out',
+	sidebarItem: 'mb-1 group flex pl-3 pr-4 py-2 border-l-4 border-transparent text-base font-medium text-gray-600 hover:text-gray-800 hover:bg-gray-200 hover:border-gray-300 focus:outline-none focus:text-gray-800 focus:bg-gray-50 focus:border-gray-300 transition duration-150 ease-in-out',
+	sidebarItemActive: 'mb-1 group flex pl-3 pr-4 py-2 border-l-4 border-indigo-500 text-base font-medium text-indigo-600 bg-indigo-100 focus:outline-none hover:text-indigo-800 focus:text-indigo-800 hover:bg-indigo-200 focus:bg-indigo-200 focus:border-indigo-700 transition duration-150 ease-in-out',
+
+	inputBg: "bg-white",
+
+	headerBg: '',
+	contentBg: 'bg-gray-100',
+	accent1: 'bg-gray-200',
+	accent2: 'bg-gray-300',
+	accent3: 'bg-gray-400',
+	accent4: 'bg-gray-500',
+	lighter: 'bg-gray-50',
+
+	scrollbar: "",
+
+	button: `
+		inline-flex items-center
+		px-4 py-2 border border-gray-300
+		text-sm leading-5 font-medium
+		rounded-md text-gray-700 bg-white
+		hover:text-gray-500
+		focus:outline-none focus:shadow-outline-blue focus:border-blue-300
+		active:text-gray-800 active:bg-gray-50 transition duration-150 ease-in-out
+		disabled:cursor-not-allowed`,
+	buttonPrimary: 'inline-flex items-center px-4 py-2 border border-transparent text-sm leading-5 font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-500 focus:outline-none focus:shadow-outline-indigo focus:border-indigo-700 active:bg-indigo-700 transition duration-150 ease-in-out disabled:cursor-not-allowed',
+
+	tableRow: 'bg-white border-b border-gray-200 hover:bg-gray-50',
+	tableRowStriped: 'bg-white even:bg-gray-50'
+}
+
 const button = [
 	{ default: "rounded inline-flex items-center justify-center transition duration-150 ease-in-out disabled:cursor-not-allowed" }, // <-- applied to all buttons
-	{ default: "button", // <-- this is pulled from the theme during composeDefaults
-		Primary: "buttonPrimary", // <-- this is pulled from the theme during composeDefaults
+	{ default: "button", // <-- this is pulled from the theme during composeDefaults and deleted
+		Primary: "buttonPrimary", // <-- this is pulled from the theme during composeDefaults and deleted
 		Success: "buttonSuccess",
 		Danger: "buttonDanger",
 		Text: "buttonText"
 	},
 	{ default: "py-1 px-4",
-		Large: "py-2 px-6 text-lg",
+		Large: "py-2 px-6 text-lg rounded-md",
 		Small: "py-0 px-4 text-sm"
 	},
 	{ Block: "w-full" }
 ]
+const input = [
+	{ default: "w-full block rounded cursor-pointer disabled:cursor-not-allowed" },
+	{ default: "@text" }, // <-- text color pulled from theme, key reamins in theme
+	{ default: "@placeholder" }, // <-- placeholder text color
+	{ default: "@inputBg" }, // <== input BG color
+	{ default: "py-1 px-2", // <<-- padding based on size
+		Large: "py-2 px-4 text-lg rounded-md",
+		Small: "py-0 px-1 text-sm"
+	}
+]
 const compositions = {
-	defaults: ["button", "buttonPrimary"], // <-- these are generated in theme during composeDefaults
+	defaults: ["button", "buttonPrimary", "input"], // <-- these are generated in theme during composeDefaults
 																				// these should be commonly used classNames
-	button
+	button,
+	input
 }
 
 const TEST_THEME_BASE = {
@@ -210,3 +238,5 @@ const TEST_THEME_BASE = {
 	compositions
 }
 export const TEST_THEME =  new Proxy(composeDefaults(TEST_THEME_BASE), handler);
+
+console.log("TEST_THEME", TEST_THEME)
