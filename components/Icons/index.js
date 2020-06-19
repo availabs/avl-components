@@ -101,8 +101,12 @@ const Icons = {
 }
 
 export default ({ icon, className, showBlank = true }) =>
-  !showBlank && !Icons[icon] ? null : (
+  Icons[icon] ? (
     <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" className={className}>
       { Icons[icon] || null }
     </svg>
+  ) : (
+    <div className={ `${ className } flex justify-center items-center` }>
+      <span className={ icon }/>
+    </div>
   )

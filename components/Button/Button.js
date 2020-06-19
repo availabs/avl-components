@@ -13,7 +13,7 @@ export const Button = ({
   const theme = useTheme();
   return (
     <button type={ type } { ...props }
-      className={ `${ theme[buttonTheme] } ${ className }` }>
+      className={ `${ theme[buttonTheme] || theme["button"] } ${ className }` }>
       { children }
     </button>
   )
@@ -29,7 +29,7 @@ export const LinkButton = ({
   const theme = useTheme();
   return (
   	<Link { ...props } onClick={ e => e.stopPropagation() }
-    	className={ ` ${ theme[buttonTheme] } ${ className }` }>
+    	className={ ` ${ theme[buttonTheme] || theme["button"] } ${ className }` }>
     	{ children }
   	</Link>
   )
