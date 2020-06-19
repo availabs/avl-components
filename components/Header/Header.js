@@ -11,7 +11,7 @@ const processArg = arg => {
   } = arg
   return {
     Comp: comp ? comp : type === "link" ? LinkButton : Button,
-    type: "button",
+    type,
     ...rest
   }
 }

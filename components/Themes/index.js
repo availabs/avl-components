@@ -1,24 +1,3 @@
-
-const button = [
-	{ default: "rounded inline-flex items-center justify-center transition duration-150 ease-in-out disabled:cursor-not-allowed" }, // <-- applied to all buttons
-	{ default: "button", // <-- this is pulled from the theme during composeDefaults
-		Primary: "buttonPrimary", // <-- this is pulled from the theme during composeDefaults
-		Success: "text-green-500 border-2 border-green-500 hover:bg-green-200 hover:text-green-700 hover:border-green-700 disabled:opacity-50 disabled:text-green-500 disabled:border-green-500",
-		Danger: "text-red-500 border-2 border-red-500 hover:bg-red-200 hover:text-red-700 hover:border-red-700 disabled:opacity-50 disabled:text-red-500 disabled:border-red-500",
-		Text: "border-2 border-transparent hover:bg-gray-200"
-	},
-	{ default: "py-1 px-4",
-		Large: "py-2 px-6 text-lg",
-		Small: "py-0 px-4 text-sm"
-	},
-	{ Block: "w-full" }
-]
-const compositions = {
-	defaults: ["button", "buttonPrimary"], // <-- these are generated in theme during composeDefaults
-																				// these should be commonly used classNames
-	button
-}
-
 const compose = (definition, theme) => {
 	const [type, ...rest] = definition.split(/(?<!^)(?=[A-Z])/);
 	if (!theme.compositions[type]) return "";
@@ -190,11 +169,42 @@ export const blue = {
 	tableRowStriped: 'bg-white even:bg-gray-50'
 }
 
+const button = [
+	{ default: "rounded inline-flex items-center justify-center transition duration-150 ease-in-out disabled:cursor-not-allowed" }, // <-- applied to all buttons
+	{ default: "button", // <-- this is pulled from the theme during composeDefaults
+		Primary: "buttonPrimary", // <-- this is pulled from the theme during composeDefaults
+		Success: "buttonSuccess",
+		Danger: "buttonDanger",
+		Text: "buttonText"
+	},
+	{ default: "py-1 px-4",
+		Large: "py-2 px-6 text-lg",
+		Small: "py-0 px-4 text-sm"
+	},
+	{ Block: "w-full" }
+]
+const compositions = {
+	defaults: ["button", "buttonPrimary"], // <-- these are generated in theme during composeDefaults
+																				// these should be commonly used classNames
+	button
+}
+
 const TEST_THEME_BASE = {
 	...light,
 
-	button: "border-2 border-gray-300 hover:border-gray-400 hover:bg-gray-300 disabled:text-gray-400 disabled:border-gray-200 disabled:bg-transparent",
-	buttonPrimary: "text-blue-500 border-2 border-blue-500 hover:bg-blue-200 hover:text-blue-700 hover:border-blue-700 disabled:opacity-50 disabled:text-blue-500 disabled:border-blue-500",
+	// button: "border border-gray-500 hover:border-gray-800 text-gray-500 hover:text-gray-800 disabled:text-gray-300 disabled:border-gray-300 disabled:bg-transparent",
+	button: "border border-gray-500 hover:bg-gray-500 text-gray-500 hover:text-white disabled:text-gray-400 disabled:border-gray-400 disabled:bg-transparent",
+
+	// buttonPrimary: "text-blue-400 border border-blue-400 hover:text-blue-700 hover:border-blue-700 disabled:opacity-50 disabled:text-blue-400 disabled:border-blue-400",
+	buttonPrimary: "text-blue-400 border border-blue-400 hover:text-white hover:bg-blue-400 disabled:opacity-50 disabled:text-blue-400 disabled:border-blue-400 disabled:bg-transparent",
+
+	// buttonSuccess: "text-green-400 border border-green-400 hover:bg-green-200 hover:text-green-700 hover:border-green-700 disabled:opacity-50 disabled:text-green-400 disabled:border-green-400",
+	buttonSuccess: "text-green-400 border border-green-400 hover:bg-green-400 hover:text-white disabled:opacity-50 disabled:text-green-400 disabled:border-green-400 disabled:bg-transparent",
+
+	// buttonDanger: "text-red-400 border border-red-400 hover:text-red-700 hover:border-red-700 disabled:opacity-50 disabled:text-red-400 disabled:border-red-400",
+	buttonDanger: "text-red-400 border border-red-400 hover:text-white hover:bg-red-400 disabled:opacity-50 disabled:text-red-400 disabled:border-red-400 disabled:bg-transparent",
+
+	buttonText: "border border-transparent hover:bg-gray-200 hover:border-gray-400",
 
 	compositions
 }
