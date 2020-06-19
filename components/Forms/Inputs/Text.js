@@ -2,11 +2,11 @@ import React from "react"
 import 'styles/tailwind.css';
 
 
-const Text = ({name, state, onChange, handler='text',...rest}) => (
+const Text = ({name, value, onChange, handler='text',...rest}) => (
   <input
     type='text'
     name={name}
-    value={state[name]}
+    value={value}
     onChange={(e) => onChange(e,handler)}
     {...rest}
     className={`

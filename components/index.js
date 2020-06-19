@@ -1,6 +1,7 @@
 import Header from './Header/Header'
 import { Button, LinkButton } from './Button/Button'
 import { Content } from './Containers'
+import { FormSection, InputContainer } from './Forms/FormSection'
 import Table from './Table'
 
 export	{
@@ -8,5 +9,7 @@ export	{
 	Button,
 	LinkButton,
 	Content,
-	Table
+	Table,
+	FormSection,
+	InputContainer
 }
