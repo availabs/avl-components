@@ -1,6 +1,6 @@
 import React from "react"
 
-import { composeOptions } from "./utils"
+import { composeOptions } from "../utils"
 import { useTheme } from "../../wrappers/with-theme"
 
 export default ({ large, small, className = "", onChange, ...props }) => {

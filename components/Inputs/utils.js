@@ -1,9 +1,3 @@
-export const composeOptions = ({ small, large, block }) =>
-  [ small && "Small",
-    large && "Large",
-    block && "Block"
-  ].filter(Boolean).join("");
-
 const NUMBER_REGEX = /^(-(?=[1-9]|(0[.]0*[1-9]+)))?\d*[.]?\d+/;
 export const verifyValue = (value, type, regex = null) => {
   if (typeof regex === "string") {

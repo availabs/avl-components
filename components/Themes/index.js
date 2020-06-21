@@ -213,7 +213,7 @@ export const light = {
 // TEST THEME COMPOSITIONS BELOW!!!!!!!!!!
 
 const button = [
-	{ default: "rounded inline-flex items-center justify-center @transition disabled:cursor-not-allowed disabled:bg-transparent focus:outline-none border" }, // <-- applied to all buttons
+	{ default: "rounded inline-flex items-center justify-center @transition disabled:cursor-not-allowed disabled:bg-transparent disabled:opacity-50 focus:outline-none border" }, // <-- applied to all buttons
 	{ default: "$button", // <-- this is pulled from the theme during composeDefaults and overwritten
 		Primary: "$buttonPrimary", // <-- this is pulled from the theme during composeDefaults and overwritten
 		Success: "$buttonSuccess",
@@ -243,15 +243,21 @@ const navitem = [
 		Active: "text-teal-500 @menuBgActive @menuBgActiveHover hover:text-teal-700 hover:border-teal-300 focus:text-teal-700 focus:border-teal-300" }
 ]
 const compositions = {
-	defaults: ["input", "navitemTop", "navitemTopActive", "navitemSide", "navitemSideActive"], // <-- these are generated in theme during composeDefaults
-																				// these should be commonly used classNames
+	defaults: [
+		"input",
+		"navitemTop",
+		"navitemTopActive",
+		"navitemSide",
+		"navitemSideActive"
+	], // <-- these are generated in theme during composeDefaults
+		// these should be commonly used classNames
 	button,
 	input,
 	navitem,
 
 	textbutton: [
 		{ default: "$textbutton" },
-		{ default: "@transition disabled:opacity-50 hover:font-bold focus:outline-none px-2" },
+		{ default: "@transition hover:font-bold disabled:opacity-50 disabled:font-normal  focus:outline-none px-2" },
 		{ default: "text-base",
 			Large: "text-lg",
 			Small: "text-sm"
@@ -262,16 +268,12 @@ const compositions = {
 const TEST_THEME_BASE = {
 	...light,
 
-	// button: "border border-gray-500 hover:border-gray-800 text-gray-500 hover:text-gray-800 disabled:text-gray-300 disabled:border-gray-300 disabled:bg-transparent",
 	button: "border-gray-400 hover:bg-gray-400 text-gray-400 hover:text-white disabled:text-gray-400 didisabled:opacity-50 ",
 
-	// buttonPrimary: "text-blue-400 border-blue-400 hover:text-blue-700 hover:border-blue-700 disabled:opacity-50 disabled:text-blue-400 disabled:border-blue-400",
 	buttonPrimary: "text-blue-400 border-blue-400 hover:text-white hover:bg-blue-400 disabled:opacity-50 disabled:text-blue-400",
 
-	// buttonSuccess: "text-green-400 border-green-400 hover:bg-green-200 hover:text-green-700 hover:border-green-700 disabled:opacity-50 disabled:text-green-400 disabled:border-green-400",
 	buttonSuccess: "text-green-400 border-green-400 hover:bg-green-400 hover:text-white disabled:opacity-50 disabled:text-green-400",
 
-	// buttonDanger: "text-red-400 border-red-400 hover:text-red-700 hover:border-red-700 disabled:opacity-50 disabled:text-red-400 disabled:border-red-400",
 	buttonDanger: "text-red-400 border-red-400 hover:text-white hover:bg-red-400 disabled:opacity-50 disabled:text-red-400",
 
 	buttonInfo: "text-teal-400 border-teal-400 hover:bg-teal-400 hover:text-white disabled:text-teal-400",
