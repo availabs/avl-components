@@ -47,6 +47,7 @@ export default ({ verify, ...props }) => {
           placeholder={ `Type a value...`}>
         </Input>
         <Button onClick={ e => addToArray() }
+          buttonTheme="buttonInfo"
           disabled={ buttonDisabled }>
           add
         </Button>

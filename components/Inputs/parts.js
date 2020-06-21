@@ -12,7 +12,7 @@ export const ValueItem = ({ isPlaceholder, children, remove }) => {
       { children }
       { isPlaceholder ? null :
         <div className={ `
-            ${ theme.accent3 } hover:${ theme.accent4 } ${ theme.textContrast }
+            ${ theme.menuBgActive } ${ theme.menuBgActiveHover } ${ theme.textContrast }
             ml-2 p-1 flex justify-center items-center rounded cursor-pointer
           ` }
           onClick={ remove }>
@@ -25,12 +25,12 @@ export const ValueItem = ({ isPlaceholder, children, remove }) => {
     </div>
   )
 }
-export const ValueContainer = ({ children, large, small, className = "", ...props }) => {
+export const ValueContainer = ({ children, hasFocus, large, small, className = "", ...props }) => {
   const theme = useTheme();
   return (
     <div { ...props }
       className={ `
-        w-full flex flex-row flex-wrap ${ theme.inputBg }
+        w-full flex flex-row flex-wrap ${ hasFocus ? theme.inputFocus : theme.inputBg }
         ${ large ? "pt-1 pb-2 px-4" : small ? "pb-1 px-1" : "pb-1 px-2" }
         ${ large ? "text-lg" : small ? "text-sm" : "" }
         ${ large ? "rounded-md" : "rounded" }

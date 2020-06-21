@@ -6,10 +6,12 @@ import { ValueContainer, ValueItem } from "./parts"
 
 import { useTheme } from "../../wrappers/with-theme"
 
+import deepequal from "deep-equal"
+
 const Dropdown = ({ children, searchable }) => {
   const theme = useTheme();
   return (
-    <div className={ `absolute left-0 z-40 overflow-hidden w-full rounded-b-lg` }
+    <div className={ `absolute left-0 z-40 overflow-hidden w-full rounded-b-md` }
       style={ { top: "100%" } }>
       <div className={ `${ theme.accent1 } mt-1 ${ searchable ? "pt-1" : "" }` }>
         { children }
@@ -32,7 +34,9 @@ class Select extends React.Component {
     searchable: true,
     domain: [],
     value: null,
-    placeholder: "Select a value..."
+    placeholder: "Select a value...",
+    accessor: d => d,
+    id: "avl-select"
   }
   constructor(...args) {
     super(...args);
@@ -42,7 +46,7 @@ class Select extends React.Component {
     }
   }
   getValues() {
-    if (!hasValue(this.props.value)) return [this.props.placeholder];
+    if (!hasValue(this.props.accessor(this.props.value))) return [];
     if (!Array.isArray(this.props.value)) {
       return [this.props.value];
     }
@@ -53,6 +57,7 @@ class Select extends React.Component {
     this.setState({ opened: true });
   }
   closeDropdown() {
+    this.state.opened && document.getElementById(this.props.id).focus();
     this.setState({ opened: false, search: "" });
   }
   addItem(e, v) {
@@ -63,7 +68,7 @@ class Select extends React.Component {
       if (!hasValue(this.props.value)) {
         this.props.onChange([v]);
       }
-      else if (!this.props.value.includes(v)) {
+      else if (this.props.value.reduce((a, c) => a && !deepequal(c, v), true)) {
         this.props.onChange([...this.props.value, v]);
       }
     }
@@ -88,38 +93,45 @@ class Select extends React.Component {
   render() {
     const values = this.getValues(),
       domain = this.props.domain
-        .filter(d => !values.includes(d))
-        .filter(d => d.toString().includes(this.state.search));
+        .filter(d => values.reduce((a, c) => a && !deepequal(c, d), true))
+        .filter(d =>
+          this.props.accessor(d).toString().includes(this.state.search)
+        );
     return (
       <div className="relative" onMouseLeave={ e => this.closeDropdown() }>
-        <div className="cursor-pointer border-2" tabIndex="0"
-          style={ { borderColor: this.state.opened ? "black" : "transparent" } }>
-          <ValueContainer id={ this.props.id }
+        <div className="cursor-pointer">
+          <ValueContainer id={ this.props.id } hasFocus={ this.state.opened } tabIndex="0"
             onClick={ e => this.openDropdown(e) }>
-            { values.map((v, i) =>
-                <ValueItem key={ i } isPlaceholder={ v === this.props.placeholder }
+            { values.length ?
+              values.map((v, i) =>
+                <ValueItem key={ i }
                   remove={ e => this.removeItem(e, v) }>
-                  { v }
+                  { this.props.accessor(v) }
                 </ValueItem>
-              )
+              ) :
+              <ValueItem key="placeholder" isPlaceholder={ true }>
+                { this.props.placeholder }
+              </ValueItem>
             }
           </ValueContainer>
         </div>
         { !this.state.opened ? null :
           <Dropdown searchable={ this.props.searchable }>
             { !this.props.searchable ? null :
-              <div className="m-2 mt-1">
+              <div className="p-2 pt-1">
                 <Input id={ `${ this.props.id }-search` } type="text"
                   value={ this.state.search } onChange={ v => this.setSearch(v) }
                   autoFocus placeholder="search..."/>
               </div>
             }
-            { !domain.length ? null :
+            { !domain.length ?
+              <div className="p-1 text-center">No Selections</div> :
               <div className="scrollbar overflow-y-auto"
-                style={ { maxHeight: "300px" } }>
+                style={ { maxHeight: "15rem" } }>
                 { domain.map(d =>
-                    <DropdownItem key={ d } onClick={ e => this.addItem(e, d) }>
-                      { d }
+                    <DropdownItem key={ this.props.accessor(d) }
+                      onClick={ e => this.addItem(e, d) }>
+                      { this.props.accessor(d) }
                     </DropdownItem>
                   )
                 }

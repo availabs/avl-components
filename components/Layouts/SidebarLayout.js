@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 
-import * as themes from '../Themes'
+// import * as themes from '../Themes'
 
 import SideNav from '../Nav/Side'
 import TopNav from '../Nav/Top'
@@ -24,8 +24,7 @@ class Layout extends Component {
   }
 
   render () {
-
-    const theme = themes[this.props.theme]
+    const theme = this.props.theme;//themes[this.props.theme]
     return (
       <div className={`${theme.bg} `}>
         {this.props.nav === 'top' ? (
@@ -41,7 +40,7 @@ class Layout extends Component {
               />
 
           </div>
-          ) : ''}
+        ) : null }
         {this.props.headerBar ? (
           <div className={`${this.props.fixed ? `fixed left-0 top-0 w-full z-10 ${this.props.nav === 'top' ? 'mt-16' : '' }` : ''}`}>
             <div className={`${this.props.maxWidth} mx-auto`} >
@@ -53,7 +52,7 @@ class Layout extends Component {
               />
             </div>
           </div>
-        ) : '' }
+        ) : null }
       	<div className={`min-h-screen ${this.props.maxWidth} mx-auto`} >
           <div className="flex h-full">
           {this.props.nav === 'side' ? (
@@ -63,19 +62,20 @@ class Layout extends Component {
               menuItems={this.props.menus}
               fixed={this.props.fixed}
               theme={theme}
-            />) :''}
+            />) : null }
             <div className="w-0 flex-1 h-full">
               <main className={`
                   flex-1 z-0 focus:outline-none min-h-screen h-full
-                  
+
                   ${this.props.headerBar ? 'mt-16' : ''}
                   ${this.props.fixed && this.props.nav === 'side' ?  `md:ml-${theme.sidebarW}` : '' }
-                  ${this.props.fixed && this.props.nav === 'top' ?  `mt-16` : '' }`
+                  ${this.props.fixed && this.props.nav === 'top' ?  `mt-16` : '' }
 
 
+                  `
                 }
               >
-                {this.props.children}
+                  { this.props.children }
               </main>
             </div>
           </div>

@@ -20,7 +20,7 @@ const DefaultLayout = ({ component, path, exact, layoutSettings, ...props }) => 
   if (props.isAuthenticating && !props.authed) {
     return (
       <ThemeContext.Provider value={ theme }>
-        <Layout { ...props }>
+        <Layout { ...layoutSettings } { ...props } theme={ theme }>
           <Route path={ path } exact={ exact }>
             <div className="fixed top-0 left-0 w-screen h-screen z-50"
               style={ { backgroundColor: "rgba(0, 0, 0, 0.5)" } }>
@@ -41,9 +41,9 @@ const DefaultLayout = ({ component, path, exact, layoutSettings, ...props }) => 
       />
     ) : (
       <ThemeContext.Provider value={ theme }>
-        <Layout { ...layoutSettings } { ...props }>
+        <Layout { ...layoutSettings } { ...props } theme={ theme }>
           <Route path={ path } exact={ exact }>
-            <ComponentFactory config={ component } theme={theme} />
+            <ComponentFactory config={ component }/>
           </Route>
         </Layout>
       </ThemeContext.Provider>

@@ -15,10 +15,10 @@ export default ({ to, icon, className, children, theme, type='side' }) => {
 //   let active = false;//(to.includes(pathname));
 // console.log("PATH NAME:", pathname, to)
 //
-//   let sideClasses = active ? theme.sidebarItemActive : theme.sidebarItem
-//   let topClasses = active ? theme.topnavItemActive : theme.topnavItem
-  const linkClasses = type === 'side' ? theme.sidebarItem : theme.topnavItem,
-    activeClasses = type === 'side' ? theme.sidebarItemActive : theme.topnavItemActive;
+//   let sideClasses = active ? theme.navitemSideActive : theme.navitemSide
+//   let topClasses = active ? theme.navitemTopActive : theme.navitemTop
+  const linkClasses = type === 'side' ? theme.navitemSide : theme.navitemTop,
+    activeClasses = type === 'side' ? theme.navitemSideActive : theme.navitemTopActive;
 
   return (
     <NavLink to={to} className={linkClasses} activeClassName={ activeClasses }>
