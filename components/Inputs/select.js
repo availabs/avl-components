@@ -58,7 +58,7 @@ class Select extends React.Component {
     this.setState({ opened: true });
   }
   closeDropdown() {
-    this.state.opened && node && node.focus();
+    this.state.opened && this.node && this.node.focus();
     this.setState({ opened: false, search: "" });
   }
   addItem(e, v) {
