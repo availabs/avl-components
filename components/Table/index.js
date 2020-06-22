@@ -180,8 +180,9 @@ function Table({columns, data, height, tableClass, actions, csvDownload,...props
                                         //     cell.value = cell.row.original[cell.column.Header]
                                         // }
                                         return (
-                                            <td className={`${props.condensed ? theme.tableCellCondensed : theme.tableCell} ${cell.column.className}`} {...cell.getCellProps()}>
-                                                {renderCell(cell)}
+                                            <td className={`${props.condensed ? theme.tableCellCondensed : theme.tableCell} ${cell.column.className||""}`} {...cell.getCellProps()}>
+                                                {/*renderCell(cell)*/}
+                                                { cell.render('Cell') }
                                             </td>
                                         )
                                     })}
@@ -208,7 +209,7 @@ function Table({columns, data, height, tableClass, actions, csvDownload,...props
                                             )
                                         : null */}
                                 </tr>
-                                
+
                             )
                         }
                     )}

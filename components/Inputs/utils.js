@@ -1,4 +1,5 @@
 const NUMBER_REGEX = /^(-(?=[1-9]|(0[.]0*[1-9]+)))?\d*[.]?\d+/;
+
 export const verifyValue = (value, type, regex = null) => {
   if (typeof regex === "string") {
     regex = new RegExp(regex);
@@ -14,7 +15,7 @@ export const verifyValue = (value, type, regex = null) => {
 export const hasValue = value => {
   if ((value === null) || (value === undefined)) return false;
   if ((typeof value === "string") && !value.length) return false;
-  if (Array.isArray(value) && !value.length) return false;
+  if (Array.isArray(value)) return value.reduce((a, c) => a || hasValue(c), false);
   if ((typeof value === "number") && isNaN(value)) return false;
   return true;
 }

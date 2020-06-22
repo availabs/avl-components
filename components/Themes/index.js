@@ -154,7 +154,10 @@ export const light = {
 	sidebarBorder: 'border-r border-gray-200',
 	text: 'text-gray-800',
 	textContrast: "text-white",
+
 	textInfo: "text-teal-400",
+	bgInfo: "bg-teal-400",
+	borderInfo: "border-teal-400",
 
 	textLight: "text-gray-400", // <-- for text styled like placeholder but can't be selected with ::placeholder
 	// these 2 should be equal
@@ -207,7 +210,10 @@ export const light = {
 	buttonPrimary: 'inline-flex items-center px-4 py-2 border border-transparent text-sm leading-5 font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-500 focus:outline-none focus:shadow-outline-indigo focus:border-indigo-700 active:bg-indigo-700 transition duration-150 ease-in-out disabled:cursor-not-allowed',
 
 	tableRow: 'bg-gray-100 hover:bg-gray-200',
-	tableRowStriped: 'bg-gray-100 even:bg-gray-200 hover:bg-gray-300'
+	tableRowStriped: 'bg-gray-100 even:bg-gray-200 hover:bg-gray-300',
+
+	tableCell: 'px-4 py-2 whitespace-no-wrap text-sm',
+	tableCellCondensed: 'px-2 py-1 whitespace-no-wrap text-sm'
 }
 
 // TEST THEME COMPOSITIONS BELOW!!!!!!!!!!
