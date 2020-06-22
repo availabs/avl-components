@@ -206,8 +206,8 @@ export const light = {
 		disabled:cursor-not-allowed`,
 	buttonPrimary: 'inline-flex items-center px-4 py-2 border border-transparent text-sm leading-5 font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-500 focus:outline-none focus:shadow-outline-indigo focus:border-indigo-700 active:bg-indigo-700 transition duration-150 ease-in-out disabled:cursor-not-allowed',
 
-	tableRow: 'bg-gray-100 hover:bg-teal-100',
-	tableRowStriped: 'bg-gray-100 even:bg-teal-100 hover:bg-gray-200'
+	tableRow: 'bg-gray-100 hover:bg-gray-200',
+	tableRowStriped: 'bg-gray-100 even:bg-gray-200 hover:bg-gray-300'
 }
 
 // TEST THEME COMPOSITIONS BELOW!!!!!!!!!!
