@@ -25,10 +25,10 @@ export const ValueItem = ({ isPlaceholder, children, remove }) => {
     </div>
   )
 }
-export const ValueContainer = ({ children, hasFocus, large, small, className = "", ...props }) => {
+export const ValueContainer = React.forwardRef(({ children, hasFocus, large, small, className = "", ...props }, ref) => {
   const theme = useTheme();
   return (
-    <div { ...props }
+    <div { ...props } ref={ ref }
       className={ `
         w-full flex flex-row flex-wrap ${ hasFocus ? theme.inputFocus : theme.inputBg }
         ${ large ? "pt-1 pb-2 px-4" : small ? "pb-1 px-1" : "pb-1 px-2" }
@@ -39,4 +39,4 @@ export const ValueContainer = ({ children, hasFocus, large, small, className = "
       { children }
     </div>
   )
-}
+})
