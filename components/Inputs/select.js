@@ -38,6 +38,7 @@ class Select extends React.Component {
     accessor: d => d,
     id: "avl-select"
   }
+  node = null;
   constructor(...args) {
     super(...args);
     this.state = {
@@ -57,7 +58,7 @@ class Select extends React.Component {
     this.setState({ opened: true });
   }
   closeDropdown() {
-    this.state.opened && document.getElementById(this.props.id).focus();
+    this.state.opened && node && node.focus();
     this.setState({ opened: false, search: "" });
   }
   addItem(e, v) {
@@ -100,7 +101,7 @@ class Select extends React.Component {
     return (
       <div className="relative" onMouseLeave={ e => this.closeDropdown() }>
         <div className="cursor-pointer">
-          <ValueContainer id={ this.props.id } hasFocus={ this.state.opened } tabIndex="0"
+          <ValueContainer id={ this.props.id } ref={ n => this.node = n } hasFocus={ this.state.opened } tabIndex="0"
             onClick={ e => this.openDropdown(e) }>
             { values.length ?
               values.map((v, i) =>

@@ -12,11 +12,12 @@ export default ({ verify, ...props }) => {
 
   const { value, type, disabled, ...rest } = props;
 
+  let node = null;
   const addToArray = () => {
     const asArray = value || [];
     props.onChange([...asArray, newValue]);
     setValue("");
-    document.getElementById(props.id).focus();
+    node && node.focus();
   }
   const removeFromArray = v => {
     let value = Array.isArray(props.value) ? props.value : [];
@@ -39,7 +40,7 @@ export default ({ verify, ...props }) => {
   }, [value, newValue, verify, disabled, type])
 
   return (
-    <div className="w-full">
+    <div className="w-full" ref={ n => { node = n; } }>
       <div className="flex">
         <Input { ...rest } type={ type } className="mr-1"
           value={ newValue }  min={ rest.min } max={ rest.max }
