@@ -39,13 +39,21 @@ export default ({ verify, ...props }) => {
     );
   }, [value, newValue, verify, disabled, type])
 
+  const onKeyDown = e => {
+    if (newValue && e.keyCode === 13) {
+      e.stopPropagation();
+      e.preventDefault();
+      addToArray();
+    }
+  }
+
   return (
-    <div className="w-full" ref={ n => { node = n; } }>
+    <div className="w-full">
       <div className="flex">
-        <Input { ...rest } type={ type } className="mr-1"
+        <Input { ...rest } type={ type } className="mr-1" onKeyDown={ onKeyDown }
           value={ newValue }  min={ rest.min } max={ rest.max }
           onChange={ v => setValue(v) } disabled={ disabled }
-          placeholder={ `Type a value...`}>
+          placeholder={ `Type a value...`} ref={ n => { node = n; } }>
         </Input>
         <Button onClick={ e => addToArray() }
           buttonTheme="buttonInfo"
