@@ -47,7 +47,7 @@ class Select extends React.Component {
     }
   }
   getValues() {
-    if (!hasValue(this.props.accessor(this.props.value))) return [];
+    if (!hasValue(this.props.value) || !hasValue(this.props.accessor(this.props.value))) return [];
     if (!Array.isArray(this.props.value)) {
       return [this.props.value];
     }
