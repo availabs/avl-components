@@ -17,5 +17,6 @@ export const hasValue = value => {
   if ((typeof value === "string") && !value.length) return false;
   if (Array.isArray(value)) return value.reduce((a, c) => a || hasValue(c), false);
   if ((typeof value === "number") && isNaN(value)) return false;
+  if ((typeof value === "object")) return Object.keys(value).reduce((a, c) => a || hasValue(value[c]), false);
   return true;
 }
