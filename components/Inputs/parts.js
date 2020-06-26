@@ -30,7 +30,11 @@ export const ValueContainer = React.forwardRef(({ children, hasFocus, large, sma
   return (
     <div { ...props } ref={ ref }
       className={ `
-        w-full flex flex-row flex-wrap ${ hasFocus ? theme.inputFocus : theme.inputBg }
+        w-full flex flex-row flex-wrap
+        ${ hasFocus ?
+          `${ theme.inputBgFocus } ${ theme.inputBorderFocus }` :
+          `${ theme.inputBg } ${ theme.inputBorder }`
+        }
         ${ large ? "pt-1 pb-2 px-4" : small ? "pb-1 px-1" : "pb-1 px-2" }
         ${ large ? "text-lg" : small ? "text-sm" : "" }
         ${ large ? "rounded-md" : "rounded" }
