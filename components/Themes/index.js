@@ -186,7 +186,7 @@ export const light = {
 	inputBgFocus: "bg-white",
 	inputBorderFocus: "border-2 border-transparent focus:border-gray-600 border-gray-600",
 
-	contentBg: 'bg-gray-100',
+	contentBg: 'bg-white',
 
 	accent1: 'bg-gray-200',
 	accent2: 'bg-gray-300',
