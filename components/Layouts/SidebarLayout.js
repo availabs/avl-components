@@ -29,16 +29,14 @@ class Layout extends Component {
       <div className={`${theme.bg} `}>
         {this.props.nav === 'top' ? (
           <div className={this.props.fixed ? `fixed left-0 top-0 w-full z-10` : ''}>
-
-              <TopNav
-                open={this.state.menuOpen}
-                toggle={this.toggleMenu}
-                menuItems={this.props.menus}
-                fixed={this.props.fixed}
-                theme={theme}
-                width={this.props.maxWidth}
-              />
-
+            <TopNav
+              open={this.state.menuOpen}
+              toggle={this.toggleMenu}
+              menuItems={this.props.menus}
+              fixed={this.props.fixed}
+              theme={theme}
+              width={this.props.maxWidth}
+            />
           </div>
         ) : null }
         {this.props.headerBar ? (
@@ -66,12 +64,9 @@ class Layout extends Component {
             <div className="w-0 flex-1 h-full">
               <main className={`
                   flex-1 z-0 focus:outline-none min-h-screen h-full
-
                   ${this.props.headerBar ? 'mt-16' : ''}
                   ${this.props.fixed && this.props.nav === 'side' ?  `md:ml-${theme.sidebarW}` : '' }
                   ${this.props.fixed && this.props.nav === 'top' ?  `mt-16` : '' }
-
-
                   `
                 }
               >
