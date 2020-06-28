@@ -6,7 +6,7 @@ import { ValueContainer, ValueItem } from "./parts"
 
 import { verifyValue, hasValue } from "./utils"
 
-export default ({ verify, ...props }) => {
+export default ({ verify, id, autoFocus, ...props }) => {
   const [newValue, setValue] = useState(""),
     [buttonDisabled, setDisabled] = useState(false);
 
@@ -28,6 +28,11 @@ export default ({ verify, ...props }) => {
       value = null;
     }
     props.onChange(value);
+  }
+  const edit = v => {
+    setValue(v);
+    removeFromArray(v);
+    node && node.focus();
   }
 
   useEffect(() => {
@@ -51,8 +56,8 @@ export default ({ verify, ...props }) => {
     <div className="w-full">
       <div className="flex">
         <Input { ...rest } type={ type } className="mr-1" onKeyDown={ onKeyDown }
-          value={ newValue }  min={ rest.min } max={ rest.max }
-          onChange={ v => setValue(v) } disabled={ disabled }
+          value={ newValue }  min={ rest.min } max={ rest.max } id={ id }
+          onChange={ v => setValue(v) } disabled={ disabled } autoFocus={ autoFocus }
           placeholder={ `Type a value...`} ref={ n => { node = n; } }>
         </Input>
         <Button onClick={ e => addToArray() }
@@ -65,7 +70,7 @@ export default ({ verify, ...props }) => {
         <div className="mt-1 ml-10">
           <ValueContainer className="cursor-default">
             { value.map((v, i) =>
-                <ValueItem key={ v }
+                <ValueItem key={ v } edit={ e => edit(v) }
                   remove={ e => removeFromArray(v) }>
                   { v }
                 </ValueItem>

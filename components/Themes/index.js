@@ -178,11 +178,15 @@ export const light = {
 	menuBgActiveHover: 'hover:bg-teal-300',
 	headerBg: 'bg-gray-200',
 	headerBgHover: "hover:bg-gray-400",
-	inputBg: "bg-white border-2 border-transparent hover:border-gray-300 focus:border-gray-600 disabled:bg-gray-200 disabled:border-gray-200",
-	inputDisabled: "bg-gray-200 border-2 border-gray-200 transition ease-in-out duration-150",
-	inputFocus: "bg-white border-2 border-transparent focus:border-gray-600 border-gray-600 transition ease-in-out duration-150",
 
-	contentBg: 'bg-gray-100',
+	inputBg: "bg-white disabled:bg-gray-200",
+	inputBorder: "border-2 border-transparent hover:border-gray-300 focus:border-gray-600 disabled:border-gray-200",
+	inputBgDisabled: "bg-gray-200",
+	inputBoderDisabled: "border-2 border-gray-200",
+	inputBgFocus: "bg-white",
+	inputBorderFocus: "border-2 border-transparent focus:border-gray-600 border-gray-600",
+
+	contentBg: 'bg-white',
 
 	accent1: 'bg-gray-200',
 	accent2: 'bg-gray-300',
@@ -234,7 +238,7 @@ const button = [
 	// { Active: "*hover:" }
 ]
 const input = [
-	{ default: "w-full block rounded cursor-pointer disabled:cursor-not-allowed @transition @text @placeholder @inputBg" },
+	{ default: "w-full block rounded cursor-pointer disabled:cursor-not-allowed @transition @text @placeholder @inputBg @inputBorder" },
 	{ default: "py-1 px-2", // <<-- padding based on size
 		Large: "py-2 px-4 text-lg rounded-md",
 		Small: "py-0 px-1 text-sm"
