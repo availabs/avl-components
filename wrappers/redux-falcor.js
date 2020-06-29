@@ -1,5 +1,5 @@
 import { connect } from "react-redux"
-import { reduxFalcor } from "utils/redux-falcor"
+import { reduxFalcor } from "utils/redux-falcor-new"
 
 export default (Component, options = {}) => {
   const {
