@@ -24,5 +24,5 @@ export const useClickOutside = handleClick => {
     return () => document.removeEventListener("mousedown", checkOutside);
   }, [node, handleClick])
 
-  return setNode;
+  return [node, setNode];
 }

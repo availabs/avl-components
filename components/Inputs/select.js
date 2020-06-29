@@ -4,7 +4,6 @@ import Input from "./input"
 import { hasValue } from "./utils"
 import { ValueContainer, ValueItem } from "./parts"
 
-import { useClickOutside } from "../utils"
 import { useTheme } from "../../wrappers/with-theme"
 
 import deepequal from "deep-equal"
@@ -50,7 +49,6 @@ class Select extends React.Component {
     }
   }
   componentDidMount() {
-    this.setState({ hasFocus: this.props.autoFocus });
     this.props.autoFocus && this.node && this.node.focus();
   }
   getValues() {
@@ -107,11 +105,11 @@ class Select extends React.Component {
         );
 
     return (
-      <SelectContainer className="relative" onMouseLeave={ e => this.setState({ opened: false })}
-        onClickOutside={ e => this.setState({ hasFocus: false }) }>
+      <div className="relative" onMouseLeave={ e => this.closeDropdown() }>
         <div className="cursor-pointer">
           <ValueContainer id={ this.props.id } ref={ n => this.node = n }
-            onBlur={ e => !this.state.opened && this.setState({ hasFocus: false }) }
+            onBlur={ e => this.setState({ hasFocus: false }) }
+            onFocus={ e => this.setState({ hasFocus: true }) }
             hasFocus={ this.state.opened || this.state.hasFocus } tabIndex="0"
             onClick={ e => this.openDropdown(e) }>
             { values.length ?
@@ -151,16 +149,8 @@ class Select extends React.Component {
             }
           </Dropdown>
         }
-      </SelectContainer>
+      </div>
     )
   }
 }
 export default Select
-
-const SelectContainer = ({ children, onClickOutside, ...props }) => {
-  return (
-    <div { ...props } ref={ useClickOutside(onClickOutside) }>
-      { children }
-    </div>
-  )
-}
