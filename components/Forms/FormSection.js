@@ -1,5 +1,5 @@
 import React  from "react"
-// import * as Inputs from './Inputs'
+
 
 
 export const InputContainer = ({classes='col-span-6', label, children}) =>(
