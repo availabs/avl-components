@@ -57,7 +57,7 @@ const handler = {
 }
 
 export const flat = {
-	bg: 'bg-white',
+	bg: 'custom-bg',
 	ySpace: 'py-4',
 	menuBg: 'custom-bg',
 	width: 'max-w-6xl mx-auto',
@@ -69,9 +69,13 @@ export const flat = {
 	navitemTopActive: 'mr-4 inline-flex items-center px-1 pt-1 border-b-2 border-indigo-500 text-sm font-medium leading-5 text-gray-900 focus:outline-none focus:border-indigo-700 transition duration-150 ease-in-out',
 	navitemSide: 'mb-1 group flex pl-3 pr-4 py-2 border-l-4 border-transparent text-sm text-gray-600 hover:text-gray-800 hover:bg-gray-50 hover:border-gray-300 focus:outline-none focus:text-gray-800 focus:bg-gray-50 focus:border-gray-300 transition duration-150 ease-in-out',
 	navitemSideActive: 'mb-1 group flex pl-3 pr-4 py-2 border-l-4 border-indigo-500 text-sm font-medium text-indigo-700 bg-indigo-50 focus:outline-none focus:text-indigo-800 focus:bg-indigo-100 focus:border-indigo-700 transition duration-150 ease-in-out',
-	headerBg: 'bg-white',
+	
+	// header
+	headerBg: 'custom-bg',
 	headerShadow: '',
-	contentBg: 'custom-bg',
+	
+	//
+	contentBg: '',
 	accent1: 'bg-gray-200',
 	accent2: 'bg-gray-300',
 	accent3: 'bg-gray-400',
@@ -82,7 +86,7 @@ export const flat = {
 	buttonText: 'text-sm text-blue-500 hover:text-blue-300',
 
 	// table
-	tableRow: 'bg-gray-50 border-b border-blue-100 hover:bg-blue-50',
+	tableRow: 'bg-white border-b border-blue-100 hover:bg-blue-50',
 	tableRowStriped: 'bg-white even:bg-gray-50',
 	tableCell: 'px-6 py-4 whitespace-no-wrap text-sm leading-5 text-gray-600',
 	tableCellCondensed: 'px-3 py-2 whitespace-no-wrap text-sm leading-5 text-gray-600'

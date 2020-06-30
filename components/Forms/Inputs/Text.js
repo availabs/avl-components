@@ -1,5 +1,5 @@
 import React from "react"
-import 'styles/tailwind.css';
+
 
 
 const Text = ({name, value, onChange, handler='text',...rest}) => (
