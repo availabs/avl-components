@@ -1,17 +1,21 @@
 import React from "react"
 
 export default (Component, options = {}) => {
+  const {
+    baseUrl = "http://localhost:4444/img/new"
+  } = options;
   return class Wrapper extends React.Component {
     state = {
       loading: false,
       message: ""
     }
-    uploadImage(file, uploadUrl) {
+    uploadImage(file) {
       if (!file) return Promise.resolve(null);
       if (!/^image[/]/.test(file.type)) {
         this.setState({ message: "File was not an image." });
         return Promise.resolve(null);
       }
+      const filename = file.name.replace(/\s+/g, "_");
 
       this.setState({ message: "", loading: true });
 
@@ -21,7 +25,7 @@ export default (Component, options = {}) => {
       this.setState({ loading: true });
       return new Promise(resolve => {
         reader.addEventListener("load", () => {
-          fetch(uploadUrl, {
+          fetch(`${ baseUrl }/upload/${ filename }`, {
             method: "POST",
             body: reader.result,
             headers: {
@@ -40,17 +44,42 @@ export default (Component, options = {}) => {
       })
       .then(({ url }) => {
         this.setState({ loading: false });
+        return { url, filename };
+      })
+    }
+    editImage(src, filename, action, args) {
+      this.setState({ loading: true });
+      return new Promise(resolve => {
+        fetch(`${ baseUrl }/edit/${ filename }/${ action }/${ args }`, {
+          method: "POST",
+          body: JSON.stringify({ src: encodeURI(src) }),
+          headers: {
+            "Content-Type": "application/json",
+            "Authorization": window.localStorage.getItem("userToken")
+          }
+        })
+        .then(res => {
+          if (!res.ok) {
+            resolve({ url: null });
+          }
+          return res.json();
+        })
+        .then(resolve);
+      })
+      .then(({ url }) => {
+        this.setState({ loading: false });
         return url;
       })
     }
-    processImage(src, processUrl) {
-      if (!processUrl) return Promise.resolve(null);
-
+    saveImage(src, filename, history) {
       this.setState({ loading: true });
       return new Promise(resolve => {
-        fetch(processUrl, {
+        fetch(`${ baseUrl }/save/${ filename }`, {
           method: "POST",
-          body: JSON.stringify({ src: encodeURI(src) }),
+          body: JSON.stringify({
+            src,
+            history
+          }),
           headers: {
             "Content-Type": "application/json",
             "Authorization": window.localStorage.getItem("userToken")
@@ -73,8 +102,8 @@ export default (Component, options = {}) => {
       return (
         <Component { ...this.props } { ...this.state }
           uploadImage={ (...args) => this.uploadImage(...args) }
-          processImage={ (...args) => this.processImage(...args) }
-          removeImage={ e => this.removeImage(e) }/>
+          editImage={ (...args) => this.editImage(...args) }
+          saveImage={ (...args) => this.saveImage(...args) }/>
       )
     }
   }
