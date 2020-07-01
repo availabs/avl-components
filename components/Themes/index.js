@@ -1,8 +1,8 @@
 const compose = (themeType, theme) => {
 	const [base, ...rest] = themeType.split(/(?<!^)(?=[A-Z])/);
-	if (!theme.compositions[base]) return "";
+	if (!theme.$compositions[base]) return "";
 
-	return theme.compositions[base].reduce((a, c) => {
+	return theme.$compositions[base].reduce((a, c) => {
 		let option = c.default || "";
 		for (const opt of rest) {
 			if (opt in c) {
@@ -16,11 +16,11 @@ const compose = (themeType, theme) => {
 
 const composeDefaults = theme => {
 	const composedTheme = JSON.parse(JSON.stringify(theme));
-	if (composedTheme.compositions) {
-		const { defaults = [], ...rest } = composedTheme.compositions;
+	if (composedTheme.$compositions) {
+		const { defaults = [], ...rest } = composedTheme.$compositions;
 
 		for (const type in rest) {
-			composedTheme.compositions[type].forEach(options => {
+			composedTheme.$compositions[type].forEach(options => {
 				for (let option in options) {
 					const atRegex = /^[@](.+)$/;
 					options[option] = options[option].split(/\s/).map(o => {
@@ -69,11 +69,11 @@ export const flat = {
 	navitemTopActive: 'mr-4 inline-flex items-center px-1 pt-1 border-b-2 border-indigo-500 text-sm font-medium leading-5 text-gray-900 focus:outline-none focus:border-indigo-700 transition duration-150 ease-in-out',
 	navitemSide: 'mb-1 group flex pl-3 pr-4 py-2 border-l-4 border-transparent text-sm text-gray-600 hover:text-gray-800 hover:bg-gray-50 hover:border-gray-300 focus:outline-none focus:text-gray-800 focus:bg-gray-50 focus:border-gray-300 transition duration-150 ease-in-out',
 	navitemSideActive: 'mb-1 group flex pl-3 pr-4 py-2 border-l-4 border-indigo-500 text-sm font-medium text-indigo-700 bg-indigo-50 focus:outline-none focus:text-indigo-800 focus:bg-indigo-100 focus:border-indigo-700 transition duration-150 ease-in-out',
-	
+
 	// header
 	headerBg: 'custom-bg',
 	headerShadow: '',
-	
+
 	//
 	contentBg: '',
 	accent1: 'bg-gray-200',
@@ -162,6 +162,14 @@ export const light = {
 	textInfo: "text-teal-400",
 	bgInfo: "bg-teal-400",
 	borderInfo: "border-teal-400",
+
+	textSuccess: "text-green-400",
+	bgSuccess: "bg-green-400",
+	borderSuccess: "border-green-400",
+
+	textDanger: "text-red-400",
+	bgDanger: "bg-red-400",
+	borderDanger: "border-red-400",
 
 	textLight: "text-gray-400", // <-- for text styled like placeholder but can't be selected with ::placeholder
 	// these 2 should be equal
@@ -256,7 +264,7 @@ const navitem = [
 	{ default: "text-gray-500 @menuBg @menuBgHover hover:text-gray-700 hover:border-gray-300 focus:text-gray-700 focus:border-gray-300",
 		Active: "text-teal-500 @menuBgActive @menuBgActiveHover hover:text-teal-700 hover:border-teal-300 focus:text-teal-700 focus:border-teal-300" }
 ]
-const compositions = {
+const $compositions = {
 	defaults: [
 		"input",
 		"navitemTop",
@@ -294,7 +302,7 @@ const TEST_THEME_BASE = {
 
 	textbutton: "border-transparent text-teal-400 hover:text-teal-500 disabled:text-teal-400 disabled:opacity-50",
 
-	compositions
+	$compositions
 }
 export const TEST_THEME =  new Proxy(composeDefaults(TEST_THEME_BASE), handler);
 

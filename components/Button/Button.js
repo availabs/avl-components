@@ -25,11 +25,11 @@ export const LinkButton = ({
   buttonTheme = "button",
   className = "",
   type,
-  children,
+  children, disabled,
   large, small, block,
   ...props }) => {
   const theme = useTheme();
-  buttonTheme = `${ buttonTheme }${ composeOptions({ large, small, block }) }`;
+  buttonTheme = `${ buttonTheme }${ composeOptions({ large, small, block, disabled }) }`;
   return (
   	<Link { ...props } onClick={ e => e.stopPropagation() }
     	className={ ` ${ theme[buttonTheme] || theme["button"] } ${ className }` }>
