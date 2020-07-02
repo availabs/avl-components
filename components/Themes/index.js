@@ -171,6 +171,10 @@ export const light = {
 	bgDanger: "bg-red-400",
 	borderDanger: "border-red-400",
 
+	textWarning: "text-yellow-400",
+	bgWarning: "bg-yellow-400",
+	borderWarning: "border-yellow-400",
+
 	textLight: "text-gray-400", // <-- for text styled like placeholder but can't be selected with ::placeholder
 	// these 2 should be equal
 	placeholder: 'placeholder-gray-400',
