@@ -19,8 +19,8 @@ const DefaultColumnFilter = ({ column }) => {
       filterValue = "",
       preFilteredRows,
       setFilter
-    } = column,
-    count = preFilteredRows.length;
+    } = column;
+    // count = preFilteredRows.length;
   return (
     <input className="px-2 rounded"
       value={ filterValue }
@@ -73,11 +73,11 @@ export default ({ columns, data, onRowClick, ...props }) => {
     } = useTable(
         { columns,
           data,
-          defaultColumn, // Be sure to pass the defaultColumn option
+          defaultColumn,
           filterTypes
         },
-        useFilters, // useFilters!
-        useGlobalFilter, // useGlobalFilter!
+        useFilters,
+        useGlobalFilter,
         useSortBy,
         useExpanded,
         usePagination
