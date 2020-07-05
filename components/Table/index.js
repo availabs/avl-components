@@ -7,9 +7,7 @@ import {
   usePagination,
   useExpanded
 } from 'react-table'
-// import {CSVLink, CSVDownload} from 'react-csv';
 
-// A great library for fuzzy filtering/sorting items
 import matchSorter from 'match-sorter'
 
 import { useTheme } from "../../wrappers/with-theme"
@@ -17,14 +15,13 @@ import { useTheme } from "../../wrappers/with-theme"
 const DefaultColumnFilter = ({ column }) => {
   const {
       filterValue = "",
-      preFilteredRows,
+      // preFilteredRows,
       setFilter
     } = column;
     // count = preFilteredRows.length;
   return (
-    <input className="px-2 rounded"
-      value={ filterValue }
-      onChange={ e => setFilter(e.target.value) }
+    <input className="px-2 rounded" onClick= { e => e.stopPropagation() }
+      value={ filterValue } onChange={ e => setFilter(e.target.value) }
       placeholder={ `Search...` }/>
   )
 }
@@ -34,29 +31,30 @@ function fuzzyTextFilterFn(rows, id, filterValue) {
 }
 fuzzyTextFilterFn.autoRemove = val => !val;
 
-export default ({ columns, data, onRowClick, ...props }) => {
+const getPageSpread = (page, maxPage) => {
+	let low = page - 2,
+		high = page + 2;
+
+	if (low < 0) {
+		high += -low;
+		low = 0;
+	}
+	if (high > maxPage) {
+		low -= (high - maxPage);
+		high = maxPage;
+	}
+  const spread = [];
+  for (let i = Math.max(0, low); i <= Math.min(maxPage, high); ++i) {
+    spread.push(i);
+  }
+  return spread;
+}
+
+export default ({ columns, sortBy, sortOrder, initialPageSize, data, onRowClick, ...props }) => {
     const theme = useTheme();
     const filterTypes = React.useMemo(
       () => ({
-          fuzzyText: fuzzyTextFilterFn,
-          text: (rows, id, filterValue) => {
-              return rows.filter(row => {
-                  const rowValue = row.values[id];
-                  return rowValue !== undefined
-                      ? String(rowValue)
-                          .toLowerCase()
-                          .startsWith(String(filterValue).toLowerCase())
-                      : true
-              })
-          },
-          multi: (rows, id, filterValue) => {
-              return rows.filter(row => {
-                  const rowValue = row.values[id];
-                  return rowValue !== undefined && filterValue.length
-                      ? filterValue.map(fv => String(fv).toLowerCase()).includes(String(rowValue).toLowerCase())
-                      : true
-              })
-          },
+        fuzzyText: fuzzyTextFilterFn
       }), []
     );
 
@@ -65,24 +63,40 @@ export default ({ columns, data, onRowClick, ...props }) => {
     );
 
     const {
-        getTableProps,
-        getTableBodyProps,
-        headerGroups,
-        rows,
-        prepareRow
+      getTableProps,
+      getTableBodyProps,
+      headerGroups,
+      page,
+      rows,
+      preFilteredRows,
+      prepareRow,
+      canPreviousPage,
+      canNextPage,
+      gotoPage,
+      previousPage,
+      nextPage,
+      pageCount,
+      state: {
+        pageSize,
+        pageIndex
+      }
     } = useTable(
-        { columns,
-          data,
-          defaultColumn,
-          filterTypes
-        },
-        useFilters,
-        useGlobalFilter,
-        useSortBy,
-        useExpanded,
-        usePagination
+      { columns,
+        data,
+        defaultColumn,
+        filterTypes,
+        initialState: {
+          pageSize: initialPageSize,
+          sortBy: [{ id: sortBy, desc: sortOrder === "desc" }]
+        }
+      },
+      useFilters,
+      useGlobalFilter,
+      useSortBy,
+      useExpanded,
+      usePagination
     );
-    if (!rows) return null;
+    if (!preFilteredRows.length) return null;
 
     return (
         <table { ...getTableProps() } className="w-full">
@@ -91,21 +105,23 @@ export default ({ columns, data, onRowClick, ...props }) => {
                 <tr { ...headerGroup.getHeaderGroupProps() }>
                   { headerGroup.headers
                       .map(column =>
-                        <th { ...column.getHeaderProps() }
+                        <th { ...column.getHeaderProps(column.getSortByToggleProps()) }
                           className={ theme.tableHeader }>
-                            <div { ...column.getSortByToggleProps() }>
+                            <div>
                               <div className="flex">
                                 <div className="flex-0">{ column.render("Header") }</div>
-                                <div className="flex-1 flex justify-end mr-8">
-                                  { column.isSorted
-                                      ? column.isSortedDesc
-                                        ? <i className="ml-2 pt-1 fas fa-chevron-down"/>
-                                        : <i className="ml-2 pt-1 fas fa-chevron-up"/>
-                                      : null
-                                  }
-                                </div>
+                                { !column.isSorted ? null :
+                                  <div className="flex-1 flex justify-end mr-8">
+                                    { column.isSortedDesc ?
+                                        <i className="ml-2 pt-1 fas fa-chevron-down"/> :
+                                        <i className="ml-2 pt-1 fas fa-chevron-up"/>
+                                    }
+                                  </div>
+                                }
                               </div>
-                              <div>{ column.canFilter ? column.render('Filter') : null }</div>
+                              { !column.canFilter ? null :
+                                <div>{ column.render('Filter') }</div>
+                              }
                             </div>
                         </th>
                       )
@@ -113,9 +129,53 @@ export default ({ columns, data, onRowClick, ...props }) => {
                 </tr>
               )
             }
+            { pageCount <= 1 ? null :
+              <tr className="px-2">
+                <td colSpan={ columns.length }>
+                  <div className={ `flex items-center ${ theme.textInfo }` }>
+                    <div className="flex-0">
+                      <span>
+                        Page { pageIndex + 1 } of { pageCount }&nbsp;|&nbsp;
+                        Rows { pageIndex * pageSize + 1 }-
+                        { Math.min(rows.length, pageIndex * pageSize + pageSize) } of { rows.length }
+                      </span>
+                    </div>
+                    <div className={ `flex-1 flex justify-end items-center` }>
+                      <ToolbarButton disabled={ pageIndex === 0 }
+                        onClick={ e => gotoPage(0) }>
+                        {"<<"}
+                      </ToolbarButton>
+                      <ToolbarButton disabled={ !canPreviousPage }
+                        onClick={ e => previousPage() }>
+                        {"<"}
+                      </ToolbarButton>
+                      { getPageSpread(pageIndex, pageCount - 1)
+                          .map(p => {
+                            const active = (p === pageIndex);
+                            return (
+                              <ToolbarButton key={ p } active={ active }
+                                onClick={ active ? null : e => gotoPage(p) }>
+                                { p + 1 }
+                              </ToolbarButton>
+                            )
+                          })
+                      }
+                      <ToolbarButton disabled={ !canNextPage }
+                        onClick={ e => nextPage(0) }>
+                        {">"}
+                      </ToolbarButton>
+                      <ToolbarButton disabled={ pageIndex === (pageCount - 1) }
+                        onClick={ e => gotoPage(pageCount - 1) }>
+                        {">>"}
+                      </ToolbarButton>
+                    </div>
+                  </div>
+                </td>
+              </tr>
+            }
           </thead>
           <tbody { ...getTableBodyProps() }>
-            { rows.map(row => {
+            { page.map(row => {
                 const { onClick } = row.original;
                 prepareRow(row);
                 return (
@@ -152,4 +212,17 @@ export default ({ columns, data, onRowClick, ...props }) => {
           </tbody>
         </table>
     )
+}
+
+const ToolbarButton = ({ disabled, active, className, onClick, ...props }) => {
+  const theme = useTheme();
+  return (
+    <span className={ `
+      ${ disabled ? "cursor-not-allowed" : active ? "cursor-default" : "cursor-pointer" }
+      ${ disabled ? "font-normal" :  active ? "font-bold" : "hover:font-extrabold" }
+      ${ active === false ? "text-base" : "text-xl" }
+      ${ disabled ? "opacity-50" : "opacity-100" }
+      ${ className } ${ theme.transition } ml-2
+    ` } { ...props } onClick={ (disabled || active) ? null : (e => onClick(e)) }/>
+  )
 }
