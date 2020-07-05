@@ -8,6 +8,8 @@ import {
   useExpanded
 } from 'react-table'
 
+import { Button } from "../Button"
+
 import matchSorter from 'match-sorter'
 
 import { useTheme } from "../../wrappers/with-theme"
@@ -141,33 +143,33 @@ export default ({ columns, sortBy, sortOrder, initialPageSize, data, onRowClick,
                       </span>
                     </div>
                     <div className={ `flex-1 flex justify-end items-center` }>
-                      <ToolbarButton disabled={ pageIndex === 0 }
+                      <Button disabled={ pageIndex === 0 } buttonTheme="textbuttonInfoSmall"
                         onClick={ e => gotoPage(0) }>
                         {"<<"}
-                      </ToolbarButton>
-                      <ToolbarButton disabled={ !canPreviousPage }
+                      </Button>
+                      <Button disabled={ !canPreviousPage } buttonTheme="textbuttonInfoSmall"
                         onClick={ e => previousPage() }>
                         {"<"}
-                      </ToolbarButton>
+                      </Button>
                       { getPageSpread(pageIndex, pageCount - 1)
                           .map(p => {
                             const active = (p === pageIndex);
                             return (
-                              <ToolbarButton key={ p } active={ active }
-                                onClick={ active ? null : e => gotoPage(p) }>
+                              <Button key={ p } onClick={ active ? null : e => gotoPage(p) } active={ active }
+                                buttonTheme="textbuttonInfo" large={ active } small={ !active }>
                                 { p + 1 }
-                              </ToolbarButton>
+                              </Button>
                             )
                           })
                       }
-                      <ToolbarButton disabled={ !canNextPage }
+                      <Button disabled={ !canNextPage } buttonTheme="textbuttonInfoSmall"
                         onClick={ e => nextPage(0) }>
                         {">"}
-                      </ToolbarButton>
-                      <ToolbarButton disabled={ pageIndex === (pageCount - 1) }
+                      </Button>
+                      <Button disabled={ pageIndex === (pageCount - 1) } buttonTheme="textbuttonInfoSmall"
                         onClick={ e => gotoPage(pageCount - 1) }>
                         {">>"}
-                      </ToolbarButton>
+                      </Button>
                     </div>
                   </div>
                 </td>
@@ -212,17 +214,4 @@ export default ({ columns, sortBy, sortOrder, initialPageSize, data, onRowClick,
           </tbody>
         </table>
     )
-}
-
-const ToolbarButton = ({ disabled, active, className, onClick, ...props }) => {
-  const theme = useTheme();
-  return (
-    <span className={ `
-      ${ disabled ? "cursor-not-allowed" : active ? "cursor-default" : "cursor-pointer" }
-      ${ disabled ? "font-normal" :  active ? "font-bold" : "hover:font-extrabold" }
-      ${ active === false ? "text-base" : "text-xl" }
-      ${ disabled ? "opacity-50" : "opacity-100" }
-      ${ className } ${ theme.transition } ml-2
-    ` } { ...props } onClick={ (disabled || active) ? null : (e => onClick(e)) }/>
-  )
 }
