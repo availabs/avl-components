@@ -252,8 +252,7 @@ const button = [
 		Large: "py-2 px-6 text-lg rounded-md",
 		Small: "py-0 px-4 text-sm"
 	},
-	{ Block: "w-full" },
-	// { Active: "*hover:" }
+	{ Block: "w-full" }
 ]
 const input = [
 	{ default: "w-full block rounded cursor-pointer disabled:cursor-not-allowed @transition @text @placeholder @inputBg @inputBorder" },
