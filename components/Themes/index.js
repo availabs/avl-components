@@ -233,8 +233,7 @@ export const light = {
 	tableRow: 'bg-gray-100 hover:bg-gray-200',
 	tableRowStriped: 'bg-gray-100 even:bg-gray-200 hover:bg-gray-300',
 
-	tableCell: 'px-4 py-2 whitespace-no-wrap',
-	tableCellCondensed: 'px-2 py-1 whitespace-no-wrap',
+	tableCell: 'px-4 py-1 whitespace-no-wrap',
 
 	tableHeader: "px-4 py-2 pb-1 border-b-2 border-gray-400 bg-gray-200 text-left font-medium text-gray-700 uppercase first:rounded-tl-md last:rounded-tr-md"
 }
