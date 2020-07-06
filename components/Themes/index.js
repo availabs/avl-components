@@ -49,6 +49,7 @@ const composeDefaults = theme => {
 	}
 	return composedTheme;
 }
+
 const handler = {
 	get: (theme, definition, receiver) => {
 		if (definition in theme) return theme[definition];
