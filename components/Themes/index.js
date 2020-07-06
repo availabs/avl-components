@@ -73,7 +73,7 @@ const handler = {
 	}
 }
 
-export const flat_base = {
+const flat_base = {
 	bg: 'custom-bg',
 	ySpace: 'py-4',
 	menuBg: 'custom-bg',
@@ -109,9 +109,9 @@ export const flat_base = {
 	tableCellCondensed: 'px-3 py-2 whitespace-no-wrap text-sm leading-5 text-gray-600',
 	tableHeader: "px-6 pt-2 pb-1	border-b border-gray-400 bg-gray-200 text-left font-medium text-gray-700 uppercase first:rounded-tl-md last:rounded-tr-md"
 }
-export const flat =  new Proxy(composeDefaults(flat_base), handler);
+export const flat =  new Proxy(flat_base, handler);
 
-export const dark_base = {
+const dark_base = {
 	bg: 'bg-gray-300',
 	menuBg: 'bg-gray-800',
 	sidebarW: '56',
@@ -139,9 +139,9 @@ export const dark_base = {
 	tableRow: 'bg-white border-b border-gray-200',
 	tableRowStriped: 'bg-white even:bg-gray-50'
 }
-export const dark =  new Proxy(composeDefaults(dark_base), handler);
+export const dark =  new Proxy(dark_base, handler);
 
-export const blue_base = {
+const blue_base = {
 	bg: 'bg-gray-200',
 	menuBg: 'bg-indigo-800',
 	sidebarW: '56',
@@ -168,9 +168,9 @@ export const blue_base = {
 	tableRow: 'bg-white border-b border-gray-200',
 	tableRowStriped: 'bg-white even:bg-gray-50'
 }
-export const blue =  new Proxy(composeDefaults(blue_base), handler);
+export const blue =  new Proxy(blue_base, handler);
 
-export const light = {
+const light_base = {
 	shadow: 'shadow',
 	ySpace: 'py-4',
 	sidebarBorder: 'border-r border-gray-200',
@@ -252,8 +252,9 @@ export const light = {
 
 	tableCell: 'px-4 py-1 whitespace-no-wrap',
 
-	tableHeader: "px-4 py-2 pb-1 border-b-2 border-gray-400 bg-gray-200 text-left font-medium text-gray-700 uppercase first:rounded-tl-md last:rounded-tr-md"
+	tableHeader: "px-4 py-2 pb-1 border-b-2 border-gray-300 bg-gray-200 text-left font-medium text-gray-700 uppercase first:rounded-tl-md last:rounded-tr-md"
 }
+export const light =  new Proxy(light_base, handler);
 
 // TEST THEME COMPOSITIONS BELOW!!!!!!!!!!
 
@@ -286,6 +287,19 @@ const navitem = [
 	{ default: "text-gray-500 @menuBg @menuBgHover hover:text-gray-700 hover:border-gray-300 focus:text-gray-700 focus:border-gray-300",
 		Active: "text-teal-500 @menuBgActive @menuBgActiveHover hover:text-teal-700 hover:border-teal-300 focus:text-teal-700 focus:border-teal-300" }
 ]
+const textbutton = [
+	{ default: "@transition inline-flex px-2 hover:font-bold disabled:font-normal disabled:cursor-not-allowed disabled:opacity-50 focus:outline-none" },
+	{ default: "$textbutton",
+ 		Info: "text-teal-400 hover:text-teal-500 disabled:text-teal-400"
+	},
+	{ default: "text-base",
+		Large: "text-lg",
+		Small: "text-sm"
+	},
+	{ default: "font-normal cursor-pointer",
+		Active: "font-bold cursor-default"
+	}
+]
 const $compositions = {
 	$defaults: [
 		"input",
@@ -298,20 +312,7 @@ const $compositions = {
 	button,
 	input,
 	navitem,
-
-	textbutton: [
-		{ default: "@transition px-2 hover:font-bold disabled:font-normal disabled:cursor-not-allowed disabled:opacity-50 focus:outline-none" },
-		{ default: "text-gray-400 hover:text-gray-500 disabled:text-gray-400",
-	 		Info: "text-teal-400 hover:text-teal-500 disabled:text-teal-400"
-		},
-		{ default: "text-base",
-			Large: "text-lg",
-			Small: "text-sm"
-		},
-		{ default: "font-normal cursor-pointer",
-			Active: "font-bold cursor-default"
-		}
-	]
+	textbutton
 }
 
 const TEST_THEME_BASE = {
@@ -320,15 +321,13 @@ const TEST_THEME_BASE = {
 	tableRow: 'bg-gray-100 hover:bg-gray-200 @transition',
 	tableRowStriped: 'bg-gray-100 even:bg-gray-200 hover:bg-gray-300 @transition',
 
-	button: "border-gray-400 hover:bg-gray-400 text-gray-400 hover:text-white disabled:text-gray-400 didisabled:opacity-50 ",
-
-	buttonPrimary: "text-blue-400 border-blue-400 hover:text-white hover:bg-blue-400 disabled:opacity-50 disabled:text-blue-400",
-
-	buttonSuccess: "text-green-400 border-green-400 hover:bg-green-400 hover:text-white disabled:opacity-50 disabled:text-green-400",
-
-	buttonDanger: "text-red-400 border-red-400 hover:text-white hover:bg-red-400 disabled:opacity-50 disabled:text-red-400",
-
+	button: "text-gray-400 border-gray-400 hover:bg-gray-400 hover:text-white disabled:text-gray-400",
+	buttonPrimary: "text-blue-400 border-blue-400 hover:bg-blue-400 hover:text-white disabled:text-blue-400",
+	buttonSuccess: "text-green-400 border-green-400 hover:bg-green-400 hover:text-white disabled:text-green-400",
+	buttonDanger: "text-red-400 border-red-400 hover:bg-red-400 hover:text-white disabled:text-red-400",
 	buttonInfo: "text-teal-400 border-teal-400 hover:bg-teal-400 hover:text-white disabled:text-teal-400",
+
+	textbutton: "text-gray-400 hover:text-gray-500 disabled:text-gray-400",
 
 	$compositions
 }

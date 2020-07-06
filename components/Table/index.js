@@ -132,31 +132,31 @@ export default ({ columns, sortBy, sortOrder, initialPageSize, data, onRowClick,
               )
             }
             { pageCount <= 1 ? null :
-              <tr className="px-2">
-                <td colSpan={ columns.length }>
+              <tr>
+                <td colSpan={ columns.length } className="px-2">
                   <div className={ `flex items-center ${ theme.textInfo }` }>
                     <div className="flex-0">
-                      <span>
-                        Page { pageIndex + 1 } of { pageCount }&nbsp;|&nbsp;
-                        Rows { pageIndex * pageSize + 1 }-
-                        { Math.min(rows.length, pageIndex * pageSize + pageSize) } of { rows.length }
-                      </span>
+                      Page { pageIndex + 1 } of { pageCount }
+                      <span className="font-extrabold">&nbsp; | &nbsp;</span>
+                      Rows { pageIndex * pageSize + 1 }-
+                      { Math.min(rows.length, pageIndex * pageSize + pageSize) } of { rows.length }
                     </div>
                     <div className={ `flex-1 flex justify-end items-center` }>
                       <Button disabled={ pageIndex === 0 } buttonTheme="textbuttonInfoSmall"
                         onClick={ e => gotoPage(0) }>
-                        {"<<"}
+                        { "<<" }
                       </Button>
                       <Button disabled={ !canPreviousPage } buttonTheme="textbuttonInfoSmall"
                         onClick={ e => previousPage() }>
-                        {"<"}
+                        { "<" }
                       </Button>
                       { getPageSpread(pageIndex, pageCount - 1)
                           .map(p => {
                             const active = (p === pageIndex);
                             return (
-                              <Button key={ p } onClick={ active ? null : e => gotoPage(p) } active={ active }
-                                buttonTheme="textbuttonInfo" large={ active } small={ !active }>
+                              <Button key={ p } buttonTheme="textbuttonInfo"
+                                active={ active } large={ active } small={ !active }
+                                onClick={ active ? null : e => gotoPage(p) }>
                                 { p + 1 }
                               </Button>
                             )
@@ -164,11 +164,11 @@ export default ({ columns, sortBy, sortOrder, initialPageSize, data, onRowClick,
                       }
                       <Button disabled={ !canNextPage } buttonTheme="textbuttonInfoSmall"
                         onClick={ e => nextPage(0) }>
-                        {">"}
+                        { ">" }
                       </Button>
                       <Button disabled={ pageIndex === (pageCount - 1) } buttonTheme="textbuttonInfoSmall"
                         onClick={ e => gotoPage(pageCount - 1) }>
-                        {">>"}
+                        { ">>" }
                       </Button>
                     </div>
                   </div>
