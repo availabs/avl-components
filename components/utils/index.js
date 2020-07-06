@@ -1,4 +1,7 @@
-import { useEffect, useState } from "react"
+import React, { useEffect, useState, useReducer } from "react"
+
+import * as d3brush from "d3-brush"
+import * as d3selection from "d3-selection"
 
 export const composeOptions = ({ ...options }) =>
   Object.keys(options).reduce((a, c) => {
@@ -25,4 +28,73 @@ export const useClickOutside = handleClick => {
   }, [node, handleClick])
 
   return [node, setNode];
+}
+
+const d3 = {
+  ...d3brush,
+  ...d3selection
+}
+
+const getInitialBrushState = type => ({
+  group: null,
+  brush: d3[type](),
+  Brush: () => null,
+  width: 0,
+  height: 0,
+  selection: null
+})
+const reducer = (state, action) => ({ ...state, ...action });
+
+export const useBrush = (node, type = "brush") => {
+  const [{
+    group,
+    brush,
+    Brush,
+    width,
+    height,
+    selection
+  }, dispatch] = useReducer(reducer, type, getInitialBrushState);
+
+  useEffect(() => {
+    const setGroup = n => dispatch({ group: n });
+    dispatch({
+      Brush: React.memo(() => <g ref={ setGroup }/>)
+    })
+  }, []);
+
+  useEffect(() => {
+    if (node && group) {
+      const brushEnd = e =>
+        dispatch({ selection: group ? d3.brushSelection(group) : null });
+      d3.select(group).call(brush.on("end", brushEnd, 50));
+    }
+    else if (width && height) {
+      dispatch({ selection: null });
+      dispatch({ width: 0, height: 0 });
+    }
+    return () => brush.on("end", null);
+  }, [node, group, brush, width, height]);
+
+  if (node) {
+    const rect = node.getBoundingClientRect();
+    if ((rect.width !== width) || (rect.height !== height)) {
+      dispatch({ width: rect.width, height: rect.height });
+      brush.extent([[0, 0], [rect.width, rect.height]]);
+    }
+  }
+  useEffect(() => {
+    if (node) {
+      const rect = node.getBoundingClientRect();
+      if ((rect.width !== width) || (rect.height !== height)) {
+        dispatch({ width: rect.width, height: rect.height });
+        brush.extent([[0, 0], [rect.width, rect.height]]);
+      }
+    }
+  }, [node, brush, width, height]);
+
+  return {
+    Brush,
+    selection,
+    clearBrush: () => brush.clear(d3.select(group))
+  }
 }
