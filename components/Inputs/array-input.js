@@ -56,8 +56,8 @@ export default ({ verify, id, autoFocus, ...props }) => {
     <div className="w-full">
       <div className="flex">
         <Input { ...rest } type={ type } className="mr-1" onKeyDown={ onKeyDown }
-          value={ newValue }  min={ rest.min } max={ rest.max } id={ id }
-          onChange={ v => setValue(v) } disabled={ disabled } autoFocus={ autoFocus }
+          value={ newValue } id={ id } onChange={ v => setValue(v) }
+          disabled={ disabled } autoFocus={ autoFocus }
           placeholder={ `Type a value...`} ref={ n => { node = n; } }>
         </Input>
         <Button onClick={ e => addToArray() }
