@@ -57,7 +57,7 @@ const handler = {
 }
 
 export const flat = {
-	bg: 'bg-white',
+	bg: 'custom-bg',
 	ySpace: 'py-4',
 	menuBg: 'custom-bg',
 	width: 'max-w-6xl mx-auto',
