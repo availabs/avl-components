@@ -22,8 +22,9 @@ const DefaultColumnFilter = ({ column }) => {
     } = column;
     // count = preFilteredRows.length;
   return (
-    <input className="px-2 rounded" onClick= { e => e.stopPropagation() }
+    <input className="px-2 rounded border-2 border-transparent focus:border-black focus:outline-none"
       value={ filterValue } onChange={ e => setFilter(e.target.value) }
+      onClick= { e => e.stopPropagation() }
       placeholder={ `Search...` }/>
   )
 }
@@ -31,7 +32,6 @@ const DefaultColumnFilter = ({ column }) => {
 function fuzzyTextFilterFn(rows, id, filterValue) {
   return matchSorter(rows, filterValue, { keys: [row => row.values[id]] });
 }
-fuzzyTextFilterFn.autoRemove = val => !val;
 
 const getPageSpread = (page, maxPage) => {
 	let low = page - 2,
@@ -109,22 +109,20 @@ export default ({ columns, sortBy, sortOrder, initialPageSize, data, onRowClick,
                       .map(column =>
                         <th { ...column.getHeaderProps(column.getSortByToggleProps()) }
                           className={ theme.tableHeader }>
-                            <div>
-                              <div className="flex">
-                                <div className="flex-0">{ column.render("Header") }</div>
-                                { !column.isSorted ? null :
-                                  <div className="flex-1 flex justify-end mr-8">
-                                    { column.isSortedDesc ?
-                                        <i className="ml-2 pt-1 fas fa-chevron-down"/> :
-                                        <i className="ml-2 pt-1 fas fa-chevron-up"/>
-                                    }
-                                  </div>
+                          <div className="flex">
+                            <div className="flex-0">{ column.render("Header") }</div>
+                            { !column.isSorted ? null :
+                              <div className="flex-1 flex justify-end mr-8">
+                                { column.isSortedDesc ?
+                                    <i className="ml-2 pt-1 fas fa-chevron-down"/> :
+                                    <i className="ml-2 pt-1 fas fa-chevron-up"/>
                                 }
                               </div>
-                              { !column.canFilter ? null :
-                                <div>{ column.render('Filter') }</div>
-                              }
-                            </div>
+                            }
+                          </div>
+                          { !column.canFilter ? null :
+                            <div>{ column.render('Filter') }</div>
+                          }
                         </th>
                       )
                   }

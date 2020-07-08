@@ -1,4 +1,5 @@
-const NUMBER_REGEX = /^(-(?=[1-9]|(0[.]0*[1-9]+)))?\d*[.]?\d+/;
+const DATE_REGEX = /^\d{4}-[01][0-9]-[0-3][0-9]$/,
+  NUMBER_REGEX = /^(-(?=[1-9]|(0[.]0*[1-9]+)))?\d*[.]?\d+/;
 
 export const verifyValue = (value, type, regex = null) => {
   if (typeof regex === "string") {
@@ -7,6 +8,8 @@ export const verifyValue = (value, type, regex = null) => {
   switch (type) {
     case "number":
       return regex ? regex.test(value) : NUMBER_REGEX.test(value);
+    case "date":
+      return regex ? regex.test(value) : DATE_REGEX.test(value);
     default:
       return regex ? regex.test(value) : true;
   }
