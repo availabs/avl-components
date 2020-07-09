@@ -3,23 +3,28 @@ import React from "react"
 import { ScalableLoading } from "../components/Loading/LoadingPage"
 
 export default (Component, options = {}) => {
-  const {
-    display = "fixed",
-    scale = 1
-  } = options;
-  const size = options.size || (display === "fixed" ? "screen" : "full")
-  return ({ ...props }) =>
+  const { position = "fixed" } = options;
+  return ({ children, ...props}) => (
     <>
-      <Component { ...props }/>
-      { !props.loading ? null :
-        <div className={ `
-            ${ display } left-0 top-0
-            w-${ size } h-${ size } z-50
-            flex justify-center items-center
-          ` }
-          style={ { backgroundColor: "rgba(0, 0, 0, 0.5)" } }>
-          <ScalableLoading scale={ scale } color={ options.color }/>
-        </div>
+      <Component { ...props }>
+        { children }
+        { !props.loading || (position !== "absolute") ? null :
+          <LoadingComponent { ...options }/>
+        }
+      </Component>
+      { !props.loading || (position !== "fixed") ? null :
+        <LoadingComponent { ...options }/>
       }
     </>
+  )
 }
+
+const LoadingComponent = React.memo(({ color, position = "fixed", className = "", scale = 1 }) =>
+  <div className={ `
+    ${ position } left-0 top-0 right-0 bottom-0
+    flex justify-center items-center z-50 bg-black opacity-50
+    ${ className }
+  ` }>
+    <ScalableLoading scale={ scale } color={ color }/>
+  </div>
+)

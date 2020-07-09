@@ -36,18 +36,23 @@ class Select extends React.Component {
     value: null,
     placeholder: "Select a value...",
     accessor: d => d,
-    id: "avl-select"
+    id: "avl-select",
+    autoFocus: false
   }
   node = null;
   constructor(...args) {
     super(...args);
     this.state = {
       opened: false,
+      hasFocus: false,
       search: ""
     }
   }
+  componentDidMount() {
+    this.props.autoFocus && this.node && this.node.focus();
+  }
   getValues() {
-    if (!hasValue(this.props.accessor(this.props.value))) return [];
+    if (!hasValue(this.props.value) || !hasValue(this.props.accessor(this.props.value))) return [];
     if (!Array.isArray(this.props.value)) {
       return [this.props.value];
     }
@@ -55,7 +60,7 @@ class Select extends React.Component {
   }
   openDropdown(e) {
     e.stopPropagation();
-    this.setState({ opened: true });
+    this.setState({ opened: true, hasFocus: true });
   }
   closeDropdown() {
     this.state.opened && this.node && this.node.focus();
@@ -98,10 +103,14 @@ class Select extends React.Component {
         .filter(d =>
           this.props.accessor(d).toString().includes(this.state.search)
         );
+
     return (
       <div className="relative" onMouseLeave={ e => this.closeDropdown() }>
         <div className="cursor-pointer">
-          <ValueContainer id={ this.props.id } ref={ n => this.node = n } hasFocus={ this.state.opened } tabIndex="0"
+          <ValueContainer id={ this.props.id } ref={ n => this.node = n }
+            onBlur={ e => this.setState({ hasFocus: false }) }
+            onFocus={ e => this.setState({ hasFocus: true }) }
+            hasFocus={ this.state.opened || this.state.hasFocus } tabIndex="0"
             onClick={ e => this.openDropdown(e) }>
             { values.length ?
               values.map((v, i) =>

@@ -3,11 +3,11 @@ import React from "react"
 import { composeOptions } from "../utils"
 import { useTheme } from "../../wrappers/with-theme"
 
-export default ({ large, small, className = "", onChange, ...props }) => {
+export default React.forwardRef(({ large, small, className = "", onChange, value, ...props }, ref) => {
   const theme = useTheme(),
     inputTheme = theme[`input${ composeOptions({ large, small }) }`];
   return (
-    <input { ...props } onChange={ e => onChange(e.target.value) }
-      className={ `${ inputTheme } ${ className }` }/>
+    <input { ...props } onChange={ e => onChange(e.target.value) } value={ value || "" }
+      className={ `${ inputTheme } ${ className }` } ref={ ref }/>
   )
-}
+})

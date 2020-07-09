@@ -29,20 +29,18 @@ class Layout extends Component {
       <div className={`${theme.bg}`}>
         {this.props.nav === 'top' ? (
           <div className={this.props.fixed ? `fixed left-0 top-0 w-full z-10` : ''}>
-
-              <TopNav
-                open={this.state.menuOpen}
-                toggle={this.toggleMenu}
-                menuItems={this.props.menus}
-                fixed={this.props.fixed}
-                theme={theme}
-                width={this.props.maxWidth}
-              />
-
+            <TopNav
+              open={this.state.menuOpen}
+              toggle={this.toggleMenu}
+              menuItems={this.props.menus}
+              fixed={this.props.fixed}
+              theme={theme}
+              width={this.props.maxWidth}
+            />
           </div>
         ) : null }
         {this.props.headerBar ? (
-          <div className={`${this.props.fixed ? `fixed left-0 top-0 w-full z-10 ${this.props.nav === 'top' ? 'mt-16' : '' }` : ''}`}>
+          <div className={`${this.props.fixed ? `fixed left-0 top-0 w-full z-10 ${this.props.nav === 'top' ? '' : '' }` : ''}`}>
             <div className={`${this.props.maxWidth} mx-auto`} >
               <HeaderBar
                 toggle={this.toggleMenu}
@@ -69,6 +67,7 @@ class Layout extends Component {
                   ${this.props.headerBar ? 'mt-16' : ''}
                   ${this.props.fixed && this.props.nav === 'side' ?  `md:ml-${theme.sidebarW}` : '' }
                   ${this.props.fixed && this.props.nav === 'top' ?  `` : '' }
+
                   `
                 }
               >
