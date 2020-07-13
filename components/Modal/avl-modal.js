@@ -160,7 +160,7 @@ const ContentContainer = ({ className = "", children }) => {
   const theme = useTheme();
   return (
       <div className={ `
-      ${ theme.bg } ${ className } inline-block max-w-screen-xl
+      ${ theme.bg } ${ className }
     ` }>
         { children }
       </div>
