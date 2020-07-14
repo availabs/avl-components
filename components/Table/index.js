@@ -120,9 +120,7 @@ export default ({ columns, sortBy, sortOrder, initialPageSize, data, onRowClick,
                               </div>
                             }
                           </div>
-                          { !column.canFilter ? null :
-                            <div>{ column.render('Filter') }</div>
-                          }
+                          { !column.canFilter ? null : <div>{ column.render('Filter') }</div>}
                         </th>
                       )
                   }

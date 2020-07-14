@@ -58,7 +58,8 @@ class Modal extends React.Component {
     actions: [],
     hideOnAction: true,
     closeLabel: "Close",
-    usePositioned: false
+    usePositioned: false,
+    showCloseBUtton : false
   }
   state = {
     onResolve: null,
@@ -116,30 +117,36 @@ class Modal extends React.Component {
                       this.props.children
               }
             </ContentContainer>
-            <ContentContainer className="flex rounded mt-3 p-2">
-              <div className="flex-0">
-                <Button buttonTheme="buttonDanger"
-                        onClick={ e => this.onHide() }>
-                  { this.props.closeLabel }
-                </Button>
-              </div>
-              { !filtered.length || Boolean(onResolve) || Boolean(onReject) ? null :
-                  <div className="flex-1 flex justify-end">
-                    { filtered.map(({ label, buttonTheme="button", disabled=false, url, ...rest }, i) =>
-                        url === undefined ?
-                            <Button onClick={ e => this.onAction(e, rest) } key={ i }
-                                    disabled={ disabled } buttonTheme={ buttonTheme } className="ml-1">
-                              { label }
-                            </Button>
-                            :
-                            <LinkButton to={ url || "#" } key={ i } className="ml-1">
-                              { label }
-                            </LinkButton>
-                    )
+            {
+              this.props.showCloseButton ?
+                  <ContentContainer className="flex rounded mt-3 p-2">
+                    <div className="flex-0">
+                      <Button buttonTheme="buttonDanger"
+                              onClick={ e => this.onHide() }>
+                        { this.props.closeLabel }
+                      </Button>
+                    </div>
+                    { !filtered.length || Boolean(onResolve) || Boolean(onReject) ? null :
+                        <div className="flex-1 flex justify-end">
+                          { filtered.map(({ label, buttonTheme="button", disabled=false, url, ...rest }, i) =>
+                              url === undefined ?
+                                  <Button onClick={ e => this.onAction(e, rest) } key={ i }
+                                          disabled={ disabled } buttonTheme={ buttonTheme } className="ml-1">
+                                    { label }
+                                  </Button>
+                                  :
+                                  <LinkButton to={ url || "#" } key={ i } className="ml-1">
+                                    { label }
+                                  </LinkButton>
+                          )
+                          }
+                        </div>
                     }
-                  </div>
-              }
-            </ContentContainer>
+                  </ContentContainer>
+                  :
+                  null
+            }
+
           </BodyContainer>
         </Container>
     )
