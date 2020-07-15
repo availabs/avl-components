@@ -173,9 +173,10 @@ export const blue =  new Proxy(blue_base, handler);
 const light_base = {
 	shadow: 'shadow',
 	ySpace: 'py-4',
-	sidebarBorder: 'border-r border-gray-200',
+	sidebarBorder: '',
 	text: 'text-gray-800',
 	textContrast: "text-white",
+	border: "broder-gray-400",
 
 	textInfo: "text-teal-400",
 	bgInfo: "bg-teal-400",
@@ -233,7 +234,7 @@ const light_base = {
 	highlight4: "bg-teal-500",
 
 	width: 'max-w-7xl mx-auto',
-	sidebarW: '48',
+	sidebarW: '56',
 	transition: "transition ease-in-out duration-150",
 
 	button: `
@@ -318,8 +319,9 @@ const $compositions = {
 const TEST_THEME_BASE = {
 	...light,
 
-	tableRow: 'bg-gray-100 hover:bg-gray-200 @transition',
-	tableRowStriped: 'bg-gray-100 even:bg-gray-200 hover:bg-gray-300 @transition',
+	tableInfoBar: "bg-white",
+	tableRow: 'bg-white hover:bg-gray-200 @transition',
+	tableRowStriped: 'bg-white even:bg-gray-100 hover:bg-gray-200 @transition',
 
 	button: "text-gray-400 border-gray-400 hover:bg-gray-400 hover:text-white disabled:text-gray-400",
 	buttonPrimary: "text-blue-400 border-blue-400 hover:bg-blue-400 hover:text-white disabled:text-blue-400",

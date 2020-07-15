@@ -4,7 +4,7 @@ export default (Component, options = {}) => {
   const {
     baseUrl = "http://localhost:4444/img/new"
   } = options;
-  return class Wrapper extends React.Component {
+  class Wrapper extends React.Component {
     state = {
       loading: false,
       message: ""
@@ -99,12 +99,14 @@ export default (Component, options = {}) => {
       })
     }
     render() {
+      const { forwardRef, ...props } = this.props;
       return (
-        <Component { ...this.props } { ...this.state }
+        <Component { ...props } { ...this.state } ref={ forwardRef }
           uploadImage={ (...args) => this.uploadImage(...args) }
           editImage={ (...args) => this.editImage(...args) }
           saveImage={ (...args) => this.saveImage(...args) }/>
       )
     }
   }
+  return React.forwardRef((props, ref) => <Wrapper { ...props } forwardRef={ ref }/>)
 }

@@ -27,7 +27,7 @@ export const useClickOutside = handleClick => {
     return () => document.removeEventListener("mousedown", checkOutside);
   }, [node, handleClick])
 
-  return [node, setNode];
+  return [setNode, node];
 }
 
 const d3 = {

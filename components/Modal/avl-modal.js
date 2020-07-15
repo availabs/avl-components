@@ -133,7 +133,7 @@ console.log("<AvlModal.onAction> ERROR:", e);
           </ContentContainer>
           <ContentContainer className="flex rounded mt-3 p-2">
             <div className="flex-0">
-              <Button buttonTheme="buttonDanger"
+              <Button buttonTheme="buttonDanger" tabIndex={ -1 }
                 onClick={ e => this.onHide() }>
                 { this.props.closeLabel }
               </Button>
@@ -142,12 +142,12 @@ console.log("<AvlModal.onAction> ERROR:", e);
               <div className="flex-1 flex justify-end">
                 { filtered.map(({ label, buttonTheme="button", disabled=false, url, ...rest }, i) =>
                     url === undefined ?
-                      <Button onClick={ e => this.onAction(e, rest) } key={ i }
+                      <Button onClick={ e => this.onAction(e, rest) } key={ i } tabIndex={ -1 }
                         disabled={ disabled } buttonTheme={ buttonTheme } className="ml-1">
                         { label }
                       </Button>
                     :
-                      <LinkButton to={ url || "#" } key={ i } className="ml-1">
+                      <LinkButton to={ url || "#" } key={ i } className="ml-1" tabIndex={ -1 }>
                         { label }
                       </LinkButton>
                   )

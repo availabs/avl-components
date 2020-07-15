@@ -9,7 +9,7 @@ const HeaderBar = (props) => {
     openMenu = () => setOpen(true),
     closeMenu = () => setOpen(false);
 
-  const [, setRef] = useClickOutside(closeMenu);
+  const [setRef] = useClickOutside(closeMenu);
 
   return (
     <div className={`relative z-0 flex-shrink-0 flex h-16 ${props.theme.headerBg} ${props.theme.headerShadow}`}>
