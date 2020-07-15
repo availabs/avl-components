@@ -24,12 +24,14 @@ class Layout extends Component {
   }
 
   render () {
+    console.log('layout',this.props.logo)
     const theme = this.props.theme;//themes[this.props.theme]
     return (
-      <div className={`${theme.bg} `}>
+      <div className={`${theme.bg}`}>
         {this.props.nav === 'top' ? (
           <div className={this.props.fixed ? `fixed left-0 top-0 w-full z-10` : ''}>
             <TopNav
+              logo={this.props.logo}
               open={this.state.menuOpen}
               toggle={this.toggleMenu}
               menuItems={this.props.menus}
@@ -40,7 +42,7 @@ class Layout extends Component {
           </div>
         ) : null }
         {this.props.headerBar ? (
-          <div className={`${this.props.fixed ? `fixed left-0 top-0 w-full z-10 ${this.props.nav === 'top' ? 'mt-16' : '' }` : ''}`}>
+          <div className={`${this.props.fixed ? `fixed left-0 top-0 w-full z-10 ${this.props.nav === 'top' ? '' : '' }` : ''}`}>
             <div className={`${this.props.maxWidth} mx-auto`} >
               <HeaderBar
                 toggle={this.toggleMenu}
@@ -51,7 +53,7 @@ class Layout extends Component {
             </div>
           </div>
         ) : null }
-      	<div className={`min-h-screen ${this.props.maxWidth} mx-auto`} >
+      	<div className={`min-h-screen ${this.props.maxWidth} mx-auto overflow-hidden`} >
           <div className="flex h-full">
           {this.props.nav === 'side' ? (
             <SideNav
@@ -61,12 +63,13 @@ class Layout extends Component {
               fixed={this.props.fixed}
               theme={theme}
             />) : null }
-            <div className="w-0 flex-1 h-full">
+            <div className="w-0 flex-1 overflow-hidden">
               <main className={`
                   flex-1 z-0 focus:outline-none min-h-screen h-full
                   ${this.props.headerBar ? 'mt-16' : ''}
                   ${this.props.fixed && this.props.nav === 'side' ?  `md:ml-${theme.sidebarW}` : '' }
-                  ${this.props.fixed && this.props.nav === 'top' ?  `mt-16` : '' }
+                  ${this.props.fixed && this.props.nav === 'top' ?  `` : '' }
+
                   `
                 }
               >

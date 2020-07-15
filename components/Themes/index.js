@@ -73,11 +73,11 @@ const handler = {
 	}
 }
 
-const flat_base = {
+export const flat_base = {
 	bg: 'custom-bg',
 	ySpace: 'py-4',
 	menuBg: 'custom-bg',
-	width: 'max-w-6xl mx-auto',
+	width: '',
 	text: 'text-blue-800',
 	sidebarW: '64',
 	sidebarBorder: '',
@@ -110,6 +110,7 @@ const flat_base = {
 	tableHeader: "px-6 pt-2 pb-1	border-b border-gray-400 bg-gray-200 text-left font-medium text-gray-700 uppercase first:rounded-tl-md last:rounded-tr-md"
 }
 export const flat =  new Proxy(flat_base, handler);
+
 
 const dark_base = {
 	bg: 'bg-gray-300',

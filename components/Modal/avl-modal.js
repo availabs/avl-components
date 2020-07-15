@@ -1,11 +1,8 @@
 import React from "react"
 import { Button, LinkButton } from "../Button"
-
 import styled from "styled-components"
-
 import { ScalableLoading } from "../Loading/LoadingPage"
 import { useTheme } from "../../wrappers/with-theme"
-
 const ModalContainerBase = styled.div`
   position: fixed;
   top: 0px;
@@ -18,7 +15,6 @@ const ModalContainerBase = styled.div`
   align-items: center;
   pointer-events: none;
   transition: 1s;
-
   &.show {
     pointer-events: auto;
     opacity: 1;
@@ -28,7 +24,6 @@ const ModalContainerBase = styled.div`
   &.hide {
     opacity: 0;
   }
-
   div.body {
     position: relative;
     transition: 1s;
@@ -39,16 +34,13 @@ const ModalContainerBase = styled.div`
   &.hide div.body {
     bottom: 100%;
   }
-
 `
-
 const ModalContainer = styled(ModalContainerBase)`
   width: 100%;
 `
 const PositionedModalContainer = styled(ModalContainerBase)`
   padding 0px 50px;
 `
-
 const LoadingContainer = styled.div`
   width: 100%;
   height: 100%;
@@ -59,7 +51,6 @@ const LoadingContainer = styled.div`
   align-items: center;
   background-image: radial-gradient(rgba(0, 0, 0, 0.9), rgba(0, 0, 0, 0));
 `
-
 class Modal extends React.Component {
   static defaultProps = {
     onHide: () => {},
@@ -67,7 +58,8 @@ class Modal extends React.Component {
     actions: [],
     hideOnAction: true,
     closeLabel: "Close",
-    usePositioned: false
+    usePositioned: false,
+    showCloseButton: true
   }
   state = {
     onResolve: null,
@@ -84,22 +76,21 @@ class Modal extends React.Component {
   }
   onAction(e, { action, onResolve, onReject }) {
     this.setState({ loading: true });
-
     Promise.resolve(action(e))
-      .then(res => {
-        this.setState({ loading: false });
-        if (Boolean(onResolve)) {
-          this.onResolve(res, onResolve);
-        }
-        else if (this.props.hideOnAction) {
-          this.onHide();
-        }
-      })
-      .catch(e => {
-console.log("<AvlModal.onAction> ERROR:", e);
-        this.setState({ loading: false });
-        Boolean(onReject) && this.onReject(e, onReject);
-      });
+        .then(res => {
+          this.setState({ loading: false });
+          if (Boolean(onResolve)) {
+            this.onResolve(res, onResolve);
+          }
+          else if (this.props.hideOnAction) {
+            this.onHide();
+          }
+        })
+        .catch(e => {
+          console.log("<AvlModal.onAction> ERROR:", e);
+          this.setState({ loading: false });
+          Boolean(onReject) && this.onReject(e, onReject);
+        });
   }
   onResolve(res, comp) {
     this.setState({ onResolve: { res, comp } });
@@ -109,11 +100,9 @@ console.log("<AvlModal.onAction> ERROR:", e);
   }
   render() {
     const { show, actions } = this.props,
-      { onResolve, onReject } = this.state;
-
-    const filtered = actions.filter(a => a.show !== false);
-
-    const Container = this.props.usePositioned ? PositionedModalContainer : ModalContainer;
+        { onResolve, onReject } = this.state,
+        filteredActions = actions.filter(a => a.show !== false),
+        Container = this.props.usePositioned ? PositionedModalContainer : ModalContainer;
 
     return (
       <Container className={ `${ show ? "show" : "hide" }` }>
@@ -132,15 +121,17 @@ console.log("<AvlModal.onAction> ERROR:", e);
             }
           </ContentContainer>
           <ContentContainer className="flex rounded mt-3 p-2">
-            <div className="flex-0">
-              <Button buttonTheme="buttonDanger" tabIndex={ -1 }
-                onClick={ e => this.onHide() }>
-                { this.props.closeLabel }
-              </Button>
-            </div>
-            { !filtered.length || Boolean(onResolve) || Boolean(onReject) ? null :
+            { !this.props.showCloseButton ? null :
+              <div className="flex-0">
+                <Button buttonTheme="buttonDanger" tabIndex={ -1 }
+                  onClick={ e => this.onHide() }>
+                  { this.props.closeLabel }
+                </Button>
+              </div>
+            }
+            { !filteredActions.length || Boolean(onResolve) || Boolean(onReject) ? null :
               <div className="flex-1 flex justify-end">
-                { filtered.map(({ label, buttonTheme="button", disabled=false, url, ...rest }, i) =>
+                { filteredActions.map(({ label, buttonTheme="button", disabled=false, url, ...rest }, i) =>
                     url === undefined ?
                       <Button onClick={ e => this.onAction(e, rest) } key={ i } tabIndex={ -1 }
                         disabled={ disabled } buttonTheme={ buttonTheme } className="ml-1">
@@ -154,33 +145,29 @@ console.log("<AvlModal.onAction> ERROR:", e);
                 }
               </div>
             }
-          </ContentContainer>
-        </BodyContainer>
-
-      </Container>
+          </BodyContainer>
+        </Container>
     )
   }
 }
 export default Modal
-
 const BodyContainer = ({ className = "", children }) => {
   const theme = useTheme();
   return (
-    <div className={ `
-      ${ theme.accent2 } ${ className }
+      <div className={ `
+      ${ theme.accent2 } ${ className } inline-block max-w-screen-xl
     ` }>
-      { children }
-    </div>
+        { children }
+      </div>
   )
 }
-
 const ContentContainer = ({ className = "", children }) => {
   const theme = useTheme();
   return (
-    <div className={ `
+      <div className={ `
       ${ theme.bg } ${ className }
     ` }>
-      { children }
-    </div>
+        { children }
+      </div>
   )
 }
