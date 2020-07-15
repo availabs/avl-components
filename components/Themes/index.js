@@ -77,7 +77,7 @@ export const flat_base = {
 	bg: 'custom-bg',
 	ySpace: 'py-4',
 	menuBg: 'custom-bg',
-	width: 'max-w-6xl mx-auto',
+	width: '',
 	text: 'text-blue-800',
 	sidebarW: '64',
 	sidebarBorder: '',

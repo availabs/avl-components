@@ -1,4 +1,5 @@
 import React from "react"
+import {Link} from 'react-router-dom'
 import NavItem from './Item'
 
 const MobileMenu = ({open, toggle, menuItems=[], theme}) => (
@@ -22,13 +23,13 @@ const MobileMenu = ({open, toggle, menuItems=[], theme}) => (
 )
 
 
-const DesktopMenu = ({menuItems=[], open, toggle, fixed, theme, width}) => (
+const DesktopMenu = ({menuItems=[], open, toggle, fixed, theme, width, logo}) => (
   <div className={` z-20 ${theme.topNavHeight ? theme.topNavHeight : 'h-16'}  ${theme.sidebarBg}  ${theme.topMenuBorder}`}>
     <div className={`${theme.width} flex justify-between ${theme.topNavHeight ? theme.topNavHeight : 'h-16'}`}>
       <div className="flex">
-        <div className={`flex-shrink-0 flex items-center ${theme.text}`}>
-          Logo
-        </div>
+        <Link to={'/'} className={`flex-shrink-0 flex items-center ${theme.text}`}>
+          {logo}
+        </Link>
         <div className="hidden sm:-my-px sm:ml-6 sm:flex">
           {menuItems.map((page,i) => {
             return (
