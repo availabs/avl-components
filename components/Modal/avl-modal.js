@@ -113,7 +113,7 @@ class Modal extends React.Component {
           </LoadingContainer>
         }
 
-        <BodyContainer className="body rounded p-3">
+        <BodyContainer>
           <ContentContainer className="rounded py-2 px-3">
             { Boolean(onResolve) ? <onResolve.comp res={ onResolve.res }/> :
               Boolean(onReject) ? <onReject.comp error={ onReject.error }/> :
@@ -152,12 +152,13 @@ class Modal extends React.Component {
   }
 }
 export default Modal
-const BodyContainer = ({ className = "", children }) => {
+
+const BodyContainer = ({ children }) => {
   const theme = useTheme();
   return (
       <div className={ `
-      ${ theme.accent2 } ${ className } inline-block max-w-screen-xl
-    ` }>
+        body inline-block rounded p-3 ${ theme.accent2 }
+      ` }>
         { children }
       </div>
   )
