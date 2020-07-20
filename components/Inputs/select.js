@@ -8,17 +8,20 @@ import { useTheme } from "../../wrappers/with-theme"
 
 import deepequal from "deep-equal"
 
-const Dropdown = ({ children, searchable }) => {
+const Dropdown = React.forwardRef(({ children, searchable, opened, direction }, ref) => {
   const theme = useTheme();
   return (
-    <div className={ `absolute left-0 z-40 overflow-hidden w-full rounded-b-md` }
-      style={ { top: "100%" } }>
-      <div className={ `${ theme.accent1 } mt-1 ${ searchable ? "pt-1" : "" }` }>
+    <div className={ `
+      absolute left-0 z-40 overflow-hidden w-full
+      ${ opened ? "block" : "hidden" }
+    ` }
+      style={ direction === "down" ? { top: "100%" } : { bottom: "100%" } } ref={ ref }>
+      <div className={ `${ theme.accent1 } my-1 ${ searchable ? "pt-1" : "" }` }>
         { children }
       </div>
     </div>
   )
-}
+})
 const DropdownItem = ({ children, ...props }) => {
   const theme = useTheme();
   return (
@@ -39,17 +42,29 @@ class Select extends React.Component {
     id: "avl-select",
     autoFocus: false
   }
+
   node = null;
+  dropdown = null;
+
   constructor(...args) {
     super(...args);
     this.state = {
       opened: false,
+      direction: "down",
       hasFocus: false,
       search: ""
     }
   }
   componentDidMount() {
     this.props.autoFocus && this.node && this.node.focus();
+  }
+  componentDidUpdate() {
+    if (this.dropdown && this.state.opened && (this.state.direction === "down")) {
+      const rect = this.dropdown.getBoundingClientRect();
+      if ((rect.top + rect.height) > window.innerHeight) {
+        this.setState({ direction: "up" });
+      }
+    }
   }
   getValues() {
     if (!hasValue(this.props.value) || !hasValue(this.props.accessor(this.props.value))) return [];
@@ -64,7 +79,7 @@ class Select extends React.Component {
   }
   closeDropdown() {
     this.state.opened && this.node && this.node.focus();
-    this.setState({ opened: false, search: "" });
+    this.setState({ opened: false, direction: "down", search: "" });
   }
   addItem(e, v) {
     e.stopPropagation();
@@ -125,13 +140,14 @@ class Select extends React.Component {
             }
           </ValueContainer>
         </div>
+        
         { !this.state.opened ? null :
-          <Dropdown searchable={ this.props.searchable }>
+          <Dropdown opened={ this.state.opened } direction={ this.state.direction }
+            searchable={ this.props.searchable } ref={ n => this.dropdown = n }>
             { !this.props.searchable ? null :
               <div className="p-2 pt-1">
-                <Input id={ `${ this.props.id }-search` } type="text"
-                  value={ this.state.search } onChange={ v => this.setSearch(v) }
-                  autoFocus placeholder="search..."/>
+                <Input type="text" autoFocus placeholder="search..."
+                  value={ this.state.search } onChange={ v => this.setSearch(v) }/>
               </div>
             }
             { !domain.length ?

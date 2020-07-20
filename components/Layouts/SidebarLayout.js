@@ -24,7 +24,6 @@ class Layout extends Component {
   }
 
   render () {
-    console.log('layout',this.props.logo)
     const theme = this.props.theme;//themes[this.props.theme]
     return (
       <div className={`${theme.bg}`}>

@@ -145,8 +145,9 @@ class Modal extends React.Component {
                 }
               </div>
             }
-          </BodyContainer>
-        </Container>
+          </ContentContainer>
+        </BodyContainer>
+      </Container>
     )
   }
 }
