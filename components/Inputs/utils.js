@@ -15,7 +15,9 @@ const testNumber = (num, verify) => {
     if (open === "(") {
       verified = verified && (+num > min)
     }
-    else if (open === "[")
+    else if (open === "[") {
+      
+    }
   }
   console.log("MATCH:", match)
 }
