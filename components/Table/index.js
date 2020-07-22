@@ -101,6 +101,7 @@ export default ({ columns, sortBy, sortOrder, initialPageSize, data, onRowClick,
     if (!preFilteredRows.length) return null;
 
     return (
+<div className="overflow-auto scrollbar-sm">
         <table { ...getTableProps() } className="w-full">
           <thead>
             { headerGroups.map(headerGroup =>
@@ -210,5 +211,6 @@ export default ({ columns, sortBy, sortOrder, initialPageSize, data, onRowClick,
             }
           </tbody>
         </table>
+</div>
     )
 }
