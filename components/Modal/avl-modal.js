@@ -58,7 +58,8 @@ class Modal extends React.Component {
     actions: [],
     hideOnAction: true,
     closeLabel: "Close",
-    usePositioned: false
+    usePositioned: false,
+    showCloseButton: true
   }
   state = {
     onResolve: null,
@@ -99,59 +100,65 @@ class Modal extends React.Component {
   }
   render() {
     const { show, actions } = this.props,
-        { onResolve, onReject } = this.state;
-    const filtered = actions.filter(a => a.show !== false);
-    const Container = this.props.usePositioned ? PositionedModalContainer : ModalContainer;
+        { onResolve, onReject } = this.state,
+        filteredActions = actions.filter(a => a.show !== false),
+        Container = this.props.usePositioned ? PositionedModalContainer : ModalContainer;
+
     return (
-        <Container className={ `${ show ? "show" : "hide" }` }>
-          { !this.state.loading ? null :
-              <LoadingContainer>
-                <ScalableLoading />
-              </LoadingContainer>
-          }
-          <BodyContainer className="body rounded p-3">
-            <ContentContainer className="rounded py-2 px-3">
-              { Boolean(onResolve) ? <onResolve.comp res={ onResolve.res }/> :
-                  Boolean(onReject) ? <onReject.comp error={ onReject.error }/> :
-                      this.props.children
-              }
-            </ContentContainer>
-            <ContentContainer className="flex rounded mt-3 p-2">
+      <Container className={ `${ show ? "show" : "hide" }` }>
+
+        { !this.state.loading ? null :
+          <LoadingContainer>
+            <ScalableLoading />
+          </LoadingContainer>
+        }
+
+        <BodyContainer>
+          <ContentContainer className="rounded py-2 px-3">
+            { Boolean(onResolve) ? <onResolve.comp res={ onResolve.res }/> :
+              Boolean(onReject) ? <onReject.comp error={ onReject.error }/> :
+              this.props.children
+            }
+          </ContentContainer>
+          <ContentContainer className="flex rounded mt-3 p-2">
+            { !this.props.showCloseButton ? null :
               <div className="flex-0">
-                <Button buttonTheme="buttonDanger"
-                        onClick={ e => this.onHide() }>
+                <Button buttonTheme="buttonDanger" tabIndex={ -1 }
+                  onClick={ e => this.onHide() }>
                   { this.props.closeLabel }
                 </Button>
               </div>
-              { !filtered.length || Boolean(onResolve) || Boolean(onReject) ? null :
-                  <div className="flex-1 flex justify-end">
-                    { filtered.map(({ label, buttonTheme="button", disabled=false, url, ...rest }, i) =>
-                        url === undefined ?
-                            <Button onClick={ e => this.onAction(e, rest) } key={ i }
-                                    disabled={ disabled } buttonTheme={ buttonTheme } className="ml-1">
-                              { label }
-                            </Button>
-                            :
-                            <LinkButton to={ url || "#" } key={ i } className="ml-1">
-                              { label }
-                            </LinkButton>
-                    )
-                    }
-                  </div>
-              }
-            </ContentContainer>
-          </BodyContainer>
-        </Container>
+            }
+            { !filteredActions.length || Boolean(onResolve) || Boolean(onReject) ? null :
+              <div className="flex-1 flex justify-end">
+                { filteredActions.map(({ label, buttonTheme="button", disabled=false, url, ...rest }, i) =>
+                    url === undefined ?
+                      <Button onClick={ e => this.onAction(e, rest) } key={ i } tabIndex={ -1 }
+                        disabled={ disabled } buttonTheme={ buttonTheme } className="ml-1">
+                        { label }
+                      </Button>
+                    :
+                      <LinkButton to={ url || "#" } key={ i } className="ml-1" tabIndex={ -1 }>
+                        { label }
+                      </LinkButton>
+                  )
+                }
+              </div>
+            }
+          </ContentContainer>
+        </BodyContainer>
+      </Container>
     )
   }
 }
 export default Modal
-const BodyContainer = ({ className = "", children }) => {
+
+const BodyContainer = ({ children }) => {
   const theme = useTheme();
   return (
       <div className={ `
-      ${ theme.accent2 } ${ className } inline-block max-w-screen-xl
-    ` }>
+        body inline-block rounded p-3 ${ theme.accent2 }
+      ` }>
         { children }
       </div>
   )

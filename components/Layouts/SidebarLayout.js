@@ -30,6 +30,7 @@ class Layout extends Component {
         {this.props.nav === 'top' ? (
           <div className={this.props.fixed ? `fixed left-0 top-0 w-full z-10` : ''}>
             <TopNav
+              logo={this.props.logo}
               open={this.state.menuOpen}
               toggle={this.toggleMenu}
               menuItems={this.props.menus}

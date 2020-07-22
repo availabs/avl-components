@@ -4,9 +4,9 @@ import { ScalableLoading } from "../components/Loading/LoadingPage"
 
 export default (Component, options = {}) => {
   const { position = "fixed" } = options;
-  return ({ children, ...props}) => (
+  return React.forwardRef(({ children, ...props}, ref) => (
     <>
-      <Component { ...props }>
+      <Component { ...props } ref={ ref }>
         { children }
         { !props.loading || (position !== "absolute") ? null :
           <LoadingComponent { ...options }/>
@@ -16,7 +16,7 @@ export default (Component, options = {}) => {
         <LoadingComponent { ...options }/>
       }
     </>
-  )
+  ))
 }
 
 const LoadingComponent = React.memo(({ color, position = "fixed", className = "", scale = 1 }) =>

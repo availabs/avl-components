@@ -120,9 +120,7 @@ export default ({ columns, sortBy, sortOrder, initialPageSize, data, onRowClick,
                               </div>
                             }
                           </div>
-                          { !column.canFilter ? null :
-                            <div>{ column.render('Filter') }</div>
-                          }
+                          { !column.canFilter ? null : <div>{ column.render('Filter') }</div> }
                         </th>
                       )
                   }
@@ -130,7 +128,7 @@ export default ({ columns, sortBy, sortOrder, initialPageSize, data, onRowClick,
               )
             }
             { pageCount <= 1 ? null :
-              <tr>
+              <tr className={ theme.tableInfoBar }>
                 <td colSpan={ columns.length } className="px-2">
                   <div className={ `flex items-center ${ theme.textInfo }` }>
                     <div className="flex-0">
@@ -179,29 +177,30 @@ export default ({ columns, sortBy, sortOrder, initialPageSize, data, onRowClick,
                 const { onClick } = row.original;
                 prepareRow(row);
                 return (
-                  <tr {...row.getRowProps() }
+                  <tr { ...row.getRowProps() }
                     className={ `
                       ${ props.striped ? theme.tableRowStriped : theme.tableRow }
                       ${ (onClick || onRowClick) ? "cursor-pointer" : "" }
                     ` }
                     onClick={ e => {
                       (typeof onRowClick === "function") && onRowClick(e, row);
-                      (typeof onClick === "function") && onClick(e);
+                      (typeof onClick === "function") && onClick(e, row);
                     } }>
                       { row.cells.map((cell, i) =>
-                          <td {...cell.getCellProps() }
-                            className={ `${ theme.tableCell } ${ cell.column.className || "" }` }>
-                            <div className="flex">
-                              <div className="flex-0">{ cell.render('Cell') }</div>
-                              { (i > 0) || (row.subRows.length === 0) ? null :
-                                <div { ...row.getToggleRowExpandedProps() } className="flex-1 flex justify-end">
-                                  { row.isExpanded ?
-                                    <i className="ml-2 fas fa-chevron-down"/> :
-                                    <i className="ml-2 fas fa-chevron-up"/>
-                                  }
+                          <td { ...cell.getCellProps() } className={ theme.tableCell }>
+                            { (i > 0) || (row.subRows.length === 0) ?
+                                cell.render('Cell')
+                              :
+                                <div className="flex">
+                                  <div className="flex-0">{ cell.render('Cell') }</div>
+                                  <div { ...row.getToggleRowExpandedProps() } className="flex-1 flex justify-end">
+                                    { row.isExpanded ?
+                                      <i className="ml-2 fas fa-chevron-down"/> :
+                                      <i className="ml-2 fas fa-chevron-up"/>
+                                    }
+                                  </div>
                                 </div>
-                              }
-                            </div>
+                            }
                           </td>
                         )
                       }
