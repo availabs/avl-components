@@ -36,7 +36,7 @@ const getBasicJSX = config => ({ children, ...props }) =>
 const getComponent = config =>
   typeof config === "function" ? config :
   typeof config === "string" ? () => <React.Fragment>{ config }</React.Fragment> :
-  typeof get(config, "type", null) === "function" ? config.type :
+  typeof config.type === "function" ? config.type :
   get(ComponentLibrary, config.type, getBasicJSX(config));
 
 const applyWrappers = (Component, config) => {
