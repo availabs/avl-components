@@ -1,7 +1,7 @@
 const DATE_REGEX = /^\d{4}-[01][0-9]-[0-3][0-9]$/,
   NUMBER_REGEX = /^(-(?=[1-9]|(0[.]0*[1-9]+)))?\d*[.]?\d+/;
 
-const PARENS_REGEX = /^([[(])(-?\d+),(-?\d+)([)]])$/,
+const PARENS_REGEX = /^([[(])(-?\d+),(-?\d+)([)\]])$/,
   COMPARE_REGEX = /^([><]=?)(\d+)$/;
 
 const processArgs = (num, op, val) => {
@@ -19,7 +19,7 @@ const processArgs = (num, op, val) => {
   }
 }
 
-const testNumber = (num, verify) => {
+const verifyNumber = (num, verify) => {
   if (!verify) return true;
 
   verify = verify.replace(/\s/g, "");
@@ -30,36 +30,30 @@ const testNumber = (num, verify) => {
   if (hasParens) {
     const [, open, min, max, close] = hasParens;
     if (open === "(") {
-      args.push(">", +min);
+      args.push([">", +min]);
     }
     else if (open === "[") {
-      args.push(">=", +min);
+      args.push([">=", +min]);
     }
     if (close === ")") {
-      args.push("<", +max);
+      args.push(["<", +max]);
     }
     else if (close === "]") {
-      args.push("<=", +max);
+      args.push(["<=", +max]);
     }
   }
   const hasCompare = COMPARE_REGEX.exec(verify);
   if (hasCompare) {
     const [, op, value] = hasCompare;
-    args.push(op, +value);
+    args.push([op, +value]);
   }
-
-  let verified = true;
-  for (let i = 0; i < args.length; i += 2) {
-    verified = verified && processArgs(+num, ...args.slice(i, i + 2));
-  }
-  return verified;
+  return args.reduce((a, c) => a && processArgs(+num, ...c), true);
 }
 
 export const verifyValue = (value, type, verify = null) => {
   switch (type) {
     case "number": {
-console.log("NUMBER VERIFY:", verify)
-      return NUMBER_REGEX.test(value) && testNumber(value, verify);
+      return NUMBER_REGEX.test(value) && verifyNumber(value, verify);
     }
     case "date": {
       const regex = ((typeof verify === "string") ? new RegExp(verify) : DATE_REGEX);
@@ -77,6 +71,6 @@ export const hasValue = value => {
   if ((typeof value === "string") && !value.length) return false;
   if (Array.isArray(value)) return value.reduce((a, c) => a || hasValue(c), false);
   if ((typeof value === "number") && isNaN(value)) return false;
-  if ((typeof value === "object")) return Object.keys(value).reduce((a, c) => a || hasValue(value[c]), false);
+  if ((typeof value === "object")) return Object.values(value).reduce((a, c) => a || hasValue(c), false);
   return true;
 }

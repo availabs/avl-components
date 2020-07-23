@@ -1,10 +1,10 @@
-import React, { Component } from "react"
+import React  from "react"
 
 const noop = () => {}
 
 export const ListItemRemovable = ({item, remove=noop}) => (
   <li>
-    <a href="#" className="block hover:bg-gray-50 focus:outline-none focus:bg-gray-50 transition duration-150 ease-in-out">
+    <div className="block hover:bg-gray-50 focus:outline-none focus:bg-gray-50 transition duration-150 ease-in-out">
       <div className="flex items-center px-4 py-4 sm:px-6">
         <div className="min-w-0 flex-1 flex items-center">
           <div className="min-w-0 flex-1 px-4 md:grid md:grid-cols-1 md:gap-4">
@@ -19,12 +19,31 @@ export const ListItemRemovable = ({item, remove=noop}) => (
           </svg>
         </div>
       </div>
-    </a>
+    </div>
   </li>
 )
 
-export const List = ({children}) => (
-  <div className="bg-white overflow-hidden sm:rounded-md">
+export const ListItemAction = ({item, action, remove=noop}) => (
+  <li>
+    <div className="block hover:bg-gray-50 focus:outline-none focus:bg-gray-50 transition duration-150 ease-in-out">
+      <div className="flex items-center px-4 py-4 sm:px-6">
+        <div className="min-w-0 flex-1 flex items-center">
+          <div className="min-w-0 flex-1 px-4 md:grid md:grid-cols-1 md:gap-4">
+            <div>
+              <div className="text-lg leading-5 font-dark text-gray-600 truncate">{item}</div>
+            </div>
+          </div>
+        </div>
+        <div>
+          {action}
+        </div>
+      </div>
+    </div>
+  </li>
+)
+
+export const List = ({children, className}) => (
+  <div className={`bg-white overflow-hidden sm:rounded-md ${className}`}>
     <ul>
       {children}     
     </ul>

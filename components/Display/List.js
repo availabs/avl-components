@@ -1,11 +1,11 @@
-import React, { Component } from "react"
+import React from "react"
 import 'styles/tailwind.css';
 
 const noop = () => {}
 
 export const ListItemRemovable = ({item, remove=noop}) => (
   <li>
-    <a href="#" className="block hover:bg-gray-50 focus:outline-none focus:bg-gray-50 transition duration-150 ease-in-out">
+    <a className="block hover:bg-gray-50 focus:outline-none focus:bg-gray-50 transition duration-150 ease-in-out">
       <div className="flex items-center px-4 py-4 sm:px-6">
         <div className="min-w-0 flex-1 flex items-center">
           <div className="min-w-0 flex-1 px-4 md:grid md:grid-cols-1 md:gap-4">
@@ -26,7 +26,7 @@ export const ListItemRemovable = ({item, remove=noop}) => (
 
 export const EndorsementListItem = ({name, role, quote, remove}, i) => (
   <li key={i}>
-    <a href="#" className="block hover:bg-gray-50 transition duration-150 ease-in-out">
+    <a className="block hover:bg-gray-50 transition duration-150 ease-in-out">
       <div className="flex items-center px-4 py-4 sm:px-6">
         <div className="min-w-0 flex-1 flex items-center">
           <div className="min-w-0 flex-1 px-4 md:grid md:grid-cols-1 md:gap-4">
@@ -59,7 +59,7 @@ export const EndorsementListItem = ({name, role, quote, remove}, i) => (
 
 const PressListItem = ({title, publication, url, remove}, i) => (
   <li key={i}>
-    <a href="#" className="block hover:bg-gray-50 transition duration-150 ease-in-out">
+    <a className="block hover:bg-gray-50 transition duration-150 ease-in-out">
       <div className="flex items-center px-4 py-4 sm:px-6">
         <div className="min-w-0 flex-1 flex items-center">
           <div className="min-w-0 flex-1 px-4 md:grid md:grid-cols-1 md:gap-4">
