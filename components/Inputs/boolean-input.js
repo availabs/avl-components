@@ -13,7 +13,7 @@ export default React.forwardRef(({ large, small, className = "", trueText = "Act
         <div className="flex-0">
           <Slider value={ value }/>
         </div>
-        <div className="flex-1 text-right">
+        <div className="flex-1 ml-4">
           { value ? trueText : falseText }
         </div>
       </div>
@@ -22,33 +22,22 @@ export default React.forwardRef(({ large, small, className = "", trueText = "Act
 })
 
 const Slider = ({ value }) => {
-  const [ref, setRef] = React.useState(null),
-    [width, setWidth] = React.useState(0),
-    [hasWidth, setHasWidth] = React.useState(false);
-  React.useEffect(() => {
-    if (ref) {
-      const rect = ref.getBoundingClientRect();
-      setWidth(rect.height)
-    }
-  }, [ref]);
-  React.useEffect(() => {
-    setHasWidth(Boolean(width));
-  }, [width])
-
   const theme = useTheme();
 
   return (
-    <div className="relative w-20 h-full rounded-lg overflow-hidden">
-      <div className={ `w-full h-full ${ theme.bgDanger }` }/>
-      <div className={ `absolute top-0 w-full h-full` }
-        style={ {
-          right: value ? "0px" : `calc(100% - ${ width }px)`,
-          transition: `right ${ hasWidth ? 0.25 : 0 }s`
-        } }>
-        <div className={ `absolute w-full h-full ${ theme.bgSuccess }` }
-          style={ { right: `calc(0px + ${ width * 0.5 }px)`}}/>
-        <div className={ `absolute right-0 rounded-lg h-full ${ theme.accent2 }` }
-          style={ { width: `${ width }px` } } ref={ setRef }/>
+    <div className="px-1 h-full flex justify-center items-center">
+      <div className="relative h-3">
+        <div className={ `relative w-10 h-3 rounded-lg overflow-hidden` }>
+          <div className={ `absolute top-0 w-20 h-full ${ theme.accent4 }` }
+            style={ { left: value ? "100%" : "0", transition: "left 0.25s" } }/>
+          <div className={ `absolute top-0 w-20 h-full ${ theme.bgInfo }` }
+            style={ { right: value ? "0" : "100%", transition: "right 0.25s" } }/>
+        </div>
+        <div className={ `absolute h-4 w-4 rounded-lg ${ theme.accent2 }` }
+          style={ {
+            top: "50%", left: value ? "calc(100% - 0.625rem)" : "-0.125rem",
+            transform: "translateY(-50%)", transition: "left 0.25s"
+          } }/>
       </div>
     </div>
   )
