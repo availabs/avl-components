@@ -34,7 +34,7 @@ export const ListItemAction = ({item, action, remove=noop}) => (
             </div>
           </div>
         </div>
-        <div>
+        <div className="flex">
           {action}
         </div>
       </div>
@@ -45,7 +45,7 @@ export const ListItemAction = ({item, action, remove=noop}) => (
 export const List = ({children, className}) => (
   <div className={`bg-white overflow-hidden sm:rounded-md ${className}`}>
     <ul>
-      {children}     
+      {children}
     </ul>
   </div>
 )

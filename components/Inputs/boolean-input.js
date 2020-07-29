@@ -3,18 +3,23 @@ import React from "react"
 import { composeOptions } from "../utils"
 import { useTheme } from "../../wrappers/with-theme"
 
-export default React.forwardRef(({ large, small, className = "", trueText = "Active", falseText = "Inactive", value, onChange, ...props }, ref) => {
+export default React.forwardRef(({
+  large, small, className = "",
+  labels = ["False", "True"],
+  value, onChange, disabled = false, ...props }, ref) => {
+
   const theme = useTheme(),
     inputTheme = theme[`input${ composeOptions({ large, small }) }`];
+
   return (
-    <div { ...props } onClick={ e => onChange(!value) }
+    <div { ...props } onClick={ disabled ? null : e => onChange(!value) }
       className={ `${ inputTheme } ${ className }` } ref={ ref }>
       <div className="flex">
         <div className="flex-0">
           <Slider value={ value }/>
         </div>
         <div className="flex-1 ml-4">
-          { value ? trueText : falseText }
+          { labels[+Boolean(value)] }
         </div>
       </div>
     </div>
