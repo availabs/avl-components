@@ -40,7 +40,8 @@ class Select extends React.Component {
     placeholder: "Select a value...",
     accessor: d => d,
     id: "avl-select",
-    autoFocus: false
+    autoFocus: false,
+    disabled: false
   }
 
   node = null;
@@ -56,7 +57,10 @@ class Select extends React.Component {
     }
   }
   componentDidMount() {
-    this.props.autoFocus && this.node && this.node.focus();
+    this.props.autoFocus && this.focus();
+  }
+  focus() {
+    this.node && this.node.focus();
   }
   componentDidUpdate() {
     if (this.dropdown && this.state.opened && (this.state.direction === "down")) {
@@ -112,7 +116,8 @@ class Select extends React.Component {
     this.setState({ search })
   }
   render() {
-    const values = this.getValues(),
+    const { disabled } = this.props,
+      values = this.getValues(),
       domain = this.props.domain
         .filter(d => values.reduce((a, c) => a && !deepequal(c, d), true))
         .filter(d =>
@@ -125,7 +130,8 @@ class Select extends React.Component {
           <ValueContainer id={ this.props.id } ref={ n => this.node = n }
             onBlur={ e => this.setState({ hasFocus: false }) }
             onFocus={ e => this.setState({ hasFocus: true }) }
-            hasFocus={ this.state.opened || this.state.hasFocus } tabIndex="0"
+            hasFocus={ this.state.opened || this.state.hasFocus }
+            disabled={ disabled } tabIndex={ disabled ? -1 : 0 }
             onClick={ e => this.openDropdown(e) }>
             { values.length ?
               values.map((v, i) =>
@@ -140,8 +146,8 @@ class Select extends React.Component {
             }
           </ValueContainer>
         </div>
-        
-        { !this.state.opened ? null :
+
+        { disabled || !this.state.opened ? null :
           <Dropdown opened={ this.state.opened } direction={ this.state.direction }
             searchable={ this.props.searchable } ref={ n => this.dropdown = n }>
             { !this.props.searchable ? null :

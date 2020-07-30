@@ -6,7 +6,7 @@ export const ValueItem = ({ isPlaceholder, children, remove, edit }) => {
   const theme = useTheme();
   return (
     <div className={ `
-        ${ isPlaceholder ? theme.textLight : `${ theme.accent1 } mr-1 pl-2 ${ remove ? "pr-1" : "pr-2" }` }
+        ${ isPlaceholder ? theme.textLight : `${ theme.accent1 } mr-1 pl-2 ${ Boolean(remove || edit) ? "pr-1" : "pr-2" }` }
         rounded whitespace-pre-wrap mt-1 relative flex items-center
       ` }>
       { children }
@@ -37,18 +37,20 @@ export const ValueItem = ({ isPlaceholder, children, remove, edit }) => {
     </div>
   )
 }
-export const ValueContainer = React.forwardRef(({ children, hasFocus, large, small, className = "", ...props }, ref) => {
+export const ValueContainer = React.forwardRef(({ children, hasFocus, large, small, disabled = false, className = "", ...props }, ref) => {
   const theme = useTheme();
   return (
     <div { ...props } ref={ ref }
       className={ `
         w-full flex flex-row flex-wrap
-        ${ hasFocus ?
-          `${ theme.inputBgFocus } ${ theme.inputBorderFocus }` :
-          `${ theme.inputBg } ${ theme.inputBorder }`
+        ${ disabled ?
+            `${ theme.inputBgDisabled } ${ theme.inputBorderDisabled }` :
+          hasFocus ?
+            `${ theme.inputBgFocus } ${ theme.inputBorderFocus }` :
+            `${ theme.inputBg } ${ theme.inputBorder }`
         }
         ${ large ? "pt-1 pb-2 px-4" : small ? "pb-1 px-1" : "pb-1 px-2" }
-        ${ large ? "text-lg" : small ? "text-sm" : "" }
+        ${ large ? theme.textLarge : small ? theme.textSmall : theme.textBase }
         ${ large ? "rounded-md" : "rounded" }
         ${ className }
       ` }>

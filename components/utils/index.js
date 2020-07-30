@@ -11,6 +11,20 @@ export const composeOptions = ({ ...options }) =>
     return a;
   }, []).join("")
 
+export const useSetRefs = (ref1, ref2) => {
+  return React.useCallback(node => {
+    [ref1, ref2].forEach(ref => {
+      if (!ref) return;
+      if (typeof ref === "function") {
+        ref(node);
+      }
+      else {
+        ref.current = node;
+      }
+    })
+  }, [ref1, ref2])
+}
+
 // // WARNING: this hook will only work if the setNode is set to a DOM element, e.g. div, input, etc., not a React element!!!
 // To use this with a React Element, you must use Ref Forwarding: https://reactjs.org/docs/forwarding-refs.html
 export const useClickOutside = handleClick => {

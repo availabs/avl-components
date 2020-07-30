@@ -6,7 +6,8 @@ import {
   ValueContainer, ValueItem
 } from "./parts"
 
-export default ({ value = {}, id, onChange, disabled, autoFocus, ...props }) => {
+export default ({ value = {}, id, onChange, disabled, autoFocus,
+  large, small, ...props }) => {
   const [key, setKey] = React.useState(""),
     [keyValue, setKeyValue] = React.useState("");
 
@@ -42,11 +43,14 @@ export default ({ value = {}, id, onChange, disabled, autoFocus, ...props }) => 
       <div className="flex">
         <Input className="flex-1" value={ key } onChange={ setKey }
           id={ id } autoFocus={ autoFocus } ref={ n => node = n }
-          disabled={ disabled } onKeyDown={ onKeyDown }/>
+          disabled={ disabled } onKeyDown={ onKeyDown }
+          large={ large } small={ small }/>
         <Input className="flex-1 ml-1" value={ keyValue } onKeyDown={ onKeyDown }
-          onChange={ setKeyValue } disabled={ disabled }/>
+          onChange={ setKeyValue } disabled={ disabled }
+          large={ large } small={ small }/>
         <Button className="flex-0 ml-1" onClick={ addToObject }
-          disabled={ disabled || !key || !keyValue || (key in value) }>
+          disabled={ disabled || !key || !keyValue || (key in value) }
+          large={ large } small={ small }>
           Add to Object
         </Button>
       </div>

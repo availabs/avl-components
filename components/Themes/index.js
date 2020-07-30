@@ -97,11 +97,14 @@ export const flat_base = {
 	accent1: 'bg-gray-200',
 	accent2: 'bg-gray-300',
 	accent3: 'bg-gray-400',
+	accent4: 'bg-gray-500',
 	lighter: 'bg-gray-50',
 	// buttons
 	button: 'inline-flex items-center px-4 py-2 border border-gray-300 text-sm leading-5 font-medium rounded-md text-gray-700 bg-white hover:text-gray-500 focus:outline-none focus:shadow-outline-blue focus:border-blue-300 active:text-gray-800 active:bg-gray-50 transition duration-150 ease-in-out',
 	buttonPrimary: 'inline-flex items-center px-4 py-2 border border-transparent text-sm leading-5 font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-500 focus:outline-none focus:shadow-outline-indigo focus:border-indigo-700 active:bg-indigo-700 transition duration-150 ease-in-out',
 	textbutton: 'text-sm text-blue-500 hover:text-blue-300 px-2',
+
+	input: "block",
 
 	// table
 	tableRow: 'bg-white border-b border-blue-100 hover:bg-blue-50',
@@ -209,19 +212,32 @@ const light_base = {
 	navitemSideActive: 'mb-1 group flex pl-3 pr-4 py-2 border-l-4 border-indigo-500 text-base font-medium text-indigo-600 bg-indigo-100 focus:outline-none hover:text-indigo-800 focus:text-indigo-800 hover:bg-indigo-200 focus:bg-indigo-200 focus:border-indigo-700 transition duration-150 ease-in-out',
 
 	bg: 'bg-gray-100',
+
 	menuBg: 'bg-gray-200',
 	menuBgHover: 'hover:bg-gray-300',
 	menuBgActive: 'bg-teal-200',
 	menuBgActiveHover: 'hover:bg-teal-300',
+	menuText : "text-gray-500",
+	menuTextHover: "hover:text-gray-700",
+	menuTextActive: "text-teal-500",
+	menuTextActiveHover: "hover:text-teal-700",
+
 	headerBg: 'bg-gray-200',
 	headerBgHover: "hover:bg-gray-400",
 
-	inputBg: "bg-white disabled:bg-gray-200",
-	inputBorder: "border-2 border-transparent hover:border-gray-300 focus:border-gray-600 disabled:border-gray-200",
-	inputBgDisabled: "bg-gray-200",
-	inputBoderDisabled: "border-2 border-gray-200",
-	inputBgFocus: "bg-white",
-	inputBorderFocus: "border-2 border-transparent focus:border-gray-600 border-gray-600",
+	inputBg: "bg-white disabled:bg-gray-200 cursor-pointer focus:outline-none",
+	inputBorder: "rounded border-2 border-transparent hover:border-gray-300 focus:border-gray-600 disabled:border-gray-200",
+	inputBgDisabled: "bg-gray-200 cursor-not-allowed focus:outline-none",
+	inputBorderDisabled: "rounded border-2 border-gray-200 hover:border-gray-200",
+	inputBgFocus: "bg-white cursor-pointer focus:outline-none",
+	inputBorderFocus: "rounded border-2 border-transparent hover:border-gray-600 focus:border-gray-600 border-gray-600",
+
+	textBase: "text-base",
+	textSmall: "text-sm",
+	textLarge: "text-lg",
+	paddingBase: "py-1 px-2",
+	paddingSmall: "py-0 px-1",
+	paddingLarge: "py-2 px-4",
 
 	contentBg: 'bg-white',
 
@@ -269,17 +285,17 @@ const button = [
 		Danger: "$buttonDanger",
 		Info: "$buttonInfo"
 	},
-	{ default: "py-1 px-4 text-base", // <<-- padding based on size
-		Large: "py-2 px-6 text-lg",
-		Small: "py-0 px-4 text-sm"
+	{ default: "px-4 py-1 @textBase", // <<-- padding based on size
+		Large: "px-6 py-2 @textLarge",
+		Small: "px-2 py-0 @textSmall"
 	},
 	{ Block: "w-full" }
 ]
 const input = [
 	{ default: "w-full block rounded cursor-pointer disabled:cursor-not-allowed @transition @text @placeholder @inputBg @inputBorder" },
-	{ default: "py-1 px-2", // <<-- padding based on size
-		Large: "py-2 px-4 text-lg rounded-md",
-		Small: "py-0 px-1 text-sm"
+	{ default: "@paddingBase @textBase", // <<-- padding based on size
+		Large: "@paddingLarge @textLarge",
+		Small: "@paddingSmall @textSmall"
 	}
 ]
 const navitem = [
@@ -287,8 +303,8 @@ const navitem = [
 	{ Top: "mr-4 inline-flex items-center px-1 pt-1 border-b-2 text-sm leading-5",
 		Side: "mb-1 flex pl-3 pr-4 py-2 border-l-4 text-bas"
 	},
-	{ default: "text-gray-500 @menuBg @menuBgHover hover:text-gray-700 hover:border-gray-300 focus:text-gray-700 focus:border-gray-300",
-		Active: "text-teal-500 @menuBgActive @menuBgActiveHover hover:text-teal-700 hover:border-teal-300 focus:text-teal-700 focus:border-teal-300" }
+	{ default: "@menuBg @menuBgHover @menuText @menuTextHover",
+		Active: "@menuBgActive @menuBgActiveHover @menuTextActive @menuTextActiveHover" }
 ]
 const textbutton = [
 	{ default: "@transition inline-flex px-2 hover:font-bold disabled:font-normal disabled:cursor-not-allowed disabled:opacity-50 focus:outline-none" },
