@@ -1,20 +1,48 @@
 import React from "react"
 
-import { composeOptions } from "../utils"
+import { useSetRefs } from "../utils"
 import { useTheme } from "../../wrappers/with-theme"
 
-export default React.forwardRef(({ large, small, className = "", trueText = "Active", falseText = "Inactive", value, onChange, ...props }, ref) => {
-  const theme = useTheme(),
-    inputTheme = theme[`input${ composeOptions({ large, small }) }`];
+export default React.forwardRef(({
+  large, small, className = "",
+  labels = ["False", "True"],
+  value, onChange,
+  disabled = false, autoFocus = false, ...props }, ref) => {
+
+  const [hasFocus, setHasFocus] = React.useState(false);
+
+  const [thisRef, setRef] = React.useState(null);
+  React.useEffect(() => {
+    Boolean(thisRef) && autoFocus && thisRef.focus();
+  }, [autoFocus, thisRef])
+
+  const theme = useTheme();
+
   return (
-    <div { ...props } onClick={ e => onChange(!value) }
-      className={ `${ inputTheme } ${ className }` } ref={ ref }>
+    <div { ...props } onClick={ disabled ? null : e => onChange(!value) }
+      onFocus={ e => setHasFocus(true && !disabled) }
+      onBlur={ e => setHasFocus(false) }
+      className={ `
+        ${ large ?
+            `${ theme.paddingLarge } ${ theme.textLarge }` :
+          small ?
+            `${ theme.paddingSmall } ${ theme.textSmall }` :
+            `${ theme.paddingBase } ${ theme.textBase }`
+        }
+        ${ disabled ?
+            `${ theme.inputBgDisabled } ${ theme.inputBorderDisabled }` :
+          hasFocus ?
+            `${ theme.inputBgFocus   } ${ theme.inputBorderFocus   }` :
+            `${ theme.inputBg } ${ theme.inputBorder }`
+        }
+        ${ className }
+      ` } ref={ useSetRefs(ref, setRef) } tabIndex={ disabled ? "-1" : "0" }>
       <div className="flex">
         <div className="flex-0">
           <Slider value={ value }/>
         </div>
         <div className="flex-1 ml-4">
-          { value ? trueText : falseText }
+          { labels[+Boolean(value)] }
         </div>
       </div>
     </div>

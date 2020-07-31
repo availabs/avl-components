@@ -52,7 +52,18 @@ const getPageSpread = (page, maxPage) => {
   return spread;
 }
 
-export default ({ columns, sortBy, sortOrder, initialPageSize, data, onRowClick, ...props }) => {
+const DefaultExpandedRow = ({ values }) =>
+  <div className="flex">
+    { values.map(({ key, value }, i) =>
+        <div key={ key || `key-${ i }` } className="flex-1">
+          { key ? <b>{ key }:</b> : null }
+          <span className="ml-1">{ value }</span>
+        </div>
+      )
+    }
+  </div>
+
+export default ({ columns, sortBy, sortOrder, initialPageSize, data, onRowClick, ExpandRow = DefaultExpandedRow, ...props }) => {
     const theme = useTheme();
     const filterTypes = React.useMemo(
       () => ({
@@ -78,9 +89,12 @@ export default ({ columns, sortBy, sortOrder, initialPageSize, data, onRowClick,
       previousPage,
       nextPage,
       pageCount,
+      visibleColumns,
+      toggleRowExpanded,
       state: {
         pageSize,
-        pageIndex
+        pageIndex,
+        expanded
       }
     } = useTable(
       { columns,
@@ -101,7 +115,7 @@ export default ({ columns, sortBy, sortOrder, initialPageSize, data, onRowClick,
     if (!preFilteredRows.length) return null;
 
     return (
-<div className="overflow-auto scrollbar-sm">
+      <div className="overflow-auto scrollbar-sm">
         <table { ...getTableProps() } className="w-full">
           <thead>
             { headerGroups.map(headerGroup =>
@@ -175,42 +189,61 @@ export default ({ columns, sortBy, sortOrder, initialPageSize, data, onRowClick,
           </thead>
           <tbody { ...getTableBodyProps() }>
             { page.map(row => {
-                const { onClick } = row.original;
+                const { onClick, expand = [] } = row.original;
                 prepareRow(row);
                 return (
-                  <tr { ...row.getRowProps() }
-                    className={ `
-                      ${ props.striped ? theme.tableRowStriped : theme.tableRow }
-                      ${ (onClick || onRowClick) ? "cursor-pointer" : "" }
-                    ` }
-                    onClick={ e => {
-                      (typeof onRowClick === "function") && onRowClick(e, row);
-                      (typeof onClick === "function") && onClick(e, row);
-                    } }>
-                      { row.cells.map((cell, i) =>
-                          <td { ...cell.getCellProps() } className={ theme.tableCell }>
-                            { (i > 0) || (row.subRows.length === 0) ?
-                                cell.render('Cell')
-                              :
-                                <div className="flex">
-                                  <div className="flex-0">{ cell.render('Cell') }</div>
-                                  <div { ...row.getToggleRowExpandedProps() } className="flex-1 flex justify-end">
-                                    { row.isExpanded ?
-                                      <i className="ml-2 fas fa-chevron-down"/> :
-                                      <i className="ml-2 fas fa-chevron-up"/>
-                                    }
+                  <React.Fragment key={ row.getRowProps().key }>
+                    <tr { ...row.getRowProps() }
+                      className={ `
+                        ${ props.striped ? theme.tableRowStriped : theme.tableRow }
+                        ${ (onClick || onRowClick) ? "cursor-pointer" : "" }
+                      ` }
+                      onClick={ e => {
+                        (typeof onRowClick === "function") && onRowClick(e, row);
+                        (typeof onClick === "function") && onClick(e, row);
+                      } }>
+                        { row.cells.map((cell, ii) =>
+                            <td { ...cell.getCellProps() } className={ theme.tableCell }>
+                              { (ii > 0) || ((row.subRows.length === 0) && (expand.length === 0)) ?
+                                  cell.render('Cell')
+                                :
+                                  <div className="flex">
+                                    <div className="flex-0">{ cell.render('Cell') }</div>
+                                    <div className="flex-1 flex justify-end">
+                                      <div onClick={ e => {
+                                        e.stopPropagation();
+                                        Object.keys(expanded).filter(k => k !== row.id)
+                                          .forEach(toggleRowExpanded);
+                                        row.toggleRowExpanded(!Boolean(row.isExpanded));
+                                      } } className={ `
+                                          flex item-center justify-center py-1 px-2 rounded
+                                          hover:${ theme.accent3 } ${ theme.transition }
+                                        ` }>
+                                        { row.isExpanded ?
+                                          <i className="fas fa-chevron-up"/> :
+                                          <i className="fas fa-chevron-down"/>
+                                        }
+                                      </div>
+                                    </div>
                                   </div>
-                                </div>
-                            }
-                          </td>
-                        )
-                      }
-                  </tr>
+                              }
+                            </td>
+                          )
+                        }
+                    </tr>
+                    { !row.isExpanded || !expand.length ? null :
+                      <tr className={ theme.tableRow }>
+                        <td colSpan={ visibleColumns.length } className={ theme.tableCell }>
+                          <ExpandRow values={ expand }/>
+                        </td>
+                      </tr>
+                    }
+                  </React.Fragment>
                 )
               })
             }
           </tbody>
         </table>
-</div>
+      </div>
     )
 }
