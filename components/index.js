@@ -5,6 +5,7 @@ import { FormSection, InputContainer } from './Forms/FormSection'
 import { List, ListItemRemovable, ListItemAction } from './List/List'
 import {Input } from './Inputs'
 import Table from './Table'
+import SideNav from './Nav/Side'
 
 export	{
 	Header,
@@ -17,5 +18,6 @@ export	{
 	List,
 	ListItemRemovable,
 	ListItemAction,
-	Input
+	Input,
+	SideNav
 }

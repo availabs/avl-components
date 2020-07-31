@@ -21,8 +21,8 @@ export default ({ to, icon, className, children, theme, type='side' }) => {
     activeClasses = type === 'side' ? theme.navitemSideActive : theme.navitemTopActive;
 
   return (
-    <NavLink to={to} className={linkClasses} activeClassName={ activeClasses }>
-      <Icon icon={icon} className={theme.menuIcon} showBlank={ type === "side" }/>
+    <NavLink to={to} className={className + ' ' + linkClasses } activeClassName={ className + ' ' + activeClasses }>
+      {icon ? <Icon icon={icon} className={theme.menuIcon} showBlank={ type === "side" }/> : ''}
       {children}
     </NavLink>
   );
