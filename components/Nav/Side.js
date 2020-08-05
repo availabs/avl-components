@@ -50,13 +50,13 @@ const DesktopSidebar = ({menuItems=[], fixed, logo='', ...rest}) => {
           <nav className="flex-1">
             {menuItems.map((page, i) => {
             	return (
-          			<div className={page.sectionClass}>
-	            		<SidebarItem key={ i } to={ page.path } icon={page.icon} theme={theme} className={page.itemClass}>
+          			<div key={ i } className={page.sectionClass}>
+	            		<SidebarItem  to={ page.path } icon={page.icon} theme={theme} className={page.itemClass}>
 	    					{ page.name }
 	  					</SidebarItem>
-	  					{page.children ? page.children.map(child => {
+	  					{page.children ? page.children.map((child,x) => {
 	  						return (
-	  							<SidebarItem key={ i } to={ child.path } icon={child.icon} theme={theme} className={child.itemClass}>
+	  							<SidebarItem key={ x } to={ child.path } icon={child.icon} theme={theme} className={child.itemClass}>
 		    						{ child.name }
 		  						</SidebarItem>
 		  					)
