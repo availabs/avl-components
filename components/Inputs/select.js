@@ -135,7 +135,7 @@ class Select extends React.Component {
             onClick={ e => this.openDropdown(e) }>
             { values.length ?
               values.map((v, i) =>
-                <ValueItem key={ i }
+                <ValueItem key={ i } disabled={ disabled }
                   remove={ e => this.removeItem(e, v) }>
                   { this.props.accessor(v) }
                 </ValueItem>
