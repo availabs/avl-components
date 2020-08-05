@@ -337,7 +337,6 @@ const $compositions = {
 		"navitemSide",
 		"navitemSideActive"
 	], // <-- these are generated in theme during composeDefaults
-		// these should be commonly used classNames
 	button,
 	input,
 	navitem,
