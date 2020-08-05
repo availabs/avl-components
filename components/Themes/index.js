@@ -4,7 +4,7 @@ const compose = (themeType, theme) => {
 	if (!theme.$compositions[base]) return theme[base];
 
 	return theme.$compositions[base].reduce((a, c) => {
-		let option = c.default || "";
+		let option = c.$default || "";
 		for (const opt of rest) {
 			if (opt in c) {
 				option = c[opt];
@@ -69,8 +69,10 @@ const composeDefaults = theme => {
 
 const handler = {
 	get: (theme, definition, receiver) => {
-		if (definition in theme) return theme[definition];
-		return compose(definition, theme);
+		if (!(definition in theme)) {
+			theme[definition] = compose(definition, theme);
+		}
+		return theme[definition];
 	}
 }
 
@@ -278,45 +280,53 @@ export const light =  new Proxy(light_base, handler);
 // TEST THEME COMPOSITIONS BELOW!!!!!!!!!!
 
 const button = [
-	{ default: "rounded inline-flex items-center justify-center @transition disabled:cursor-not-allowed disabled:bg-transparent disabled:opacity-50 focus:outline-none border" }, // <-- applied to all buttons
-	{ default: "$button", // <-- this is pulled from the theme during composeDefaults and overwritten
+	{ $default: "rounded inline-flex items-center justify-center @transition disabled:cursor-not-allowed disabled:bg-transparent disabled:opacity-50 focus:outline-none border" }, // <-- applied to all buttons
+	{ $default: "$button", // <-- this is pulled from the theme during composeDefaults and overwritten
 		Primary: "$buttonPrimary", // <-- this is pulled from the theme during composeDefaults and overwritten
 		Success: "$buttonSuccess",
 		Danger: "$buttonDanger",
 		Info: "$buttonInfo"
 	},
-	{ default: "px-4 py-1 @textBase", // <<-- padding based on size
+	{ $default: "px-4 py-1 @textBase", // <<-- padding based on size
 		Large: "px-6 py-2 @textLarge",
 		Small: "px-2 py-0 @textSmall"
 	},
 	{ Block: "w-full" }
 ]
 const input = [
-	{ default: "w-full block rounded cursor-pointer disabled:cursor-not-allowed @transition @text @placeholder @inputBg @inputBorder" },
-	{ default: "@paddingBase @textBase", // <<-- padding based on size
+	{ $default: "w-full block rounded cursor-pointer disabled:cursor-not-allowed @transition @text @placeholder @inputBg @inputBorder" },
+	{ $default: "@paddingBase @textBase", // <<-- padding based on size
 		Large: "@paddingLarge @textLarge",
 		Small: "@paddingSmall @textSmall"
 	}
 ]
 const navitem = [
-	{ default: "group border-transparent font-medium focus:outline-none @transition"},
+	{ $default: "group border-transparent font-medium focus:outline-none @transition"},
 	{ Top: "mr-4 inline-flex items-center px-1 pt-1 border-b-2 text-sm leading-5",
 		Side: "mb-1 flex pl-3 pr-4 py-2 border-l-4 text-bas"
 	},
-	{ default: "@menuBg @menuBgHover @menuText @menuTextHover",
+	{ $default: "@menuBg @menuBgHover @menuText @menuTextHover",
 		Active: "@menuBgActive @menuBgActiveHover @menuTextActive @menuTextActiveHover" }
 ]
 const textbutton = [
-	{ default: "@transition inline-flex px-2 hover:font-bold disabled:font-normal disabled:cursor-not-allowed disabled:opacity-50 focus:outline-none" },
-	{ default: "$textbutton",
+	{ $default: "@transition inline-flex px-2 hover:font-bold disabled:font-normal disabled:cursor-not-allowed disabled:opacity-50 focus:outline-none" },
+	{ $default: "$textbutton",
  		Info: "text-teal-400 hover:text-teal-500 disabled:text-teal-400"
 	},
-	{ default: "text-base",
+	{ $default: "text-base",
 		Large: "text-lg",
 		Small: "text-sm"
 	},
-	{ default: "font-normal cursor-pointer",
+	{ $default: "font-normal cursor-pointer",
 		Active: "font-bold cursor-default"
+	}
+]
+const list = [
+	{ $default: "@transition rounded"
+	},
+	{ $default: "p-2 pb-0 bg-gray-200",
+		Dragging: "p-2 pb-0 bg-gray-400",
+		Item: "py-1 px-3 bg-gray-300 mb-2"
 	}
 ]
 const $compositions = {
@@ -331,7 +341,8 @@ const $compositions = {
 	button,
 	input,
 	navitem,
-	textbutton
+	textbutton,
+	list
 }
 
 const TEST_THEME_BASE = {

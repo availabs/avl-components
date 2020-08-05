@@ -2,15 +2,16 @@ import React from "react"
 
 import { useTheme } from "components/avl-components/wrappers/with-theme"
 
-export const ValueItem = ({ isPlaceholder, children, remove, edit }) => {
+export const ValueItem = ({ isPlaceholder, children, remove, edit, disabled = false }) => {
   const theme = useTheme();
   return (
     <div className={ `
-        ${ isPlaceholder ? theme.textLight : `${ theme.accent1 } mr-1 pl-2 ${ Boolean(remove || edit) ? "pr-1" : "pr-2" }` }
+        ${ isPlaceholder ? theme.textLight :
+          `${ disabled ? theme.accent2 : theme.accent1 } mr-1 pl-2 ${ Boolean(!disabled && (remove || edit)) ? "pr-1" : "pr-2" }` }
         rounded whitespace-pre-wrap mt-1 relative flex items-center
       ` }>
       { children }
-      { isPlaceholder || !edit ? null :
+      { isPlaceholder || disabled || !edit ? null :
         <div className={ `
             ${ theme.menuBgActive } ${ theme.menuBgActiveHover } ${ theme.textContrast }
             ml-2 p-1 flex justify-center items-center rounded cursor-pointer
@@ -22,7 +23,7 @@ export const ValueItem = ({ isPlaceholder, children, remove, edit }) => {
           </svg>
         </div>
       }
-      { isPlaceholder || !remove ? null :
+      { isPlaceholder || disabled || !remove ? null :
         <div className={ `
             ${ theme.menuBgActive } ${ theme.menuBgActiveHover } ${ theme.textContrast }
             ${ edit ? "ml-1" : "ml-2" } p-1 flex justify-center items-center rounded cursor-pointer
