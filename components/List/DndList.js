@@ -18,7 +18,7 @@ const DraggableItem = ({ id, index, children }) =>
     }
   </Draggable>
 
-const DndList = ({ onDrop, children }) => {
+const DndList = ({ onDrop, onStart = null, children }) => {
   const onDragEnd = React.useCallback(result => {
     if (!result.destination) return;
 
@@ -29,26 +29,29 @@ const DndList = ({ onDrop, children }) => {
 
     onDrop(start, end);
   }, [onDrop]);
+
+  const onDragStart = React.useCallback(result => {
+    onStart && onStart(result.source.index);
+  })
+
   const theme = useTheme();
 
   return (
-    <DragDropContext onDragEnd={ onDragEnd }>
+    <DragDropContext onDragEnd={ onDragEnd } onDragStart={ onDragStart }>
       <Droppable droppableId={ "my-list" } className="box-content">
         { (provided, snapshot) => (
             <div ref={ provided.innerRef }
               { ...provided.droppableProps }
-              className={ `flex flex-col
+              className={ `
                 ${ snapshot.isDraggingOver ? theme.listDragging : theme.list }
               ` }>
-              <div>
                 { React.Children.toArray(children).map((child, i) =>
                     <DraggableItem key={ child.key } id={ child.key } index={ i }>
                       { child }
                     </DraggableItem>
                   )
                 }
-              </div>
-              { provided.placeholder }
+                { provided.placeholder }
             </div>
           )
         }
