@@ -13,9 +13,8 @@ import get from "lodash.get"
 
 const DefaultLayout = ({ component, path, exact, layoutSettings, ...props }) => {
   const Layout = get(Layouts, props.layout, Layouts["Sidebar"])
-  const themeName = get(layoutSettings, "theme", "light"),
-  const theme = typeof themeName === 'string' ? 
-  const get(themes, themeName, null) : themeName
+  const themeName = get(layoutSettings, "theme", "light")
+  const theme = typeof themeName === 'string' ? get(themes, themeName, null) : themeName
   const location = useLocation();
 
   if (props.isAuthenticating && !props.authed) {
