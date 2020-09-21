@@ -69,7 +69,7 @@ const DesktopMenu = ({menuItems=[], open, toggle, fixed, width, logo}) => {
 export default ({ ...props }) => {
   const theme = useTheme();
   return (
-    <nav className={`${theme.menuBg} h-16  ${theme.sidebarBorder}`}>
+    <nav className={`${theme.menuBg} ${theme.topNavHeight ? theme.topNavHeight : 'h-16'}  ${theme.sidebarBorder}`}>
       <DesktopMenu {...props} />
       <MobileMenu {...props} />
     </nav>
