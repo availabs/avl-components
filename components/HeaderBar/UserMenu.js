@@ -5,7 +5,7 @@ import { Link } from "react-router-dom"
 import { useClickOutside } from "../utils"
 import { useTheme } from "../../wrappers/with-theme"
 
-export const UserMenu = ({ children }) => {
+export const UserMenu = ({ user, children }) => {
   const [open, setOpen] = React.useState(false),
     clickedOutside = React.useCallback(() => setOpen(false), []),
     [setRef] = useClickOutside(clickedOutside),

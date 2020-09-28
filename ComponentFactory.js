@@ -35,7 +35,7 @@ const getBasicJSX = config => ({ children, ...props }) =>
 
 const getComponent = config =>
   typeof config === "function" ? config :
-  typeof config === "string" ? () => <React.Fragment>{ config }</React.Fragment> :
+  typeof config === "string" ? () => config :
   typeof config.type === "function" ? config.type :
   get(ComponentLibrary, config.type, getBasicJSX(config));
 
@@ -62,10 +62,15 @@ const processConfig = (config, i = 0) => {
 
 // console.log("CHILDEN:", children)
 // console.log("CONFIG PROPS:", config.props)
-  return React.createElement(Component,
-    { ...config.props, key: getKey(config, i) },
-    children.map((child, i) => processConfig(child, i))
-  );
+  return (
+    <Component { ...get(config, "props", {}) } key={ getKey(config, i) }>
+      { children.map((child, i) => processConfig(child, i)) }
+    </Component>
+  )
+  // return React.createElement(Component,
+  //   { ...config.props, key: getKey(config, i) },
+  //   children.map((child, i) => processConfig(child, i))
+  // );
 }
 
 export default ({ config }) => processConfig(config)

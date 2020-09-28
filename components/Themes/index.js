@@ -228,11 +228,11 @@ const light_base = {
 	headerBgHover: "hover:bg-gray-400",
 
 	inputBg: "bg-white disabled:bg-gray-200 cursor-pointer focus:outline-none",
-	inputBorder: "rounded border-2 border-transparent hover:border-gray-300 focus:border-gray-600 disabled:border-gray-200",
+	inputBorder: "rounded border border-transparent hover:border-gray-300 focus:border-gray-600 disabled:border-gray-200",
 	inputBgDisabled: "bg-gray-200 cursor-not-allowed focus:outline-none",
-	inputBorderDisabled: "rounded border-2 border-gray-200 hover:border-gray-200",
+	inputBorderDisabled: "rounded border border-gray-200 hover:border-gray-200",
 	inputBgFocus: "bg-white cursor-pointer focus:outline-none",
-	inputBorderFocus: "rounded border-2 border-transparent hover:border-gray-600 focus:border-gray-600 border-gray-600",
+	inputBorderFocus: "rounded border border-transparent hover:border-gray-600 focus:border-gray-600 border-gray-600",
 
 	textBase: "text-base",
 	textSmall: "text-sm",
