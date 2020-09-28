@@ -12,10 +12,10 @@ import LoadingPage from "./components/Loading/LoadingPage"
 import get from "lodash.get"
 
 const DefaultLayout = ({ component, path, exact, layoutSettings, ...props }) => {
-  const Layout = get(Layouts, props.layout, Layouts["Sidebar"]),
-    themeName = get(layoutSettings, "theme", "light"),
-    theme = get(themes, themeName, null),
-    location = useLocation();
+  const Layout = get(Layouts, props.layout, Layouts["Sidebar"])
+  const themeName = get(layoutSettings, "theme", "light")
+  const theme = typeof themeName === 'string' ? get(themes, themeName, null) : themeName
+  const location = useLocation();
 
   if (props.isAuthenticating && !props.user.authed) {
     return (
@@ -31,6 +31,7 @@ const DefaultLayout = ({ component, path, exact, layoutSettings, ...props }) => 
       </ThemeContext.Provider>
     )
   }
+  
   return sendToLogin(props) ?
     ( <Redirect
         to={ {

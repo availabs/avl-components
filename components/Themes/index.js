@@ -67,7 +67,7 @@ const composeDefaults = theme => {
 	return composedTheme;
 }
 
-const handler = {
+export const handler = {
 	get: (theme, definition, receiver) => {
 		if (!(definition in theme)) {
 			theme[definition] = compose(definition, theme);
