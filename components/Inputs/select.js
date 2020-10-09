@@ -118,10 +118,14 @@ class Select extends React.Component {
   render() {
     const { disabled } = this.props,
       values = this.getValues(),
+      search = this.state.search.toString().toLowerCase(),
       domain = this.props.domain
         .filter(d => values.reduce((a, c) => a && !deepequal(c, d), true))
         .filter(d =>
-          this.props.accessor(d).toString().includes(this.state.search)
+          !search ||
+          this.props.accessor(d)
+            .toString().toLowerCase()
+            .includes(search)
         );
 
     return (
