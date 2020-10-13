@@ -20,7 +20,6 @@ export default ({ to, icon, className, children, theme, type='side' }) => {
   const linkClasses = type === 'side' ? theme.navitemSide : theme.navitemTop,
     activeClasses = type === 'side' ? theme.navitemSideActive : theme.navitemTopActive;
 
-   console.log('activeClasses', type, activeClasses)
 
   return (
     <NavLink to={to} className={className + ' ' + linkClasses } activeClassName={`${className} ${activeClasses }`}>
