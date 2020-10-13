@@ -4,7 +4,9 @@ import React, { Component } from 'react';
 
 import SideNav from '../Nav/Side'
 import TopNav from '../Nav/Top'
-import HeaderBar from '../HeaderBar'
+// import HeaderBar from '../HeaderBar'
+
+import HeaderBar from "../Header/HeaderComponent"
 
 
 class Layout extends Component {
@@ -43,7 +45,7 @@ class Layout extends Component {
         {this.props.headerBar ? (
           <div className={`${this.props.fixed ? `fixed left-0 top-0 w-full z-10 ${this.props.nav === 'top' ? '' : '' }` : ''}`}>
             <div className={`${this.props.maxWidth} mx-auto`} >
-              <HeaderBar
+              <HeaderBar title=""
                 toggle={this.toggleMenu}
                 menu={this.props.headerMenu}
                 fixed={this.props.fixed}

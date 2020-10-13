@@ -26,7 +26,7 @@ export const addWrappers = wraps => {
   }
 }
 
-const getKey = (config, i) => get(config, "key", `key-${ i }`);
+const getKey = (config, i) => get(config, "key", `key-${ i.join("-") }`);
 
 const getBasicJSX = config => ({ children, ...props }) =>
   <config.type { ...props }>
@@ -56,7 +56,7 @@ const applyWrappers = (Component, config) => {
     }, Component);
 }
 
-const processConfig = (config, i = 0) => {
+const processConfig = (config, i = [0]) => {
   const Component = applyWrappers(getComponent(config), config),
     children = get(config, "children", []);
 
@@ -64,7 +64,7 @@ const processConfig = (config, i = 0) => {
 // console.log("CONFIG PROPS:", config.props)
   return (
     <Component { ...get(config, "props", {}) } key={ getKey(config, i) }>
-      { children.map((child, i) => processConfig(child, i)) }
+      { children.map((child, ii) => processConfig(child, [...i, ii])) }
     </Component>
   )
   // return React.createElement(Component,
@@ -73,4 +73,6 @@ const processConfig = (config, i = 0) => {
   // );
 }
 
-export default ({ config }) => processConfig(config)
+export default ({ config }) => {
+  return processConfig(config);
+}

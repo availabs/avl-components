@@ -2,12 +2,16 @@ import React, { useState } from "react";
 import { Link } from 'react-router-dom'
 import HeaderMenu from './HeaderMenu'
 
+import withAuth from "../../wrappers/with-auth"
+
 import { useClickOutside } from "../utils"
 
-const HeaderBar = (props) => {
+const HeaderBar = props => {
   const [open, setOpen] = useState(false),
     openMenu = () => setOpen(true),
     closeMenu = () => setOpen(false);
+
+  const { authed } = props.user;
 
   const [setRef] = useClickOutside(closeMenu);
 
@@ -31,19 +35,28 @@ const HeaderBar = (props) => {
           </button>
           <div className="ml-3 relative" x-data="{ open: false }" ref={ setRef }>
             <div>
-              <button onClick={openMenu} className="max-w-xs flex items-center text-sm rounded-full focus:outline-none focus:shadow-outline">
+              { !authed ?
                 <span className="inline-block h-6 w-6 rounded-full overflow-hidden bg-gray-100">
-                  <svg className="h-full w-full text-blue-600" fill="currentColor" viewBox="0 0 24 24">
-                    <path d="M24 20.993V24H0v-2.996A14.977 14.977 0 0112.004 15c4.904 0 9.26 2.354 11.996 5.993zM16.002 8.999a4 4 0 11-8 0 4 4 0 018 0z" />
-                  </svg>
-                </span>
-              </button>
+                  <Link to="/auth/login">
+                    <svg className="h-full w-full text-blue-600" fill="currentColor" viewBox="0 0 24 24">
+                      <path d="M24 20.993V24H0v-2.996A14.977 14.977 0 0112.004 15c4.904 0 9.26 2.354 11.996 5.993zM16.002 8.999a4 4 0 11-8 0 4 4 0 018 0z" />
+                    </svg>
+                  </Link>
+                </span> :
+                <button onClick={openMenu} className="max-w-xs flex items-center text-sm rounded-full focus:outline-none focus:shadow-outline">
+                  <span className="inline-block h-6 w-6 rounded-full overflow-hidden bg-gray-100">
+                    <svg className="h-full w-full text-blue-600" fill="currentColor" viewBox="0 0 24 24">
+                      <path d="M24 20.993V24H0v-2.996A14.977 14.977 0 0112.004 15c4.904 0 9.26 2.354 11.996 5.993zM16.002 8.999a4 4 0 11-8 0 4 4 0 018 0z" />
+                    </svg>
+                  </span>
+                </button>
+              }
             </div>
             <div style={{display: open ? 'block' : 'none'}} x-transition_enter="transition ease-out duration-100" x-transition_enter-start="transform opacity-0 scale-95" x-transition_enter-end="transform opacity-100 scale-100" x-transition_leave="transition ease-in duration-75" x-transition_leave-start="transform opacity-100 scale-100" x-transition_leave-end="transform opacity-0 scale-95" className="origin-top-right absolute right-0 mt-2 w-48 rounded-md shadow-lg">
               <div className="py-1 rounded-md bg-white shadow-xs">
                 <button className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 transition ease-in-out duration-150">Your Profile</button>
                 <button className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 transition ease-in-out duration-150">Settings</button>
-                <Link to={'/logout'} className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 transition ease-in-out duration-150">Sign out</Link>
+                <Link to={'/auth/logout'} className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 transition ease-in-out duration-150">Sign out</Link>
               </div>
             </div>
           </div>
@@ -54,4 +67,4 @@ const HeaderBar = (props) => {
 
 }
 
-export default HeaderBar
+export default withAuth(HeaderBar)
