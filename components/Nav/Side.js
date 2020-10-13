@@ -21,13 +21,23 @@ const MobileSidebar = ({open, toggle, menuItems=[]}) => {
 	        <div className={`flex-1 h-0 pt-2 pb-4 overflow-y-auto ${theme.menuBg}`}>
 	          <div className='px-6 pt-4 pb-8 logo-text gray-900' >Logo{/* Logo Goes Here */}</div>
 	          <nav className="">
-	            {menuItems.map((page,i) => {
-            		return (
-            			<SidebarItem key={i} to={page.path} icon={page.icon} theme={theme}>
-        					{page.name}
-      					</SidebarItem>
-            		)
-           		})}
+	            av className="flex-1">
+            {menuItems.map((page, i) => {
+            	return (
+          			<div key={ i } className={page.sectionClass}>
+	            		<SidebarItem  to={ page.path } icon={page.icon} theme={theme} className={page.itemClass}>
+	    					{ page.name }
+	  					</SidebarItem>
+	  					{page.children ? page.children.map((child,x) => {
+	  						return (
+	  							<SidebarItem key={ x } to={ child.path } icon={child.icon} theme={theme} className={child.itemClass}>
+		    						{ child.name }
+		  						</SidebarItem>
+		  					)
+	  					}) : ''}
+  					</div>
+            	)
+           	})}
 	          </nav>
 	        </div>
 

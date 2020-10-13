@@ -3,8 +3,8 @@ import {Link} from 'react-router-dom'
 import { useTheme } from "../../wrappers/with-theme"
 import NavItem from './Item'
 
-const MobileMenu = ({open, toggle, menuItems=[]}) => {
-  const theme = useTheme();
+const MobileMenu = ({open, toggle, menuItems=[], customTheme}) => {
+  const theme = Object.assign({},useTheme(), customTheme);
   return (
   <div className={`${open ? 'sm:hidden' : 'hidden'} ${theme.menuBg}`}>
       <div className="pt-2 pb-3">
@@ -27,8 +27,8 @@ const MobileMenu = ({open, toggle, menuItems=[]}) => {
 }
 
 
-const DesktopMenu = ({menuItems=[], open, toggle, fixed, width, logo}) => {
-  const theme = useTheme();
+const DesktopMenu = ({menuItems=[], open, toggle, fixed, width, logo, customTheme=false}) => {
+  const theme = Object.assign({},useTheme(), customTheme);
   return (
     <div className={` z-20 ${theme.topNavHeight ? theme.topNavHeight : 'h-16'}  ${theme.sidebarBg}  ${theme.topMenuBorder}`}>
       <div className={`${theme.width} flex justify-between ${theme.topNavHeight ? theme.topNavHeight : 'h-16'}`}>
@@ -66,8 +66,8 @@ const DesktopMenu = ({menuItems=[], open, toggle, fixed, width, logo}) => {
 }
 
 
-export default ({ ...props }) => {
-  const theme = useTheme();
+export default (props) => {
+  const theme = Object.assign({},useTheme(), props.customTheme);
   return (
     <nav className={`${theme.menuBg} ${theme.topNavHeight ? theme.topNavHeight : 'h-16'}  ${theme.sidebarBorder}`}>
       <DesktopMenu {...props} />

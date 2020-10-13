@@ -29,7 +29,7 @@ export const addWrappers = wraps => {
 const getKey = (config, i) => get(config, "key", `key-${ i.join("-") }`);
 
 const getBasicJSX = config => ({ children, ...props }) =>
-  <config.type { ...props }>
+  <config.type >
     { children }
   </config.type>
 
