@@ -1,5 +1,5 @@
 import React from 'react';
-import { Route, Redirect, useLocation } from "react-router-dom";
+import { Route, Redirect, useLocation, useParams } from "react-router-dom";
 import Layouts from './components/Layouts'
 import * as themes from './components/Themes'
 
@@ -15,7 +15,14 @@ const DefaultLayout = ({ component, path, exact, layoutSettings, ...props }) => 
   const Layout = get(Layouts, props.layout, Layouts["Sidebar"]),
     themeName = get(layoutSettings, "theme", "light"),
     theme = get(themes, themeName, null),
-    location = useLocation();
+    location = useLocation(),
+    params = useParams();
+
+  console.log('params', params, location)
+  if(params) {
+
+    component.props = {...component.props, params}
+  }
 
   if (props.isAuthenticating && !props.authed) {
     return (
