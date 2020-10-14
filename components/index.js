@@ -6,6 +6,7 @@ import { List, ListItemRemovable, ListItemAction } from './List/List'
 import {Input } from './Inputs'
 import Table from './Table'
 import SideNav from './Nav/Side'
+import TopNav from './Nav/Top'
 
 export	{
 	Header,
@@ -19,5 +20,6 @@ export	{
 	ListItemRemovable,
 	ListItemAction,
 	Input,
-	SideNav
+	SideNav,
+	TopNav
 }

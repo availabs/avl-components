@@ -12,19 +12,17 @@ import LoadingPage from "./components/Loading/LoadingPage"
 import get from "lodash.get"
 
 const DefaultLayout = ({ component, path, exact, layoutSettings, ...props }) => {
-  const Layout = get(Layouts, props.layout, Layouts["Sidebar"]),
-    themeName = get(layoutSettings, "theme", "light"),
-    theme = get(themes, themeName, null),
-    location = useLocation(),
-    params = useParams();
+  const Layout = get(Layouts, props.layout, Layouts["Sidebar"])
+  const themeName = get(layoutSettings, "theme", "light")
+  const theme = typeof themeName === 'string' ? get(themes, themeName, null) : themeName
+  const location = useLocation()
+  const params = useParams()
 
-  console.log('params', params, location)
   if(params) {
-
     component.props = {...component.props, params}
   }
 
-  if (props.isAuthenticating && !props.authed) {
+  if (props.isAuthenticating && !props.user.authed) {
     return (
       <ThemeContext.Provider value={ theme }>
         <Layout { ...layoutSettings } { ...props } theme={ theme }>
@@ -38,16 +36,15 @@ const DefaultLayout = ({ component, path, exact, layoutSettings, ...props }) => 
       </ThemeContext.Provider>
     )
   }
-  return sendToLgin(props) ?
-    (
-      <Redirect
+  
+  return sendToLogin(props) ?
+    ( <Redirect
         to={ {
-          pathname: "/login",
+          pathname: "/auth/login",
           state: { from: get(location, "pathname") }
-        } }
-      />
-    ) : (
-      <ThemeContext.Provider value={ theme }>
+        } }/>
+    ) : sendToHome(props) ? <Redirect to="/"/> :
+    ( <ThemeContext.Provider value={ theme }>
         <Layout { ...layoutSettings } { ...props } theme={ theme }>
           <Route path={ path } exact={ exact }>
             <ComponentFactory config={ component }/>
@@ -57,7 +54,11 @@ const DefaultLayout = ({ component, path, exact, layoutSettings, ...props }) => 
     )
 }
 
-function sendToLgin (props) {
+function sendToLogin(props) {
+  const requiresAuth = (props.authLevel !== undefined) || props.auth;
+  return requiresAuth ? !get(props, ["user", "authed"], false) : false;
+}
+function sendToHome(props) {
   const requiredAuthLevel = props.authLevel !== undefined ? props.authLevel : props.auth ? 1 : -1;
   return get(props , ["user", "authLevel"], -1) < requiredAuthLevel;
 }

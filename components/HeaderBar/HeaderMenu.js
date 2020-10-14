@@ -1,8 +1,6 @@
 import React from "react";
 import { Link } from 'react-router-dom'
 
-
-
 const HeaderMenu = ({menu}) => {
   const {title, items=[]}  = menu
   return (
@@ -34,9 +32,7 @@ const HeaderMenu = ({menu}) => {
         </Link>)
       )}
     </div>
-
   )
-
 }
 
 export default HeaderMenu
