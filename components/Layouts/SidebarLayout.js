@@ -54,20 +54,20 @@ class Layout extends Component {
             </div>
           </div>
         ) : null }
-      	<div className={`min-h-screen ${this.props.maxWidth} mx-auto overflow-hidden`} >
-          <div className="flex h-full">
-          {this.props.nav === 'side' ? (
-            <SideNav
-              open={this.state.menuOpen}
-              toggle={this.toggleMenu}
-              menuItems={this.props.menus}
-              fixed={this.props.fixed}
-              theme={theme}
-            />) : null }
-            <div className="w-0 flex-1 overflow-hidden">
+      	<div className={ `min-h-screen ${this.props.maxWidth} mx-auto` }>
+          <div className="flex min-h-screen">
+            { this.props.nav === 'side' ? (
+              <SideNav
+                open={this.state.menuOpen}
+                toggle={this.toggleMenu}
+                menuItems={this.props.menus}
+                fixed={this.props.fixed}
+                theme={theme}/>) : null
+            }
+            <div className="flex-1">
               <main className={`
-                  flex-1 z-0 focus:outline-none min-h-screen h-full
-                  ${this.props.headerBar ? 'mt-16' : ''}
+                  flex-1 z-0 focus:outline-none
+                  ${this.props.headerBar ? "mt-16" : ''}
                   ${this.props.fixed && this.props.nav === 'side' ?  `md:ml-${theme.sidebarW}` : '' }
                   ${this.props.fixed && this.props.nav === 'top' ?  `` : '' }
 

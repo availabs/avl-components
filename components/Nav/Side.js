@@ -50,13 +50,13 @@ const MobileSidebar = ({open, toggle, menuItems=[]}) => {
 	)
 }
 
-const DesktopSidebar = ({menuItems=[], fixed, logo='', ...rest}) => {
+const DesktopSidebar = ({menuItems = [], fixed, logo = null, ...rest}) => {
 	const theme = useTheme();
 	return(
-	<div className={`hidden md:flex md:flex-shrink-0 z-20 ${theme.menuBg} ${fixed ? 'fixed top-0 h-screen' : ''} ${theme.sidebarBorder}`}>
-      <div className={`flex flex-col w-${theme.sidebarW}`}>
-        <div className={`w-${theme.sidebarW} flex-1 flex flex-col pb-4 overflow-y-auto`}>
-          <div className='px-6 pt-4 pb-8 logo-text gray-900' >{logo}</div>
+	<div className={ `hidden md:flex md:flex-shrink-0 z-20 ${ theme.menuBg } ${ fixed ? 'fixed top-0 h-screen' : '' } ${ theme.sidebarBorder }` }>
+      <div className={ `flex flex-col w-${ theme.sidebarW }` }>
+        <div className={ `w-${ theme.sidebarW } flex-1 flex flex-col pb-4 overflow-y-auto` }>
+          <div className='h-16 px-6 flex items-center'>{ logo }</div>
           <nav className="flex-1">
             {menuItems.map((page, i) => {
             	return (
