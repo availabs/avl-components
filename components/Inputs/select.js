@@ -7,12 +7,13 @@ import { ValueContainer, ValueItem } from "./parts"
 import { useTheme } from "../../wrappers/with-theme"
 
 import deepequal from "deep-equal"
+import matchSorter from "match-sorter"
 
 const Dropdown = React.forwardRef(({ children, searchable, opened, direction }, ref) => {
   const theme = useTheme();
   return (
     <div className={ `
-      absolute left-0 z-40 overflow-hidden w-full
+      absolute left-0 z-40 overflow-hidden
       ${ opened ? "block" : "hidden" }
     ` }
       style={ direction === "down" ? { top: "100%" } : { bottom: "100%" } } ref={ ref }>
@@ -25,7 +26,7 @@ const Dropdown = React.forwardRef(({ children, searchable, opened, direction }, 
 const DropdownItem = ({ children, ...props }) => {
   const theme = useTheme();
   return (
-    <div { ...props } className={ `cursor-pointer hover:${ theme.accent2 } px-2` }>
+    <div { ...props } className={ `cursor-pointer hover:${ theme.accent2 } px-2 whitespace-no-wrap` }>
       { children }
     </div>
   )
@@ -36,9 +37,11 @@ class Select extends React.Component {
     multi: true,
     searchable: true,
     domain: [],
+    options: [],
     value: null,
     placeholder: "Select a value...",
     accessor: d => d,
+    listAccessor: null,
     id: "avl-select",
     autoFocus: false,
     disabled: false
@@ -115,18 +118,25 @@ class Select extends React.Component {
   setSearch(search) {
     this.setState({ search })
   }
+  getOptions() {
+    return this.props.options.length ? this.props.options : this.props.domain;
+  }
   render() {
-    const { disabled } = this.props,
+    const { disabled, accessor } = this.props,
       values = this.getValues(),
       search = this.state.search.toString().toLowerCase(),
-      domain = this.props.domain
+      _options = this.getOptions()
         .filter(d => values.reduce((a, c) => a && !deepequal(c, d), true))
-        .filter(d =>
-          !search ||
-          this.props.accessor(d)
-            .toString().toLowerCase()
-            .includes(search)
-        );
+        // .filter(d =>
+        //   !search ||
+        //   this.props.accessor(d)
+        //     .toString().toLowerCase()
+        //     .includes(search)
+        // );
+
+    const options = matchSorter(_options, search, { keys: [accessor] });
+
+    const listAccessor = this.props.listAccessor || accessor;
 
     return (
       <div className="relative" onMouseLeave={ e => this.closeDropdown() }>
@@ -141,7 +151,7 @@ class Select extends React.Component {
               values.map((v, i) =>
                 <ValueItem key={ i } disabled={ disabled }
                   remove={ e => this.removeItem(e, v) }>
-                  { this.props.accessor(v) }
+                  { accessor(v) }
                 </ValueItem>
               ) :
               <ValueItem key="placeholder" isPlaceholder={ true }>
@@ -160,14 +170,14 @@ class Select extends React.Component {
                   value={ this.state.search } onChange={ v => this.setSearch(v) }/>
               </div>
             }
-            { !domain.length ?
+            { !options.length ?
               <div className="p-1 text-center">No Selections</div> :
               <div className="scrollbar overflow-y-auto"
                 style={ { maxHeight: "15rem" } }>
-                { domain.map(d =>
-                    <DropdownItem key={ this.props.accessor(d) }
+                { options.map(d =>
+                    <DropdownItem key={ accessor(d) }
                       onClick={ e => this.addItem(e, d) }>
-                      { this.props.accessor(d) }
+                      { listAccessor(d) }
                     </DropdownItem>
                   )
                 }
