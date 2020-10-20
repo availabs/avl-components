@@ -5,7 +5,7 @@ let UNIQUE_ID = 0;
 const getUniqueId = () =>
   `system-message-${ ++UNIQUE_ID }`;
 
-const MESSAGE_TYPES = ["Warning", "Success", "Info", "Danger"];
+const MESSAGE_TYPES = ["Danger", "Warning", "Success", "Info"];
 const DEFAULT_MESSAGE_OPTIONS = {
   duration: 7500,
   type: MESSAGE_TYPES[0],
@@ -44,7 +44,6 @@ export const dismissSystemMessage = id =>
 export default (state=[], action) => {
   switch (action.type) {
     case SEND_SYSTEM_MESSAGE: {
-console.log(SEND_SYSTEM_MESSAGE, action)
       let newState = state.filter(({ id }) => id !== action.options.id);
       newState.push({ message: action.message, ...action.options });
       return newState;
