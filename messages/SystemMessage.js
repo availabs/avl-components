@@ -1,10 +1,7 @@
 import React from 'react';
-import { connect } from 'react-redux';
 
 import { Button } from "components/avl-components/components"
 import { useTheme } from "components/avl-components/wrappers/with-theme"
-
-import { dismissSystemMessage } from './reducer';
 
 const Message = ({ message, top, type, show, dismiss, confirm = null }) => {
   const theme = useTheme();
@@ -33,22 +30,23 @@ const Message = ({ message, top, type, show, dismiss, confirm = null }) => {
   )
 }
 
-class SystemMessage extends React.Component {
-	state = { show: "init" }
+export class SystemMessage extends React.Component {
+	state = { show: "show" };
   timeout = null
 	componentDidMount() {
-		setTimeout(this.setState.bind(this), 250, { show: "show" });
 		if (this.props.duration) {
 			this.timeout = setTimeout(this.dismiss.bind(this), this.props.duration);
 		}
 	}
   componentWillUnmount() {
     clearTimeout(this.timeout);
+    this.props.dismissSystemMessage(this.props.id);
   }
 	dismiss() {
 		this.setState({ show: "hide" });
-		setTimeout(this.props.dismissSystemMessage, 500, this.props.id);
-		setTimeout(this.props.onDismiss, 500);
+    clearTimeout(this.timeout);
+		this.timeout = setTimeout(this.props.dismissSystemMessage, 750, this.props.id);
+		this.props.onDismiss();
 	}
 	render() {
 		return (
@@ -58,24 +56,12 @@ class SystemMessage extends React.Component {
 	}
 }
 
-const mapStateToProps = state => ({})
-const mapDispatchToProps = {
-  dismissSystemMessage
-};
-
-const ConnectedSystemMessage = connect(mapStateToProps, mapDispatchToProps)(SystemMessage);
-export { ConnectedSystemMessage as SystemMessage };
-
-class ConfirmMessage extends SystemMessage {
-	dismiss() {
-		this.setState({ show: "hide" });
-		setTimeout(this.props.dismissSystemMessage, 500, this.props.id);
-		setTimeout(this.props.onDismiss, 500);
-	}
+export class ConfirmMessage extends SystemMessage {
 	confirm() {
 		this.setState({ show: "hide" });
-		setTimeout(this.props.dismissSystemMessage, 500, this.props.id);
-		setTimeout(this.props.onConfirm, 500);
+    clearTimeout(this.timeout);
+		this.timeout = setTimeout(this.props.dismissSystemMessage, 750, this.props.id);
+		this.props.onConfirm();
 	}
 	render() {
 		return (
@@ -85,6 +71,3 @@ class ConfirmMessage extends SystemMessage {
 		)
 	}
 }
-
-const ConnectedConfirmMessage = connect(mapStateToProps, mapDispatchToProps)(ConfirmMessage);
-export { ConnectedConfirmMessage as ConfirmMessage };

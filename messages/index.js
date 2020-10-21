@@ -1,6 +1,8 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
+import { dismissSystemMessage } from './reducer';
+
 import {
 	SystemMessage,
 	ConfirmMessage
@@ -8,14 +10,16 @@ import {
 
 import "./messages.css"
 
-const SystemMessages = ({ messages }) =>
+const SystemMessages = ({ messages, dismissSystemMessage }) =>
 	!messages.length ? null :
 	<div className="system-message-container">
 		{
 			messages.map((message, i) =>
 				message.onConfirm ?
-					<ConfirmMessage key={ message.id } top={ i * 3 } { ...message }/> :
-					<SystemMessage key={ message.id } top={ i * 3 } { ...message }/>
+					<ConfirmMessage key={ message.id } top={ i * 3 } { ...message }
+						dismissSystemMessage={ dismissSystemMessage }/> :
+					<SystemMessage key={ message.id } top={ i * 3 } { ...message }
+						dismissSystemMessage={ dismissSystemMessage }/>
 			)
 		}
 	</div>
@@ -23,4 +27,4 @@ const SystemMessages = ({ messages }) =>
 const mapStateToProps = state => ({
   messages: state.messages
 })
-export default connect(mapStateToProps, null)(SystemMessages);
+export default connect(mapStateToProps, { dismissSystemMessage })(SystemMessages);
