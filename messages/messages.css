@@ -1,3 +1,24 @@
+@keyframes show {
+	from {
+		opacity: 0;
+		right: 200px;
+	}
+	to {
+		opacity: 1;
+		right: 0px;
+	}
+}
+@keyframes hide {
+	from {
+		opacity: 1;
+		right: 0px;
+	}
+	to {
+		opacity: 0;
+		right: -200px;
+	}
+}
+
 .system-message-container {
 	position: fixed;
 	z-index: 950;
@@ -7,18 +28,13 @@
 
 .system-message {
 	position: absolute;
-	transition: all 0.5s ease-in-out;
 	white-space: nowrap;
-}
-.system-message.init {
-	opacity: 0;
-	right: 200px;
 }
 .system-message.show {
 	opacity: 1;
 	right: 0px;
+	animation: show 0.75s ease-out;
 }
 .system-message.hide {
-	opacity: 0;
-	right: -200px;
+	animation: hide 0.75s ease-in;
 }
