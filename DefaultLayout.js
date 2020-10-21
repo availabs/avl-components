@@ -9,11 +9,11 @@ import ComponentFactory from "./ComponentFactory"
 
 import get from "lodash.get"
 
-const DefaultLayout = withTheme(({ theme, component, path, exact, layoutSettings, ...props }) => {
+const DefaultLayout = withTheme(({ theme, component, path, exact, layoutSettings, isAuthenticating, ...props }) => {
   const location = useLocation(),
     Layout = get(Layouts, props.layout, Layouts["Sidebar"]);
 
-  if (props.isAuthenticating && !props.user.authed) {
+  if (isAuthenticating) {
     return (
       <Layout { ...layoutSettings } { ...props } theme={ theme }>
         <Route path={ path } exact={ exact }>
