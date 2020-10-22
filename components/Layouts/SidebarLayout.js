@@ -37,7 +37,6 @@ class Layout extends Component {
               toggle={this.toggleMenu}
               menuItems={this.props.menus}
               fixed={this.props.fixed}
-              theme={theme}
               width={this.props.maxWidth}
             />
           </div>
@@ -49,7 +48,7 @@ class Layout extends Component {
                 toggle={this.toggleMenu}
                 menu={this.props.headerMenu}
                 fixed={this.props.fixed}
-                theme={theme}
+                
               />
             </div>
           </div>
@@ -62,7 +61,7 @@ class Layout extends Component {
                 toggle={this.toggleMenu}
                 menuItems={this.props.menus}
                 fixed={this.props.fixed}
-                theme={theme}/>) : null
+                />) : null
             }
             <div className="flex-1">
               <main className={`

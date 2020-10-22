@@ -1,8 +1,9 @@
 import React from "react"
+import { Link } from 'react-router-dom'
 import { useTheme } from "../../wrappers/with-theme"
 import SidebarItem from './Item'
 
-const MobileSidebar = ({open, toggle, menuItems=[]}) => {
+const MobileSidebar = ({open, toggle,logo = null, menuItems=[]}) => {
 	const theme = useTheme();
 	return (
 	<div style={{display: open ? 'block' : 'none' }} className="md:hidden">
@@ -18,26 +19,29 @@ const MobileSidebar = ({open, toggle, menuItems=[]}) => {
 	            </svg>
 	          </button>
 	        </div>
-	        <div className={`flex-1 h-0 pt-2 pb-4 overflow-y-auto ${theme.menuBg}`}>
-	          <div className='px-6 pt-4 pb-8 logo-text gray-900' >Logo{/* Logo Goes Here */}</div>
-	          <nav className="">
-	            av className="flex-1">
-            {menuItems.map((page, i) => {
-            	return (
-          			<div key={ i } className={page.sectionClass}>
-	            		<SidebarItem  to={ page.path } icon={page.icon} theme={theme} className={page.itemClass}>
-	    					{ page.name }
-	  					</SidebarItem>
-	  					{page.children ? page.children.map((child,x) => {
-	  						return (
-	  							<SidebarItem key={ x } to={ child.path } icon={child.icon} theme={theme} className={child.itemClass}>
-		    						{ child.name }
-		  						</SidebarItem>
-		  					)
-	  					}) : ''}
-  					</div>
-            	)
-           	})}
+	        <div className={`flex-1 h-0 pt-2 pb-4 overflow-y-auto overflow-x-hidden ${theme.menuBg}`}>
+	          	<div className='px-6 pt-4 pb-8 logo-text gray-900' >
+	          		<Link to={'/'} className={`flex-shrink-0 flex items-center ${theme.text}`}>
+          			{ logo }
+          			</Link>
+          	 	</div>
+	          <nav className="flex-1">
+	            {menuItems.map((page, i) => {
+	            	return (
+	          			<div key={ i } className={page.sectionClass}>
+		            		<SidebarItem  to={ page.path } icon={page.icon} theme={theme} className={page.itemClass}>
+		    					{ page.name }
+		  					</SidebarItem>
+		  					{page.children ? page.children.map((child,x) => {
+		  						return (
+		  							<SidebarItem key={ x } to={ child.path } icon={child.icon} theme={theme} className={child.itemClass}>
+			    						{ child.name }
+			  						</SidebarItem>
+			  					)
+		  					}) : ''}
+	  					</div>
+	            	)
+	           	})}
 	          </nav>
 	        </div>
 
@@ -50,13 +54,19 @@ const MobileSidebar = ({open, toggle, menuItems=[]}) => {
 	)
 }
 
-const DesktopSidebar = ({menuItems = [], fixed, logo = null, ...rest}) => {
+const DesktopSidebar = ({menuItems = [], fixed, topMenu, logo = null, ...rest}) => {
 	const theme = useTheme();
 	return(
-	<div className={ `hidden md:flex md:flex-shrink-0 z-20 ${ theme.menuBg } ${ fixed ? 'fixed top-0 h-screen' : '' } ${ theme.sidebarBorder }` }>
+	<div className={ `hidden md:flex md:flex-shrink-0 z-20 ${ theme.sidebarBg } ${ fixed ? 'fixed top-0 h-screen' : '' } ${ theme.sidebarBorder }` }>
       <div className={ `flex flex-col w-${ theme.sidebarW }` }>
-        <div className={ `w-${ theme.sidebarW } flex-1 flex flex-col pb-4 overflow-y-auto` }>
-          <div className='h-16 px-6 flex items-center'>{ logo }</div>
+        <div className={ `w-${ theme.sidebarW } flex-1 flex flex-col pb-4 overflow-y-auto overflow-x-hidden scrollbar`  }>
+          <div className='h-16'>
+          	<Link to={'/'} className={`${theme.text}`}>
+          		{ logo }
+          	</Link>
+          </div>
+
+          {topMenu ? <div className='h-16'>{topMenu}</div> : null}
           <nav className="flex-1">
             {menuItems.map((page, i) => {
             	return (
