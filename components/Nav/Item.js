@@ -2,6 +2,7 @@ import React from "react";
 import { NavLink } from "react-router-dom";
 // import { classNames } from "../utils";
 import Icon from "../Icons";
+import { useTheme } from "../../wrappers/with-theme"
 
 // import { useLocation } from "react-router-dom"
 
@@ -10,7 +11,8 @@ export function classNames(...classes) {
 }
 
 
-export default ({ to, icon, className, children, theme, type='side' }) => {
+export default ({ to, icon, customTheme, className, children, type='side' }) => {
+	const theme = Object.assign({},useTheme(), customTheme);
 //   const { pathname } = useLocation();
 //   let active = false;//(to.includes(pathname));
 // console.log("PATH NAME:", pathname, to)
