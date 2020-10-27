@@ -10,6 +10,7 @@ const ConfirmButton = ({
   onClick,
   children,
   confirmMessage,
+  type,
   ...props }) => {
 
   const [canClick, setCanClick] = React.useState(false);
@@ -23,7 +24,7 @@ const ConfirmButton = ({
   }, [timeout]);
   const doOnClick = React.useCallback(e => {
     setCanClick(false);
-    onClick(e);
+    onClick && onClick(e);
   }, [onClick]);
 
   React.useEffect(() => {
@@ -31,7 +32,8 @@ const ConfirmButton = ({
   }, [timeout]);
 
   return (
-    <button onClick={ canClick ? doOnClick : confirm } { ...props }>
+    <button onClick={ canClick ? (type === "submit" ? null : doOnClick) : confirm } { ...props }
+      type={ canClick ? type : "button" }>
       <div className="relative">
         { !canClick ? null :
           <div className="absolute top-0 left-0 right-0 bottom-0 flex items-center overflow-hidden">

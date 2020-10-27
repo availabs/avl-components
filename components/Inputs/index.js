@@ -4,6 +4,7 @@ import ArrayInput from "./array-input"
 import Select from "./select"
 import ObjectInput from "./object-input"
 import BooleanInput from "./boolean-input"
+import MarkdownInput from "./markdown"
 
 export {
   Input,
@@ -11,5 +12,6 @@ export {
   ArrayInput,
   Select,
   ObjectInput,
-  BooleanInput
+  BooleanInput,
+  MarkdownInput
 }

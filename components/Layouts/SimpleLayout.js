@@ -12,7 +12,7 @@ class Layout extends Component {
     const theme = this.props.theme;//themes[this.props.theme]
     return (
       <div className={`${theme.bg}`}>
-          <main className={``}>
+          <main>
               { this.props.children }
           </main>
       </div>
