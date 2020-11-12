@@ -28,9 +28,9 @@ class Layout extends Component {
   render () {
     const theme = this.props.theme;//themes[this.props.theme]
     return (
-      <div className={`${theme.bg}`}>
+      <div className={`${theme.bg}  min-h-screen w-full flex flex-col`}>
         {this.props.nav === 'top' ? (
-          <div className={this.props.fixed ? `fixed left-0 top-0 w-full z-10` : ''}>
+          <div className={this.props.fixed ? `fixed left-0 top-0 w-full z-10` : `w-full`}>
             <TopNav
               logo={this.props.logo}
               open={this.state.menuOpen}
@@ -53,8 +53,9 @@ class Layout extends Component {
             </div>
           </div>
         ) : null }
-      	<div className={ `min-h-screen ${this.props.maxWidth} mx-auto` }>
-          <div className="flex min-h-screen">
+
+      	<div className={ `flex-1 flex items-stretch flex-col  ${this.props.maxWidth ? this.props.maxWidth : 'w-full'}` }>
+          
             { this.props.nav === 'side' ? (
               <SideNav
                 open={this.state.menuOpen}
@@ -63,20 +64,18 @@ class Layout extends Component {
                 fixed={this.props.fixed}
                 />) : null
             }
-            <div className="flex-1">
-              <main className={`
-                  flex-1 z-0 focus:outline-none
-                  ${this.props.headerBar ? "mt-16" : ''}
-                  ${this.props.fixed && this.props.nav === 'side' ?  `md:ml-${theme.sidebarW}` : '' }
-                  ${this.props.fixed && this.props.nav === 'top' ?  `` : '' }
-
-                  `
-                }
-              >
-                  { this.props.children }
-              </main>
+            
+            <div className={`
+                h-full flex-1 flex flex-col
+                ${this.props.headerBar ? "mt-16" : ''}
+                ${this.props.fixed && this.props.nav === 'side' ?  `md:ml-${theme.sidebarW}` : '' }
+                ${this.props.fixed && this.props.nav === 'top' ?  `` : '' }`
+              }
+            >
+                { this.props.children }
             </div>
-          </div>
+            
+          
         </div>
       </div>
     )
