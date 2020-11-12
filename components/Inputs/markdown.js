@@ -9,6 +9,11 @@ import MarkdownRenderer from "react-markdown-renderer"
 
 import "./styles.css"
 
+export const MarkdownViewer = ({ markdown }) =>
+  <div className="markdown-renderer">
+    <MarkdownRenderer markdown={ markdown }/>
+  </div>
+
 export default React.forwardRef(({ large, small, className = "", children, onChange, value, autoFocus, ...props }, ref) => {
   const [editing, setEditing] = React.useState(false),
     prev = React.useRef(false)

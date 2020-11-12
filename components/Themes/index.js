@@ -1,7 +1,7 @@
 const compose = (themeType, theme) => {
 	const [base, ...rest] = themeType.split(/(?<!^)(?=[A-Z])/);
-	if (!theme.$compositions) return theme[base];
-	if (!theme.$compositions[base]) return theme[base];
+	if (!theme.$compositions) return theme[base] || "";
+	if (!theme.$compositions[base]) return theme[base] || "";
 
 	return theme.$compositions[base].reduce((a, c) => {
 		let option = c.$default || "";
@@ -280,16 +280,37 @@ export const light =  new Proxy(light_base, handler);
 // TEST THEME COMPOSITIONS BELOW!!!!!!!!!!
 
 const button = [
-	{ $default: "rounded inline-flex items-center justify-center @transition disabled:cursor-not-allowed disabled:bg-transparent disabled:opacity-50 focus:outline-none border" }, // <-- applied to all buttons
-	{ $default: "$button", // <-- this is pulled from the theme during composeDefaults and overwritten
-		Primary: "$buttonPrimary", // <-- this is pulled from the theme during composeDefaults and overwritten
-		Success: "$buttonSuccess",
-		Danger: "$buttonDanger",
-		Info: "$buttonInfo"
+// add base styles
+	{ $default: "rounded inline-flex items-center justify-center @transition disabled:cursor-not-allowed disabled:bg-transparent disabled:opacity-50 focus:outline-none border",
+		Text: "inline-flex items-center justify-center @transition disabled:cursor-not-allowed disabled:opacity-50 focus:outline-none border"
+ 	},
+// add colors
+	{ $default: "text-gray-400 disabled:text-gray-300",
+		Primary: "text-blue-400 disabled:text-blue-300",
+		Success: "text-green-400 disabled:text-green-300",
+		Danger: "text-red-400 disabled:text-red-300",
+		Info: "text-teal-400 disabled:text-teal-300"
 	},
+// add borders
+	{ $default: "border-gray-400",
+		Primary: "border-blue-400",
+		Success: "border-green-400",
+		Danger: "border-red-400",
+		Info: "border-teal-400",
+		Text: "border-none"
+	},
+// add hover
+	{ $default: "hover:bg-gray-400 hover:text-white",
+		Primary: "hover:bg-blue-400 hover:text-white",
+		Success: "hover:bg-green-400 hover:text-white",
+		Danger: "hover:bg-red-400 hover:text-white",
+		Info: "hover:bg-teal-400 hover:text-white",
+		Text: ""
+	},
+// add padding
 	{ $default: "px-4 py-1 @textBase", // <<-- padding based on size
 		Large: "px-6 py-2 @textLarge",
-		Small: "px-2 py-0 @textSmall"
+		Small: "px-2 py-0 @textSmall",
 	},
 	{ Block: "w-full" }
 ]
@@ -345,19 +366,92 @@ const $compositions = {
 }
 
 const TEST_THEME_BASE = {
-	...light,
+	sidebarBorder: '',
+	text: 'text-gray-800',
+	textContrast: "text-white",
+	border: "broder-gray-400",
+
+	textInfo: "text-teal-400",
+	bgInfo: "bg-teal-400",
+	borderInfo: "border-teal-400",
+
+	textSuccess: "text-green-400",
+	bgSuccess: "bg-green-400",
+	borderSuccess: "border-green-400",
+
+	textDanger: "text-red-400",
+	bgDanger: "bg-red-400",
+	borderDanger: "border-red-400",
+
+	textWarning: "text-yellow-400",
+	bgWarning: "bg-yellow-400",
+	borderWarning: "border-yellow-400",
+
+	textLight: "text-gray-400", // <-- for text styled like placeholder but can't be selected with ::placeholder
+	// these 2 should be equal
+	placeholder: 'placeholder-gray-400',
+
+	menuIcon: 'mr-3 h-6 w-6',
+	topMenuBorder: 'border-b border-gray-200',
+	headerShadow: '',
+
+	bg: 'bg-gray-100',
+
+	menuBg: 'bg-gray-200',
+	menuBgHover: 'hover:bg-gray-300',
+	menuBgActive: 'bg-teal-200',
+	menuBgActiveHover: 'hover:bg-teal-300',
+	menuText : "text-gray-500",
+	menuTextHover: "hover:text-gray-700",
+	menuTextActive: "text-teal-500",
+	menuTextActiveHover: "hover:text-teal-700",
+
+	sidebarBg: 'bg-gray-200',
+	sidebarBorder: '',
+
+	headerBg: 'bg-gray-200',
+	headerBgHover: "hover:bg-gray-400",
+
+	inputBg: "bg-white disabled:bg-gray-200 cursor-pointer focus:outline-none",
+	inputBorder: "rounded border border-transparent hover:border-gray-300 focus:border-gray-600 disabled:border-gray-200",
+	inputBgDisabled: "bg-gray-200 cursor-not-allowed focus:outline-none",
+	inputBorderDisabled: "rounded border border-gray-200 hover:border-gray-200",
+	inputBgFocus: "bg-white cursor-pointer focus:outline-none",
+	inputBorderFocus: "rounded border border-transparent hover:border-gray-600 focus:border-gray-600 border-gray-600",
+
+	textBase: "text-base",
+	textSmall: "text-sm",
+	textLarge: "text-lg",
+	paddingBase: "py-1 px-2",
+	paddingSmall: "py-0 px-1",
+	paddingLarge: "py-2 px-4",
+
+	contentBg: 'bg-white',
+
+	accent1: 'bg-gray-200',
+	accent2: 'bg-gray-300',
+	accent3: 'bg-gray-400',
+	accent4: 'bg-gray-500',
+
+	highlight1: "bg-teal-200",
+	highlight2: "bg-teal-300",
+	highlight3: "bg-teal-400",
+	highlight4: "bg-teal-500",
+
+	width: 'max-w-7xl mx-auto',
+	sidebarW: '56',
+	transition: "transition ease-in-out duration-150",
 
 	tableInfoBar: "bg-white",
 	tableRow: 'bg-white hover:bg-gray-200 @transition',
 	tableRowStriped: 'bg-white even:bg-gray-100 hover:bg-gray-200 @transition',
 
-	button: "text-gray-400 border-gray-400 hover:bg-gray-400 hover:text-white disabled:text-gray-400",
-	buttonPrimary: "text-blue-400 border-blue-400 hover:bg-blue-400 hover:text-white disabled:text-blue-400",
-	buttonSuccess: "text-green-400 border-green-400 hover:bg-green-400 hover:text-white disabled:text-green-400",
-	buttonDanger: "text-red-400 border-red-400 hover:bg-red-400 hover:text-white disabled:text-red-400",
-	buttonInfo: "text-teal-400 border-teal-400 hover:bg-teal-400 hover:text-white disabled:text-teal-400",
+	tableRow: 'bg-gray-100 hover:bg-gray-200 transition ease-in-out duration-150',
+	tableRowStriped: 'bg-gray-100 even:bg-gray-200 hover:bg-gray-300 transition ease-in-out duration-150',
 
-	textbutton: "text-gray-400 hover:text-gray-500 disabled:text-gray-400",
+	tableCell: 'px-4 py-1 whitespace-no-wrap',
+
+	tableHeader: "px-4 py-2 pb-1 border-b-2 border-gray-300 bg-gray-200 text-left font-medium text-gray-700 uppercase first:rounded-tl-md last:rounded-tr-md",
 
 	$compositions
 }

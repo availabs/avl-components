@@ -1,8 +1,10 @@
 import React from "react"
 
+import { API_HOST } from "config"
+
 export default (Component, options = {}) => {
   const {
-    baseUrl = "http://localhost:4444/img/new"
+    baseUrl = API_HOST
   } = options;
   class Wrapper extends React.Component {
     state = {
