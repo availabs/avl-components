@@ -6,7 +6,7 @@ import { Route, Redirect, useLocation } from "react-router-dom";
 import Layouts from './components/Layouts'
 import LoadingPage from "./components/Loading/LoadingPage"
 import withTheme from "./wrappers/with-theme"
-import ComponentFactory from "./ComponentFactory"
+import { ComponentFactory } from "./ComponentFactory"
 
 import get from "lodash.get"
 
