@@ -13,6 +13,7 @@ import Loading, { ScalableLoading } from "./Loading"
 
 export * from './Inputs'
 export * from "./Button"
+export * as Themes from "./Themes"
 
 export {
 	Header,
