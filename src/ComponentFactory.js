@@ -85,6 +85,6 @@ const processConfig = (config, i = [0], outerConfig = {}) => {
   // );
 }
 
-export default ({ config }) => {
+export const ComponentFactory = ({ config }) => {
   return processConfig(config);
 }

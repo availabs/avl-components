@@ -1,4 +1,4 @@
-export { default as ComponentFactory } from "./ComponentFactory"
+export * from "./ComponentFactory"
 export { default as DefaultLayout } from "./DefaultLayout"
 
 export * from "./components"
