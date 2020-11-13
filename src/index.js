@@ -3,7 +3,14 @@ export { default as DefaultLayout } from "./DefaultLayout"
 
 export * from "./components"
 
-export * as Wrappers from "./wrappers"
+export { default as Wrappers } from "./wrappers"
+export {
+  withTheme,
+  withAuth,
+  connect,
+  showLoading,
+  shareProps
+} from "./wrappers"
 
 export { FalcorProvider, reduxFlacor } from "./redux-falcor"
 export { default as falcorCache } from "./redux-falcor/falcorCache"

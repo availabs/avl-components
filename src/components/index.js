@@ -1,11 +1,9 @@
 import Header from './Header/Header'
-import { Button, LinkButton } from './Button/Button'
 import { Content } from './Containers'
 import { FormSection, InputContainer } from './Forms/FormSection'
 import { List, ListItemRemovable, ListItemAction } from './List/List'
 import { NavMenu, NavMenuItem, NavMenuSeparator } from "./Nav/Menu"
 import NavItem from './Nav/Item'
-import * as Inputs from './Inputs'
 import Table from './Table'
 import SideNav from './Nav/Side'
 import TopNav from './Nav/Top'
@@ -13,10 +11,11 @@ import DndList from './List/DndList'
 import Layouts from "./Layouts"
 import Loading, { ScalableLoading } from "./Loading"
 
+export * from './Inputs'
+export * from "./Button"
+
 export {
 	Header,
-	Button,
-	LinkButton,
 	Content,
 	Table,
 	FormSection,
@@ -25,7 +24,6 @@ export {
 	ListItemRemovable,
 	ListItemAction,
 	DndList,
-	Inputs,
 	SideNav,
 	TopNav,
 	NavItem,
