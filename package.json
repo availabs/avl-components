@@ -1,10 +1,10 @@
 {
   "name": "@availabs/avl-components",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "Reusable components styled by tailwind css for use in AVAIL projects.",
   "main": "dist/index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "node test.js",
     "build": "babel src -d dist"
   },
   "repository": {
@@ -33,12 +33,17 @@
   "dependencies": {
     "d3-brush": "^1.1.5",
     "d3-selection": "^1.4.1",
+    "deep-equal": "^2.0.4",
     "lodash.debounce": "^4.0.8",
     "lodash.get": "^4.4.2",
+    "match-sorter": "^5.0.0",
     "react": "^16.13.1",
     "react-beautiful-dnd": "^13.0.0",
     "react-dom": "^16.13.1",
+    "react-markdown-renderer": "^1.4.0",
     "react-redux": "^7.2.0",
-    "react-router-dom": "^5.1.2"
+    "react-router-dom": "^5.1.2",
+    "react-table": "^7.6.2",
+    "styled-components": "^5.2.1"
   }
 }

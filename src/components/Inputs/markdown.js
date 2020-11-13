@@ -7,12 +7,27 @@ import { useTheme } from "../../wrappers/with-theme"
 
 import MarkdownRenderer from "react-markdown-renderer"
 
-import "./styles.css"
+import styled from "styled-components"
+
+const MarkdownDiv = styled.div`
+  h1 {
+    font-size: 1.875rem;
+    font-weight: 800;
+  }
+  h2 {
+    font-size: 1.5rem;
+    font-weight: 700;
+  }
+  h3 {
+    font-size: 1.25rem;
+    font-weight: 600;
+  }
+`
 
 export const MarkdownViewer = ({ markdown }) =>
-  <div className="markdown-renderer">
+  <MarkdownDiv className="markdown-renderer">
     <MarkdownRenderer markdown={ markdown }/>
-  </div>
+  </MarkdownDiv>
 
 export default React.forwardRef(({ large, small, className = "", children, onChange, value, autoFocus, ...props }, ref) => {
   const [editing, setEditing] = React.useState(false),
@@ -66,13 +81,14 @@ export default React.forwardRef(({ large, small, className = "", children, onCha
             ref={ useSetRefs(ref, setInnerRef) } rows={ 6 }/>
         </div>
       </div>
-      <div style={ { display: editing ? "none" : "block" } }
+      <MarkdownDiv className="markdown-renderer"
+        style={ { display: editing ? "none" : "block" } }
         onClick={ e => setEditing(true) }>
      		<MarkdownRenderer markdown={ value || "" }
-          className={ `markdown-renderer ${ inputTheme } ${ className }` }
+          className={ `${ inputTheme } ${ className }` }
           style={ { minHeight: "2rem" } }
           options={ { html: true } }/>
-      </div>
+      </MarkdownDiv>
     </div>
   )
 })

@@ -1,6 +1,6 @@
 import React from "react"
 
-import { useTheme } from "components/avl-components/wrappers/with-theme"
+import { useTheme } from "../../wrappers/with-theme"
 
 export const ValueItem = ({ isPlaceholder, children, remove, edit, disabled = false }) => {
   const theme = useTheme();

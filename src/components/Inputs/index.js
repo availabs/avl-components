@@ -6,6 +6,8 @@ import ObjectInput from "./object-input"
 import BooleanInput from "./boolean-input"
 import MarkdownInput from "./markdown"
 
+import { verifyValue, hasValue } from "./utils"
+
 export {
   Input,
   TextArea,
@@ -13,5 +15,7 @@ export {
   Select,
   ObjectInput,
   BooleanInput,
-  MarkdownInput
+  MarkdownInput,
+  verifyValue,
+  hasValue
 }

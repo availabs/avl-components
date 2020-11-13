@@ -1,10 +1,16 @@
-import ComponentFactory from "./ComponentFactory"
-import DefaultLayout from "./DefaultLayout"
+export { default as ComponentFactory } from "./ComponentFactory"
+export { default as DefaultLayout } from "./DefaultLayout"
 
-import * as wrappers from "./wrappers"
+export * from "./components"
 
-export default {
-  ComponentFactory,
-  DefaultLayout,
-  wrappers
-}
+export * as Wrappers from "./wrappers"
+
+export { FalcorProvider, reduxFlacor } from "./redux-falcor"
+export { default as falcorCache } from "./redux-falcor/falcorCache"
+
+export { default as Messages } from "./messages"
+import { default as messagesReducer } from "./messages/reducer"
+export {
+  sendSystemMessage,
+  dismissSystemMessage
+} from "./messages/reducer"

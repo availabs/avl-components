@@ -1,7 +1,7 @@
 import React from 'react';
 
-import { Button } from "components/avl-components/components"
-import { useTheme } from "components/avl-components/wrappers/with-theme"
+import { Button } from "../components"
+import { useTheme } from "../wrappers"
 
 const Message = ({ message, top, type, show, dismiss, confirm = null }) => {
   const theme = useTheme();

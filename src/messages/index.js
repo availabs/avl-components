@@ -8,13 +8,53 @@ import {
 	ConfirmMessage
 } from "./SystemMessage"
 
-import "./messages.css"
+import styled, { keyframes } from "styled-components"
+
+const show = keyframes`
+	from {
+		opacity: 0;
+		right: 200px;
+	}
+	to {
+		opacity: 1;
+		right: 0px;
+	}
+`
+const hide = keyframes`
+	from {
+		opacity: 1;
+		right: 0px;
+	}
+	to {
+		opacity: 0;
+		right: -200px;
+	}
+`
+
+const SystemMessageContainer = styled.div`
+	position: fixed;
+	z-index: 950;
+	right: 50px;
+	top: 50px;
+
+	.system-message {
+		position: absolute;
+		white-space: nowrap;
+	}
+	.system-message.show {
+		opacity: 1;
+		right: 0px;
+		animation: ${ show } 0.75s ease-out;
+	}
+	.system-message.hide {
+		animation: ${ hide } 0.75s ease-in;
+	}
+`
 
 const SystemMessages = ({ messages, dismissSystemMessage }) =>
 	!messages.length ? null :
-	<div className="system-message-container">
-		{
-			messages.map((message, i) =>
+	<SystemMessageContainer>
+		{ messages.map((message, i) =>
 				message.onConfirm ?
 					<ConfirmMessage key={ message.id } top={ i * 3 } { ...message }
 						dismissSystemMessage={ dismissSystemMessage }/> :
@@ -22,7 +62,7 @@ const SystemMessages = ({ messages, dismissSystemMessage }) =>
 						dismissSystemMessage={ dismissSystemMessage }/>
 			)
 		}
-	</div>
+	</SystemMessageContainer>
 
 const mapStateToProps = state => ({
   messages: state.messages
