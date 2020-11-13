@@ -8,10 +8,15 @@ import shareProps from "./share-props"
 
 export default {
   "with-theme": withTheme,
+  withTheme,
   "with-auth": withAuth,
+  withAuth,
+  "with-connect": connect,
   connect,
   "redux-falcor": reduxFalcor,
   "with-router": withRouter,
   "show-loading": showLoading,
-  "share-props": shareProps
+  showLoading,
+  "share-props": shareProps,
+  shareProps
 }
