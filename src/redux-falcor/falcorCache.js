@@ -6,5 +6,5 @@ export const updateCache = falcorCache => dispatch =>
     falcorCache
   }))
 
-export default (state = {}, action) =>
+export const falcorCache = (state = {}, action) =>
   action.type === UPDATE_FALCOR ? { ...action.falcorCache } : state

@@ -6,8 +6,7 @@ import BaseWrappers from "./wrappers"
 
 import get from "lodash.get"
 
-let ComponentLibrary = {
-}
+let ComponentLibrary = {}
 
 let WrapperLibrary = {
   ...BaseWrappers

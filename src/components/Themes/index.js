@@ -183,7 +183,7 @@ const light_base = {
 	sidebarBorder: '',
 	text: 'text-gray-800',
 	textContrast: "text-white",
-	border: "broder-gray-400",
+	border: "border-gray-400",
 
 	textInfo: "text-teal-400",
 	bgInfo: "bg-teal-400",
@@ -204,6 +204,8 @@ const light_base = {
 	textLight: "text-gray-400", // <-- for text styled like placeholder but can't be selected with ::placeholder
 	// these 2 should be equal
 	placeholder: 'placeholder-gray-400',
+	borderLight: "border-gray-400",
+	bgLight: "bg-gray-400",
 
 	menuIcon: 'mr-3 h-6 w-6',
 	topMenuBorder: 'border-b border-gray-200',
@@ -366,10 +368,9 @@ const $compositions = {
 }
 
 const TEST_THEME_BASE = {
-	sidebarBorder: '',
 	text: 'text-gray-800',
 	textContrast: "text-white",
-	border: "broder-gray-400",
+	border: "border-gray-400",
 
 	textInfo: "text-teal-400",
 	bgInfo: "bg-teal-400",
@@ -445,9 +446,6 @@ const TEST_THEME_BASE = {
 	tableInfoBar: "bg-white",
 	tableRow: 'bg-white hover:bg-gray-200 @transition',
 	tableRowStriped: 'bg-white even:bg-gray-100 hover:bg-gray-200 @transition',
-
-	tableRow: 'bg-gray-100 hover:bg-gray-200 transition ease-in-out duration-150',
-	tableRowStriped: 'bg-gray-100 even:bg-gray-200 hover:bg-gray-300 transition ease-in-out duration-150',
 
 	tableCell: 'px-4 py-1 whitespace-no-wrap',
 

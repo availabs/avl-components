@@ -1,12 +1,16 @@
 import React from "react"
+import PropTypes from "prop-types"
 
-import { API_HOST } from "config"
+// import { API_HOST } from "config"
 
 export default (Component, options = {}) => {
-  const {
-    baseUrl = API_HOST
-  } = options;
-  class Wrapper extends React.Component {
+  // const {
+  //   baseUrl = API_HOST
+  // } = options;
+  class ImgLoaderWrapper extends React.Component {
+    static propTypes = {
+      imgUploadUrl: PropTypes.string.isRequired
+    }
     state = {
       loading: false,
       message: ""
@@ -27,7 +31,7 @@ export default (Component, options = {}) => {
       this.setState({ loading: true });
       return new Promise(resolve => {
         reader.addEventListener("load", () => {
-          fetch(`${ baseUrl }/upload/${ filename }`, {
+          fetch(`${ this.props.imgUploadUrl }/upload/${ filename }`, {
             method: "POST",
             body: reader.result,
             headers: {
@@ -52,7 +56,7 @@ export default (Component, options = {}) => {
     editImage(src, filename, action, args) {
       this.setState({ loading: true });
       return new Promise(resolve => {
-        fetch(`${ baseUrl }/edit/${ filename }/${ action }/${ args }`, {
+        fetch(`${ this.props.imgUploadUrl }/edit/${ filename }/${ action }/${ args }`, {
           method: "POST",
           body: JSON.stringify({ src: encodeURI(src) }),
           headers: {
@@ -76,7 +80,7 @@ export default (Component, options = {}) => {
     saveImage(src, filename, history) {
       this.setState({ loading: true });
       return new Promise(resolve => {
-        fetch(`${ baseUrl }/save/${ filename }`, {
+        fetch(`${ this.props.imgUploadUrl }/save/${ filename }`, {
           method: "POST",
           body: JSON.stringify({
             src,
@@ -110,5 +114,5 @@ export default (Component, options = {}) => {
       )
     }
   }
-  return React.forwardRef((props, ref) => <Wrapper { ...props } forwardRef={ ref }/>)
+  return React.forwardRef((props, ref) => <ImgLoaderWrapper { ...props } forwardRef={ ref }/>)
 }

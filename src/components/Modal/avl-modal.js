@@ -1,8 +1,8 @@
 import React from "react"
 import { Button, LinkButton } from "../Button"
 import styled from "styled-components"
-import { ScalableLoading } from "../Loading/LoadingPage"
-import { useTheme } from "../../wrappers/with-theme"
+import { ScalableLoading } from "../Loading"
+import { useTheme } from "../../wrappers"
 const ModalContainerBase = styled.div`
   position: fixed;
   top: 0px;

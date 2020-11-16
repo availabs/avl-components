@@ -3,20 +3,12 @@ export { default as DefaultLayout } from "./DefaultLayout"
 
 export * from "./components"
 
-export { default as Wrappers } from "./wrappers"
-export {
-  withTheme,
-  withAuth,
-  connect,
-  showLoading,
-  shareProps
-} from "./wrappers"
+export * from "./wrappers"
 
-export { FalcorProvider, reduxFlacor } from "./redux-falcor"
-export { default as falcorCache } from "./redux-falcor/falcorCache"
+export * from "./redux-falcor"
 
 export { default as Messages } from "./messages"
-import { default as messagesReducer } from "./messages/reducer"
+export { default as messages } from "./messages/reducer"
 export {
   sendSystemMessage,
   dismissSystemMessage

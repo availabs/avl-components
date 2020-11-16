@@ -1,6 +1,6 @@
 import React from "react"
 
-import { ScalableLoading } from "../components/Loading/LoadingPage"
+import { ScalableLoading } from "../components"
 
 export default (Component, options = {}) => {
   const { position = "fixed" } = options;

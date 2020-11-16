@@ -4,12 +4,11 @@ import React from 'react';
 import { Route, Redirect, useLocation } from "react-router-dom";
 
 import Layouts from './components/Layouts'
-import LoadingPage from "./components/Loading/LoadingPage"
+import LoadingPage from "./components/Loading"
 import withTheme from "./wrappers/with-theme"
 import { ComponentFactory } from "./ComponentFactory"
 
 import get from "lodash.get"
-
 
 const DefaultLayout = withTheme(({ theme, component, path, exact, layoutSettings, isAuthenticating, ...props }) => {
   const location = useLocation(),
