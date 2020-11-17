@@ -7,7 +7,7 @@ export const ValueItem = ({ isPlaceholder, children, remove, edit, disabled = fa
   return (
     <div className={ `
         ${ isPlaceholder ? theme.textLight :
-          `${ disabled ? theme.accent2 : theme.accent1 } mr-1 pl-2 ${ Boolean(!disabled && (remove || edit)) ? "pr-1" : "pr-2" }` }
+          `${ disabled ? theme.accent2 : theme.accent1 } mr-1 pl-2 ${ (!disabled && (remove || edit)) ? "pr-1" : "pr-2" }` }
         rounded whitespace-pre-wrap mt-1 relative flex items-center
       ` }>
       { children }

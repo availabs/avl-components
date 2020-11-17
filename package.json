@@ -5,7 +5,7 @@
   "main": "dist/index.js",
   "scripts": {
     "test": "node test.js",
-    "build": "babel src -d dist",
+    "build": "npx eslint src && babel src -d dist",
     "publish": "npm publish --access public",
     "watch": "nodemon --exec npm run build"
   },
@@ -41,7 +41,8 @@
     "@babel/plugin-proposal-object-rest-spread": "^7.12.1",
     "@babel/plugin-transform-spread": "^7.12.1",
     "@babel/preset-env": "^7.12.1",
-    "@babel/preset-react": "^7.12.5"
+    "@babel/preset-react": "^7.12.5",
+    "eslint": "^7.13.0"
   },
   "dependencies": {
     "d3-brush": "^1.1.5",

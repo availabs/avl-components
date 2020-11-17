@@ -214,7 +214,7 @@ export default ({ columns, sortBy, sortOrder, initialPageSize, data, onRowClick,
                                         e.stopPropagation();
                                         Object.keys(expanded).filter(k => k !== row.id)
                                           .forEach(toggleRowExpanded);
-                                        row.toggleRowExpanded(!Boolean(row.isExpanded));
+                                        row.toggleRowExpanded(!row.isExpanded);
                                       } } className={ `
                                           flex item-center justify-center py-1 px-2 rounded
                                           hover:${ theme.accent3 } ${ theme.transition }

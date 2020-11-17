@@ -34,7 +34,7 @@ export const useClickOutside = handleClick => {
     const checkOutside = e => {
       if (node.contains(e.target)) {
         return;
-      };
+      }
       (typeof handleClick === "function") && handleClick(e);
     }
     node && document.addEventListener("mousedown", checkOutside);
