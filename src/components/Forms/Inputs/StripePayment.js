@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import {Elements} from '@stripe/react-stripe-js';
 import {loadStripe} from '@stripe/stripe-js';
 
@@ -30,7 +30,7 @@ const CheckoutForm = ({onChange=NOOP, state,name}) => {
     let paymentIntent = await response.json()
     console.log('got paymentIntent', paymentIntent)
     let PAYMENT_KEY = paymentIntent.client_secret;
-   
+
     const result = await stripe.confirmCardPayment(PAYMENT_KEY, {
       payment_method: {
         card: elements.getElement(CardElement)
@@ -39,16 +39,16 @@ const CheckoutForm = ({onChange=NOOP, state,name}) => {
 
     if (result.error) {
       // Show error to your customer (e.g., insufficient funds)
-      
+
         onChange({type: 'error', message: result.error.message})
-      
+
       console.log(result.error.message, result);
     } else {
       // The payment has been processed!
       if (result.paymentIntent.status === 'succeeded') {
-          
+
         onChange({type: 'success', result})
-        
+
         console.log('success' , result);
         // Show a success message to your customer
         // There's a risk of the customer closing the window before callback
@@ -57,7 +57,7 @@ const CheckoutForm = ({onChange=NOOP, state,name}) => {
         // post-payment actions.
       }
     }
-    
+
 
   };
   if(state[name].type === 'success') {
@@ -76,14 +76,14 @@ const CheckoutForm = ({onChange=NOOP, state,name}) => {
     <form onSubmit={handleSubmit}>
       {state[name].type === 'error' ? <div className='p-3'> <Alert title='Error' text={state[name].message} /></div> : ''}
       <CardElement />
-      <button 
-        type="submit" 
-        disabled={!stripe} 
+      <button
+        type="submit"
+        disabled={!stripe}
         className={`
-          mt-4 py-2 px-4 w-full border border-transparent 
-          text-lg leading-5 font-medium rounded-md text-white 
-          bg-indigo-600 hover:bg-indigo-500 
-          focus:outline-none focus:border-indigo-700 focus:shadow-outline-indigo 
+          mt-4 py-2 px-4 w-full border border-transparent
+          text-lg leading-5 font-medium rounded-md text-white
+          bg-indigo-600 hover:bg-indigo-500
+          focus:outline-none focus:border-indigo-700 focus:shadow-outline-indigo
           active:bg-indigo-700 transition duration-150 ease-in-out`
         }
       >

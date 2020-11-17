@@ -1,5 +1,4 @@
 import React from "react";
-import { Link } from "react-router-dom";
 
 export default ({ title, text, dismiss }) => (
   <div className="rounded-md bg-red-50 p-4">
@@ -15,10 +14,10 @@ export default ({ title, text, dismiss }) => (
         </h3>
         {text ? <p>{text}</p> : ''}
       </div>
-      {dismiss ? 
+      {dismiss ?
         <div className="ml-auto pl-3">
           <div className="-mx-1.5 -my-1.5">
-            <button 
+            <button
               onClick={dismiss}
               className="inline-flex rounded-md p-1.5 text-red-500 hover:bg-red-100 focus:outline-none focus:bg-red-100 transition ease-in-out duration-150">
               <svg className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
@@ -32,4 +31,3 @@ export default ({ title, text, dismiss }) => (
   </div>
 
 )
-

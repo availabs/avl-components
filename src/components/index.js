@@ -1,4 +1,5 @@
 import Header from './Header/Header'
+import HeaderComponent from "./Header/HeaderComponent"
 import { Content } from './Containers'
 import { FormSection, InputContainer } from './Forms/FormSection'
 import { List, ListItemRemovable, ListItemAction } from './List/List'
@@ -11,12 +12,20 @@ import DndList from './List/DndList'
 import Layouts from "./Layouts"
 import Loading, { ScalableLoading } from "./Loading"
 
+import * as Themes from "./Themes"
+
 export * from './Inputs'
 export * from "./Button"
-export * as Themes from "./Themes"
+export * from "./utils"
+
+// export * as Themes from "./Themes"
+
+export { default as AvlModal } from "./Modal/avl-modal"
 
 export {
+	Themes,
 	Header,
+	HeaderComponent,
 	Content,
 	Table,
 	FormSection,

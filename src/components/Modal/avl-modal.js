@@ -1,8 +1,8 @@
 import React from "react"
 import { Button, LinkButton } from "../Button"
 import styled from "styled-components"
-import { ScalableLoading } from "../Loading/LoadingPage"
-import { useTheme } from "../../wrappers/with-theme"
+import { ScalableLoading } from "../Loading"
+import { useTheme } from "../../wrappers"
 const ModalContainerBase = styled.div`
   position: fixed;
   top: 0px;
@@ -79,7 +79,7 @@ class Modal extends React.Component {
     Promise.resolve(action(e))
         .then(res => {
           this.setState({ loading: false });
-          if (Boolean(onResolve)) {
+          if (onResolve) {
             this.onResolve(res, onResolve);
           }
           else if (this.props.hideOnAction) {
@@ -115,8 +115,8 @@ class Modal extends React.Component {
 
         <BodyContainer>
           <ContentContainer className="rounded py-2 px-3">
-            { Boolean(onResolve) ? <onResolve.comp res={ onResolve.res }/> :
-              Boolean(onReject) ? <onReject.comp error={ onReject.error }/> :
+            { onResolve ? <onResolve.comp res={ onResolve.res }/> :
+              onReject ? <onReject.comp error={ onReject.error }/> :
               this.props.children
             }
           </ContentContainer>

@@ -6,12 +6,10 @@ export default  ({children, open, toggle=noop}) => (
   <div  className="fixed inset-0 transition-opacity">
     <div className="absolute inset-0 bg-gray-500 opacity-75" />
   </div>
-  <div style={{display: open ? 'block' : 'none'}} className="bg-white rounded-lg overflow-hidden shadow-xl transform transition-all sm:max-w-5xl sm:w-full" style={{maxHeight: '95vh', overflow: 'auto'}}>
+  <div style={{display: open ? 'block' : 'none'}} className="bg-white rounded-lg overflow-hidden shadow-xl transform transition-all sm:max-w-5xl sm:w-full">
     <div className="bg-white">
       {children}
     </div>
   </div>
 </div>
 )
-
-

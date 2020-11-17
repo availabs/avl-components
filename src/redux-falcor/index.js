@@ -6,6 +6,9 @@ import { updateCache } from "./falcorCache"
 
 import debounce from "lodash.debounce"
 
+export * from "./falcorCache"
+export * from "./falcorGraph"
+
 const FalcorContext = React.createContext();
 
 class FalcorProviderBase extends React.Component {

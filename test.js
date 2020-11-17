@@ -1,7 +1,5 @@
-const AVL = require("./dist")
+const AVL = require("./dist");
 
 console.log("AVL:", AVL);
-
-console.log("THEMES:", AVL.Themes)
-
-console.log("WRAPPERS:", AVL.Wrappers)
+console.log("THEMES:", Boolean(AVL.Themes));
+console.log("WRAPPERS:", Boolean(AVL.Wrappers));

@@ -1,5 +1,5 @@
 import React, { Component } from "react"
-import { List, ListItemRemovable} from 'layouts/components/List/List'
+import { List } from 'layouts/components/List/List'
 import {Text, TextArea, InputContainer } from 'layouts/components/Forms/Inputs'
 import 'styles/tailwind.css';
 
@@ -12,12 +12,12 @@ let Inputs = {
 export default class ObjectArray extends Component {
   constructor(props) {
     super(props);
-    
+
     let inputState = props.inputs.reduce((a,b) => {
       a[b.name] = ''
       return a
     }, {})
-      
+
     this.state = {
       textArrayText: '',
       ...inputState,
@@ -47,10 +47,10 @@ export default class ObjectArray extends Component {
       a[b.name] = output
       return a
     }, {})
-    
+
     if(addData){
       oldData.push(outputState)
-      
+
       this.setState(this.props.inputs.reduce((a,b) => {
         a[b.name] = ''
         return a
@@ -66,10 +66,10 @@ export default class ObjectArray extends Component {
           const Input = Inputs[input.type] || Inputs['Text']
           return(
             <InputContainer {...input} key={i}>
-              <Input 
+              <Input
                 onChange={this.handleChange}
                 state={this.state}
-                {...input} 
+                {...input}
               />
             </InputContainer>
           )

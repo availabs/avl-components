@@ -1,5 +1,5 @@
 import React from "react"
-import { Button, LinkButton } from '../Button/Button'
+import { Button, LinkButton } from '../Button'
 
 import { useTheme } from "../../wrappers/with-theme"
 
@@ -20,7 +20,7 @@ const Header = ({ title, breadcrumbs, subtitle, actions=[] }) => {
     const theme = useTheme();
   	return (
       <header className={`${theme.headerBg} ${theme.ySpace} ${theme.headerShadow} px-4 sm:px-6 lg:px-8`}>
-      
+
   	  	{breadcrumbs ?
   	  	(<div >
   		    <nav className="sm:hidden">
