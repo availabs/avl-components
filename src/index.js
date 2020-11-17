@@ -12,7 +12,7 @@ export {
   shareProps
 } from "./wrappers"
 
-export { FalcorProvider, reduxFlacor } from "./redux-falcor"
+export * from "./redux-falcor"
 export { default as falcorCache } from "./redux-falcor/falcorCache"
 
 export { default as Messages } from "./messages"
