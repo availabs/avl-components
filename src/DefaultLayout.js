@@ -42,13 +42,15 @@ const DefaultLayout = withTheme(({ theme, component, path, exact, layoutSettings
     )
 })
 
+const getAuthLevel = props =>
+  props.auth ? 0 : get(props, "authLevel", -1);
+
 function sendToLogin(props) {
-  const requiresAuth = (props.authLevel !== undefined) || props.auth;
-  return requiresAuth ? !get(props, ["user", "authed"], false) : false;
+  const requiresAuth = getAuthLevel(props) > -1;
+  return requiresAuth && !get(props, ["user", "authed"], false);
 }
 function sendToHome(props) {
-  const requiredAuthLevel = props.authLevel !== undefined ? props.authLevel : props.auth ? 0 : -1;
-  return get(props , ["user", "authLevel"], -1) < requiredAuthLevel;
+  return get(props , ["user", "authLevel"], -1) < getAuthLevel(props);
 }
 
 export default DefaultLayout

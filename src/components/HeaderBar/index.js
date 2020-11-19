@@ -6,12 +6,14 @@ import withAuth from "../../wrappers/with-auth"
 
 import { useClickOutside } from "../utils"
 
+import get from "lodash.get"
+
 const HeaderBar = props => {
   const [open, setOpen] = useState(false),
     openMenu = () => setOpen(true),
     closeMenu = () => setOpen(false);
 
-  const { authed } = props.user;
+  const authed = get(props, ["user", "authed"], false);
 
   const [setRef] = useClickOutside(closeMenu);
 
