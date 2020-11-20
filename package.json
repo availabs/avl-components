@@ -57,7 +57,9 @@
   },
   "peerDependencies": {
     "react": "16.x || 17.x",
-    "react-dom": "16.x || 17.x"
+    "react-dom": "16.x || 17.x",
+    "react-redux": "7.x",
+    "styled-components": "5.x"
   },
   "dependencies": {
     "d3-brush": "2.x",
@@ -70,11 +72,9 @@
     "lodash.throttle": "4.x",
     "match-sorter": "5.x",
     "prop-types": "^15.7.2",
-    "react-beautiful-dnd": "^13.0.0",
+    "react-beautiful-dnd": "13.x",
     "react-markdown-renderer": "^1.4.0",
-    "react-redux": "^7.2.0",
     "react-router-dom": "^5.1.2",
-    "react-table": "^7.6.2",
-    "styled-components": "^5.2.1"
+    "react-table": "^7.6.2"
   }
 }
