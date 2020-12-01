@@ -7,7 +7,7 @@ import { ValueContainer, ValueItem } from "./parts"
 import { useTheme } from "../../wrappers/with-theme"
 
 import deepequal from "deep-equal"
-import matchSorter from "match-sorter"
+import { matchSorter } from "match-sorter"
 
 const Dropdown = React.forwardRef(({ children, searchable, opened, direction }, ref) => {
   const theme = useTheme();
