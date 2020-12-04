@@ -10,7 +10,7 @@ import {
 
 import { Button } from "../Button"
 
-import matchSorter from 'match-sorter'
+import { matchSorter } from 'match-sorter'
 
 import { useTheme } from "../../wrappers/with-theme"
 
