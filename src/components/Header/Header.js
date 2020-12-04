@@ -47,7 +47,7 @@ const Header = ({ title, breadcrumbs, subtitle, actions=[] }) => {
   		    </nav>
   	  </div>) : null }
 
-  	  <div className={`${theme.width} md:flex md:items-center md:justify-between`}>
+  	  <div className={`${theme.contentWidth} md:flex md:items-center md:justify-between`}>
   	    <div className="flex-1 min-w-0">
   	      <h2 className={`text-2xl font-bold leading-7 ${theme.text} sm:text-3xl sm:leading-9 sm:truncate`}>
   	        {title}

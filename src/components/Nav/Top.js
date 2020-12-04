@@ -31,7 +31,7 @@ const DesktopMenu = ({menuItems=[], open, toggle, fixed, width, logo, rightMenu,
   const theme = Object.assign({},useTheme(), customTheme);
   return (
     <div className={`${theme.topNavHeight ? theme.topNavHeight : 'h-16'}  ${theme.sidebarBg}  ${theme.topMenuBorder} ${theme.topMenuScroll}` }>
-      <div className={`${theme.width} flex justify-between ${theme.topNavHeight ? theme.topNavHeight : 'h-16'}`}>
+      <div className={`${theme.contentWidth} flex justify-between ${theme.topNavHeight ? theme.topNavHeight : 'h-16'}`}>
         <div className="flex">
           <Link to={'/'} className={`flex-shrink-0 flex items-center ${theme.text}`}>
             {logo}
