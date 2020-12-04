@@ -59,7 +59,8 @@
     "react": "16.x || 17.x",
     "react-dom": "16.x || 17.x",
     "react-redux": "7.x",
-    "styled-components": "5.x"
+    "styled-components": "5.x",
+    "tailwindcss": "2.x"
   },
   "dependencies": {
     "d3-brush": "2.x",

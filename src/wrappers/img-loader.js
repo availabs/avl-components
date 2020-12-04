@@ -28,7 +28,6 @@ export default (Component, options = {}) => {
       const reader = new FileReader();
       reader.readAsArrayBuffer(file);
 
-      this.setState({ loading: true });
       return new Promise(resolve => {
         reader.addEventListener("load", () => {
           fetch(`${ this.props.imgUploadUrl }/upload/${ filename }`, {
