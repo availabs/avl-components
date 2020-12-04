@@ -1,80 +1,6 @@
-const compose = (themeType, theme) => {
-	const [base, ...rest] = themeType.split(/(?<!^)(?=[A-Z])/);
-	if (!theme.$compositions) return theme[base] || "";
-	if (!theme.$compositions[base]) return theme[base] || "";
+import { makeProxy, composeTheme } from "./utils"
 
-	return theme.$compositions[base].reduce((a, c) => {
-		let option = c.$default || "";
-		for (const opt of rest) {
-			if (opt in c) {
-				option = c[opt];
-			}
-		}
-		a.push(option);
-		return a;
-	}, []).filter(Boolean).join(" ");
-}
-
-export const composeDefaults = theme => {
-	const composedTheme = JSON.parse(JSON.stringify(theme));
-
-	for (const key in composedTheme) {
-		if (key === "$compositions") continue;
-
-		const classNames = composedTheme[key].split(/\s+/),
-			atRegex = /^[@](.+)$/;
-		composedTheme[key] = classNames.map(c => {
-			const match = atRegex.exec(c);
-			if (match) {
-				const [, key] = match;
-				return composedTheme[key];
-			}
-			return c;
-		}).join(" ")
-	}
-
-	if (composedTheme.$compositions) {
-		const { $defaults = [], ...rest } = composedTheme.$compositions;
-
-		for (const type in rest) {
-			composedTheme.$compositions[type].forEach(options => {
-				for (let option in options) {
-					const atRegex = /^[@](.+)$/;
-					options[option] = options[option].split(/\s+/).map(o => {
-						const match = atRegex.exec(o);
-						if (match) {
-							const [, key] = match;
-							return composedTheme[key]
-						}
-						return o;
-					}).join(" ");
-					const $regex = /^\$(.+)$/,
-						$match = $regex.exec(options[option]);
-					if ($match) {
-						const [, value] = $match;
-						if (value in composedTheme) {
-							options[option] = composedTheme[value];
-							$defaults.push(value);
-						}
-					}
-				}
-			});
-		}
-		$defaults.forEach(themeType => {
-			composedTheme[themeType] = compose(themeType, composedTheme);
-		});
-	}
-	return composedTheme;
-}
-
-export const handler = {
-	get: (theme, definition, receiver) => {
-		if (!(definition in theme)) {
-			theme[definition] = compose(definition, theme);
-		}
-		return theme[definition];
-	}
-}
+import { $compositions } from "./compositions"
 
 export const flat_base = {
 	bg: 'custom-bg',
@@ -115,7 +41,7 @@ export const flat_base = {
 	tableCellCondensed: 'px-3 py-2 whitespace-no-wrap text-sm leading-5 text-gray-600',
 	tableHeader: "px-6 pt-2 pb-1	border-b border-gray-400 bg-gray-200 text-left font-medium text-gray-700 uppercase first:rounded-tl-md last:rounded-tr-md"
 }
-export const flat =  new Proxy(flat_base, handler);
+export const flat = makeProxy(flat_base);
 
 
 const dark_base = {
@@ -146,7 +72,7 @@ const dark_base = {
 	tableRow: 'bg-white border-b border-gray-200',
 	tableRowStriped: 'bg-white even:bg-gray-50'
 }
-export const dark =  new Proxy(dark_base, handler);
+export const dark = makeProxy(dark_base);
 
 const blue_base = {
 	bg: 'bg-gray-200',
@@ -175,7 +101,7 @@ const blue_base = {
 	tableRow: 'bg-white border-b border-gray-200',
 	tableRowStriped: 'bg-white even:bg-gray-50'
 }
-export const blue =  new Proxy(blue_base, handler);
+export const blue = makeProxy(blue_base);
 
 const light_base = {
 	shadow: 'shadow',
@@ -277,95 +203,7 @@ const light_base = {
 
 	tableHeader: "px-4 py-2 pb-1 border-b-2 border-gray-300 bg-gray-200 text-left font-medium text-gray-700 uppercase first:rounded-tl-md last:rounded-tr-md"
 }
-export const light =  new Proxy(light_base, handler);
-
-// TEST THEME COMPOSITIONS BELOW!!!!!!!!!!
-
-const button = [
-// add base styles
-	{ $default: "rounded inline-flex items-center justify-center @transition disabled:cursor-not-allowed disabled:bg-transparent disabled:opacity-50 focus:outline-none border",
-		Text: "inline-flex items-center justify-center @transition disabled:cursor-not-allowed disabled:opacity-50 focus:outline-none border"
- 	},
-// add text colors
-	{ $default: "text-gray-400 disabled:text-gray-300",
-		Primary: "text-blue-400 disabled:text-blue-300",
-		Success: "text-green-400 disabled:text-green-300",
-		Danger: "text-red-400 disabled:text-red-300",
-		Info: "text-teal-400 disabled:text-teal-300"
-	},
-// add borders
-	{ $default: "border-gray-400",
-		Primary: "border-blue-400",
-		Success: "border-green-400",
-		Danger: "border-red-400",
-		Info: "border-teal-400",
-		Text: "border-none"
-	},
-// add hover
-	{ $default: "hover:bg-gray-400 hover:text-white",
-		Primary: "hover:bg-blue-400 hover:text-white",
-		Success: "hover:bg-green-400 hover:text-white",
-		Danger: "hover:bg-red-400 hover:text-white",
-		Info: "hover:bg-teal-400 hover:text-white",
-		Text: ""
-	},
-// add padding
-	{ $default: "px-4 py-1 @textBase",
-		Large: "px-6 py-2 @textLarge",
-		Small: "px-2 py-0 @textSmall",
-	},
-	{ Block: "w-full" }
-]
-const input = [
-	{ $default: "w-full block rounded cursor-pointer disabled:cursor-not-allowed @transition @text @placeholder @inputBg @inputBorder" },
-	{ $default: "@paddingBase @textBase", // <<-- padding based on size
-		Large: "@paddingLarge @textLarge",
-		Small: "@paddingSmall @textSmall"
-	}
-]
-const navitem = [
-	{ $default: "group border-transparent font-medium focus:outline-none @transition"},
-	{ Top: "mr-4 inline-flex items-center px-1 pt-1 border-b-2 text-sm leading-5",
-		Side: "mb-1 flex pl-3 pr-4 py-2 border-l-4 text-bas"
-	},
-	{ $default: "@menuBg @menuBgHover @menuText @menuTextHover",
-		Active: "@menuBgActive @menuBgActiveHover @menuTextActive @menuTextActiveHover" }
-]
-const textbutton = [
-	{ $default: "@transition inline-flex px-2 hover:font-bold disabled:font-normal disabled:cursor-not-allowed disabled:opacity-50 focus:outline-none" },
-	{ $default: "$textbutton",
- 		Info: "text-teal-400 hover:text-teal-500 disabled:text-teal-400"
-	},
-	{ $default: "text-base",
-		Large: "text-lg",
-		Small: "text-sm"
-	},
-	{ $default: "font-normal cursor-pointer",
-		Active: "font-bold cursor-default"
-	}
-]
-const list = [
-	{ $default: "@transition rounded"
-	},
-	{ $default: "p-2 pb-0 bg-gray-200",
-		Dragging: "p-2 pb-0 bg-gray-400",
-		Item: "py-1 px-3 bg-gray-300 mb-2"
-	}
-]
-const $compositions = {
-	$defaults: [
-		"input",
-		"navitemTop",
-		"navitemTopActive",
-		"navitemSide",
-		"navitemSideActive"
-	], // <-- these are generated in theme during composeDefaults
-	button,
-	input,
-	navitem,
-	textbutton,
-	list
-}
+export const light = makeProxy(light_base);
 
 const TEST_THEME_BASE = {
 	text: 'text-gray-800',
@@ -453,6 +291,6 @@ const TEST_THEME_BASE = {
 
 	$compositions
 }
-export const TEST_THEME =  new Proxy(composeDefaults(TEST_THEME_BASE), handler);
+export const TEST_THEME = composeTheme(TEST_THEME_BASE);
 
 // console.log("TEST_THEME", TEST_THEME)
