@@ -1,13 +1,11 @@
 import React, { Component } from 'react';
 
-// import * as themes from '../Themes'
-
 import SideNav from '../Nav/Side'
 import TopNav from '../Nav/Top'
-// import HeaderBar from '../HeaderBar'
 
 import HeaderBar from "../Header/HeaderComponent"
 
+import get from "lodash.get"
 
 class Layout extends Component {
   state = {
@@ -17,8 +15,7 @@ class Layout extends Component {
       fixed: false,
       maxWidth: '',
       headerBar: true,
-      nav: 'side',
-      theme: 'light'
+      navBar: 'side'
   }
 
   toggleMenu = () => {
@@ -31,7 +28,7 @@ class Layout extends Component {
       <div className={ `
           ${ theme.bg } ${ theme.text } min-h-screen w-full flex flex-col
         ` }>
-        {this.props.nav === 'top' ? (
+        {this.props.navBar === 'top' ? (
           <div className={this.props.fixed ? `fixed left-0 top-0 w-full z-10` : `w-full`}>
             <TopNav
               logo={this.props.logo}
@@ -44,21 +41,26 @@ class Layout extends Component {
           </div>
         ) : null }
         {this.props.headerBar ? (
-          <div className={`${this.props.fixed ? `fixed left-0 top-0 w-full z-10 ${this.props.nav === 'top' ? '' : '' }` : ''}`}>
+          <div className={`${this.props.fixed ? `fixed left-0 top-0 w-full z-10 ${this.props.navBar === 'top' ? '' : '' }` : ''}`}>
             <div className={`${this.props.maxWidth} mx-auto`} >
-              <HeaderBar title=""
-                toggle={this.toggleMenu}
-                menu={this.props.headerMenu}
-                fixed={this.props.fixed}
-
-              />
+              <HeaderBar
+                title={ get(this.props, ["headerBar", "title"], null) }>
+                { get(this.props, ["headerBar", "children"], [])
+                    .map((child, i) =>
+                      typeof child === "function" ?
+                        React.createElement(child, { key: i }) :
+                      typeof child === "string" ? child :
+                        React.cloneElement(child, { key: i })
+                    )
+                }
+              </HeaderBar>
             </div>
           </div>
         ) : null }
 
       	<div className={ `flex-1 flex items-stretch flex-col  ${this.props.maxWidth ? this.props.maxWidth : 'w-full'}` }>
 
-            { this.props.nav === 'side' ? (
+            { this.props.navBar === 'side' ? (
               <SideNav
                 open={this.state.menuOpen}
                 toggle={this.toggleMenu}
@@ -69,9 +71,9 @@ class Layout extends Component {
 
             <div className={`
                 h-full flex-1 flex flex-col
-                ${this.props.headerBar ? "mt-16" : ''}
-                ${this.props.fixed && this.props.nav === 'side' ?  `md:ml-${theme.sidebarW}` : '' }
-                ${this.props.fixed && this.props.nav === 'top' ?  `` : '' }`
+                ${this.props.headerBar || this.props.navBar === "top" ? "mt-16" : ''}
+                ${this.props.fixed && this.props.navBar === 'side' ?  `md:ml-${theme.sidebarW}` : '' }
+                ${this.props.fixed && this.props.navBar === 'top' ?  `` : '' }`
               }
             >
                 { this.props.children }

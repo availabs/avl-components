@@ -5,6 +5,7 @@ import { $compositions } from "./compositions"
 export const flat_base = {
 	bg: 'custom-bg',
 	ySpace: 'py-4',
+	contentPadding: 'py-4',
 	menuBg: 'custom-bg',
 	contentWidth: '',
 	text: 'text-blue-800',
@@ -51,6 +52,7 @@ const dark_base = {
 	sidebarBorder: '',
 	shadow: '',
 	ySpace: 'py-5',
+	contentPadding: 'py-5',
 	text: 'text-gray-300',
 	contentWidth: 'max-w-7xl mx-auto',
 	menuIcon: 'mr-3 h-4 w-4',
@@ -81,6 +83,7 @@ const blue_base = {
 	sidebarBorder: '',
 	shadow: 'shadow',
 	ySpace: 'py-5',
+	contentPadding: 'py-5',
 	text: 'text-gray-300',
 	contentWidth: 'max-w-7xl mx-auto',
 	menuIcon: 'mr-3 h-4 w-4',
@@ -106,6 +109,7 @@ export const blue = makeProxy(blue_base);
 const light_base = {
 	shadow: 'shadow',
 	ySpace: 'py-4',
+	contentPadding: 'py-4',
 	sidebarBorder: '',
 	text: 'text-gray-800',
 	textContrast: "text-white",
@@ -210,6 +214,8 @@ const TEST_THEME_BASE = {
 	textContrast: "text-white",
 	border: "border-gray-400",
 
+	ySpace: "",
+
 	textInfo: "text-teal-400",
 	bgInfo: "bg-teal-400",
 	borderInfo: "border-teal-400",
@@ -277,8 +283,9 @@ const TEST_THEME_BASE = {
 	highlight4: "bg-teal-500",
 
 	contentBg: 'bg-white',
-	contentWidth: 'max-w-7xl mx-auto',
-	
+	contentWidth: 'w-full max-w-7xl mx-auto',
+	contentPadding: 'py-4',
+
 	sidebarW: '56',
 	transition: "transition ease-in-out duration-150",
 
