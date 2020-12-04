@@ -6,7 +6,7 @@ export const flat_base = {
 	bg: 'custom-bg',
 	ySpace: 'py-4',
 	menuBg: 'custom-bg',
-	width: '',
+	contentWidth: '',
 	text: 'text-blue-800',
 	sidebarW: '64',
 	sidebarBorder: '',
@@ -52,7 +52,7 @@ const dark_base = {
 	shadow: '',
 	ySpace: 'py-5',
 	text: 'text-gray-300',
-	width: 'max-w-7xl mx-auto',
+	contentWidth: 'max-w-7xl mx-auto',
 	menuIcon: 'mr-3 h-4 w-4',
 	topNavHeight: 'h-16',
 	navitemTop: 'ml-3 my-3 px-3 py-1 inline-flex items-center rounded-md text-sm font-medium text-gray-300 hover:text-white hover:bg-gray-700 focus:outline-none focus:text-white focus:bg-gray-700',
@@ -82,7 +82,7 @@ const blue_base = {
 	shadow: 'shadow',
 	ySpace: 'py-5',
 	text: 'text-gray-300',
-	width: 'max-w-7xl mx-auto',
+	contentWidth: 'max-w-7xl mx-auto',
 	menuIcon: 'mr-3 h-4 w-4',
 	topNavHeight: 'h-16',
 	navitemTop: 'ml-3 my-3 px-3 py-1 inline-flex items-center rounded-md text-sm font-medium text-gray-300 hover:text-white hover:bg-gray-700 focus:outline-none focus:text-white focus:bg-gray-700',
@@ -170,6 +170,7 @@ const light_base = {
 	paddingLarge: "py-2 px-4",
 
 	contentBg: 'bg-white',
+	contentWidth: 'max-w-7xl mx-auto',
 
 	accent1: 'bg-gray-200',
 	accent2: 'bg-gray-300',
@@ -181,7 +182,6 @@ const light_base = {
 	highlight3: "bg-teal-400",
 	highlight4: "bg-teal-500",
 
-	width: 'max-w-7xl mx-auto',
 	sidebarW: '56',
 	transition: "transition ease-in-out duration-150",
 
@@ -265,7 +265,6 @@ const TEST_THEME_BASE = {
 	paddingSmall: "py-0 px-1",
 	paddingLarge: "py-2 px-4",
 
-	contentBg: 'bg-white',
 
 	accent1: 'bg-gray-200',
 	accent2: 'bg-gray-300',
@@ -277,7 +276,9 @@ const TEST_THEME_BASE = {
 	highlight3: "bg-teal-400",
 	highlight4: "bg-teal-500",
 
-	width: 'max-w-7xl mx-auto',
+	contentBg: 'bg-white',
+	contentWidth: 'max-w-7xl mx-auto',
+	
 	sidebarW: '56',
 	transition: "transition ease-in-out duration-150",
 
