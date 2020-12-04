@@ -42,7 +42,7 @@ export const UserMenu = withAuth(({ user = {}, children }) => {
           <span className="fas fa-user"/>
         </div>
         { !open ? null :
-          <div className={ `${ theme.accent2 } mt-1 p-2 right-0 absolute ${ theme.text }` }
+          <div className={ `${ theme.accent1 } mt-1 p-2 right-0 absolute ${ theme.text }` }
             style={ { top: "100%", minWidth: "8rem" } }>
             <div className="mb-1 border-b-2">
               { user.email }
@@ -57,7 +57,7 @@ export const UserMenuItem = ({ to = "#", children }) => {
   const theme = useTheme();
   return (
     <Link to={ to }>
-      <div className={ `rounded cursor-pointer px-2 ${ theme.transition } hover:${ theme.accent1 }` }>
+      <div className={ `rounded cursor-pointer px-2 ${ theme.transition } hover:${ theme.accent2 }` }>
         { children }
       </div>
     </Link>
