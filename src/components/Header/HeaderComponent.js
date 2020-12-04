@@ -7,7 +7,7 @@ import withAuth from "../../wrappers/with-auth"
 
 import get from "lodash.get"
 
-export default withAuth(({ title, shadowed = true, user, children }) => {
+export default withAuth(({ title, shadowed = false, user, children }) => {
   const theme = useTheme();
   return (
     <div className={ `

@@ -28,7 +28,9 @@ class Layout extends Component {
   render () {
     const theme = this.props.theme;//themes[this.props.theme]
     return (
-      <div className={`${theme.bg}  min-h-screen w-full flex flex-col`}>
+      <div className={ `
+          ${ theme.bg } ${ theme.text } min-h-screen w-full flex flex-col
+        ` }>
         {this.props.nav === 'top' ? (
           <div className={this.props.fixed ? `fixed left-0 top-0 w-full z-10` : `w-full`}>
             <TopNav
@@ -48,14 +50,14 @@ class Layout extends Component {
                 toggle={this.toggleMenu}
                 menu={this.props.headerMenu}
                 fixed={this.props.fixed}
-                
+
               />
             </div>
           </div>
         ) : null }
 
       	<div className={ `flex-1 flex items-stretch flex-col  ${this.props.maxWidth ? this.props.maxWidth : 'w-full'}` }>
-          
+
             { this.props.nav === 'side' ? (
               <SideNav
                 open={this.state.menuOpen}
@@ -64,7 +66,7 @@ class Layout extends Component {
                 fixed={this.props.fixed}
                 />) : null
             }
-            
+
             <div className={`
                 h-full flex-1 flex flex-col
                 ${this.props.headerBar ? "mt-16" : ''}
@@ -74,8 +76,8 @@ class Layout extends Component {
             >
                 { this.props.children }
             </div>
-            
-          
+
+
         </div>
       </div>
     )
