@@ -6,7 +6,7 @@ import { useClickOutside } from "../utils"
 import { useTheme } from "../../wrappers/with-theme"
 import withAuth from "../../wrappers/with-auth"
 
-export const UserMenu = withAuth(({ user, children }) => {
+export const UserMenu = withAuth(({ user = {}, children }) => {
   const [open, setOpen] = React.useState(false),
     clickedOutside = React.useCallback(() => setOpen(false), []),
     [setRef] = useClickOutside(clickedOutside),

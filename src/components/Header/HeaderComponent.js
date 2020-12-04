@@ -5,6 +5,8 @@ import { UserMenu, UserMenuItem, UserMenuSeparator } from "./UserMenu"
 import { useTheme } from "../../wrappers/with-theme"
 import withAuth from "../../wrappers/with-auth"
 
+import get from "lodash.get"
+
 export default withAuth(({ title, shadowed = true, user, children }) => {
   const theme = useTheme();
   return (
@@ -18,22 +20,24 @@ export default withAuth(({ title, shadowed = true, user, children }) => {
       </div>
       <div className="flex-0 flex items-center">
         { children }
-        <div className="ml-8">
-          <UserMenu>
-            <UserMenuItem to="/auth/profile">
-              Profile
-            </UserMenuItem>
-            { user.authLevel < 5 ? null :
-              <UserMenuItem to="/auth/project-management">
-                Project Management
+        { !user ? null :
+          <div className="ml-8">
+            <UserMenu>
+              <UserMenuItem to="/auth/profile">
+                Profile
               </UserMenuItem>
-            }
-            <UserMenuSeparator />
-            <UserMenuItem to="/auth/logout">
-              Logout
-            </UserMenuItem>
-          </UserMenu>
-        </div>
+              { get(user, "authLevel", -1) < 5 ? null :
+                <UserMenuItem to="/auth/project-management">
+                  Project Management
+                </UserMenuItem>
+              }
+              <UserMenuSeparator />
+              <UserMenuItem to="/auth/logout">
+                Logout
+              </UserMenuItem>
+            </UserMenu>
+          </div>
+        }
       </div>
     </div>
   )

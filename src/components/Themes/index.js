@@ -15,7 +15,7 @@ const compose = (themeType, theme) => {
 	}, []).filter(Boolean).join(" ");
 }
 
-const composeDefaults = theme => {
+export const composeDefaults = theme => {
 	const composedTheme = JSON.parse(JSON.stringify(theme));
 
 	for (const key in composedTheme) {
@@ -286,7 +286,7 @@ const button = [
 	{ $default: "rounded inline-flex items-center justify-center @transition disabled:cursor-not-allowed disabled:bg-transparent disabled:opacity-50 focus:outline-none border",
 		Text: "inline-flex items-center justify-center @transition disabled:cursor-not-allowed disabled:opacity-50 focus:outline-none border"
  	},
-// add colors
+// add text colors
 	{ $default: "text-gray-400 disabled:text-gray-300",
 		Primary: "text-blue-400 disabled:text-blue-300",
 		Success: "text-green-400 disabled:text-green-300",
@@ -310,7 +310,7 @@ const button = [
 		Text: ""
 	},
 // add padding
-	{ $default: "px-4 py-1 @textBase", // <<-- padding based on size
+	{ $default: "px-4 py-1 @textBase",
 		Large: "px-6 py-2 @textLarge",
 		Small: "px-2 py-0 @textSmall",
 	},
