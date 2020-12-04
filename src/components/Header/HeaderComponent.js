@@ -9,7 +9,6 @@ import get from "lodash.get"
 
 export default withAuth(({ title, shadowed = false, user, children }) => {
   const theme = useTheme();
-console.log("CHILDREN:", children)
   return (
     <div className={ `
         fixed top-0 left-0 right-0 z-50 flex items-center px-8
