@@ -21,11 +21,14 @@ const DefaultColumnFilter = ({ column }) => {
       setFilter
     } = column;
     // count = preFilteredRows.length;
+  const theme = useTheme();
   return (
-    <input className="px-2 rounded border-2 border-transparent focus:border-black focus:outline-none"
-      value={ filterValue } onChange={ e => setFilter(e.target.value) }
-      onClick= { e => e.stopPropagation() }
-      placeholder={ `Search...` }/>
+    <div className="w-3/4">
+      <input className={ theme.inputSmall }
+        value={ filterValue } onChange={ e => setFilter(e.target.value) }
+        onClick= { e => e.stopPropagation() }
+        placeholder={ `Search...` }/>
+    </div>
   )
 }
 
@@ -63,7 +66,7 @@ const DefaultExpandedRow = ({ values }) =>
     }
   </div>
 
-export default ({ columns, sortBy, sortOrder, initialPageSize, data, onRowClick, ExpandRow = DefaultExpandedRow, ...props }) => {
+export default ({ columns = [], sortBy, sortOrder, initialPageSize = 10, data = [], onRowClick, ExpandRow = DefaultExpandedRow, ...props }) => {
     const theme = useTheme();
     const filterTypes = React.useMemo(
       () => ({
