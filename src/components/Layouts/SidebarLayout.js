@@ -15,7 +15,8 @@ class Layout extends Component {
       fixed: false,
       maxWidth: '',
       headerBar: true,
-      navBar: 'side'
+      navBar: 'side',
+      nav: null
   }
 
   toggleMenu = () => {
@@ -23,12 +24,14 @@ class Layout extends Component {
   }
 
   render () {
-    const theme = this.props.theme;//themes[this.props.theme]
+    const theme = this.props.theme,
+      navBar = this.props.nav || this.props.navBar;
     return (
       <div className={ `
-          ${ theme.bg } ${ theme.text } min-h-screen w-full flex flex-col
+          ${ theme.bg } ${ theme.text }
+          min-h-screen w-full flex flex-col
         ` }>
-        {this.props.navBar === 'top' ? (
+        {navBar === 'top' ? (
           <div className={this.props.fixed ? `fixed left-0 top-0 w-full z-10` : `w-full`}>
             <TopNav
               logo={this.props.logo}
@@ -41,40 +44,49 @@ class Layout extends Component {
           </div>
         ) : null }
         {this.props.headerBar ? (
-          <div className={`${this.props.fixed ? `fixed left-0 top-0 w-full z-10 ${this.props.navBar === 'top' ? '' : '' }` : ''}`}>
+          <div className={`${this.props.fixed ? `fixed left-0 top-0 w-full z-10 ${navBar === 'top' ? '' : '' }` : ''}`}>
             <div className={`${this.props.maxWidth} mx-auto`} >
-              <HeaderBar
-                title={ get(this.props, ["headerBar", "title"], null) }>
-                { get(this.props, ["headerBar", "children"], [])
-                    .map((child, i) =>
-                      typeof child === "function" ?
-                        React.createElement(child, { key: i }) :
-                      typeof child === "string" ? child :
+              <div className={ `
+                  fixed left-0 right-0 top-0
+                  ${ navBar === 'side' ? `md:ml-${ theme.sidebarW}` : '' }
+                ` }>
+                <HeaderBar navBar={ navBar }
+                  title={ get(this.props, ["headerBar", "title"], null) }>
+                  { get(this.props, ["headerBar", "children"], [])
+                      .map((child, i) =>
+                        typeof child === "function" ?
+                          React.createElement(child, { key: i }) :
+                        typeof child === "string" ? child :
                         React.cloneElement(child, { key: i })
-                    )
-                }
-              </HeaderBar>
+                      )
+                  }
+                </HeaderBar>
+              </div>
             </div>
           </div>
         ) : null }
 
-      	<div className={ `flex-1 flex items-stretch flex-col  ${this.props.maxWidth ? this.props.maxWidth : 'w-full'}` }>
+      	<div className={ `
+          flex-1 flex items-stretch flex-col
+          ${ this.props.maxWidth ? this.props.maxWidth : 'w-full' }
+        ` }>
 
-            { this.props.navBar === 'side' ? (
-              <SideNav
-                open={this.state.menuOpen}
-                toggle={this.toggleMenu}
-                menuItems={this.props.menus}
-                fixed={this.props.fixed}
-                />) : null
-            }
+          { navBar !== 'side' ? null : (
+            <SideNav
+              open={this.state.menuOpen}
+              toggle={this.toggleMenu}
+              menuItems={this.props.menus}
+              fixed={this.props.fixed}/>
+            )
+          }
 
-            <div className={`
+            <div className={ `
                 h-full flex-1 flex flex-col
-                ${this.props.headerBar || this.props.navBar === "top" ? "mt-16" : ''}
-                ${this.props.fixed && this.props.navBar === 'side' ?  `md:ml-${theme.sidebarW}` : '' }
-                ${this.props.fixed && this.props.navBar === 'top' ?  `` : '' }`
-              }
+                ${ this.props.headerBar || (navBar === "top") ? "mt-16" : '' }
+                ${ this.props.fixed && (navBar === 'side') ?
+                    `md:ml-${ theme.sidebarW }` : ''
+                }
+              ` }
             >
                 { this.props.children }
             </div>

@@ -10,10 +10,7 @@ import get from "lodash.get"
 export default withAuth(({ title, shadowed = false, user, children }) => {
   const theme = useTheme();
   return (
-    <div className={ `
-        fixed top-0 left-0 right-0 z-50 flex items-center px-8
-        md:ml-${ theme.sidebarW } ${ theme.headerBg }
-      ` }
+    <div className={ `w-full flex items-center px-8 ${ theme.headerBg }` }
       style={ shadowed ? { boxShadow: "0px 6px 3px -3px rgba(0, 0, 0, 0.25)" } : null }>
       <div className="flex-1 text-3xl font-bold h-16 flex items-center">
         { typeof title === "function" ? React.createElement(title) : title }
