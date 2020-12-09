@@ -7,7 +7,7 @@ import showLoading from "./show-loading"
 import shareProps from "./share-props"
 import imgLoader from "./img-loader"
 
-export default {
+const Wrappers = {
   "with-theme": withTheme,
   "with-auth": withAuth,
   connect,
@@ -17,6 +17,7 @@ export default {
   "share-props": shareProps
 }
 export {
+  Wrappers,
   withTheme,
   ThemeContext,
   useTheme,

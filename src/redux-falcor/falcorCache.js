@@ -1,4 +1,4 @@
-export const UPDATE_FALCOR = 'redux-falcor/UPDATE';
+const UPDATE_FALCOR = 'redux-falcor::UPDATE';
 
 export const updateCache = falcorCache => dispatch =>
   Promise.resolve(dispatch({
