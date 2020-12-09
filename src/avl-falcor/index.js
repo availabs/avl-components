@@ -32,11 +32,18 @@ export const FalcorProvider = ({ falcor, children }) => {
     </FalcorContext.Provider>
   )
 }
-export const avlFalcor = Component =>
-  props => (
+
+const noMap = () => ({});
+export const avlFalcor = (Component, options = {}) => {
+  const {
+    mapCacheToProps = noMap
+  } = options
+  return props => (
     <FalcorContext.Consumer>
       { falcor =>
-          <Component { ...props } { ...falcor }/>
+          <Component { ...props } { ...falcor }
+            { ...mapCacheToProps(falcor.falcorCache, props) }/>
       }
     </FalcorContext.Consumer>
   )
+}
