@@ -90,22 +90,22 @@ class MyModelRoot extends ModelRoot {
  constructor(...args) {
    super(...args);
 
-   this.listeners = {};
+   this.listeners = [];
 
    this.onChange = this.onChange.bind(this);
    this.listen = this.listen.bind(this);
    this.unlisten = this.unlisten.bind(this);
  }
  onChange() {
-   for (const listener in this.listeners) {
-     this.listeners[listener]();
+   this.listeners.forEach(func => func());
+ }
+ listen(func) {
+   if (!this.listeners.includes(func)) {
+     this.listeners.push(func);
    }
  }
- listen(listener, func) {
-   this.listeners[listener] = throttle(func.bind(listener), 50);
- }
- unlisten(listener) {
-   delete this.listeners[listener];
+ unlisten(func) {
+   this.listeners = this.listeners.filter(f => f !== func);
  }
 }
 class MyModel extends Model {

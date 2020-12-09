@@ -1,6 +1,6 @@
 import React, { useContext } from "react"
 
-import { light } from "../components/Themes"
+import { light } from "../Themes"
 
 export const ThemeContext = React.createContext(light);
 

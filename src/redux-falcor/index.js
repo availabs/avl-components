@@ -7,7 +7,6 @@ import { updateCache } from "./falcorCache"
 import debounce from "lodash.debounce"
 
 export * from "./falcorCache"
-export * from "./falcorGraph"
 
 const FalcorContext = React.createContext();
 
@@ -33,9 +32,7 @@ class FalcorProviderBase extends React.Component {
     )
   }
 }
-export const FalcorProvider = connect(null, { updateCache })(FalcorProviderBase);
-
-const NO_OP = () => {};
+export const ReduxFalcorFalcorProvider = connect(null, { updateCache })(FalcorProviderBase);
 
 export const reduxFalcor = Component => {
   class Wrapper extends React.Component {
@@ -53,7 +50,7 @@ export const reduxFalcor = Component => {
       if (!current) return;
 
       if (typeof current.fetchFalcorDeps === "function") {
-        current.fetchFalcorDeps().then(NO_OP);
+        current.fetchFalcorDeps();
       }
     }
     render() {
