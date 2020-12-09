@@ -2,14 +2,14 @@ import React from 'react'
 // import TrackVisibility from 'react-on-screen';
 // import CensusCharts from 'components/CensusCharts'
 
-import BaseWrappers from "./wrappers"
+import { Wrappers } from "./wrappers"
 
 import get from "lodash.get"
 
 let ComponentLibrary = {}
 
 let WrapperLibrary = {
-  ...BaseWrappers
+  ...Wrappers
 }
 
 export const addComponents = comps => {
