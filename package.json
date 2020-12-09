@@ -4,7 +4,7 @@
   "description": "Reusable components styled by tailwind css for use in AVAIL projects.",
   "main": "dist/index.js",
   "scripts": {
-    "test": "npm run build && node test.js",
+    "test": "node test.js",
     "build": "npx eslint src && babel src -d dist",
     "publish-it": "npm run build && npm publish --access public",
     "watch": "nodemon --exec npm run build"
