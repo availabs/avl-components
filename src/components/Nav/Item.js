@@ -12,8 +12,8 @@ export default ({ to, icon, customTheme, className = "", children, type='side' }
     linkClasses = type === 'side' ? theme.navitemSide : theme.navitemTop,
     activeClasses = type === 'side' ? theme.navitemSideActive : theme.navitemTopActive;
 
-	const isActive = Boolean(useRouteMatch(get(to, "pathname", to))),
-		navClass = isActive ? activeClasses : linkClasses;
+	const routeMatch = useRouteMatch({ path: get(to, "pathname", to), exact: true }),
+		navClass = routeMatch ? activeClasses : linkClasses;
 
   return (
     <Link to={ to } className={ `${ className } ${ navClass }` }>
