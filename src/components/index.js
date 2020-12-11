@@ -16,6 +16,8 @@ export * from './Inputs'
 export * from "./Button"
 export * from "./utils"
 
+export * from "./Header/UserMenu"
+
 export { default as AvlModal } from "./Modal/avl-modal"
 
 export {
