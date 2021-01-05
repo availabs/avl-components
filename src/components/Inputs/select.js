@@ -41,6 +41,7 @@ class Select extends React.Component {
     value: null,
     placeholder: "Select a value...",
     accessor: d => d,
+    displayAccessor: null,
     listAccessor: null,
     id: "avl-select",
     autoFocus: false,
@@ -123,21 +124,16 @@ class Select extends React.Component {
     return this.props.options.length ? this.props.options : this.props.domain;
   }
   render() {
-    const { disabled, accessor } = this.props,
+    const { disabled, accessor, searchable } = this.props,
       values = this.getValues(),
-      search = this.state.search.toString().toLowerCase(),
+      search = this.state.search,
       _options = this.getOptions()
-        .filter(d => values.reduce((a, c) => a && !deepequal(c, d), true))
-        // .filter(d =>
-        //   !search ||
-        //   this.props.accessor(d)
-        //     .toString().toLowerCase()
-        //     .includes(search)
-        // );
+        .filter(d => values.reduce((a, c) => a && !deepequal(c, d), true)),
 
-    const options = matchSorter(_options, search, { keys: [accessor] });
+      listAccessor = this.props.listAccessor || accessor,
 
-    const listAccessor = this.props.listAccessor || accessor;
+      options = !search ? _options :
+        matchSorter(_options, search, { keys: [listAccessor] });
 
     return (
       <div className="relative" onMouseLeave={ e => this.closeDropdown() }>
@@ -164,8 +160,8 @@ class Select extends React.Component {
 
         { disabled || !this.state.opened ? null :
           <Dropdown opened={ this.state.opened } direction={ this.state.direction }
-            searchable={ this.props.searchable } ref={ n => this.dropdown = n }>
-            { !this.props.searchable ? null :
+            searchable={ searchable } ref={ n => this.dropdown = n }>
+            { !searchable ? null :
               <div className="p-2 pt-1">
                 <Input type="text" autoFocus placeholder="search..."
                   value={ this.state.search } onChange={ v => this.setSearch(v) }/>
