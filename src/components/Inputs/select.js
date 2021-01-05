@@ -13,7 +13,7 @@ const Dropdown = React.forwardRef(({ children, searchable, opened, direction }, 
   const theme = useTheme();
   return (
     <div className={ `
-      absolute left-0 z-40 overflow-hidden
+      absolute left-0 z-40 overflow-hidden w-full
       ${ opened ? "block" : "hidden" }
     ` }
       style={ direction === "down" ? { top: "100%" } : { bottom: "100%" } } ref={ ref }>
@@ -44,7 +44,8 @@ class Select extends React.Component {
     listAccessor: null,
     id: "avl-select",
     autoFocus: false,
-    disabled: false
+    disabled: false,
+    removable: true
   }
 
   node = null;
@@ -150,7 +151,7 @@ class Select extends React.Component {
             { values.length ?
               values.map((v, i) =>
                 <ValueItem key={ i } disabled={ disabled }
-                  remove={ e => this.removeItem(e, v) }>
+                  remove={ this.props.removable ? e => this.removeItem(e, v) : null }>
                   { accessor(v) }
                 </ValueItem>
               ) :

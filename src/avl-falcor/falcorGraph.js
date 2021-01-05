@@ -40,11 +40,15 @@ const chunker = (values, request, options = {}) => {
 }
 const falcorChunker = (values, request, options = {}) => {
  const {
-   falcor = falcorGraph,
+   falcor,
    ...rest
  } = options;
  return chunker(values, request, rest)
-   .reduce((a, c) => a.then(() => falcor.get(c)), Promise.resolve());
+   .reduce((a, c) => {
+// console.log("REQUEST:", c)
+     return a.then(() => falcor.get(c))
+      // .then(res => console.log("RES:", res));
+   }, Promise.resolve());
 }
 
 const getArgs = args =>
@@ -110,17 +114,18 @@ class MyModel extends Model {
  constructor(...args) {
    super(...args);
 
-   this.modelRoot = this._root;
-
    this.onChange = this.onChange.bind(this);
    this.remove = this.remove.bind(this);
    this.chunk = this.chunk.bind(this);
  }
  onChange(listener, func) {
-   this.modelRoot.listen(listener, func);
+   this._root.listen(listener, func);
  }
  remove(listener) {
-   this.modelRoot.unlisten(listener);
+   this._root.unlisten(listener);
+ }
+ get(...args) {
+   return super.get(...args).then(res => res);
  }
  chunk(...args) {
    const [requests, options] = getArgs(args);

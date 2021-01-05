@@ -10,9 +10,10 @@ export const FalcorProvider = ({ falcor, children }) => {
   const [falcorCache, setFalcorCache] = React.useState({});
 
   const updateCache = React.useMemo(() =>
-    debounce(() =>
-      setFalcorCache(falcor.getCache())
-    , 250)
+    debounce(() => {
+      const cache = falcor.getCache();
+      setFalcorCache(cache);
+    }, 250)
   , [falcor]);
 
   React.useEffect(() => {
