@@ -128,9 +128,9 @@ export default ({ columns = [], sortBy, sortOrder, initialPageSize = 10, data = 
                         <th { ...column.getHeaderProps(column.getSortByToggleProps()) }
                           className={ theme.tableHeader }>
                           <div className="flex">
-                            <div className="flex-0">{ column.render("Header") }</div>
+                            <div className="flex-1">{ column.render("Header") }</div>
                             { !column.isSorted ? null :
-                              <div className="flex-1 flex justify-end mr-8">
+                              <div className="flex-0 mr-8">
                                 { column.isSortedDesc ?
                                     <i className="ml-2 pt-1 fas fa-chevron-down"/> :
                                     <i className="ml-2 pt-1 fas fa-chevron-up"/>
