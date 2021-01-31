@@ -78,7 +78,7 @@ class Select extends React.Component {
   }
   getValues() {
     let values = [];
-    
+
     if (!hasValue(this.props.value)) return [];
 
     if (!Array.isArray(this.props.value)) {
@@ -141,7 +141,6 @@ class Select extends React.Component {
         .filter(d => values.reduce((a, c) => a && !deepequal(c, d), true)),
 
       listAccessor = this.props.listAccessor || accessor,
-      valueAccessor = this.props.valueAccessor,
 
       options = !search ? _options :
         matchSorter(_options, search, { keys: [listAccessor] });
