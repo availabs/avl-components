@@ -143,7 +143,6 @@ class Select extends React.Component {
         .filter(d => values.reduce((a, c) => a && !deepequal(c, d), true)),
 
       listAccessor = this.props.listAccessor || accessor,
-      valueAccessor = this.props.valueAccessor,
 
       options = !search ? _options :
         matchSorter(_options, search, { keys: [listAccessor] });
