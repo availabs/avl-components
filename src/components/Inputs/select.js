@@ -32,6 +32,8 @@ const DropdownItem = ({ children, ...props }) => {
   )
 }
 
+const Identity = i => i;
+
 class Select extends React.Component {
   static defaultProps = {
     multi: true,
@@ -40,27 +42,26 @@ class Select extends React.Component {
     options: [],
     value: null,
     placeholder: "Select a value...",
-    accessor: d => d,
+    accessor: Identity,
     displayAccessor: null,
     listAccessor: null,
     id: "avl-select",
     autoFocus: false,
     disabled: false,
-    removable: true
+    removable: true,
+    valueAccessor: Identity
   }
 
   node = null;
   dropdown = null;
 
-  constructor(...args) {
-    super(...args);
-    this.state = {
-      opened: false,
-      direction: "down",
-      hasFocus: false,
-      search: ""
-    }
+  state = {
+    opened: false,
+    direction: "down",
+    hasFocus: false,
+    search: ""
   }
+
   componentDidMount() {
     this.props.autoFocus && this.focus();
   }
@@ -76,11 +77,19 @@ class Select extends React.Component {
     }
   }
   getValues() {
-    if (!hasValue(this.props.value) || !hasValue(this.props.accessor(this.props.value))) return [];
+    let values = [];
+    
+    if (!hasValue(this.props.value)) return [];
+
     if (!Array.isArray(this.props.value)) {
-      return [this.props.value];
+      values = [this.props.value];
     }
-    return this.props.value;
+    else {
+      values = this.props.value;
+    }
+    return this.getOptions().filter(option => {
+      return values.includes(this.props.valueAccessor(option));
+    });
   }
   openDropdown(e) {
     e.stopPropagation();
@@ -93,6 +102,8 @@ class Select extends React.Component {
   addItem(e, v) {
     e.stopPropagation();
     this.closeDropdown();
+
+    v = this.props.valueAccessor(v);
 
     if (this.props.multi) {
       if (!hasValue(this.props.value)) {
@@ -110,8 +121,7 @@ class Select extends React.Component {
     e.stopPropagation();
 
     if (this.props.multi) {
-      const newValue = this.props.value.filter(d => d !== v);
-      this.props.onChange(newValue.length ? newValue : null);
+      this.props.onChange(this.props.value.filter(d => !deepequal(d, v)));
     }
     else {
       this.props.onChange(null);
@@ -131,6 +141,7 @@ class Select extends React.Component {
         .filter(d => values.reduce((a, c) => a && !deepequal(c, d), true)),
 
       listAccessor = this.props.listAccessor || accessor,
+      valueAccessor = this.props.valueAccessor,
 
       options = !search ? _options :
         matchSorter(_options, search, { keys: [listAccessor] });
@@ -145,10 +156,10 @@ class Select extends React.Component {
             disabled={ disabled } tabIndex={ disabled ? -1 : 0 }
             onClick={ e => this.openDropdown(e) }>
             { values.length ?
-              values.map((v, i) =>
+              values.map((v, i, a) =>
                 <ValueItem key={ i } disabled={ disabled }
                   remove={ this.props.removable ? e => this.removeItem(e, v) : null }>
-                  { accessor(v) }
+                  { accessor(v, a) }
                 </ValueItem>
               ) :
               <ValueItem key="placeholder" isPlaceholder={ true }>
