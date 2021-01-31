@@ -78,7 +78,7 @@ class Select extends React.Component {
   }
   getValues() {
     let values = [];
-    
+
     if (!hasValue(this.props.value)) return [];
 
     if (!Array.isArray(this.props.value)) {
@@ -119,6 +119,8 @@ class Select extends React.Component {
   }
   removeItem(e, v) {
     e.stopPropagation();
+
+    v = this.props.valueAccessor(v);
 
     if (this.props.multi) {
       this.props.onChange(this.props.value.filter(d => !deepequal(d, v)));
