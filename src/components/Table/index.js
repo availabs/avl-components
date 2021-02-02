@@ -210,23 +210,21 @@ export default ({ columns = [], sortBy, sortOrder, initialPageSize = 10, data = 
                               { (ii > 0) || ((row.subRows.length === 0) && (expand.length === 0)) ?
                                   cell.render('Cell')
                                 :
-                                  <div className="flex">
-                                    <div className="flex-0">{ cell.render('Cell') }</div>
-                                    <div className="flex-1 flex justify-end">
-                                      <div onClick={ e => {
-                                        e.stopPropagation();
-                                        Object.keys(expanded).filter(k => k !== row.id)
-                                          .forEach(toggleRowExpanded);
-                                        row.toggleRowExpanded(!row.isExpanded);
-                                      } } className={ `
-                                          flex item-center justify-center py-1 px-2 rounded
-                                          hover:${ theme.accent3 } ${ theme.transition }
-                                        ` }>
-                                        { row.isExpanded ?
-                                          <i className="fas fa-chevron-up"/> :
-                                          <i className="fas fa-chevron-down"/>
-                                        }
-                                      </div>
+                                  <div className="flex items-center">
+                                    <div className="flex-1">{ cell.render('Cell') }</div>
+                                    <div onClick={ e => {
+                                      e.stopPropagation();
+                                      Object.keys(expanded).filter(k => k !== row.id)
+                                        .forEach(toggleRowExpanded);
+                                      row.toggleRowExpanded(!row.isExpanded);
+                                    } } className={ `
+                                        flex item-center justify-center py-1 px-2 rounded
+                                        hover:${ theme.accent3 } ${ theme.transition }
+                                      ` }>
+                                      { row.isExpanded ?
+                                        <i className="fas fa-chevron-up"/> :
+                                        <i className="fas fa-chevron-down"/>
+                                      }
                                     </div>
                                   </div>
                               }

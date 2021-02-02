@@ -183,8 +183,8 @@ class Select extends React.Component {
               <div className="p-1 text-center">No Selections</div> :
               <div className="scrollbar overflow-y-auto"
                 style={ { maxHeight: "15rem" } }>
-                { options.map(d =>
-                    <DropdownItem key={ accessor(d) }
+                { options.map((d, i) =>
+                    <DropdownItem key={ `${ accessor(d) }-${ i }` }
                       onClick={ e => this.addItem(e, d) }>
                       { listAccessor(d) }
                     </DropdownItem>
