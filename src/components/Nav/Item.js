@@ -12,11 +12,17 @@ export default ({ to, icon, customTheme, className = "", children, type='side' }
     linkClasses = type === 'side' ? theme.navitemSide : theme.navitemTop,
     activeClasses = type === 'side' ? theme.navitemSideActive : theme.navitemTopActive;
 
-	const routeMatch = useRouteMatch({ path: get(to, "pathname", to), exact: true }),
+	if (!Array.isArray(to)) {
+		to = [to];
+	}
+
+	const routeMatch = to.reduce((a, c) =>
+			a || Boolean(useRouteMatch({ path: get(c, "pathname", c), exact: true }))
+		, false),
 		navClass = routeMatch ? activeClasses : linkClasses;
 
   return (
-    <Link to={ to } className={ `${ className } ${ navClass }` }>
+    <Link to={ to[0] } className={ `${ className } ${ navClass }` }>
       { icon ? <Icon icon={ icon } className={ theme.menuIcon } showBlank={ type === "side" }/> : '' }
       { children }
     </Link>
