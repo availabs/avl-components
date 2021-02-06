@@ -82,7 +82,7 @@ class Layout extends Component {
 
             <div className={ `
                 h-full flex-1 flex flex-col
-                ${ this.props.headerBar || (navBar === "top") ? "mt-16" : '' }
+                ${ this.props.headerBar || (navBar === "top") ? (theme.topNavHeight || "mt-16") : '' }
                 ${ this.props.fixed && (navBar === 'side') ?
                     `md:ml-${ theme.sidebarW }` : ''
                 }
