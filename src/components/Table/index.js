@@ -66,7 +66,14 @@ const DefaultExpandedRow = ({ values }) =>
     }
   </div>
 
-export default ({ columns = [], sortBy, sortOrder, initialPageSize = 10, data = [], onRowClick, ExpandRow = DefaultExpandedRow, ...props }) => {
+export default ({ columns = [], data = [],
+                  sortBy, sortOrder,
+                  initialPageSize = 10,
+                  onRowClick,
+                  ExpandRow = DefaultExpandedRow,
+                  disableFilters = false,
+                  disableSortBy = false,
+                  ...props }) => {
     const theme = useTheme();
     const filterTypes = React.useMemo(
       () => ({
@@ -104,6 +111,8 @@ export default ({ columns = [], sortBy, sortOrder, initialPageSize = 10, data = 
         data,
         defaultColumn,
         filterTypes,
+        disableFilters,
+        disableSortBy,
         initialState: {
           pageSize: initialPageSize,
           sortBy: [{ id: sortBy, desc: sortOrder === "desc" }]
