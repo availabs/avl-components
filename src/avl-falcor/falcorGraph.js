@@ -46,7 +46,6 @@ const falcorChunker = async (requests, options = {}) => {
   const {
     falcor,
     onProgress = noop,
-    concurrency = 4,
     ...rest
   } = options;
 
