@@ -42,11 +42,10 @@ const chunker = (values, request, options = {}) => {
   }
   return requests.length ? requests : [request];
 }
-const falcorChunker = async (requests, options = {}) => {
+const falcorChunker = (requests, options = {}) => {
   const {
     falcor,
     onProgress = noop,
-    concurrency = 4,
     ...rest
   } = options;
 
