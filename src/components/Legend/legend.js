@@ -1,6 +1,6 @@
 import React from "react"
 
-import { BooleanInput, Select } from "../inputs"
+import { BooleanInput, Select } from "../Inputs"
 
 import deepequal from "deep-equal"
 import get from "lodash.get"
