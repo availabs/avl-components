@@ -1,6 +1,6 @@
 import React from "react"
 
-import { useTheme } from "../../wrappers/with-theme/avl-components"
+import { useTheme } from "../../wrappers/with-theme"
 
 import { useSetSize } from "../utils"
 
