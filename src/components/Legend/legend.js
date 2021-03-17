@@ -4,11 +4,8 @@ import { BooleanInput, Select } from "../Inputs"
 
 import deepequal from "deep-equal"
 import get from "lodash.get"
-import {
-  groups,
-  extent as d3extent,
-  format as d3format
-} from "d3-array"
+import { format as d3format } from "d3-format"
+import { groups, extent } from "d3-array"
 import {
   scaleLinear,
   scaleOrdinal,
@@ -56,7 +53,7 @@ const getScale = (type, domain, range) => {
         .range(range);
     case "quantize":
       return scaleQuantize()
-        .domain(d3extent(domain))
+        .domain(extent(domain))
         .range(range);
     case "quantile":
       return scaleQuantile()

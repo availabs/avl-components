@@ -1,6 +1,6 @@
 {
   "name": "@availabs/avl-components",
-  "version": "1.0.37",
+  "version": "1.0.38",
   "description": "Reusable components styled by tailwind css for use in AVAIL projects.",
   "main": "dist/index.js",
   "scripts": {
@@ -66,6 +66,7 @@
     "colorbrewer": "^1.4.0",
     "d3-array": "^2.12.0",
     "d3-brush": "2.x",
+    "d3-format": "^2.0.0",
     "d3-scale": "^3.2.3",
     "d3-selection": "2.x",
     "deep-equal": "2.x",
