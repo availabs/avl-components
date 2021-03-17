@@ -1,6 +1,6 @@
 import React from "react"
 
-import { useTheme } from "../../wrappers/with-theme/avl-components"
+import { useTheme } from "../../wrappers/with-theme"
 
 export const SidebarContext = React.createContext({})
 
