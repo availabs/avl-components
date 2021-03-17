@@ -3,6 +3,8 @@ import React, { useEffect, useState, useReducer } from "react"
 import * as d3brush from "d3-brush"
 import * as d3selection from "d3-selection"
 
+export * from "./color-ranges"
+
 export const composeOptions = ({ ...options }) =>
   Object.keys(options).reduce((a, c) => {
     if (options[c]) {
@@ -25,8 +27,9 @@ export const useSetRefs = (...refs) => {
   }, [refs])
 }
 
+
 // // WARNING: this hook will only work if the setNode is set to a DOM element, e.g. div, input, etc., not a React element!!!
-// To use this with a React Element, you must use Ref Forwarding: https://reactjs.org/docs/forwarding-refs.html
+// To use this with a React Functional Component, you must use Ref Forwarding: https://reactjs.org/docs/forwarding-refs.html
 export const useClickOutside = handleClick => {
   const [node, setNode] = useState(null);
 
@@ -43,6 +46,7 @@ export const useClickOutside = handleClick => {
 
   return [setNode, node];
 }
+
 
 const d3 = {
   ...d3brush,
@@ -111,4 +115,51 @@ export const useBrush = (node, type = "brush") => {
     selection,
     clearBrush: () => brush.clear(d3.select(group))
   }
+}
+
+
+const getRect = ref => {
+  const node = ref ? ref.current : ref;
+  if (!node) return { width: 0, height: 0 };
+  return node.getBoundingClientRect();
+}
+
+export const useSetSize = (ref, callback) => {
+  const [size, setSize] = React.useState({ width: 0, height: 0, x: 0, y: 0 });
+
+  const doSetSize = React.useCallback(() => {
+    const rect = getRect(ref),
+      { width, height, x, y } = rect;
+    if ((width !== size.width) || (height !== size.height)) {
+      if (typeof callback === "function") {
+        callback({ width, height, x, y });
+      }
+      setSize({ width, height, x, y });
+    }
+  }, [ref, size, callback]);
+
+  React.useEffect(() => {
+    window.addEventListener("resize", doSetSize);
+    return () => {
+      window.removeEventListener("resize", doSetSize);
+    }
+  }, [doSetSize]);
+
+  React.useEffect(() => {
+    doSetSize();
+  });
+
+  return size;
+}
+
+
+export const useAsyncSafe = func => {
+  const mounted = React.useRef(false);
+  React.useEffect(() => {
+    mounted.current = true;
+    return () => { mounted.current = false; };
+  }, []);
+  return React.useCallback((...args) => {
+    mounted.current && func(...args);
+  }, [func]);
 }

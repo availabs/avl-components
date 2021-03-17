@@ -18,6 +18,10 @@ export * from "./utils"
 
 export * from "./Header/UserMenu"
 
+export * from "./Sidebar/collapsible-sidebar"
+export * from "./Legend/legend"
+export * from "./Draggable/draggable"
+
 export { default as AvlModal } from "./Modal/avl-modal"
 
 export {
