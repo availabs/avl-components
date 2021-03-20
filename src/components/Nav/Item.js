@@ -7,8 +7,8 @@ import { useTheme } from "../../wrappers/with-theme"
 
 import get from "lodash.get"
 
-export default ({ to, icon, customTheme, className = "", children, type='side' }) => {
-	const theme = Object.assign({}, useTheme(), customTheme),
+export default ({ to, icon, customTheme = {}, className = "", children, type='side' }) => {
+	const theme = { ...useTheme(), ...customTheme },
     linkClasses = type === 'side' ? theme.navitemSide : theme.navitemTop,
     activeClasses = type === 'side' ? theme.navitemSideActive : theme.navitemTopActive;
 
@@ -17,9 +17,9 @@ export default ({ to, icon, customTheme, className = "", children, type='side' }
 	}
 
 	const routeMatch = to.reduce((a, c) =>
-			a || Boolean(useRouteMatch({ path: get(c, "pathname", c), exact: true }))
-		, false),
-		navClass = routeMatch ? activeClasses : linkClasses;
+		a || Boolean(useRouteMatch({ path: get(c, "pathname", c), exact: true }))
+	, false);
+	const navClass = routeMatch ? activeClasses : linkClasses;
 
   return (
     <Link to={ to[0] } className={ `${ className } ${ navClass }` }>

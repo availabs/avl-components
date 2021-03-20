@@ -1,6 +1,10 @@
 import React from "react"
 import PropTypes from "prop-types"
 
+import get from "lodash.get"
+
+import withAuth from "./with-auth"
+
 // import { API_HOST } from "config"
 
 export default (Component, options = {}) => {
@@ -35,7 +39,7 @@ export default (Component, options = {}) => {
             body: reader.result,
             headers: {
               "Content-Type": "application/octet-stream",
-              "Authorization": window.localStorage.getItem("userToken")
+              "Authorization": get(this.props, ["user", "token"], "")
             }
           })
           .then(res => {
@@ -60,7 +64,7 @@ export default (Component, options = {}) => {
           body: JSON.stringify({ src: encodeURI(src) }),
           headers: {
             "Content-Type": "application/json",
-            "Authorization": window.localStorage.getItem("userToken")
+            "Authorization": get(this.props, ["user", "token"], "")
           }
         })
         .then(res => {
@@ -87,7 +91,7 @@ export default (Component, options = {}) => {
           }),
           headers: {
             "Content-Type": "application/json",
-            "Authorization": window.localStorage.getItem("userToken")
+            "Authorization": get(this.props, ["user", "token"], "")
           }
         })
         .then(res => {
@@ -107,11 +111,12 @@ export default (Component, options = {}) => {
       const { forwardRef, ...props } = this.props;
       return (
         <Component { ...props } { ...this.state } ref={ forwardRef }
-          uploadImage={ (...args) => this.uploadImage(...args) }
-          editImage={ (...args) => this.editImage(...args) }
-          saveImage={ (...args) => this.saveImage(...args) }/>
+          uploadImage={ this.uploadImage }
+          editImage={ this.editImage }
+          saveImage={ this.saveImage }/>
       )
     }
   }
-  return React.forwardRef((props, ref) => <ImgLoaderWrapper { ...props } forwardRef={ ref }/>)
+  const Wrapped = withAuth(ImgLoaderWrapper)
+  return React.forwardRef((props, ref) => <Wrapped { ...props } forwardRef={ ref }/>)
 }

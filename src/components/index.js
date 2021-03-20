@@ -1,4 +1,5 @@
-import Header from './Header/Header'
+import React from "react"
+
 import HeaderComponent from "./Header/HeaderComponent"
 import { Content } from './Containers'
 import { FormSection, InputContainer } from './Forms/FormSection'
@@ -8,15 +9,15 @@ import NavItem from './Nav/Item'
 import Table from './Table'
 import SideNav from './Nav/Side'
 import TopNav from './Nav/Top'
-import DndList from './List/DndList'
 import Layouts from "./Layouts"
 import Loading, { ScalableLoading } from "./Loading"
+
+import { TopUserMenu, SideUserMenu, UserMenuItem } from "./Header/UserMenu"
 
 export * from './Inputs'
 export * from "./Button"
 export * from "./utils"
-
-export * from "./Header/UserMenu"
+export * from "./List/DndList"
 
 export * from "./Sidebar/collapsible-sidebar"
 export * from "./Legend/legend"
@@ -24,9 +25,31 @@ export * from "./Draggable/draggable"
 
 export { default as AvlModal } from "./Modal/avl-modal"
 
+const ComponentContextDefaults = {
+	TopUserMenu,
+	SideUserMenu,
+	UserMenuItem
+}
+
+const ComponentContext = React.createContext(ComponentContextDefaults)
+
+export const useComponents = () => {
+	return React.useContext(ComponentContext);
+}
+
+export const ComponentProvider = ({ children, ...props }) => {
+	return (
+		<ComponentContext.Provider value={ { ...ComponentContextDefaults, ...props } }>
+			{ children }
+		</ComponentContext.Provider>
+	)
+}
+
 export {
-	Header,
 	HeaderComponent,
+	TopUserMenu,
+	SideUserMenu,
+	UserMenuItem,
 	Content,
 	Table,
 	FormSection,
@@ -34,7 +57,6 @@ export {
 	List,
 	ListItemRemovable,
 	ListItemAction,
-	DndList,
 	SideNav,
 	TopNav,
 	NavItem,

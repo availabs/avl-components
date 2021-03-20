@@ -263,6 +263,7 @@ const TEST_THEME_BASE = {
 	inputBorderDisabled: "rounded border border-gray-200 hover:border-gray-200",
 	inputBgFocus: "bg-white cursor-pointer focus:outline-none",
 	inputBorderFocus: "rounded border border-transparent hover:border-gray-600 focus:border-gray-600 border-gray-600",
+	booleanInputSlider: "bg-gray-300",
 
 	textBase: "text-base",
 	textSmall: "text-sm",

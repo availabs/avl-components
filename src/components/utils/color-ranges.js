@@ -41,7 +41,7 @@ const ColorBarContainer =styled.div`
     border-bottom-right-radius: 0.25rem;
   }
 `
-export const ColorBar = ({ colors, small = false }) => {
+export const ColorBar = ({ colors, size = 3 }) => {
   return (
     <ColorBarContainer className={ `grid grid-cols-${ colors.length }` }>
       { colors.map((c, i) =>
@@ -50,7 +50,7 @@ export const ColorBar = ({ colors, small = false }) => {
 							backgroundColor: c,
 							transition: "background-color 0.5s"
 						} }
-            className={ `col-span-1 ${ small ? "h-2" : "h-3" }` }/>
+            className={ `col-span-1 h-${ size }` }/>
         )
       }
     </ColorBarContainer>

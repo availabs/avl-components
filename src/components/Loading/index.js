@@ -30,7 +30,7 @@ const Loader = ({ color }) =>
 					 attributeName="transform"
 					 attributeType="XML"
 					 type="rotate"
-					 dur="2s"
+					 dur="1.5s"
 					 from="0 50 50"
 					 to="360 50 50"
 					 repeatCount="indefinite" />

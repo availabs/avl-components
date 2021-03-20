@@ -52,14 +52,20 @@ class Select extends React.Component {
     valueAccessor: Identity
   }
 
-  node = null;
-  dropdown = null;
 
-  state = {
-    opened: false,
-    direction: "down",
-    hasFocus: false,
-    search: ""
+  constructor(...args) {
+    super(...args);
+
+    this.node = null;
+    this.dropdown = null;
+
+    this.state = {
+      opened: false,
+      direction: "down",
+      hasFocus: false,
+      search: ""
+    }
+
   }
 
   componentDidMount() {
@@ -69,12 +75,22 @@ class Select extends React.Component {
     this.node && this.node.focus();
   }
   componentDidUpdate() {
+    document.addEventListener("mousedown", this.checkOutside)
     if (this.dropdown && this.state.opened && (this.state.direction === "down")) {
       const rect = this.dropdown.getBoundingClientRect();
       if ((rect.top + rect.height) > window.innerHeight) {
         this.setState({ direction: "up" });
       }
     }
+  }
+  componentWillUnmount() {
+    document.removeEventListener("mousedown", this.checkOutside)
+  }
+  checkOutside = e => {
+    if (this.node.contains(e.target)) {
+      return;
+    }
+    this.closeDropdown();
   }
   getValues() {
     let values = [];
@@ -91,11 +107,11 @@ class Select extends React.Component {
       return values.includes(this.props.valueAccessor(option));
     });
   }
-  openDropdown(e) {
+  openDropdown = e => {
     e.stopPropagation();
     this.setState({ opened: true, hasFocus: true });
   }
-  closeDropdown() {
+  closeDropdown = e => {
     this.state.opened && this.node && this.node.focus();
     this.setState({ opened: false, direction: "down", search: "" });
   }
@@ -155,7 +171,7 @@ class Select extends React.Component {
             onFocus={ e => this.setState({ hasFocus: true }) }
             hasFocus={ this.state.opened || this.state.hasFocus }
             disabled={ disabled } tabIndex={ disabled ? -1 : 0 }
-            onClick={ e => this.openDropdown(e) }>
+            onClick={ this.openDropdown }>
             { values.length ?
               values.map((v, i, a) =>
                 <ValueItem key={ i } disabled={ disabled }

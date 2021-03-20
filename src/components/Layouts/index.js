@@ -1,7 +1,7 @@
-import Sidebar from './SidebarLayout';
+import Fixed from './FixedLayout';
 import Simple from './SimpleLayout';
 
 export default {
-	Sidebar,
+	Fixed,
 	Simple
 }

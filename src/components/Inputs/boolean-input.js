@@ -36,7 +36,9 @@ export default React.forwardRef(({
             `${ theme.inputBg } ${ theme.inputBorder }`
         }
         ${ className }
-      ` } ref={ useSetRefs(ref, setRef) } tabIndex={ disabled ? "-1" : "0" }>
+      ` }
+      ref={ useSetRefs(ref, setRef) }
+      tabIndex={ disabled ? "-1" : "0" }>
       <div className="flex">
         <div className="flex-0">
           <Slider value={ value }/>
@@ -61,7 +63,7 @@ const Slider = ({ value }) => {
           <div className={ `absolute top-0 w-20 h-full ${ theme.bgInfo }` }
             style={ { right: value ? "0" : "100%", transition: "right 0.25s" } }/>
         </div>
-        <div className={ `absolute h-4 w-4 rounded-lg ${ theme.accent2 }` }
+        <div className={ `absolute h-4 w-4 rounded-lg ${ theme.booleanInputSlider || theme.accent2 }` }
           style={ {
             top: "50%", left: value ? "calc(100% - 0.625rem)" : "-0.125rem",
             transform: "translateY(-50%)", transition: "left 0.25s"

@@ -1,23 +1,15 @@
-import React, { Component } from 'react';
+import React from 'react';
 
-class Layout extends Component {
-  static defaultProps = {
-      fixed: false,
-      maxWidth: '',
-      nav: 'side',
-      theme: 'light'
-  }
+import { useTheme } from "../../wrappers/with-theme"
 
-  render () {
-    const theme = this.props.theme;//themes[this.props.theme]
-    return (
-      <div className={`${theme.bg}`}>
-          <main>
-              { this.props.children }
-          </main>
-      </div>
-    )
-  }
+const SimpleLayout = ({ children}) => {
+  const theme = useTheme();
+  return (
+    <div className={ `${ theme.bg }` }>
+      <main>
+        { children }
+      </main>
+    </div>
+  )
 }
-
-export default Layout
+export default SimpleLayout

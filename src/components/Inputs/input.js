@@ -7,6 +7,10 @@ import { hasValue } from "./utils"
 export default React.forwardRef(({ large, small, className = "", onChange, value, showClear = false, ...props }, ref) => {
   const theme = useTheme(),
     inputTheme = theme[`input${ composeOptions({ large, small }) }`];
+  const doOnChange = React.useCallback(e => {
+    e.stopPropagation();
+    onChange(e.target.value);
+  }, [onChange]);
   return (
     showClear ?
       <div className={ `relative` }>
@@ -28,7 +32,7 @@ export default React.forwardRef(({ large, small, className = "", onChange, value
         }
       </div>
     :
-      <input { ...props } onChange={ e => onChange(e.target.value) } value={ hasValue(value) ? value : "" }
+      <input { ...props } onChange={ doOnChange } value={ hasValue(value) ? value : "" }
         className={ `${ inputTheme } ${ className }` } ref={ ref }/>
   )
 })

@@ -50,7 +50,7 @@ const ConfirmButton = ({
   return (
     <button onClick={ canClick ? (type === "submit" ? null : doOnClick) : confirm } { ...props }
       type={ canClick ? type : "button" }>
-      <div className="relative">
+      <div className="relative w-full">
         { !canClick ? null :
           <div className="absolute top-0 left-0 right-0 bottom-0 flex items-center overflow-hidden">
             <ConfirmMessage>

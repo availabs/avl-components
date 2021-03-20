@@ -1,25 +1,34 @@
 import React from "react"
 
-import { UserMenu, UserMenuItem, UserMenuSeparator } from "./UserMenu"
+import { useComponents } from "../index"
+import { UserMenuSeparator } from "./UserMenu"
 
 import { useTheme } from "../../wrappers/with-theme"
 import withAuth from "../../wrappers/with-auth"
 
 import get from "lodash.get"
 
-export default withAuth(({ title, shadowed = false, user, children }) => {
+export default withAuth(({ title, shadowed = false, user, userMenu = true, className="", children }) => {
   const theme = useTheme();
+	const { TopUserMenu, UserMenuItem } = useComponents();
   return (
-    <div className={ `w-full flex items-center px-8 ${ theme.headerBg }` }
+    <div className={ `
+        w-full relative flex items-center justify-end
+        ${ theme.headerBg } ${ className }
+        h-${ theme.topNavHeight || 16 }
+      ` }
       style={ shadowed ? { boxShadow: "0px 6px 3px -3px rgba(0, 0, 0, 0.25)" } : null }>
-      <div className="flex-1 text-3xl font-bold h-16 flex items-center">
+      <div className={ `
+          absolute top-0 left-0 right-0 bottom-0 z-0
+          text-3xl font-bold h-16 flex items-center
+        ` }>
         { typeof title === "function" ? React.createElement(title) : title }
       </div>
-      <div className="flex-0 flex items-center">
+      <div className="flex-0 flex items-center relative z-0">
         { children }
-        { !user ? null :
-          <div className="ml-8">
-            <UserMenu>
+        { !user || !userMenu ? null :
+          <div className="mx-8">
+            <TopUserMenu>
               <UserMenuItem to="/auth/profile">
                 Profile
               </UserMenuItem>
@@ -32,7 +41,7 @@ export default withAuth(({ title, shadowed = false, user, children }) => {
               <UserMenuItem to="/auth/logout">
                 Logout
               </UserMenuItem>
-            </UserMenu>
+            </TopUserMenu>
           </div>
         }
       </div>

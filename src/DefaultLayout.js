@@ -10,13 +10,13 @@ import { ComponentFactory } from "./ComponentFactory"
 
 import get from "lodash.get"
 
-const DefaultLayout = withTheme(({ theme, component, path, exact, layoutSettings, isAuthenticating, ...props }) => {
+const DefaultLayout = withTheme(({ component, path, exact, layoutSettings, isAuthenticating, ...props }) => {
   const location = useLocation(),
-    Layout = get(Layouts, props.layout, Layouts["Sidebar"]);
+    Layout = get(Layouts, props.layout, Layouts["Fixed"]);
 
   if (isAuthenticating) {
     return (
-      <Layout { ...layoutSettings } { ...props } theme={ theme }>
+      <Layout { ...layoutSettings } { ...props }>
         <Route path={ path } exact={ exact }>
           <div className="fixed top-0 left-0 w-screen h-screen z-50"
             style={ { backgroundColor: "rgba(0, 0, 0, 0.5)" } }>
@@ -34,7 +34,7 @@ const DefaultLayout = withTheme(({ theme, component, path, exact, layoutSettings
           state: { from: get(location, "pathname") }
         } }/>
     ) : sendToHome(props) ? <Redirect to="/"/> :
-    ( <Layout { ...layoutSettings } { ...props } theme={ theme }>
+    ( <Layout { ...layoutSettings } { ...props }>
         <Route path={ path } exact={ exact }>
           <ComponentFactory config={ component }/>
         </Route>

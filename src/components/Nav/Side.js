@@ -1,9 +1,15 @@
 import React from "react"
 import { Link } from 'react-router-dom'
-import { useTheme } from "../../wrappers/with-theme"
+
+import get from "lodash.get"
+
+import { useTheme, withAuth } from "../../wrappers"
 import SidebarItem from './Item'
 
-const MobileSidebar = ({open, toggle,logo = null, menuItems=[]}) => {
+import { UserMenuSeparator } from "../Header/UserMenu"
+import { useComponents } from "../index"
+
+const MobileSidebar = ({ open, toggle,logo = null, menuItems=[] }) => {
 	const theme = useTheme();
 	return (
 	<div style={{display: open ? 'block' : 'none' }} className="md:hidden">
@@ -26,76 +32,86 @@ const MobileSidebar = ({open, toggle,logo = null, menuItems=[]}) => {
           			</Link>
           	 	</div>
 	          <nav className="flex-1">
-	            {menuItems.map((page, i) => {
-	            	return (
-	          			<div key={ i } className={page.sectionClass}>
+	            { menuItems.map((page, i) => (
+									<div key={ i } className={ page.sectionClass }>
 		            		<SidebarItem  to={ page.path } icon={page.icon} theme={theme} className={page.itemClass}>
-		    					{ page.name }
-		  					</SidebarItem>
-		  					{page.children ? page.children.map((child,x) => {
-		  						return (
-		  							<SidebarItem key={ x } to={ child.path } icon={child.icon} theme={theme} className={child.itemClass}>
-			    						{ child.name }
-			  						</SidebarItem>
-			  					)
-		  					}) : ''}
-	  					</div>
-	            	)
-	           	})}
+		    							{ page.name }
+		  							</SidebarItem>
+	  							</div>
+	            	))
+							}
 	          </nav>
 	        </div>
 
 	      </div>
-	      <div className="flex-shrink-0 w-14">
-	        {/* Force sidebar to shrink to fit close icon */}
-	      </div>
+
 	    </div>
  	</div>
 	)
 }
 
-const DesktopSidebar = ({menuItems = [], fixed, topMenu, logo = null, ...rest}) => {
+const DesktopSidebar = ({ menuItems = [], logo = null, home = "/", user, userMenu = false }) => {
 	const theme = useTheme();
+	const { SideUserMenu, UserMenuItem } = useComponents();
 	return(
-	<div className={ `hidden md:flex md:flex-shrink-0 z-20 ${ theme.sidebarBg } ${ fixed ? 'fixed top-0 h-screen' : '' } ${ theme.sidebarBorder }` }>
-      <div className={ `flex flex-col w-${ theme.sidebarW }` }>
-        <div className={ `w-${ theme.sidebarW } flex-1 flex flex-col pb-4 overflow-y-auto overflow-x-hidden scrollbar`  }>
-          <div className='h-16'>
-          	<Link to={'/'} className={`${theme.text}`}>
-          		{ logo }
-          	</Link>
-          </div>
+		<div className={ `
+			hidden md:flex z-20 fixed top-0 bottom-0
+			${ theme.sidebarBg } ${ theme.sidebarBorder }
+		` }>
 
-          {topMenu ? <div className='h-16'>{topMenu}</div> : null}
-          <nav className="flex-1">
-            {menuItems.map((page, i) => {
-            	return (
-          			<div key={ i } className={page.sectionClass}>
-	            		<SidebarItem  to={ page.path } icon={page.icon} theme={theme} className={page.itemClass}>
-	    					{ page.name }
-	  					</SidebarItem>
-	  					{page.children ? page.children.map((child,x) => {
-	  						return (
-	  							<SidebarItem key={ x } to={ child.path } icon={child.icon} theme={theme} className={child.itemClass}>
-		    						{ child.name }
-		  						</SidebarItem>
-		  					)
-	  					}) : ''}
-  					</div>
-            	)
-           	})}
-          </nav>
-        </div>
+      <div className={ `
+				w-${ theme.sidebarW } flex-1 flex flex-col scrollbar
+			` }>
+
+				{ !logo ? null :
+	      	<Link to={ home }
+						className={ `
+							${ theme.text } flex-1
+							h-${ theme.topNavHeight || 16 }
+						` }>
+	      		{ logo }
+	      	</Link>
+				}
+
+        <nav className={ `
+					flex-1 ${ !logo ? `pt-${ theme.topNavHeight || 16 }` : "" }
+				` }>
+          { menuItems.map((page, i) => (
+          		<SidebarItem key={ i } to={ page.path } icon={ page.icon }>
+  							{ page.name }
+							</SidebarItem>
+          	))
+         	}
+        </nav>
+
+				{ !userMenu ? null :
+					<SideUserMenu>
+						<UserMenuItem to="/auth/profile">
+							Profile
+						</UserMenuItem>
+						{ get(user, "authLevel", -1) < 5 ? null :
+							<UserMenuItem to="/auth/project-management">
+								Project Management
+							</UserMenuItem>
+						}
+						<UserMenuSeparator />
+						<UserMenuItem to="/auth/logout">
+							Logout
+						</UserMenuItem>
+					</SideUserMenu>
+				}
 
       </div>
-    </div>
-    )
+
+	  </div>
+  )
 }
 
 
-export default ({ ...props }) => (
+const SideNav = props => (
 	<React.Fragment>
-		<MobileSidebar {...props} />
-		<DesktopSidebar {...props} />
+		<MobileSidebar { ...props }/>
+		<DesktopSidebar { ...props }/>
 	</React.Fragment>
 )
+export default withAuth(SideNav)

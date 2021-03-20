@@ -64,9 +64,14 @@ export const textbutton = [
 export const list = [
 	{ $default: "@transition rounded"
 	},
-	{ $default: "p-2 pb-0 bg-gray-200",
-		Dragging: "p-2 pb-0 bg-gray-400",
+	{ $default: "p-2 bg-opacity-50",
 		Item: "py-1 px-3 bg-gray-300 mb-2"
+	},
+	{ $default: "bg-opacity-50",
+		Dragging: "bg-opacity-75"
+	},
+	{ $default: "bg-gray-400",
+		Success: "bg-green-400"
 	}
 ]
 export const $compositions = {

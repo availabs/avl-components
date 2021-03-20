@@ -66,14 +66,18 @@ const DefaultExpandedRow = ({ values }) =>
     }
   </div>
 
-export default ({ columns = [], data = [],
-                  sortBy, sortOrder,
+const EMPTY_ARRAY = [];
+
+export default ({ columns = EMPTY_ARRAY, data = EMPTY_ARRAY,
+                  sortBy, sortOrder = "",
                   initialPageSize = 10,
                   onRowClick,
                   ExpandRow = DefaultExpandedRow,
                   disableFilters = false,
                   disableSortBy = false,
                   ...props }) => {
+    if (!(columns.length && data.length)) return null;
+
     const theme = useTheme();
     const filterTypes = React.useMemo(
       () => ({
@@ -115,7 +119,7 @@ export default ({ columns = [], data = [],
         disableSortBy,
         initialState: {
           pageSize: initialPageSize,
-          sortBy: [{ id: sortBy, desc: sortOrder === "desc" }]
+          sortBy: [{ id: sortBy, desc: sortOrder.toLowerCase() === "desc" }]
         }
       },
       useFilters,
@@ -124,6 +128,7 @@ export default ({ columns = [], data = [],
       useExpanded,
       usePagination
     );
+
     if (!preFilteredRows.length) return null;
 
     return (

@@ -10,7 +10,8 @@ import {
   scaleLinear,
   scaleOrdinal,
   scaleQuantize,
-  scaleQuantile
+  scaleQuantile,
+  scaleThreshold
 } from "d3-scale"
 
 import { ColorBar, ColorRanges } from "../utils/color-ranges"
@@ -33,7 +34,7 @@ export const Legend = ({ type, domain, range, format, ...props }) => {
         <LinearScale scale={ scale } format={ Format } { ...props }/> :
         type === "ordinal" ?
         <OrdinalScale scale={ scale } format={ Format } { ...props }/> :
-        type === "quantize" || type === "quantile" ?
+        type === "quantize" || type === "quantile" || type === "threshold" ?
         <QuantizleScale scale={ scale } format={ Format } { ...props }/> :
         <div>Unknown scale type "{ type }."</div>
       }
@@ -57,6 +58,10 @@ const getScale = (type, domain, range) => {
         .range(range);
     case "quantile":
       return scaleQuantile()
+        .domain(domain)
+        .range(range);
+    case "threshold":
+      return scaleThreshold()
         .domain(domain)
         .range(range);
     default:
@@ -181,7 +186,7 @@ const ColorType = ({ type, ranges, current, opened, setOpen, reverse, update }) 
                 p-1 border rounded-lg hover:border-current transition
                 ${ active ? "border-current" : "border-transparent" }
               ` }>
-              <ColorBar key={ name } colors={ colors } small/>
+              <ColorBar key={ name } colors={ colors } size={ 2 }/>
             </div>
           )
         })
@@ -190,13 +195,11 @@ const ColorType = ({ type, ranges, current, opened, setOpen, reverse, update }) 
   </div>
 )
 
-const LinearScale = ({ scale, format, ticks = 5 }) => {
-
+const LinearScale = ({ scale, format, size, ticks = 5 }) => {
   const scaleTicks = scale.ticks(ticks);
-
   return (
     <div>
-      <ColorBar colors={ scaleTicks.map(t => scale(t)) }/>
+      <ColorBar size={ size } colors={ scaleTicks.map(t => scale(t)) }/>
       <div className={ `text-sm grid grid-cols-${ scaleTicks.length }` }>
         { scaleTicks.map(t =>
             <div className="col-span-1 text-right pr-1" key={ t }>
@@ -209,9 +212,7 @@ const LinearScale = ({ scale, format, ticks = 5 }) => {
   )
 }
 const OrdinalScale = ({ scale, format, height = 3, direction = "vertical" }) => {
-
   const range = scale.range();
-
   return (
     <div>
       { direction === "horizontal" ?
@@ -261,13 +262,11 @@ const OrdinalScale = ({ scale, format, height = 3, direction = "vertical" }) => 
     </div>
   )
 }
-const QuantizleScale = ({ scale, format }) => {
-
+const QuantizleScale = ({ scale, format, size }) => {
   const range = scale.range();
-
   return (
     <div>
-      <ColorBar colors={ range }/>
+      <ColorBar size={ size } colors={ range }/>
       <div className={ `text-sm grid grid-cols-${ range.length }` }>
         { range.map(r =>
             <div className="col-span-1 text-right pr-1" key={ r }>

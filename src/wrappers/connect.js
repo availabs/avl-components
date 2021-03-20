@@ -1,9 +1,10 @@
 import { connect } from "react-redux"
 
-export default (Component, options = {}) => {
+const Connect = (Component, options = {}) => {
   const {
-    mapStateToProps,
-    mapDispatchToProps
+    mapStateToProps = null,
+    mapDispatchToProps = null
   } = options;
   return connect(mapStateToProps, mapDispatchToProps)(Component);
 }
+export default Connect;
