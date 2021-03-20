@@ -22,7 +22,7 @@ const FixedLayout = ({ header, headerBar = true, nav, navBar = "side", userMenu 
   return (
     <div className={ `
       ${ theme.bg } ${ theme.text }
-      h-screen w-full h-full
+      min-h-screen w-full flex flex-col
     ` }>
       { navBar !== 'top' ? null : (
           <div className={ `fixed left-0 top-0 right-0 z-10` }>
@@ -63,13 +63,17 @@ const FixedLayout = ({ header, headerBar = true, nav, navBar = "side", userMenu 
       }
 
       <div className={ `
-        h-full w-full relative
+        flex-1 flex
         ${ headerBar || (navBar === "top") ?
           `pt-${ theme.topNavHeight || 16 }` : ''
         }
         ${ navBar === 'side' ? `md:pl-${ theme.sidebarW }` : '' }
-      ` }>
-        { props.children }
+      ` } style={ { alignItems: "stretch", justifyContent: "stretch" } }>
+        <div className="w-full">
+          <div className="w-full h-full">
+            { props.children }
+          </div>
+        </div>
       </div>
 
     </div>
