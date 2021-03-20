@@ -22,7 +22,7 @@ const FixedLayout = ({ header, headerBar = true, nav, navBar = "side", userMenu 
   return (
     <div className={ `
       ${ theme.bg } ${ theme.text }
-      min-h-screen w-full
+      h-screen w-full h-full
     ` }>
       { navBar !== 'top' ? null : (
           <div className={ `fixed left-0 top-0 right-0 z-10` }>

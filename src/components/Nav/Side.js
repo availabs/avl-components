@@ -66,8 +66,9 @@ const DesktopSidebar = ({ menuItems = [], logo = null, home = "/", user, userMen
 				{ !logo ? null :
 	      	<Link to={ home }
 						className={ `
-							${ theme.text } flex-1
+							${ theme.text } flex items-center
 							h-${ theme.topNavHeight || 16 }
+							font-bold text-3xl px-4
 						` }>
 	      		{ logo }
 	      	</Link>
