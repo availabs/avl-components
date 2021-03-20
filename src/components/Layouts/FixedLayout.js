@@ -11,7 +11,7 @@ import get from "lodash.get"
 const FixedLayout = ({ header, headerBar = true,
                         nav, navBar = "side",
                         userMenu = "header",
-                        menus, menuItems = [], ...props }) => {
+                        menus = [], menuItems, ...props }) => {
   const [open, setOpen] = React.useState(false),
     toggle = React.useCallback(e => {
       setOpen(open => !open);
@@ -21,7 +21,7 @@ const FixedLayout = ({ header, headerBar = true,
 
   navBar = nav || navBar;
   headerBar = header || headerBar;
-  menuItems = menus || menuItems;
+  menuItems = menuItems || menus;
 
   return (
     <div className={ `
