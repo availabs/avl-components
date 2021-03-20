@@ -123,6 +123,10 @@ const light_base = {
 	bgSuccess: "bg-green-400",
 	borderSuccess: "border-green-400",
 
+	textPrimary: "text-blue-400",
+	bgPrimary: "bg-blue-400",
+	borderPrimary: "border-blue-400",
+
 	textDanger: "text-red-400",
 	bgDanger: "bg-red-400",
 	borderDanger: "border-red-400",
@@ -223,6 +227,10 @@ const TEST_THEME_BASE = {
 	textSuccess: "text-green-400",
 	bgSuccess: "bg-green-400",
 	borderSuccess: "border-green-400",
+
+	textPrimary: "text-blue-400",
+	bgPrimary: "bg-blue-400",
+	borderPrimary: "border-blue-400",
 
 	textDanger: "text-red-400",
 	bgDanger: "bg-red-400",

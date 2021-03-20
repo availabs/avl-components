@@ -26,7 +26,10 @@ const Dropdown = React.forwardRef(({ children, searchable, opened, direction }, 
 const DropdownItem = ({ children, ...props }) => {
   const theme = useTheme();
   return (
-    <div { ...props } className={ `cursor-pointer hover:${ theme.accent2 } px-2 whitespace-no-wrap` }>
+    <div { ...props }
+      className={ `
+        cursor-pointer hover:${ theme.accent2 } px-2 whitespace-no-wrap
+      ` }>
       { children }
     </div>
   )
@@ -57,6 +60,7 @@ class Select extends React.Component {
     super(...args);
 
     this.node = null;
+    this.vcNode = null;
     this.dropdown = null;
 
     this.state = {
@@ -68,11 +72,26 @@ class Select extends React.Component {
 
   }
 
+  checkOutside = e => {
+    if (this.node.contains(e.target)) {
+      return;
+    }
+    this.closeDropdown();
+  }
+  openDropdown = e => {
+    e.stopPropagation();
+    this.setState({ opened: true, hasFocus: true });
+  }
+  closeDropdown = e => {
+    this.state.opened && this.vcNode && this.vcNode.focus();
+    this.setState({ opened: false, direction: "down", search: "" });
+  }
+
   componentDidMount() {
     this.props.autoFocus && this.focus();
   }
   focus() {
-    this.node && this.node.focus();
+    this.vcNode && this.vcNode.focus();
   }
   componentDidUpdate() {
     document.addEventListener("mousedown", this.checkOutside)
@@ -85,12 +104,6 @@ class Select extends React.Component {
   }
   componentWillUnmount() {
     document.removeEventListener("mousedown", this.checkOutside)
-  }
-  checkOutside = e => {
-    if (this.node.contains(e.target)) {
-      return;
-    }
-    this.closeDropdown();
   }
   getValues() {
     let values = [];
@@ -106,14 +119,6 @@ class Select extends React.Component {
     return this.getOptions().filter(option => {
       return values.includes(this.props.valueAccessor(option));
     });
-  }
-  openDropdown = e => {
-    e.stopPropagation();
-    this.setState({ opened: true, hasFocus: true });
-  }
-  closeDropdown = e => {
-    this.state.opened && this.node && this.node.focus();
-    this.setState({ opened: false, direction: "down", search: "" });
   }
   addItem(e, v) {
     e.stopPropagation();
@@ -164,9 +169,10 @@ class Select extends React.Component {
         matchSorter(_options, search, { keys: [listAccessor] });
 
     return (
-      <div className="relative" onMouseLeave={ e => this.closeDropdown() }>
+      <div ref={ n => this.node = n }
+        className="relative" onMouseLeave={ e => this.closeDropdown() }>
         <div className="cursor-pointer">
-          <ValueContainer id={ this.props.id } ref={ n => this.node = n }
+          <ValueContainer id={ this.props.id } ref={ n => this.vcNode = n }
             onBlur={ e => this.setState({ hasFocus: false }) }
             onFocus={ e => this.setState({ hasFocus: true }) }
             hasFocus={ this.state.opened || this.state.hasFocus }
