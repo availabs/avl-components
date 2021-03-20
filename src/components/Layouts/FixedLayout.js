@@ -8,7 +8,10 @@ import HeaderComponent from "../Header/HeaderComponent"
 
 import get from "lodash.get"
 
-const FixedLayout = ({ header, headerBar = true, nav, navBar = "side", userMenu = "header", ...props }) => {
+const FixedLayout = ({ header, headerBar = true,
+                        nav, navBar = "side",
+                        userMenu = "header",
+                        menus, menuItems = [], ...props }) => {
   const [open, setOpen] = React.useState(false),
     toggle = React.useCallback(e => {
       setOpen(open => !open);
@@ -18,6 +21,7 @@ const FixedLayout = ({ header, headerBar = true, nav, navBar = "side", userMenu 
 
   navBar = nav || navBar;
   headerBar = header || headerBar;
+  menuItems = menus || menuItems;
 
   return (
     <div className={ `
@@ -27,6 +31,7 @@ const FixedLayout = ({ header, headerBar = true, nav, navBar = "side", userMenu 
       { navBar !== 'top' ? null : (
           <div className={ `fixed left-0 top-0 right-0 z-10` }>
             <TopNav { ...props }
+              menuItems={ menuItems }
               open={ open }
               toggle={ toggle }
               userMenu={ !headerBar || userMenu === "nav" }/>
@@ -56,6 +61,7 @@ const FixedLayout = ({ header, headerBar = true, nav, navBar = "side", userMenu 
 
       { navBar !== 'side' ? null : (
         <SideNav { ...props }
+          menuItems={ menuItems }
           open={ open }
           toggle={ toggle }
           userMenu={ !headerBar || userMenu === "nav" }/>
