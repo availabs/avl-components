@@ -113,7 +113,7 @@ export default React.forwardRef(({ large, small, className = "",
                                     ...props }, ref) => {
   const [editing, setEditing] = React.useState(!value),
     prevState = React.useRef(editing),
-    prevValue = React.useRef(value);
+    prevValue = React.useRef();
 
   const handleChange = React.useCallback(e => {
     onChange(e.target.value);
