@@ -25,7 +25,7 @@ const Link = ({ href, children }) => {
     </a>
   )
 }
-const Text = ({ value }) => {
+const Text = ({ value = "" }) => {
   const links = linkify.match(value);
   if (!links) return value;
   const response = []
