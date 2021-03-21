@@ -7,6 +7,7 @@ import { List, ListItemRemovable, ListItemAction } from './List/List'
 import { NavMenu, NavMenuItem, NavMenuSeparator } from "./Nav/Menu"
 import NavItem from './Nav/Item'
 import Table from './Table'
+import GridTable from "./Table/grid-table"
 import SideNav from './Nav/Side'
 import TopNav from './Nav/Top'
 import Layouts from "./Layouts"
@@ -52,6 +53,7 @@ export {
 	UserMenuItem,
 	Content,
 	Table,
+	GridTable,
 	FormSection,
 	InputContainer,
 	List,

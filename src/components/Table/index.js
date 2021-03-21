@@ -76,7 +76,6 @@ export default ({ columns = EMPTY_ARRAY, data = EMPTY_ARRAY,
                   disableFilters = false,
                   disableSortBy = false,
                   ...props }) => {
-    if (!(columns.length && data.length)) return null;
 
     const theme = useTheme();
     const filterTypes = React.useMemo(
@@ -129,6 +128,8 @@ export default ({ columns = EMPTY_ARRAY, data = EMPTY_ARRAY,
       usePagination
     );
 
+    if (!(columns.length && data.length)) return null;
+
     if (!preFilteredRows.length) return null;
 
     return (
@@ -161,7 +162,7 @@ export default ({ columns = EMPTY_ARRAY, data = EMPTY_ARRAY,
             }
             { pageCount <= 1 ? null :
               <tr className={ theme.tableInfoBar }>
-                <td colSpan={ columns.length } className="px-2">
+                <td colSpan={ columns.length } className="px-4">
                   <div className={ `flex items-center ${ theme.textInfo }` }>
                     <div className="flex-0">
                       Page { pageIndex + 1 } of { pageCount }
@@ -228,11 +229,13 @@ export default ({ columns = EMPTY_ARRAY, data = EMPTY_ARRAY,
                                     <div className="flex-1">{ cell.render('Cell') }</div>
                                     <div onClick={ e => {
                                       e.stopPropagation();
+                                      e.preventDefault();
                                       Object.keys(expanded).filter(k => k !== row.id)
                                         .forEach(toggleRowExpanded);
                                       row.toggleRowExpanded(!row.isExpanded);
                                     } } className={ `
-                                        flex item-center justify-center py-1 px-2 rounded
+                                        flex item-center justify-center
+                                        rounded cursor-pointer py-1 px-2
                                         hover:${ theme.accent3 } ${ theme.transition }
                                       ` }>
                                       { row.isExpanded ?

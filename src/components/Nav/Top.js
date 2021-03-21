@@ -1,5 +1,8 @@
 import React from "react"
 import { Link } from 'react-router-dom'
+
+import get from "lodash.get"
+
 import { useTheme } from "../../wrappers/with-theme"
 import NavItem from './Item'
 
@@ -21,8 +24,13 @@ const MobileMenu = ({ open, menuItems = [], customTheme = {}, home = "/" }) => {
   )
 }
 
-const DesktopMenu = ({ menuItems = [], open, toggle, logo, customTheme = {}, home = "/", userMenu = false }) => {
+const DesktopMenu = ({ menuItems = [],
+                        open, toggle, logo,
+                        customTheme = {}, home = "/",
+                        userMenu = false }) => {
+
   const theme = { ...useTheme(), ...customTheme };
+
   return (
     <HeaderComponent userMenu={ userMenu }
       className={ `
@@ -32,7 +40,7 @@ const DesktopMenu = ({ menuItems = [], open, toggle, logo, customTheme = {}, hom
       ` }
       title={
         <div className={ `
-          ${ theme.contentWidth } h-${ theme.topNavHeight || 16 } flex
+          ${ theme.contentWidth } h-${ theme.topNavHeight || 16 } flex relative
         ` }>
 
           <Link to={ home }
@@ -41,13 +49,16 @@ const DesktopMenu = ({ menuItems = [], open, toggle, logo, customTheme = {}, hom
           </Link>
           <div className="hidden sm:flex">
             { menuItems.map((page, i) => (
-                <NavItem key={ i } to={ page.path } icon={ page.icon }
-                  customTheme={ customTheme } type='top'>
+                <NavItem key={ i } type='top'
+                  to={ page.path } icon={ page.icon }
+                  customTheme={ customTheme }
+									subMenus={ get(page, "subMenus", []) }>
                   { page.name }
                 </NavItem>
               ))
             }
           </div>
+
 
         </div>
       }/>

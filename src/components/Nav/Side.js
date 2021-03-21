@@ -50,9 +50,10 @@ const MobileSidebar = ({ open, toggle,logo = null, menuItems=[] }) => {
 	)
 }
 
-const DesktopSidebar = ({ menuItems = [], logo = null, home = "/", user, userMenu = false }) => {
+const DesktopSidebar = ({ menuItems = [], logo = null, home = "/", user, userMenu = false, customTheme = {} }) => {
 	const theme = useTheme();
 	const { SideUserMenu, UserMenuItem } = useComponents();
+
 	return(
 		<div className={ `
 			hidden md:flex z-20 fixed top-0 bottom-0
@@ -78,7 +79,9 @@ const DesktopSidebar = ({ menuItems = [], logo = null, home = "/", user, userMen
 					flex-1 ${ !logo ? `pt-${ theme.topNavHeight || 16 }` : "" }
 				` }>
           { menuItems.map((page, i) => (
-          		<SidebarItem key={ i } to={ page.path } icon={ page.icon }>
+          		<SidebarItem key={ i }
+								to={ page.path } icon={ page.icon }
+								subMenus={ get(page, "subMenus", []) }>
   							{ page.name }
 							</SidebarItem>
           	))
