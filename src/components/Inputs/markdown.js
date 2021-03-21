@@ -132,7 +132,7 @@ export default React.forwardRef(({ large, small, className = "",
   }, [autoFocus, innerRef]);
 
   React.useEffect(() => {
-    if (innerRef && (prevValue.current !== value)) {
+    if (editing && innerRef && (prevValue.current !== value)) {
       innerRef.style.height = 'auto';
       innerRef.style.height = `calc(${ innerRef.scrollHeight }px + 0.125rem)`;
       prevValue.current = value;
