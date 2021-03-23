@@ -20,7 +20,8 @@ export default withAuth(({ title, shadowed = false, user, userMenu = true, class
       style={ shadowed ? { boxShadow: "0px 6px 3px -3px rgba(0, 0, 0, 0.25)" } : null }>
       <div className={ `
           absolute top-0 left-0 right-0 bottom-0 z-0
-          text-3xl font-bold h-16 flex items-center
+          text-3xl font-bold flex items-center
+          h-${ theme.topNavHeight || 16 }
         ` }>
         { typeof title === "function" ? React.createElement(title) : title }
       </div>
