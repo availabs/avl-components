@@ -9,12 +9,12 @@ export default React.forwardRef(({ large, small, className = "", onChange, value
     inputTheme = theme[`input${ composeOptions({ large, small }) }`];
   const doOnChange = React.useCallback(e => {
     e.stopPropagation();
-    onChange(e.target.value);
+    onChange(e.target.value, e);
   }, [onChange]);
   return (
     showClear ?
       <div className={ `relative` }>
-        <input { ...props } onChange={ e => onChange(e.target.value) } value={ hasValue(value) ? value : "" }
+        <input { ...props } onChange={ doOnChange } value={ hasValue(value) ? value : "" }
           className={ `${ inputTheme } ${ className }` } ref={ ref }/>
         { !hasValue(value) ? null :
           <div className={ `absolute right-0 ${ small ? "mr-1" : "mr-2" } top-0 bottom-0 flex items-center` }>
