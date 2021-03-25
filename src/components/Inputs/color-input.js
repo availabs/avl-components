@@ -10,15 +10,16 @@ import deepequal from "deep-equal"
 
 import Input from "./input"
 import { useTheme } from "../../wrappers/with-theme"
+import { composeOptions } from "../utils"
 
 let id = -1;
 const getInputId = () => `input-id-${ ++id }`;
 
-const Slider = React.memo(({ small = false }) => {
+const Slider = React.memo(({ small = false, large = false }) => {
   const theme = useTheme();
   return (
     <div className={ `
-        ${ small ? "h-3 mt-1 w-1" : "h-6 mt-2 w-2" }
+        ${ small ? "h-3 mt-1 w-1" : large ? "h-9 mt-3 w-3" : "h-6 mt-2 w-2" }
         rounded pointer-events-none ${ theme.accent3 }
       ` }
       style={ {
@@ -30,84 +31,105 @@ const ColorPicker = ({ showPreview = true,
                         showInputs = true,
                         showLabels = true,
                         showHex = true, showRgb = true,
-                        small = false, ...props }) => {
-  const hexId = React.useRef(getInputId()),
+                        small = false, large = false,
+                        disabled = false, autoFocus = false, ...props }) => {
+
+  const [node, setNode] = React.useState(),
+    hexId = React.useRef(getInputId()),
     rgbId = React.useRef(getInputId());
 
-  const theme = useTheme();
+  React.useEffect(() => {
+    node && autoFocus && node.focus();
+  }, [node, autoFocus])
+
+  const theme = useTheme(),
+    inputTheme = theme[`input${ composeOptions({ large, small }) }`];
+
   return (
-  	<div className={ `
-        ${ theme.accent1 } rounded w-full h-full grid
-        ${ small ? "gap-y-1 p-1" : "gap-y-2 p-2" }
-      `}
-      style={ {
-        gridTemplateRows: `1fr auto${ showInputs ? " auto" : "" }`,
-        minHeight: "12rem"
-      } }>
-  		<div className={ `
-          grid grid-cols-12
-          ${ small ? "gap-x-1" : "gap-x-2" }
-        ` }>
-        <div className={ `
-            relative h-full cursor-pointer
-            col-span-${ showPreview ? "9" : "12" }
-          ` }>
-          <Saturation { ...props }
-            style={ {
-              pointer: {
-                "pointerEvents": "none"
-              }
-            } }/>
-        </div>
-        { !showPreview ? null :
-          <div className="col-span-3 h-full rounded"
-            style={ {
-              backgroundColor: props.hex
-            } }/>
-        }
-  		</div>
+  	<div tabIndex={ disabled ? -1 : 0 } ref={ setNode }
+      className={ `
+        ${ inputTheme } w-full h-full
+      `}>
+
       <div className={ `
-          rounded cursor-pointer relative
-          ${ small ? "h-2" : "h-4" }
-        ` }>
-  			<Hue { ...props }
-  				direction="horizontal"
-  				pointer={ () => <Slider small={ small }/> }/>
-      </div>
-      { !showInputs ? null :
+          grid
+          ${ small ? "gap-y-1 py-1" : large ? "gap-y-4 py-2" : "gap-y-2 py-1" }
+        ` }
+        style={ {
+          gridTemplateRows: `auto auto${ showInputs ? " auto" : "" }`
+        } }>
+
+    		<div className={ `
+            grid grid-cols-12
+            ${ small ? "gap-x-1" : large ? "gap-x-4" : "gap-x-2" }
+          ` }
+          style={ {
+            height: large ? "20rem" : small ? "10rem" : "15rem"
+          } }>
+          <div className={ `
+              relative h-full cursor-pointer
+              col-span-${ showPreview ? "9" : "12" }
+            ` }>
+            <Saturation { ...props }
+              style={ {
+                pointer: {
+                  "pointerEvents": "none"
+                }
+              } }/>
+          </div>
+          { !showPreview ? null :
+            <div className="col-span-3 h-full rounded"
+              style={ {
+                backgroundColor: props.hex
+              } }/>
+          }
+    		</div>
         <div className={ `
-            grid grid-cols-${ Boolean(showHex) + Boolean(showRgb) }
-            ${ small ? "gap-x-1" : "gap-x-2" }
+            rounded cursor-pointer relative
+            ${ small ? "h-2" : large ? "h-6" : "h-4" }
           ` }>
-
-          { !showHex ? null :
-            <div className={ !showLabels ? null :
-              `${ theme.accent2 } rounded
-                ${ !showLabels ? "" :
-                    small ? `px-1 pt-1 pb-0` : `px-2 pt-2 pb-1`
-                }
-              ` }>
-              <HexInput id={ hexId.current } { ...props }
-                value={ props.hex } small={ small }
-                showLabels={ showLabels }/>
-            </div>
-          }
-
-          { !showRgb ? null :
-            <div className={ !showLabels ? null :
-              `${ theme.accent2 } rounded
-                ${ !showLabels ? "" :
-                    small ? `px-1 pt-1 pb-0` : `px-2 pt-2 pb-1`
-                }
-              ` }>
-              <RgbInput id={ rgbId.current } { ...props }
-                value={ props.rgb } small={ small }
-                showLabels={ showLabels }/>
-            </div>
-          }
-          
+    			<Hue { ...props }
+    				direction="horizontal"
+    				pointer={ () => <Slider small={ small } large={ large }/> }/>
         </div>
-      }
+        { !showInputs ? null :
+          <div className={ `
+              grid grid-cols-${ Boolean(showHex) + Boolean(showRgb) }
+              ${ small ? "gap-x-1" : large ? "gap-x-4" : "gap-x-2" }
+            ` }>
+
+            { !showHex ? null :
+              <div className={ !showLabels ? null :
+                `${ theme.accent1 } rounded
+                  ${ !showLabels ? "" :
+                      small ? `px-1 pt-1 pb-0` : large ? "px-4 pt-4 pb-3" : `px-2 pt-2 pb-1`
+                  }
+                ` }>
+                <HexInput id={ hexId.current } { ...props }
+                  value={ props.hex }
+                  small={ small } large={ large }
+                  showLabels={ showLabels }/>
+              </div>
+            }
+
+            { !showRgb ? null :
+              <div className={ !showLabels ? null :
+                `${ theme.accent1 } rounded
+                  ${ !showLabels ? "" :
+                      small ? `px-1 pt-1 pb-0` : large ? "px-4 pt-4 pb-3" : `px-2 pt-2 pb-1`
+                  }
+                ` }>
+                <RgbInput id={ rgbId.current } { ...props }
+                  value={ props.rgb }
+                  small={ small } large={ large }
+                  showLabels={ showLabels }/>
+              </div>
+            }
+
+          </div>
+        }
+
+      </div>
   	</div>
   )
 }
@@ -149,7 +171,7 @@ const TextInput = React.forwardRef(({ id, label, showLabels, ...props }, ref) =>
         <label htmlFor={ id }
           className={ `
             font-bold
-            ${ props.small ? "text-sm" : "text-base" }
+            ${ props.small ? "text-sm" : props.large ? "text-lg" : "text-base" }
           ` }>
           { label }
         </label>
@@ -158,7 +180,7 @@ const TextInput = React.forwardRef(({ id, label, showLabels, ...props }, ref) =>
   )
 })
 
-const HexInput = ({ id, value, onChange, small = false, showLabels = true }) => {
+const HexInput = ({ id, value, onChange, small = false, large = false, showLabels = true }) => {
   const [state, dispatch] = React.useReducer(HexReducer, value, createHexInitialState),
     input = React.useRef(null),
     prevState = React.useRef(null),
@@ -207,7 +229,7 @@ const HexInput = ({ id, value, onChange, small = false, showLabels = true }) => 
 
   return (
     <TextInput type="text" id={ id }
-      small={ small }
+      small={ small } large={ large }
       ref={ input }
       onChange={ handlechange }
       value={ state.value }
@@ -242,7 +264,7 @@ const RgbReducer = (state, action) => {
   }
 }
 
-const RgbInput = ({ id, value, onChange, small = false, showLabels = true }) => {
+const RgbInput = ({ id, value, onChange, small = false, large = false, showLabels = true }) => {
   const [state, dispatch] = React.useReducer(RgbReducer, value, createRgbInitialState),
     rInput = React.useRef(null),
     gInput = React.useRef(null),
@@ -300,11 +322,11 @@ const RgbInput = ({ id, value, onChange, small = false, showLabels = true }) => 
   return (
     <div className={ `
       grid grid-cols-3
-      ${ small ? "gap-x-1" : "gap-x-2" }
+      ${ small ? "gap-x-1" : large ? "gap-x-4" : "gap-x-2" }
     ` }>
 
       <TextInput type="number" id={ `r-${ id }` } name="r"
-        small={ small }
+        small={ small } large={ large }
         min={ 0 } max={ 255 }
         ref={ rInput }
         onChange={ handlechange }
@@ -314,7 +336,7 @@ const RgbInput = ({ id, value, onChange, small = false, showLabels = true }) => 
         label="Red"/>
 
       <TextInput type="number" id={ `g-${ id }` } name="g"
-        small={ small }
+        small={ small } large={ large }
         min={ 0 } max={ 255 }
         ref={ gInput }
         onChange={ handlechange }
@@ -324,7 +346,7 @@ const RgbInput = ({ id, value, onChange, small = false, showLabels = true }) => 
         label="Green"/>
 
       <TextInput type="number" id={ `b-${ id }` } name="b"
-        small={ small }
+        small={ small } large={ large }
         min={ 0 } max={ 255 }
         ref={ bInput }
         onChange={ handlechange }

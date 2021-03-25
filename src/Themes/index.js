@@ -276,10 +276,10 @@ const TEST_THEME_BASE = {
 	textBase: "text-base",
 	textSmall: "text-sm",
 	textLarge: "text-lg",
+
 	paddingBase: "py-1 px-2",
 	paddingSmall: "py-0 px-1",
 	paddingLarge: "py-2 px-4",
-
 
 	accent1: 'bg-gray-200',
 	accent2: 'bg-gray-300',
