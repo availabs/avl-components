@@ -26,7 +26,11 @@ const Slider = React.memo(({ small = false }) => {
       } }/>
   )
 })
-const ColorPicker = ({ showPreview = true, showInputs = true, small = false, ...props }) => {
+const ColorPicker = ({ showPreview = true,
+                        showInputs = true,
+                        showLabels = true,
+                        showHex = true, showRgb = true,
+                        small = false, ...props }) => {
   const hexId = React.useRef(getInputId()),
     rgbId = React.useRef(getInputId());
 
@@ -72,23 +76,36 @@ const ColorPicker = ({ showPreview = true, showInputs = true, small = false, ...
       </div>
       { !showInputs ? null :
         <div className={ `
-            grid grid-cols-2
+            grid grid-cols-${ Boolean(showHex) + Boolean(showRgb) }
             ${ small ? "gap-x-1" : "gap-x-2" }
           ` }>
-          <div className={ `
-            ${ theme.accent2 } rounded
-            ${ small ? "px-1 pt-1 pb-0" : "px-2 pt-2 pb-1" }
-          ` }>
-            <HexInput id={ hexId.current } { ...props }
-              value={ props.hex } small={ small }/>
-          </div>
-          <div className={ `
-            ${ theme.accent2 } rounded
-            ${ small ? "px-1 pt-1 pb-0" : "px-2 pt-2 pb-1" }
-          ` }>
-            <RgbInput id={ rgbId.current } { ...props }
-              value={ props.rgb } small={ small }/>
-          </div>
+
+          { !showHex ? null :
+            <div className={ !showLabels ? null :
+              `${ theme.accent2 } rounded
+                ${ !showLabels ? "" :
+                    small ? `px-1 pt-1 pb-0` : `px-2 pt-2 pb-1`
+                }
+              ` }>
+              <HexInput id={ hexId.current } { ...props }
+                value={ props.hex } small={ small }
+                showLabels={ showLabels }/>
+            </div>
+          }
+
+          { !showRgb ? null :
+            <div className={ !showLabels ? null :
+              `${ theme.accent2 } rounded
+                ${ !showLabels ? "" :
+                    small ? `px-1 pt-1 pb-0` : `px-2 pt-2 pb-1`
+                }
+              ` }>
+              <RgbInput id={ rgbId.current } { ...props }
+                value={ props.rgb } small={ small }
+                showLabels={ showLabels }/>
+            </div>
+          }
+          
         </div>
       }
   	</div>
@@ -101,7 +118,7 @@ const ColorInput = ({ value, onChange, ...props }) => {
     onChange(hex);
   }, [onChange]);
   return (
-    <WrappedColorPicker color={ value } { ...props }
+    <WrappedColorPicker color={ value || "" } { ...props }
       onChange={ handleChange }/>
   )
 }
@@ -124,22 +141,24 @@ const HexReducer = (state, action) => {
   }
 }
 
-const TextInput = React.forwardRef(({ id, label, ...props }, ref) => {
+const TextInput = React.forwardRef(({ id, label, showLabels, ...props }, ref) => {
   return (
     <div className="flex flex-col items-center">
       <Input id={ id } ref={ ref } { ...props }/>
-      <label htmlFor={ id }
-        className={ `
-          font-bold
-          ${ props.small ? "text-sm" : "text-base" }
-        ` }>
-        { label }
-      </label>
+      { !showLabels ? null :
+        <label htmlFor={ id }
+          className={ `
+            font-bold
+            ${ props.small ? "text-sm" : "text-base" }
+          ` }>
+          { label }
+        </label>
+      }
     </div>
   )
 })
 
-const HexInput = ({ id, value, onChange, small = false }) => {
+const HexInput = ({ id, value, onChange, small = false, showLabels = true }) => {
   const [state, dispatch] = React.useReducer(HexReducer, value, createHexInitialState),
     input = React.useRef(null),
     prevState = React.useRef(null),
@@ -193,6 +212,7 @@ const HexInput = ({ id, value, onChange, small = false }) => {
       onChange={ handlechange }
       value={ state.value }
       onBlur={ handleBlur }
+      showLabels={ showLabels }
       label="Hex"/>
   )
 }
@@ -222,7 +242,7 @@ const RgbReducer = (state, action) => {
   }
 }
 
-const RgbInput = ({ id, value, onChange, small = false }) => {
+const RgbInput = ({ id, value, onChange, small = false, showLabels = true }) => {
   const [state, dispatch] = React.useReducer(RgbReducer, value, createRgbInitialState),
     rInput = React.useRef(null),
     gInput = React.useRef(null),
@@ -290,6 +310,7 @@ const RgbInput = ({ id, value, onChange, small = false }) => {
         onChange={ handlechange }
         value={ state.value.r }
         onBlur={ handleBlur }
+        showLabels={ showLabels }
         label="Red"/>
 
       <TextInput type="number" id={ `g-${ id }` } name="g"
@@ -299,6 +320,7 @@ const RgbInput = ({ id, value, onChange, small = false }) => {
         onChange={ handlechange }
         value={ state.value.g }
         onBlur={ handleBlur }
+        showLabels={ showLabels }
         label="Green"/>
 
       <TextInput type="number" id={ `b-${ id }` } name="b"
@@ -308,6 +330,7 @@ const RgbInput = ({ id, value, onChange, small = false }) => {
         onChange={ handlechange }
         value={ state.value.b }
         onBlur={ handleBlur }
+        showLabels={ showLabels }
         label="Blue"/>
 
     </div>
