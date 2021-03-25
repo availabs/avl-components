@@ -37,7 +37,8 @@ const ColorPicker = ({ showPreview = true, showInputs = true, small = false, ...
         ${ small ? "gap-y-1 p-1" : "gap-y-2 p-2" }
       `}
       style={ {
-        gridTemplateRows: `1fr auto${ showInputs ? " auto" : "" }`
+        gridTemplateRows: `1fr auto${ showInputs ? " auto" : "" }`,
+        minHeight: "12rem"
       } }>
   		<div className={ `
           grid grid-cols-12
@@ -93,7 +94,18 @@ const ColorPicker = ({ showPreview = true, showInputs = true, small = false, ...
   	</div>
   )
 }
-export default CustomPicker(ColorPicker);
+const WrappedColorPicker = CustomPicker(ColorPicker);
+
+const ColorInput = ({ value, onChange, ...props }) => {
+  const handleChange = React.useCallback(({ hex }) => {
+    onChange(hex);
+  }, [onChange]);
+  return (
+    <WrappedColorPicker color={ value } { ...props }
+      onChange={ handleChange }/>
+  )
+}
+export default ColorInput;
 
 const createHexInitialState = value => ({
   value: value.toUpperCase(),
@@ -112,7 +124,7 @@ const HexReducer = (state, action) => {
   }
 }
 
-const ColorInput = React.forwardRef(({ id, label, ...props }, ref) => {
+const TextInput = React.forwardRef(({ id, label, ...props }, ref) => {
   return (
     <div className="flex flex-col items-center">
       <Input id={ id } ref={ ref } { ...props }/>
@@ -175,7 +187,7 @@ const HexInput = ({ id, value, onChange, small = false }) => {
   }, [state]);
 
   return (
-    <ColorInput type="text" id={ id }
+    <TextInput type="text" id={ id }
       small={ small }
       ref={ input }
       onChange={ handlechange }
@@ -271,7 +283,7 @@ const RgbInput = ({ id, value, onChange, small = false }) => {
       ${ small ? "gap-x-1" : "gap-x-2" }
     ` }>
 
-      <ColorInput type="number" id={ `r-${ id }` } name="r"
+      <TextInput type="number" id={ `r-${ id }` } name="r"
         small={ small }
         min={ 0 } max={ 255 }
         ref={ rInput }
@@ -280,7 +292,7 @@ const RgbInput = ({ id, value, onChange, small = false }) => {
         onBlur={ handleBlur }
         label="Red"/>
 
-      <ColorInput type="number" id={ `g-${ id }` } name="g"
+      <TextInput type="number" id={ `g-${ id }` } name="g"
         small={ small }
         min={ 0 } max={ 255 }
         ref={ gInput }
@@ -289,7 +301,7 @@ const RgbInput = ({ id, value, onChange, small = false }) => {
         onBlur={ handleBlur }
         label="Green"/>
 
-      <ColorInput type="number" id={ `b-${ id }` } name="b"
+      <TextInput type="number" id={ `b-${ id }` } name="b"
         small={ small }
         min={ 0 } max={ 255 }
         ref={ bInput }
