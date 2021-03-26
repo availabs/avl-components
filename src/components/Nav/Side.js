@@ -4,9 +4,8 @@ import { Link } from 'react-router-dom'
 import get from "lodash.get"
 
 import { useTheme, withAuth } from "../../wrappers"
-import SidebarItem from './Item'
 
-import { UserMenuSeparator } from "../Header/UserMenu"
+import SidebarItem from './Item'
 import { useComponents } from "../index"
 
 const MobileSidebar = ({ open, toggle,logo = null, menuItems=[] }) => {
@@ -51,8 +50,8 @@ const MobileSidebar = ({ open, toggle,logo = null, menuItems=[] }) => {
 }
 
 const DesktopSidebar = ({ menuItems = [], logo = null, home = "/", user, userMenu = false, customTheme = {} }) => {
-	const theme = useTheme();
-	const { SideUserMenu, UserMenuItem } = useComponents();
+	const theme = useTheme(),
+		{ SideUserMenu } = useComponents();
 
 	return(
 		<div className={ `
@@ -89,20 +88,7 @@ const DesktopSidebar = ({ menuItems = [], logo = null, home = "/", user, userMen
         </nav>
 
 				{ !userMenu ? null :
-					<SideUserMenu>
-						<UserMenuItem to="/auth/profile">
-							Profile
-						</UserMenuItem>
-						{ get(user, "authLevel", -1) < 5 ? null :
-							<UserMenuItem to="/auth/project-management">
-								Project Management
-							</UserMenuItem>
-						}
-						<UserMenuSeparator />
-						<UserMenuItem to="/auth/logout">
-							Logout
-						</UserMenuItem>
-					</SideUserMenu>
+					<SideUserMenu />
 				}
 
       </div>

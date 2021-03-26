@@ -1,12 +1,14 @@
 import React from 'react'
 // import TrackVisibility from 'react-on-screen';
 // import CensusCharts from 'components/CensusCharts'
-
+import ComponentLibraryBase from "./components/ComponentLibrary"
 import { Wrappers } from "./wrappers"
 
 import get from "lodash.get"
 
-let ComponentLibrary = {}
+let ComponentLibrary = {
+  ...ComponentLibraryBase
+}
 
 let WrapperLibrary = {
   ...Wrappers

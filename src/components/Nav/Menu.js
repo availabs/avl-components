@@ -11,17 +11,18 @@ export const NavMenu = ({ control, children }) => {
     [setRef] = useClickOutside(clickedOutside),
     theme = useTheme();
   return (
-      <div 
-        className={`${theme.navMenu} ${open ? theme.navMenuOpen : ''}`} 
+      <div ref={ setRef }
+        className={ `${ theme.navMenu } ${ open ? theme.navMenuOpen : '' }` }
         onMouseEnter={ e => setOpen(true) }
-        onMouseLeave={ e => setOpen(false) } 
-        ref={ setRef }
-      >
-        <div className={`h-full ${open ? ' text-right border-b border-blue-100' : 'text-right'}`} >
-          {control}
+        onMouseLeave={ e => setOpen(false) }>
+
+        <div className={ `
+          text-right h-full ${ open ? 'border-b border-blue-100' : '' }
+        ` }>
+          { control }
         </div>
         { !open ? null :
-          <div className={`${theme.navMenuBg} p-4 `} >
+          <div className={ `${ theme.navMenuBg } p-4 ` }>
             { children }
           </div>
         }

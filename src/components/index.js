@@ -1,7 +1,6 @@
 import React from "react"
 
 import HeaderComponent from "./Header/HeaderComponent"
-import { Content } from './Containers'
 import { FormSection, InputContainer } from './Forms/FormSection'
 import { List, ListItemRemovable, ListItemAction } from './List/List'
 import { NavMenu, NavMenuItem, NavMenuSeparator } from "./Nav/Menu"
@@ -13,8 +12,14 @@ import TopNav from './Nav/Top'
 import Layouts from "./Layouts"
 import Loading, { ScalableLoading } from "./Loading"
 
-import { TopUserMenu, SideUserMenu, UserMenuItem } from "./Header/UserMenu"
+import {
+	TopUserMenu, TopUserMenuControl,
+	SideUserMenu, SideUserMenuControl,
+	UserMenuItem, UserMenuSeparator,
+	UserMenuItems
+} from "./Header/UserMenu"
 
+export * from "./Containers"
 export * from './Inputs'
 export * from "./Button"
 export * from "./utils"
@@ -27,9 +32,10 @@ export * from "./Draggable/draggable"
 export { default as AvlModal } from "./Modal/avl-modal"
 
 const ComponentContextDefaults = {
-	TopUserMenu,
-	SideUserMenu,
-	UserMenuItem
+	TopUserMenu, TopUserMenuControl,
+	SideUserMenu, SideUserMenuControl,
+	UserMenuItem, UserMenuSeparator,
+	UserMenuItems
 }
 
 const ComponentContext = React.createContext(ComponentContextDefaults)
@@ -49,9 +55,12 @@ export const ComponentProvider = ({ children, ...props }) => {
 export {
 	HeaderComponent,
 	TopUserMenu,
+	TopUserMenuControl,
 	SideUserMenu,
+	SideUserMenuControl,
 	UserMenuItem,
-	Content,
+	UserMenuSeparator,
+	UserMenuItems,
 	Table,
 	GridTable,
 	FormSection,
