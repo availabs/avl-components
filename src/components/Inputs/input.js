@@ -4,7 +4,7 @@ import { composeOptions } from "../utils"
 import { useTheme } from "../../wrappers/with-theme"
 import { hasValue } from "./utils"
 
-export default React.forwardRef(({ large, small, className = "", onChange, value, showClear = false, ...props }, ref) => {
+export default React.forwardRef(({ large, small, className = "", onChange, value, showClear = false, placeholder = "type a value...", ...props }, ref) => {
   const theme = useTheme(),
     inputTheme = theme[`input${ composeOptions({ large, small }) }`];
   const doOnChange = React.useCallback(e => {
@@ -14,8 +14,10 @@ export default React.forwardRef(({ large, small, className = "", onChange, value
   return (
     showClear ?
       <div className={ `relative` }>
-        <input { ...props } onChange={ doOnChange } value={ hasValue(value) ? value : "" }
-          className={ `${ inputTheme } ${ className }` } ref={ ref }/>
+        <input { ...props } ref={ ref }
+          onChange={ doOnChange } value={ hasValue(value) ? value : "" }
+          className={ `${ inputTheme } ${ className }` }
+          placeholder={ placeholder }/>
         { !hasValue(value) ? null :
           <div className={ `absolute right-0 ${ small ? "mr-1" : "mr-2" } top-0 bottom-0 flex items-center` }>
             <div className={ `
@@ -32,7 +34,9 @@ export default React.forwardRef(({ large, small, className = "", onChange, value
         }
       </div>
     :
-      <input { ...props } onChange={ doOnChange } value={ hasValue(value) ? value : "" }
-        className={ `${ inputTheme } ${ className }` } ref={ ref }/>
+      <input { ...props } ref={ ref }
+        onChange={ doOnChange } value={ hasValue(value) ? value : "" }
+        className={ `${ inputTheme } ${ className }` }
+        placeholder={ placeholder }/>
   )
 })
