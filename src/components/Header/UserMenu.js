@@ -55,7 +55,10 @@ export const TopUserMenu = withAuth(({ user = {} }) => {
           onClick={ toggle }/>
 
         { !open ? null :
-          <div className={ `${ theme.accent2 } mt-1 p-2 right-0 absolute ${ theme.text }` }
+          <div className={ `
+              ${ theme.menuBg } ${ theme.menuText }
+              p-2 right-0 absolute
+            ` }
             style={ { top: "100%", minWidth: "8rem" } }>
 
             <UserMenuItems />
@@ -106,7 +109,9 @@ export const SideUserMenu = withAuth(({ user = {} }) => {
               onClick={ toggle }/>
 
             { !open ? null :
-              <div className={ `${ theme.accent2 } mt-1 p-2 left-0 absolute ${ theme.text }` }
+              <div className={ `
+                  ${ theme.menuBg } ${ theme.menuText } mt-1 p-2 left-0 absolute
+                ` }
                 style={ { bottom: "100%", minWidth: "8rem" } }>
 
                 <UserMenuItems />
@@ -125,7 +130,8 @@ export const UserMenuItem = ({ to = "#", children }) => {
     <Link to={ to }>
       <div className={ `
         rounded cursor-pointer px-2 whitespace-nowrap
-        ${ theme.transition } hover:${ theme.accent3 }
+        ${ theme.menuBg } ${ theme.menuBgHover }
+        ${ theme.menuText } ${ theme.menuTextHover }
       ` }>
         { children }
       </div>
