@@ -84,9 +84,9 @@ const InitialToolState = {
   reverse: false,
   opened: null
 }
-const InitReducer = size => ({
+const InitReducer = ({ size = 5 }) => ({
   ...InitialToolState,
-  size: size || 5
+  size: Math.max(size, 3)
 })
 const ToolReducer = (state, action) => {
   const { type, ...payload } = action;
@@ -102,26 +102,32 @@ const ToolReducer = (state, action) => {
       return state;
   }
 }
-export const useLegendReducer = size => {
-  return React.useReducer(ToolReducer, size, InitReducer);;
+export const useLegendReducer = initial => {
+  return React.useReducer(ToolReducer, initial, InitReducer);;
 }
 
-export const LegendTools = ({ layer, MapActions }) => {
+export const LegendTools = ({ onChange, ...props }) => {
 
-  const range = get(layer, ["legend", "range"], []);
+  // const range = get(layer, ["legend", "range"], []);
 
-  const [toolState, dispatch] = useLegendReducer(range.length);
+  const [toolState, dispatch] = useLegendReducer(props);
 
-  const updateLegend = React.useCallback(update => {
-    MapActions.updateLegend(layer, update);
-  }, [layer, MapActions]);
+  // const updateLegend = React.useCallback(update => {
+  //   MapActions.updateLegend(layer, update);
+  // }, [layer, MapActions]);
 
   return (
-    <DummyLegendTools { ...toolState } layer={ layer } current={ range }
-      updateLegend={ updateLegend } dispatch={ dispatch }/>
+    <DummyLegendTools { ...toolState } { ...props }
+      updateLegend={ onChange } dispatch={ dispatch }/>
   )
 }
-export const DummyLegendTools = ({ layer, current, updateLegend, dispatch, size, reverse, opened }) => {
+export const DummyLegendTools = ({ range,
+                                    updateLegend,
+                                    dispatch,
+                                    type, types,
+                                    size,
+                                    reverse,
+                                    opened }) => {
 
   const colorsByType = React.useMemo(() => {
     return groups(get(ColorRanges, size, []), r => r.type);
@@ -130,7 +136,7 @@ export const DummyLegendTools = ({ layer, current, updateLegend, dispatch, size,
   return (
     <>
       <div className="flex items-center mb-1">
-        <div className="w-36">Step Size</div>
+        <div className="w-36">Range Length</div>
         <div className="flex-1">
           <Select options={ ColorSteps }
             valueAccessor={ v => +v }
@@ -141,6 +147,20 @@ export const DummyLegendTools = ({ layer, current, updateLegend, dispatch, size,
             searchable={ false }/>
         </div>
       </div>
+
+      { !(types && types.length) ? null :
+        <div className="flex items-center mb-1">
+          <div className="w-36">Scale Type</div>
+          <div className="flex-1">
+            <Select options={ types }
+              value={ type }
+              onChange={ v => updateLegend({ type: v }) }
+              multi={ false }
+              removable={ false }
+              searchable={ false }/>
+          </div>
+        </div>
+      }
 
       <div className="flex items-center mb-1">
         <div className="w-36">Reverse Colors</div>
@@ -158,7 +178,7 @@ export const DummyLegendTools = ({ layer, current, updateLegend, dispatch, size,
             <ColorType key={ type } type={ type } ranges={ ranges }
               opened={ opened } update={ updateLegend }
               setOpen={ opened => dispatch({ type: "set-opened", opened }) }
-              current={ current } reverse={ reverse }/>
+              current={ range } reverse={ reverse }/>
           )
         }
       </div>
