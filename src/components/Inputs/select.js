@@ -7,6 +7,7 @@ import { ValueContainer, ValueItem } from "./parts"
 import { useTheme } from "../../wrappers/with-theme"
 
 import deepequal from "deep-equal"
+import get from "lodash.get"
 import { matchSorter } from "match-sorter"
 
 const Dropdown = React.forwardRef(({ children, searchable, opened, direction }, ref) => {
@@ -23,12 +24,16 @@ const Dropdown = React.forwardRef(({ children, searchable, opened, direction }, 
     </div>
   )
 })
-const DropdownItem = ({ children, ...props }) => {
+const DropdownItem = ({ children, isActive, ...props }) => {
   const theme = useTheme();
   return (
     <div { ...props }
       className={ `
-        cursor-pointer hover:${ theme.accent2 } px-2 whitespace-no-wrap
+        px-2 whitespace-no-wrap
+        ${ isActive ?
+          `cursor-not-allowed ${ theme.accent2 }` :
+          `cursor-pointer hover:${ theme.accent2 }`
+        }
       ` }>
       { children }
     </div>
@@ -160,8 +165,9 @@ class Select extends React.Component {
     const { disabled, accessor, searchable } = this.props,
       values = this.getValues(),
       search = this.state.search,
-      _options = this.getOptions()
-        .filter(d => values.reduce((a, c) => a && !deepequal(c, d), true)),
+      _options = this.getOptions(),
+      activeOptions = _options
+        .filter(d => values.includes(d)),
 
       listAccessor = this.props.listAccessor || accessor,
 
@@ -207,8 +213,16 @@ class Select extends React.Component {
                 style={ { maxHeight: "15rem" } }>
                 { options.map((d, i) =>
                     <DropdownItem key={ `${ accessor(d) }-${ i }` }
-                      onClick={ e => this.addItem(e, d) }>
-                      { listAccessor(d) }
+                      onClick={
+                        activeOptions.includes(d) ?
+                          e => e.stopPropagation() :
+                          e => this.addItem(e, d)
+                        }
+                      isActive={ activeOptions.includes(d) }>
+                      { get(d, "OptionComponent") ?
+                          <d.OptionComponent option={ d }/> :
+                          listAccessor(d)
+                      }
                     </DropdownItem>
                   )
                 }
