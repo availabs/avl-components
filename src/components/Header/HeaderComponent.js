@@ -5,32 +5,41 @@ import { useComponents } from "../index"
 import { useTheme } from "../../wrappers/with-theme"
 import withAuth from "../../wrappers/with-auth"
 
-const HeaderComponent = withAuth(({ title,
-                            shadowed = false,
-                            user, userMenu = true,
-                            className = "",
-                            children }) => {
+import { DEFAULT_TOP_NAV_HEIGHT } from "../constants"
 
-  const theme = useTheme(),
+const HeaderComponent = withAuth(({ title,
+                            LeftComponent = null,
+                            children,
+                            RightComponent = null,
+                            shadowed = false,
+                            user, userMenu = false,
+                            className = "",
+                            customTheme = {} }) => {
+
+  const theme = { ...useTheme(), ...customTheme },
     { TopUserMenu } = useComponents();
+
+  const LeftComp = title || LeftComponent,
+    RightComp = children || RightComponent;
+
+  const tnHeight = theme.topNavHeight || DEFAULT_TOP_NAV_HEIGHT;
 
   return (
     <div className={ `
         w-full relative flex items-center justify-end
         ${ theme.headerBg } ${ className }
-        h-${ theme.topNavHeight || 16 }
+        h-${ tnHeight }
       ` }
       style={ shadowed ? { boxShadow: "0px 6px 3px -3px rgba(0, 0, 0, 0.25)" } : null }>
       <div className={ `
-        absolute top-0 left-0 right-0 bottom-0 z-0
-        text-3xl font-bold flex items-center
-        h-${ theme.topNavHeight || 16 }
+        absolute inset-0 z-0 text-3xl font-bold flex items-center
+        h-${ tnHeight }
       ` }>
-        { typeof title === "function" ? React.createElement(title) : title }
+        { typeof LeftComp === "function" ? React.createElement(LeftComp) : LeftComp }
       </div>
       <div className="flex-0 flex items-center relative z-0 pr-8">
 
-        { children }
+        { RightComp }
 
         { !user || !userMenu ? null :
           <div className="ml-8">

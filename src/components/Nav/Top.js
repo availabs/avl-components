@@ -8,6 +8,8 @@ import NavItem from './Item'
 
 import HeaderComponent from "../Header/HeaderComponent"
 
+import { DEFAULT_TOP_NAV_HEIGHT } from "../constants"
+
 const MobileMenu = ({ open, menuItems = [], customTheme = {}, home = "/" }) => {
   const theme = { ...useTheme(), ...customTheme };
   return (
@@ -25,28 +27,36 @@ const MobileMenu = ({ open, menuItems = [], customTheme = {}, home = "/" }) => {
 }
 
 const DesktopMenu = ({ menuItems = [],
-                        open, toggle, logo,
-                        customTheme = {}, home = "/",
-                        userMenu = false }) => {
+                      open, toggle, logo,
+                      customTheme = {}, home = "/",
+                      userMenu = false,
+                      rightMenu = null,
+                      RightComponent = null }) => {
 
   const theme = { ...useTheme(), ...customTheme };
 
+  const RightComp = rightMenu || RightComponent;
+
+  const tnHeight = theme.topNavHeight || DEFAULT_TOP_NAV_HEIGHT;
+
   return (
     <HeaderComponent userMenu={ userMenu }
+      customTheme={ customTheme }
       className={ `
-        h-${ theme.topNavHeight || 16 }
+        h-${ tnHeight }
         ${ theme.sidebarBg }
         ${ theme.topMenuBorder }
       ` }
-      title={
+      LeftComponent={
         <div className={ `
-          ${ theme.contentWidth } h-${ theme.topNavHeight || 16 } flex relative
+          ${ theme.contentWidth } h-${ tnHeight } flex relative
         ` }>
-
-          <Link to={ home }
-            className={ `flex-0 flex items-center ${ theme.text }`}>
-            { logo }
-          </Link>
+          { !logo ? null :
+            <Link to={ home }
+              className={ `flex-0 flex items-center ${ theme.text }`}>
+              { logo }
+            </Link>
+          }
           <div className="hidden sm:flex">
             { menuItems.map((page, i) => (
                 <NavItem key={ i } type='top'
@@ -59,18 +69,19 @@ const DesktopMenu = ({ menuItems = [],
             }
           </div>
 
-
         </div>
-      }/>
+      }
+      RightComponent={ RightComp }/>
   )
 }
 
 const TopNav = ({ customTheme = {}, ...props }) => {
   const theme = { ...useTheme(), ...customTheme };
+  const tnHeight = theme.topNavHeight || DEFAULT_TOP_NAV_HEIGHT;
   return (
-    <nav className={ `${ theme.menuBg } h-${ theme.topNavHeight || 16 }` }>
-      <DesktopMenu { ...props }/>
-      <MobileMenu { ...props }/>
+    <nav className={ `${ theme.menuBg } h-${ tnHeight }` }>
+      <DesktopMenu customTheme={ customTheme } { ...props }/>
+      <MobileMenu customTheme={ customTheme } { ...props }/>
     </nav>
   )
 }

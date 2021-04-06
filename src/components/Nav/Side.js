@@ -8,6 +8,8 @@ import { useTheme, withAuth } from "../../wrappers"
 import SidebarItem from './Item'
 import { useComponents } from "../index"
 
+import { DEFAULT_TOP_NAV_HEIGHT } from "../constants"
+
 const MobileSidebar = ({ open, toggle,logo = null, menuItems=[] }) => {
 	const theme = useTheme();
 	return (
@@ -49,9 +51,14 @@ const MobileSidebar = ({ open, toggle,logo = null, menuItems=[] }) => {
 	)
 }
 
-const DesktopSidebar = ({ menuItems = [], logo = null, home = "/", user, userMenu = false, customTheme = {} }) => {
-	const theme = useTheme(),
+const DesktopSidebar = ({ menuItems = [],
+													logo = null, home = "/",
+													user, userMenu = false,
+													customTheme = {} }) => {
+	const theme = { ...useTheme(), ...customTheme },
 		{ SideUserMenu } = useComponents();
+
+	const tnHeight = theme.topNavHeight || DEFAULT_TOP_NAV_HEIGHT;
 
 	return(
 		<div className={ `
@@ -67,7 +74,7 @@ const DesktopSidebar = ({ menuItems = [], logo = null, home = "/", user, userMen
 	      	<Link to={ home }
 						className={ `
 							${ theme.text } flex items-center
-							h-${ theme.topNavHeight || 16 }
+							h-${ tnHeight }
 							font-bold text-3xl px-4
 						` }>
 	      		{ logo }
@@ -75,7 +82,7 @@ const DesktopSidebar = ({ menuItems = [], logo = null, home = "/", user, userMen
 				}
 
         <nav className={ `
-					flex-1 ${ !logo ? `pt-${ theme.topNavHeight || 16 }` : "" }
+					flex-1 ${ !logo ? `pt-${ tnHeight }` : "" }
 				` }>
           { menuItems.map((page, i) => (
           		<SidebarItem key={ i }
