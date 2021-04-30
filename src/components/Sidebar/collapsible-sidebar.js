@@ -43,6 +43,7 @@ export const CollapsibleSidebar = ({ placeBeside,
                                       children,
                                       startOpen = true,
                                       position = "left",
+                                      customTheme= {},
                                       shift = Shift }) => {
 
   const [state, dispatch] = React.useReducer(Reducer, startOpen, InitState);
@@ -93,7 +94,7 @@ export const CollapsibleSidebar = ({ placeBeside,
     return { ...state, extendSidebar, passCompProps, closeExtension, open };
   }, [extendSidebar, passCompProps, closeExtension, state, open]);
 
-  const theme = useTheme();
+  const theme = {...useTheme(),...customTheme};
 
   const styleWidth = `calc(${ (width - padding * 2) * open }px - ${ open > 1 ? `${ shift.value * (open - 1) }${ shift.unit }` : "0rem" })`;
 
@@ -118,31 +119,22 @@ export const CollapsibleSidebar = ({ placeBeside,
             { placeBeside }
 
             <div className={ `
-                rounded bg-white z-10 py-1 absolute hover:${ theme.textInfo }
-                ${ theme.sidebarBg } cursor-pointer flex flex-col
+                ${theme.accent4} text-gray-900 ${open ? `-ml-4` :  'ml-2' } z-10 py-1 absolute hover:${ theme.textInfo }
+               cursor-pointer flex flex-col
                 hover:${ theme.menuBg } transition ${ position }-0
               ` }
               style={ {
                 transform: `translateY(-50%)`,
-                top: "50%"
+                top: "20px"
               } }
               onClick={ doToggle }>
 
-              <div className="fa fa-caret-left text-2xl pl-1 pr-2"
+              <div className="fa fa-caret-left text-lg pl-2 pr-2"
                 style={ {
                   transform: `scaleX(${ (open ? 1 : -1) * dir }`,
                   transition: "transform 500ms"
                 } }/>
-              <div className="fa fa-caret-left text-2xl pl-1 pr-2"
-                style={ {
-                  transform: `scaleX(${ (open ? 1 : -1) * dir }`,
-                  transition: "transform 500ms ease 250ms"
-                } }/>
-              <div className="fa fa-caret-left text-2xl pl-1 pr-2"
-                style={ {
-                  transform: `scaleX(${ (open ? 1 : -1) * dir }`,
-                  transition: "transform 500ms ease 500ms"
-                } }/>
+              
 
             </div>
 

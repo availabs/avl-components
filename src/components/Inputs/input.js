@@ -4,9 +4,10 @@ import { composeOptions } from "../utils"
 import { useTheme } from "../../wrappers/with-theme"
 import { hasValue } from "./utils"
 
-export default React.forwardRef(({ large, small, className = "", onChange, value, showClear = false, placeholder = "type a value...", ...props }, ref) => {
-  const theme = useTheme(),
+export default React.forwardRef(({ large, small, className = "", onChange, value, showClear = false, placeholder = "type a value...", customTheme={}, ...props }, ref) => {
+  const theme = {...useTheme(),...customTheme},
     inputTheme = theme[`input${ composeOptions({ large, small }) }`];
+    //console.log('test', `input${ composeOptions({ large, small }) }`)
   const doOnChange = React.useCallback(e => {
     e.stopPropagation();
     onChange(e.target.value, e);

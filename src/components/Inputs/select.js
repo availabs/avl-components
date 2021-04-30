@@ -10,26 +10,27 @@ import deepequal from "deep-equal"
 import get from "lodash.get"
 import { matchSorter } from "match-sorter"
 
-const Dropdown = React.forwardRef(({ children, searchable, opened, direction }, ref) => {
-  const theme = useTheme();
+const Dropdown = React.forwardRef(({ children, searchable, opened, direction, customTheme }, ref) => {
+  const theme = {...useTheme(), ...customTheme};
   return (
     <div className={ `
       absolute left-0 z-40 overflow-hidden w-full
       ${ opened ? "block" : "hidden" }
     ` }
       style={ direction === "down" ? { top: "100%" } : { bottom: "100%" } } ref={ ref }>
-      <div className={ `${ theme.accent1 } my-1 ${ searchable ? "pt-1" : "" }` }>
+      <div className={ `${ theme.accent3 } my-1 ${ searchable ? "pt-1" : "" }` }>
         { children }
       </div>
     </div>
   )
 })
-const DropdownItem = ({ children, isActive, ...props }) => {
-  const theme = useTheme();
+const DropdownItem = ({ children, isActive, customTheme, ...props }) => {
+  const theme = {...useTheme(), ...customTheme};
   return (
     <div { ...props }
       className={ `
         px-2 whitespace-no-wrap
+        ${theme.itemText}
         ${ isActive ?
           `cursor-not-allowed ${ theme.accent2 }` :
           `cursor-pointer hover:${ theme.accent2 }`
@@ -57,6 +58,7 @@ class Select extends React.Component {
     autoFocus: false,
     disabled: false,
     removable: true,
+    customTheme:{},
     valueAccessor: Identity
   }
 
@@ -162,7 +164,7 @@ class Select extends React.Component {
     return this.props.options.length ? this.props.options : this.props.domain;
   }
   render() {
-    const { disabled, accessor, searchable } = this.props,
+    const { disabled, accessor, searchable, customTheme } = this.props,
       values = this.getValues(),
       search = this.state.search,
       _options = this.getOptions(),
@@ -183,10 +185,10 @@ class Select extends React.Component {
             onFocus={ e => this.setState({ hasFocus: true }) }
             hasFocus={ this.state.opened || this.state.hasFocus }
             disabled={ disabled } tabIndex={ disabled ? -1 : 0 }
-            onClick={ this.openDropdown }>
+            onClick={ this.openDropdown } customTheme={customTheme}>
             { values.length ?
               values.map((v, i, a) =>
-                <ValueItem key={ i } disabled={ disabled }
+                <ValueItem key={ i } disabled={ disabled } customTheme={customTheme}
                   remove={ this.props.removable ? e => this.removeItem(e, v) : null }>
                   { accessor(v, a) }
                 </ValueItem>
@@ -200,10 +202,12 @@ class Select extends React.Component {
 
         { disabled || !this.state.opened ? null :
           <Dropdown opened={ this.state.opened } direction={ this.state.direction }
-            searchable={ searchable } ref={ n => this.dropdown = n }>
+            searchable={ searchable } ref={ n => this.dropdown = n } customTheme={customTheme}>
             { !searchable ? null :
               <div className="p-2 pt-1">
-                <Input type="text" autoFocus placeholder="search..."
+                <Input 
+                  customTheme={customTheme}
+                  type="text" autoFocus placeholder="search..."
                   value={ this.state.search } onChange={ v => this.setSearch(v) }/>
               </div>
             }
@@ -213,6 +217,7 @@ class Select extends React.Component {
                 style={ { maxHeight: "15rem" } }>
                 { options.map((d, i) =>
                     <DropdownItem key={ `${ accessor(d) }-${ i }` }
+                      customTheme={customTheme}
                       onClick={
                         activeOptions.includes(d) ?
                           e => e.stopPropagation() :

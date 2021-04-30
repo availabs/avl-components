@@ -1,6 +1,7 @@
 import { Model } from 'falcor'
 import ModelRoot from "falcor/lib/ModelRoot"
 import HttpDataSource from 'falcor-http-datasource'
+import {Promise} from "bluebird";
 
 import throttle from "lodash.throttle"
 
@@ -46,6 +47,7 @@ const falcorChunker = (requests, options = {}) => {
   const {
     falcor,
     onProgress = noop,
+    concurrency = 5,
     ...rest
   } = options;
 
@@ -53,18 +55,29 @@ const falcorChunker = (requests, options = {}) => {
 
   let progress = 0, total = 0;
 
-  return requests.reduce((accum, [val, req]) => {
+  let chunks = requests.reduce((accum, [val, req]) => {
     const chunked = chunker(val, req, rest);
     total += chunked.length;
     accum.push(...chunked);
     return accum;
   }, [])
-    .reduce((a, c) => {
-      return a.then(() => falcor.get(c))
-        .then(() => {
+
+  // return chunks
+  // .reduce((a, c) => {
+  //     return a.then(() => falcor.get(c))
+  //       .then(() => {
+  //         throttledCB(++progress, total);
+  //       });
+  //   }, Promise.resolve());
+  return Promise
+    .map(chunks, c =>
+       falcor.get(c)
+         .then(() => {
           throttledCB(++progress, total);
-        });
-    }, Promise.resolve());
+        })
+    , { concurrency })
+
+    
 }
 
 const getArgs = args =>
@@ -162,4 +175,4 @@ export const falcorGraph = API_HOST =>
       return error;
     },
     cache: cacheFromStorage()
-  }).batch()
+  })//.batch()

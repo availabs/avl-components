@@ -2,15 +2,16 @@ import React from "react"
 
 import { useTheme } from "../../wrappers/with-theme"
 
-export const ValueItem = ({ isPlaceholder, children, remove, edit, disabled = false }) => {
-  const theme = useTheme();
+export const ValueItem = ({ isPlaceholder, children, remove, edit, customTheme, disabled = false }) => {
+  const theme = {...useTheme(),...customTheme};
   return (
     <div className={ `
         ${ isPlaceholder ? theme.textLight :
-          `${ disabled ? theme.accent2 : (!(remove || edit) ? "" : theme.accent1) }
+          `${ disabled ? theme.accent2 : (!(remove || edit) ? "" : theme.menuBgActive) }
             mr-1 pl-2 ${ (!disabled && (remove || edit)) ? "pr-1" : "pr-2" }
           ` }
-        rounded whitespace-pre-wrap mt-1 relative flex items-center
+        ${theme.itemText}
+        whitespace-pre-wrap mt-1 relative flex items-center
       ` }>
       { children }
       { isPlaceholder || disabled || !edit ? null :
@@ -40,8 +41,8 @@ export const ValueItem = ({ isPlaceholder, children, remove, edit, disabled = fa
     </div>
   )
 }
-export const ValueContainer = React.forwardRef(({ children, hasFocus, large, small, disabled = false, className = "", ...props }, ref) => {
-  const theme = useTheme();
+export const ValueContainer = React.forwardRef(({ children, hasFocus, large, small, disabled = false, customTheme, className = "", ...props }, ref) => {
+  const theme = {...useTheme(),...customTheme};
   return (
     <div { ...props } ref={ ref }
       className={ `
@@ -54,7 +55,6 @@ export const ValueContainer = React.forwardRef(({ children, hasFocus, large, sma
         }
         ${ large ? "pt-1 pb-2 px-4" : small ? "pb-1 px-1" : "pb-1 px-2" }
         ${ large ? theme.textLarge : small ? theme.textSmall : theme.textBase }
-        ${ large ? "rounded-md" : "rounded" }
         ${ className }
       ` }>
       { children }
