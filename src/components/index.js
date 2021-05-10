@@ -11,6 +11,7 @@ import SideNav from './Nav/Side'
 import TopNav from './Nav/Top'
 import Layouts from "./Layouts"
 import Loading, { ScalableLoading } from "./Loading"
+import Scrollspy from "./Sidebar/scrollSpy/scrollspy";
 
 import {
 	TopUserMenu, TopUserMenuControl,
@@ -76,5 +77,6 @@ export {
 	NavMenuSeparator,
 	Layouts,
 	Loading,
-	ScalableLoading
+	ScalableLoading,
+	Scrollspy
 }
