@@ -15,9 +15,15 @@ export default (Component, options = {}) => {
     static propTypes = {
       imgUploadUrl: PropTypes.string.isRequired
     }
-    state = {
-      loading: false,
-      message: ""
+    constructor(...args) {
+      super(...args);
+      this.state = {
+        loading: false,
+        message: ""
+      }
+      this.uploadImage = this.uploadImage.bind(this);
+      this.editImage = this.editImage.bind(this);
+      this.saveImage = this.saveImage.bind(this);
     }
     uploadImage(file) {
       if (!file) return Promise.resolve(null);
