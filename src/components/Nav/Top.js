@@ -18,7 +18,7 @@ const MobileMenu = ({ open, toggle, menuItems = [], customTheme = {}, home = "/"
               <div className={ `${ open ? 'sm:block xl:hidden relative' : 'hidden' } ${ theme.menuBg }` }>
                   <div className="pt-2 pb-3">
                       { menuItems.map((page, i) => (
-                          <NavItem key={ i } to={ page.path } icon={ page.icon }>
+                          <NavItem key={ i } to={ page.path } icon={ page.icon } customTheme={customTheme}>
                               { page.name }
                           </NavItem>
                       ))
