@@ -49,7 +49,7 @@ const HeaderComponent = withAuth(({
                     </div>
                 }
 
-                <button className={`block xl:hidden fas ${open ? `fa-times` : `fa-bars`} float-right`} onClick={toggle}></button>
+                <button className={`block xl:hidden fas ${open ? `fa-times` : `fa-bars`} float-right ${theme.textContrast}`} onClick={toggle}></button>
             </div>
         </div>
     )
