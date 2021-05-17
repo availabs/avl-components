@@ -10,19 +10,27 @@ import HeaderComponent from "../Header/HeaderComponent"
 
 import { DEFAULT_TOP_NAV_HEIGHT } from "../constants"
 
-const MobileMenu = ({ open, menuItems = [], customTheme = {}, home = "/" }) => {
+const MobileMenu = ({ open, toggle, menuItems = [], customTheme = {}, home = "/" , rightMenu}) => {
   const theme = { ...useTheme(), ...customTheme };
   return (
-    <div className={ `${ open ? 'sm:hidden relative' : 'hidden' } ${ theme.menuBg }` }>
-      <div className="pt-2 pb-3">
-        { menuItems.map((page, i) => (
-            <NavItem key={ i } to={ page.path } icon={ page.icon }>
-              { page.name }
-            </NavItem>
-          ))
-        }
-      </div>
-    </div>
+      <React.Fragment>
+          <div style={{display: open ? 'block' : 'none' }} className="md:hidden">
+              <div className={ `${ open ? 'sm:block xl:hidden relative' : 'hidden' } ${ theme.menuBg }` }>
+                  <div className="pt-2 pb-3">
+                      { menuItems.map((page, i) => (
+                          <NavItem key={ i } to={ page.path } icon={ page.icon }>
+                              { page.name }
+                          </NavItem>
+                      ))
+                      }
+
+                      <NavItem>
+                          { rightMenu }
+                      </NavItem>
+                  </div>
+              </div>
+          </div>
+      </React.Fragment>
   )
 }
 
@@ -49,7 +57,7 @@ const DesktopMenu = ({ menuItems = [],
       ` }
       LeftComponent={
         <div className={ `
-          ${ theme.contentWidth } h-${ tnHeight } flex relative
+          ${ theme.contentWidth } h-${ tnHeight } flex relative flex-shrink
         ` }>
           { !logo ? null :
             <Link to={ home }
@@ -57,7 +65,7 @@ const DesktopMenu = ({ menuItems = [],
               { logo }
             </Link>
           }
-          <div className="hidden sm:flex">
+          <div className="hidden xl:flex">
             { menuItems.map((page, i) => (
                 <NavItem key={ i } type='top'
                   to={ page.path } icon={ page.icon }
@@ -71,7 +79,9 @@ const DesktopMenu = ({ menuItems = [],
 
         </div>
       }
-      RightComponent={ RightComp }/>
+      RightComponent={ RightComp }
+    toggle={toggle}
+    open={open}/>
   )
 }
 

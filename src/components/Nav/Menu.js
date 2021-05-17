@@ -5,16 +5,18 @@ import { Link } from "react-router-dom"
 import { useClickOutside } from "../utils"
 import { useTheme } from "../../wrappers/with-theme"
 
-export const NavMenu = ({ control, children }) => {
+export const NavMenu = ({ control, children, customTheme }) => {
   const [open, setOpen] = React.useState(false),
     clickedOutside = React.useCallback(() => setOpen(false), []),
     [setRef] = useClickOutside(clickedOutside),
-    theme = useTheme();
+    theme = {...useTheme(), ...customTheme};
   return (
       <div ref={ setRef }
         className={ `${ theme.navMenu } ${ open ? theme.navMenuOpen : '' }` }
         onMouseEnter={ e => setOpen(true) }
-        onMouseLeave={ e => setOpen(false) }>
+        onMouseLeave={ e => setOpen(false) }
+        onClick={e => setOpen(!open)}
+      >
 
         <div className={ `
           text-right h-full ${ open ? 'border-b border-blue-100' : '' }
@@ -22,7 +24,7 @@ export const NavMenu = ({ control, children }) => {
           { control }
         </div>
         { !open ? null :
-          <div className={ `${ theme.navMenuBg } p-4 ` }>
+          <div className={ `${ theme.navMenuBg } p-4` }>
             { children }
           </div>
         }
