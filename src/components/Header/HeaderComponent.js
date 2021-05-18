@@ -33,11 +33,11 @@ const HeaderComponent = withAuth(({
         <div className={`w-full relative flex items-center justify-end ${theme.headerBg} ${className} h-${tnHeight}`}
              style={shadowed ? {boxShadow: "0px 6px 3px -3px rgba(0, 0, 0, 0.25)"} : null}>
 
-            <div className={`absolute inset-0 z-0 text-3xl font-bold flex-1 items-center h-${tnHeight}`}>
+            <div className={`inset-0 z-0 text-3xl font-bold flex-1 items-center h-${tnHeight} flex-grow`}>
                 {typeof LeftComp === "function" ? React.createElement(LeftComp) : LeftComp}
             </div>
 
-            <div className="flex-0 items-center relative z-10 pr-8">
+            <div className="flex-0 items-center relative z-10 pr-8 w-48 flex-shrink">
 
                 <div className='hidden xl:block'>
                     {RightComp}
