@@ -10,7 +10,7 @@ import { useComponents } from "../index"
 
 import { DEFAULT_TOP_NAV_HEIGHT } from "../constants"
 
-const MobileSidebar = ({ open, toggle,logo = null, menuItems=[] }) => {
+const MobileSidebar = ({ open, toggle,logo = null, topMenu, menuItems=[] }) => {
 	const theme = useTheme();
 	return (
 	<div style={{display: open ? 'block' : 'none' }} className="md:hidden">
@@ -32,6 +32,7 @@ const MobileSidebar = ({ open, toggle,logo = null, menuItems=[] }) => {
           			{ logo }
           			</Link>
           	 	</div>
+				{ topMenu }
 	          <nav className="flex-1">
 	            { menuItems.map((page, i) => (
 									<div key={ i } className={ page.sectionClass }>
@@ -52,7 +53,7 @@ const MobileSidebar = ({ open, toggle,logo = null, menuItems=[] }) => {
 }
 
 const DesktopSidebar = ({ menuItems = [],
-													logo = null, home = "/",
+													logo = null, topMenu, home = "/",
 													user, userMenu = false,
 													customTheme = {} }) => {
 	const theme = { ...useTheme(), ...customTheme },
@@ -81,10 +82,13 @@ const DesktopSidebar = ({ menuItems = [],
 	      	</Link>
 				}
 
+
         <nav className={ `
 					flex-1 ${ !logo ? `pt-${ tnHeight }` : "" }
 				` }>
-          { menuItems.map((page, i) => (
+			{ topMenu }
+
+			{ menuItems.map((page, i) => (
           		<SidebarItem key={ i }
 								to={ page.path } icon={ page.icon }
 								subMenus={ get(page, "subMenus", []) }>
