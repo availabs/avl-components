@@ -15,7 +15,10 @@ export const NavMenu = ({ control, children, customTheme }) => {
              className={`${theme.navMenu} ${open ? theme.navMenuOpen : ''}`}
              onMouseEnter={ e => setOpen(true) }
              onMouseLeave={ e => setOpen(false) }
-             onClick={ e => setOpen(!open) }
+             onClick={ e => {
+                 e.preventDefault();
+                 setOpen(!open)
+             } }
         >
             {open ?
                 <div className={ `${theme.navMenuBg} fixed p-3 -mt-5 ${open ? `block` : `hidden`} z-10` }>
