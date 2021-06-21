@@ -77,7 +77,7 @@ const Toggle = ({ togglePosition, position, doToggle, open, dir, theme, padding 
             transition: "all 500ms"
           } }
           className={ `
-            ${ theme.sidebarBg } text-gray-900 py-1 px-2
+            ${ theme.sidebarBg } py-1 px-2
             hover:${ theme.menuBg } hover:${ theme.textInfo }
             z-10 cursor-pointer
             absolute ${ position }-0 top-0
