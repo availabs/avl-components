@@ -24,7 +24,7 @@ const MobileMenu = ({ open, toggle, menuItems = [], customTheme = {}, home = "/"
                       ))
                       }
 
-                      <NavItem>
+                      <NavItem to="#">
                           { rightMenu }
                       </NavItem>
                   </div>

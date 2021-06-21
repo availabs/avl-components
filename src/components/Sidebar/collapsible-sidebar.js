@@ -37,6 +37,91 @@ const Shift = {
   unit: "rem"
 }
 
+const Toggle = ({ togglePosition, position, doToggle, open, dir, theme, padding }) => {
+  switch (togglePosition) {
+    case "middle":
+      return (
+        <div className={ `
+            rounded bg-white z-10 py-1 absolute hover:${ theme.textInfo }
+            ${ theme.sidebarBg } cursor-pointer flex flex-col
+            hover:${ theme.menuBg } transition ${ position }-0
+          ` }
+          style={ {
+            transform: `translateY(-50%)`,
+            top: "50%"
+          } }
+          onClick={ doToggle }>
+
+          <div className="fa fa-caret-left text-2xl pl-1 pr-2"
+            style={ {
+              transform: `scaleX(${ (open ? 1 : -1) * dir }`,
+              transition: "transform 500ms"
+            } }/>
+          <div className="fa fa-caret-left text-2xl pl-1 pr-2"
+            style={ {
+              transform: `scaleX(${ (open ? 1 : -1) * dir }`,
+              transition: "transform 500ms ease 250ms"
+            } }/>
+          <div className="fa fa-caret-left text-2xl pl-1 pr-2"
+            style={ {
+              transform: `scaleX(${ (open ? 1 : -1) * dir }`,
+              transition: "transform 500ms ease 500ms"
+            } }/>
+        </div>
+      )
+    default:
+      return (
+        <div onClick={ doToggle }
+          style={ {
+            transform: `translateX(${ open ? `-${ padding }px` : "0px" })`,
+            transition: "all 500ms"
+          } }
+          className={ `
+            ${ theme.accent4 } text-gray-900 py-1 px-2
+            hover:${ theme.menuBg } hover:${ theme.textInfo }
+            z-10 cursor-pointer
+            absolute ${ position }-0 top-0
+          ` }>
+          <div className="fa fa-caret-left text-lg"
+            style={ {
+              transform: `scaleX(${ (open ? 1 : -1) * dir })`,
+              transition: "transform 500ms"
+            } }/>
+        </div>
+      )
+  }
+}
+
+/*
+<div className={ `
+    rounded bg-white z-10 py-1 absolute hover:${ theme.textInfo }
+    ${ theme.sidebarBg } cursor-pointer flex flex-col
+    hover:${ theme.menuBg } transition ${ position }-0
+  ` }
+  style={ {
+    transform: `translateY(-50%)`,
+    top: "50%"
+  } }
+  onClick={ doToggle }>
+
+  <div className="fa fa-caret-left text-2xl pl-1 pr-2"
+    style={ {
+      transform: `scaleX(${ (open ? 1 : -1) * dir }`,
+      transition: "transform 500ms"
+    } }/>
+  <div className="fa fa-caret-left text-2xl pl-1 pr-2"
+    style={ {
+      transform: `scaleX(${ (open ? 1 : -1) * dir }`,
+      transition: "transform 500ms ease 250ms"
+    } }/>
+  <div className="fa fa-caret-left text-2xl pl-1 pr-2"
+    style={ {
+      transform: `scaleX(${ (open ? 1 : -1) * dir }`,
+      transition: "transform 500ms ease 500ms"
+    } }/>
+</div>
+*/
+
 export const CollapsibleSidebar = ({ placeBeside,
                                       width = 320,
                                       padding = 8,
@@ -44,6 +129,7 @@ export const CollapsibleSidebar = ({ placeBeside,
                                       startOpen = true,
                                       position = "left",
                                       customTheme= {},
+                                      togglePosition = "middle",
                                       shift = Shift }) => {
 
   const [state, dispatch] = React.useReducer(Reducer, startOpen, InitState);
@@ -118,25 +204,12 @@ export const CollapsibleSidebar = ({ placeBeside,
 
             { placeBeside }
 
-            <div className={ `
-                ${theme.accent4} text-gray-900 ${open ? `-ml-4` :  'ml-2' } z-10 py-1 absolute hover:${ theme.textInfo }
-               cursor-pointer flex flex-col
-                hover:${ theme.menuBg } transition ${ position }-0
-              ` }
-              style={ {
-                transform: `translateY(-50%)`,
-                top: "20px"
-              } }
-              onClick={ doToggle }>
-
-              <div className="fa fa-caret-left text-lg pl-2 pr-2"
-                style={ {
-                  transform: `scaleX(${ (open ? 1 : -1) * dir }`,
-                  transition: "transform 500ms"
-                } }/>
-              
-
-            </div>
+            <Toggle togglePosition={ togglePosition }
+              position={ position }
+              doToggle={ doToggle }
+              open={ open } dir={ dir }
+              theme={ theme }
+              padding={ padding }/>
 
           </div>
 
