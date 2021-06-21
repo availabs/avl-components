@@ -42,7 +42,7 @@ const Toggle = ({ togglePosition, position, doToggle, open, dir, theme, padding 
     case "middle":
       return (
         <div className={ `
-            rounded bg-white z-10 py-1 absolute hover:${ theme.textInfo }
+            rounded z-10 py-1 absolute hover:${ theme.textInfo }
             ${ theme.sidebarBg } cursor-pointer flex flex-col
             hover:${ theme.menuBg } transition ${ position }-0
           ` }
