@@ -42,7 +42,7 @@ const Toggle = ({ togglePosition, position, doToggle, open, dir, theme, padding 
     case "middle":
       return (
         <div className={ `
-            rounded bg-white z-10 py-1 absolute hover:${ theme.textInfo }
+            rounded z-10 py-1 absolute hover:${ theme.textInfo }
             ${ theme.sidebarBg } cursor-pointer flex flex-col
             hover:${ theme.menuBg } transition ${ position }-0
           ` }
@@ -77,7 +77,7 @@ const Toggle = ({ togglePosition, position, doToggle, open, dir, theme, padding 
             transition: "all 500ms"
           } }
           className={ `
-            ${ theme.accent4 } text-gray-900 py-1 px-2
+            ${ theme.sidebarBg } py-1 px-2
             hover:${ theme.menuBg } hover:${ theme.textInfo }
             z-10 cursor-pointer
             absolute ${ position }-0 top-0
