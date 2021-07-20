@@ -129,7 +129,8 @@ export const CollapsibleSidebar = ({ placeBeside,
                                       startOpen = true,
                                       position = "left",
                                       customTheme= {},
-                                      togglePosition = "middle",
+                                      togglePosition,
+                                      showToggle = true,
                                       shift = Shift }) => {
 
   const [state, dispatch] = React.useReducer(Reducer, startOpen, InitState);
@@ -204,12 +205,14 @@ export const CollapsibleSidebar = ({ placeBeside,
 
             { placeBeside }
 
-            <Toggle togglePosition={ togglePosition }
-              position={ position }
-              doToggle={ doToggle }
-              open={ open } dir={ dir }
-              theme={ theme }
-              padding={ padding }/>
+            { !showToggle ? null :
+              <Toggle togglePosition={ togglePosition }
+                position={ position }
+                doToggle={ doToggle }
+                open={ open } dir={ dir }
+                theme={ theme }
+                padding={ padding }/>
+            }
 
           </div>
 
