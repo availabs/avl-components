@@ -10,8 +10,8 @@ import get from "lodash.get"
 
 import { DEFAULT_TOP_NAV_HEIGHT } from "../constants"
 
-const FixedLayout = ({ header, headerBar = true,
-                        nav, navBar = "side",
+const FixedLayout = ({ headerBar = true,
+                        navPosition, navBar = "side",
                         userMenu = "header",
                         menus = [], menuItems, ...props }) => {
   const [open, setOpen] = React.useState(false),
@@ -21,9 +21,8 @@ const FixedLayout = ({ header, headerBar = true,
 
   const theme = useTheme();
 
-  navBar = nav || navBar;
-  headerBar = header || headerBar;
-  menuItems = menuItems || menus;
+  navBar = navPosition === undefined ? navBar : navPosition;
+  menuItems = menuItems === undefined ? menus : menuItems;
 
   return (
     <div className={ `
