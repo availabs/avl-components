@@ -54,7 +54,7 @@ const MobileSidebar = ({ open, toggle,logo = null, topMenu, menuItems=[] }) => {
 
 const DesktopSidebar = ({ menuItems = [],
 													logo = null, topMenu, home = "/",
-													user, userMenu = false,
+													userMenu = false,
 													customTheme = {} }) => {
 	const theme = { ...useTheme(), ...customTheme },
 		{ SideUserMenu } = useComponents();
@@ -115,4 +115,4 @@ const SideNav = props => (
 		<DesktopSidebar { ...props }/>
 	</React.Fragment>
 )
-export default withAuth(SideNav)
+export default SideNav

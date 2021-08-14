@@ -75,8 +75,8 @@ const processConfig = (config, i = [0], outerConfig = {}) => {
 // console.log("CONFIG PROPS:", config.props)
   return (
     <Component key={ getKey(config, i) }
-      { ...get(outerConfig, "props", {}) }
-      { ...get(config, "props", {}) }>
+      { ...get(config, "props", {}) }
+      { ...get(outerConfig, "props", {}) }>
       { children.map((child, ii) => processConfig(child, [...i, ii])) }
     </Component>
   )
