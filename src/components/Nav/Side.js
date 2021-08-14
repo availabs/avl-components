@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom'
 
 import get from "lodash.get"
 
-import { useTheme, withAuth } from "../../wrappers"
+import { useTheme } from "../../wrappers"
 
 import SidebarItem from './Item'
 import { useComponents } from "../index"
