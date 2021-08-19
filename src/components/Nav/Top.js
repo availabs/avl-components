@@ -59,7 +59,7 @@ const DesktopMenu = ({
           ))}
         </div>
 
-        <div class="-mr-2 flex items-center ">
+        <div class="flex items-center ">
           {!RightNav ? null : (
             <div className={`${theme.topmenuRightNavContainer}`}>
               <RightNav />
