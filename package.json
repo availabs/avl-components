@@ -1,6 +1,6 @@
 {
   "name": "@availabs/avl-components",
-  "version": "1.0.76",
+  "version": "1.0.75",
   "description": "Reusable components styled by tailwind css for use in AVAIL projects.",
   "main": "dist/index.js",
   "scripts": {
@@ -36,7 +36,7 @@
   "homepage": "https://github.com/availabs/avl-components#readme",
   "devDependencies": {
     "@babel/cli": "^7.12.1",
-    "@babel/core": "^7.15.0",
+    "@babel/core": "^7.12.3",
     "@babel/plugin-proposal-class-properties": "^7.12.1",
     "@babel/plugin-proposal-object-rest-spread": "^7.12.1",
     "@babel/plugin-transform-spread": "^7.12.1",
@@ -44,10 +44,7 @@
     "@babel/preset-react": "^7.12.5",
     "@typescript-eslint/eslint-plugin": "^4.0.0",
     "@typescript-eslint/parser": "^4.0.0",
-    "babel-cli": "^6.26.0",
-    "babel-core": "^7.0.0-bridge.0",
     "babel-eslint": "^10.0.0",
-    "babel-jest": "^27.0.6",
     "eslint": "^7.5.0",
     "eslint-config-react-app": "^6.0.0",
     "eslint-plugin-flowtype": "^5.2.0",
@@ -56,8 +53,7 @@
     "eslint-plugin-jsx-a11y": "^6.3.1",
     "eslint-plugin-react": "^7.20.3",
     "eslint-plugin-react-hooks": "^4.0.8",
-    "eslint-plugin-testing-library": "^3.9.0",
-    "regenerator-runtime": "^0.13.9"
+    "eslint-plugin-testing-library": "^3.9.0"
   },
   "peerDependencies": {
     "react": "16.x || 17.x",
