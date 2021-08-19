@@ -29,15 +29,24 @@ export const addWrappers = wraps => {
 
 const getKey = (config, i) => get(config, "key", `key-${ i.join("-") }`);
 
+const getFragment = comp =>
+  ({ children }) =>
+    <React.Fragment>
+      { comp }
+      { children }
+    </React.Fragment>
+
 const getBasicJSX = config => ({ children, ...props }) =>
   <config.type { ...props }>
     { children }
   </config.type>
 
 const getComponent = config =>
+  React.isValidElement(config) ? getFragment(config) :
   typeof config === "function" ? config :
-  typeof config === "string" ? () => config :
+  typeof config === "string" ? getFragment(config) :
   typeof config.type === "function" ? config.type :
+  typeof config.type === "object" ? config.type :
   get(ComponentLibrary, config.type, getBasicJSX(config))
 
 const applyWrappers = (Component, config) => {
@@ -63,6 +72,7 @@ const processConfig = (config, i = [0], outerConfig = {}) => {
     return processConfig(Component, i, config);
   }
   Component = applyWrappers(applyWrappers(Component, outerConfig), config);
+
   const children = [
     ...get(outerConfig, "children", []),
     ...get(config, "children", [])
@@ -75,8 +85,8 @@ const processConfig = (config, i = [0], outerConfig = {}) => {
 // console.log("CONFIG PROPS:", config.props)
   return (
     <Component key={ getKey(config, i) }
-      { ...get(outerConfig, "props", {}) }
-      { ...get(config, "props", {}) }>
+      { ...get(config, "props", {}) }
+      { ...get(outerConfig, "props", {}) }>
       { children.map((child, ii) => processConfig(child, [...i, ii])) }
     </Component>
   )

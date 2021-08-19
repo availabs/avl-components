@@ -31,7 +31,7 @@ export const TopUserMenuControl = ({ open = false, className = "", style = {}, .
   )
 }
 
-export const TopUserMenu = withAuth(({ user = {} }) => {
+export const TopUserMenu = withAuth(({ user }) => {
   const [open, setOpen] = React.useState(false),
     toggle = React.useCallback(() => {
       setOpen(open => !open);
@@ -42,9 +42,11 @@ export const TopUserMenu = withAuth(({ user = {} }) => {
 
     theme = useTheme();
 
+
+
   const { UserMenuItems, TopUserMenuControl } = useComponents();
 
-  return (
+  return !user ? null : (
     !user.authed ?
       <Link to="/auth/login">
         <TopUserMenuControl />
@@ -83,7 +85,7 @@ export const SideUserMenuControl = ({ open = false, label = "", className = "", 
   )
 }
 
-export const SideUserMenu = withAuth(({ user = {} }) => {
+export const SideUserMenu = withAuth(({ user }) => {
   const [open, setOpen] = React.useState(false),
     toggle = React.useCallback(() => {
       setOpen(open => !open);
@@ -96,7 +98,7 @@ export const SideUserMenu = withAuth(({ user = {} }) => {
 
   const { SideUserMenuControl, UserMenuItems } = useComponents();
 
-  return (
+  return !user ? null : (
     <div className="pb-6">
       { !user.authed ?
         <Link to="/auth/login">

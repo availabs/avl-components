@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
 
 import get from "lodash.get";
@@ -77,12 +77,11 @@ const MobileSidebar = ({
 
 const DesktopSidebar = ({ menuItems = [], logo = null, topMenu }) => {
 	const theme = useTheme();
-	console.log("DesktopSidebar", theme);
 	return (
 		<div
 			className={`
 			hidden md:flex z-20
-			${theme.sidebarWrapper}
+			${theme.sidenavWrapper}
 		`}
 		>
 			<div className={`flex-1 flex flex-col scrollbar`}>
@@ -109,10 +108,13 @@ const DesktopSidebar = ({ menuItems = [], logo = null, topMenu }) => {
 	);
 };
 
-const SideNav = (props) => (
-	<React.Fragment>
-		<MobileSidebar {...props} />
-		<DesktopSidebar {...props} />
-	</React.Fragment>
-);
+const SideNav = (props) => {
+	const [open, setOpen] = useState(false);
+	return (
+		<>
+			<MobileSidebar open={open} toggle={setOpen} {...props} />
+			<DesktopSidebar {...props} />
+		</>
+	);
+};
 export default SideNav;

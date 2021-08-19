@@ -68,12 +68,15 @@ const NavItem = ({
 			onMouseLeave={(e) => setShowSubMenu(false)}
 			onMouseOver={(e) => setShowSubMenu(true)}
 		>
-			{to ? (
+			{To[0] ? (
 				<Link to={To[0]} className={`${className ? className : navClass}`}>
 					{!icon ? null : (
-						<div className={`${className} flex justify-center items-center`}>
-							<span className={icon} />
-						</div>
+						<Icon
+							icon={icon}
+							className={
+								type === "side" ? theme.menuIconSide : theme.menuIconTop
+							}
+						/>
 					)}
 					{children}
 				</Link>
@@ -85,8 +88,9 @@ const NavItem = ({
 					{!icon ? null : (
 						<Icon
 							icon={icon}
-							className={theme.menuIcon || null}
-							showBlank={type === "side"}
+							className={
+								type === "side" ? theme.menuIconSide : theme.menuIconTop
+							}
 						/>
 					)}
 

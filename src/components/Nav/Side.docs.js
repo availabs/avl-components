@@ -1,13 +1,13 @@
 import SideNav from "./Side";
 
-export default {
+const SideNavDocs = {
 	Component: (props) => (
 		<div className="h-full w-full bg-gray-100">
 			<SideNav {...props} />
 		</div>
 	),
 	name: "Side Nav",
-	description: "A responsive verticle navigation component.",
+	description: "A responsive vertical navigation component.",
 	props: [
 		{
 			name: "menuItems",
@@ -77,3 +77,5 @@ export default {
 		},
 	],
 };
+
+export default SideNavDocs;
