@@ -1,98 +1,96 @@
-import React from "react"
-import { Link } from 'react-router-dom'
+import React, { useState } from "react";
 
-import get from "lodash.get"
+import get from "lodash.get";
 
-import { useTheme } from "../../wrappers/with-theme"
-import NavItem from './Item'
+import { useTheme } from "../../wrappers/with-theme";
+import NavItem from "./Item";
 
-import HeaderComponent from "../Header/HeaderComponent"
-
-import { DEFAULT_TOP_NAV_HEIGHT } from "../constants"
-
-const MobileMenu = ({ open, toggle, menuItems = [], customTheme = {}, home = "/" , rightMenu}) => {
-  const theme = { ...useTheme(), ...customTheme };
-  return (
-      <React.Fragment>
-          <div style={{display: open ? 'block' : 'none' }} className="md:hidden">
-              <div className={ `${ open ? 'sm:block xl:hidden relative' : 'hidden' } ${ theme.menuBg }` }>
-                  <div className="pt-2 pb-3">
-                      { menuItems.map((page, i) => (
-                          <NavItem key={ i } to={ page.path } icon={ page.icon } customTheme={customTheme}>
-                              { page.name }
-                          </NavItem>
-                      ))
-                      }
-
-                      <NavItem to="#">
-                          { rightMenu }
-                      </NavItem>
-                  </div>
-              </div>
-          </div>
-      </React.Fragment>
-  )
-}
-
-const DesktopMenu = ({ menuItems = [],
-                      open, toggle, logo,
-                      customTheme = {}, home = "/",
-                      userMenu = false,
-                      rightMenu = null,
-                      RightComponent = null }) => {
-
-  const theme = { ...useTheme(), ...customTheme };
-
-  const RightComp = rightMenu || RightComponent;
-
-  const tnHeight = theme.topNavHeight || DEFAULT_TOP_NAV_HEIGHT;
+const MobileMenu = ({ open, toggle, menuItems = [], RightNav = null }) => {
+  const theme = useTheme();
 
   return (
-    <HeaderComponent userMenu={ userMenu }
-      customTheme={ customTheme }
-      className={ `
-        h-${ tnHeight }
-        ${ theme.sidebarBg }
-        ${ theme.topMenuBorder }
-      ` }
-      LeftComponent={
-        <div className={ `
-          ${ theme.contentWidth } h-${ tnHeight } flex relative flex-shrink
-        ` }>
-          { !logo ? null :
-            <Link to={ home }
-              className={ `flex-0 flex items-center ${ theme.text }`}>
-              { logo }
-            </Link>
-          }
-          <div className="hidden xl:flex">
-            { menuItems.map((page, i) => (
-                <NavItem key={ i } type='top'
-                  to={ page.path } icon={ page.icon }
-                  customTheme={ customTheme }
-									subMenus={ get(page, "subMenus", []) }>
-                  { page.name }
-                </NavItem>
-              ))
-            }
-          </div>
+    <div
+      className={`${open ? "md:hidden" : "hidden"} ${
+        theme.topnavMobileContainer
+      }`}
+      id="mobile-menu"
+    >
+      <div className="">
+        {menuItems.map((page, i) => (
+          <NavItem
+            key={i}
+            type="top"
+            to={page.path}
+            icon={page.icon}
+            subMenus={get(page, "subMenus", [])}
+          >
+            {page.name}
+          </NavItem>
+        ))}
+      </div>
+      <div className="">{!RightNav ? null : <RightNav />}</div>
+    </div>
+  );
+};
 
+const DesktopMenu = ({
+  open,
+  toggle,
+  menuItems = [],
+  RightNav = null,
+  LeftNav = null,
+}) => {
+  const theme = useTheme();
+  return (
+    <div className={`${theme.topnavWrapper}`}>
+      <div className={`${theme.topnavContent} justify-between`}>
+        {!LeftNav ? null : <LeftNav />}
+        <div className={`${theme.topnavMenu}`}>
+          {menuItems.map((page, i) => (
+            <NavItem
+              key={i}
+              type="top"
+              to={page.path}
+              icon={page.icon}
+              subMenus={get(page, "subMenus", [])}
+            >
+              {page.name}
+            </NavItem>
+          ))}
         </div>
-      }
-      RightComponent={ RightComp }
-    toggle={toggle}
-    open={open}/>
-  )
-}
 
-const TopNav = ({ customTheme = {}, ...props }) => {
-  const theme = { ...useTheme(), ...customTheme };
-  const tnHeight = theme.topNavHeight || DEFAULT_TOP_NAV_HEIGHT;
+        <div class="flex items-center ">
+          {!RightNav ? null : (
+            <div className={`${theme.topmenuRightNavContainer}`}>
+              <RightNav />
+            </div>
+          )}
+          {/*<!-- Mobile menu button -->*/}
+          <button
+            type="button"
+            className="md:hidden bg-white inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-300"
+            onClick={() => toggle(!open)}
+          >
+            <span class="sr-only">Open main menu</span>
+            <div className={`flex justify-center items-center text-2xl`}>
+              <span
+                className={!open ? "os-icon os-icon-menu" : "os-icon os-icon-x"}
+              />
+            </div>
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+const TopNav = ({ ...props }) => {
+  const [open, setOpen] = useState(false);
   return (
-    <nav className={ `${ theme.menuBg } h-${ tnHeight }` }>
-      <DesktopMenu customTheme={ customTheme } { ...props }/>
-      <MobileMenu customTheme={ customTheme } { ...props }/>
+    <nav>
+      <DesktopMenu open={open} toggle={setOpen} {...props} />
+      <MobileMenu open={open} {...props} />
     </nav>
-  )
-}
+  );
+};
 export default TopNav;
