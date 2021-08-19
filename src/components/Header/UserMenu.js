@@ -33,7 +33,7 @@ export const TopUserMenuControl = ({ open = false, className = "", style = {}, .
 
 export const TopUserMenu = withAuth(({ user }) => {
   const [open, setOpen] = React.useState(false),
-    toggle = React.useCallback(() => {
+    toggle = React.useCallback(e => {
       setOpen(open => !open);
     }, []),
 
@@ -63,7 +63,7 @@ export const TopUserMenu = withAuth(({ user }) => {
             ` }
             style={ { top: "100%", minWidth: "8rem" } }>
 
-            <UserMenuItems />
+            <UserMenuItems toggle={ toggle }/>
 
           </div>
         }
@@ -116,7 +116,7 @@ export const SideUserMenu = withAuth(({ user }) => {
                 ` }
                 style={ { bottom: "100%", minWidth: "8rem" } }>
 
-                <UserMenuItems />
+                <UserMenuItems toggle={ toggle }/>
 
               </div>
             }
@@ -126,43 +126,48 @@ export const SideUserMenu = withAuth(({ user }) => {
   )
 })
 
-export const UserMenuItem = ({ to = "#", children }) => {
-  const theme = useTheme();
-  return (
-    <Link to={ to }>
-      <div className={ `
-        rounded cursor-pointer px-2 whitespace-nowrap
-        ${ theme.menuBg } ${ theme.menuBgHover }
-        ${ theme.menuText } ${ theme.menuTextHover }
-      ` }>
-        { children }
-      </div>
-    </Link>
-  )
-}
-
-export const UserMenuSeparator = () =>
-  <div className="border my-1"/>
-
-export const UserMenuItems = withAuth(({ user = {} }) => {
+export const UserMenuItems = withAuth(({ user = {}, toggle }) => {
   const { UserMenuSeparator, UserMenuItem } = useComponents();
   return (
     <>
       <div className="mb-1 border-b-2">
         { user.email }
       </div>
-      <UserMenuItem to="/auth/profile">
+      <UserMenuItem to="/auth/profile"
+        toggle={ toggle }>
         Profile
       </UserMenuItem>
       { get(user, "authLevel", -1) < 5 ? null :
-        <UserMenuItem to="/auth/project-management">
+        <UserMenuItem to="/auth/project-management"
+          toggle={ toggle }>
           Project Management
         </UserMenuItem>
       }
       <UserMenuSeparator />
-      <UserMenuItem to="/auth/logout">
+      <UserMenuItem to="/auth/logout"
+        toggle={ toggle }>
         Logout
       </UserMenuItem>
     </>
   )
 })
+
+export const UserMenuItem = ({ to = "#", toggle, children }) => {
+  const theme = useTheme();
+  return (
+    <div onClick={ toggle }>
+      <Link to={ to }>
+        <div className={ `
+          rounded cursor-pointer px-2 whitespace-nowrap
+          ${ theme.menuBg } ${ theme.menuBgHover }
+          ${ theme.menuText } ${ theme.menuTextHover }
+        ` }>
+          { children }
+        </div>
+      </Link>
+    </div>
+  )
+}
+
+export const UserMenuSeparator = () =>
+  <div className="border my-1"/>
