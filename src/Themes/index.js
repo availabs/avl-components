@@ -181,6 +181,11 @@ const light_base = {
 	menuTextActive: "text-teal-500",
 	menuTextActiveHover: "hover:text-teal-700",
 
+	topnavWrapper: `w-full bg-gray-100`,
+	topnavContent: `flex w-full `,
+	topnavMenu: `hidden md:flex flex-1 h-full overflow-x-auto overflow-y-hidden scrollbar-sm`,
+	sidenavWrapper: `bg-gray-100 w-56 border-r border-gray-200 h-screen pt-16 z-50`,
+
 	headerBg: "bg-gray-200",
 	headerBgHover: "hover:bg-gray-400",
 
@@ -289,13 +294,13 @@ const TEST_THEME_BASE = {
 	topnavWrapper: `w-full bg-gray-200`,
 	topnavContent: `flex w-full `,
 	topnavMenu: `hidden md:flex flex-1 h-full overflow-x-auto overflow-y-hidden scrollbar-sm`,
-	
+	sidenavWrapper: `bg-gray-200 w-56 border-r border-gray-200 h-screen pt-16 z-50`,
+
 
 	sidebarBg: "bg-gray-200",
 	sidebarBorder: "",
 	sidebarW: "56",
-	sidenavWrapper: `bg-gray-200 w-56 border-r border-gray-200 h-screen pt-16 z-50`,
-
+	
 	headerBg: "bg-gray-200",
 	headerBgHover: "hover:bg-gray-400",
 
