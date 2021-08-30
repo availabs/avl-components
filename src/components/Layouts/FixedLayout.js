@@ -61,13 +61,15 @@ const FixedLayout = ({ headerBar = true,
       }
 
       { navBar !== 'side' ? null : (
-        <SideNav { ...props }
-          menuItems={ menuItems }
-          open={ open }
-          toggle={ toggle }
-          userMenu={ !headerBar || userMenu === "nav" }/>
-        )
-      }
+        <div className='fixed'>
+          <SideNav { ...props }
+            menuItems={ menuItems }
+            open={ open }
+            toggle={ toggle }
+            userMenu={ !headerBar || userMenu === "nav" }/>
+          
+        </div>
+      )}
 
       <div className={ `
         flex-1 flex

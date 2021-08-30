@@ -287,6 +287,8 @@ const TEST_THEME_BASE = {
 
 	sidebarBg: "bg-gray-200",
 	sidebarBorder: "",
+	sidebarW: "56",
+	sidenavWrapper: `bg-gray-200 w-56 border-r border-gray-200 h-screen pt-20`,
 
 	headerBg: "bg-gray-200",
 	headerBgHover: "hover:bg-gray-400",
@@ -323,7 +325,7 @@ const TEST_THEME_BASE = {
 	contentWidth: "w-full max-w-7xl mx-auto",
 	contentPadding: "py-4",
 
-	sidebarW: "56",
+	
 	transition: "transition ease-in-out duration-150",
 
 	tableInfoBar: "bg-white",
