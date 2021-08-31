@@ -289,12 +289,16 @@ const TEST_THEME_BASE = {
 	menuTextHover: "hover:text-gray-700",
 	menuTextActive: "text-teal-500",
 	menuTextActiveHover: "hover:text-teal-700",
+	menuOpenIcon: `fas fa-bars`,
+	menuCloseIcon: `fas fa-times`,
 
 
-	topnavWrapper: `w-full bg-gray-200`,
-	topnavContent: `flex w-full max-w-7xl mx-auto `,
+	topnavWrapper: `w-full bg-gray-200 h-16`,
+	topnavContent: `flex w-full max-w-7xl mx-auto h-full`,
 	topnavMenu: `hidden md:flex flex-1 h-full overflow-x-auto overflow-y-hidden scrollbar-sm`,
 	sidenavWrapper: `bg-gray-200 w-56 border-r border-gray-200 h-screen pt-16 z-50`,
+	topmenuRightNavContainer: "hidden md:block h-full",
+
 
 
 	sidebarBg: "bg-gray-200",
@@ -448,10 +452,12 @@ const avl_design = {
 	/* ----- 
      Top Nav Theme Components Minimal 
   ------*/
-	topnavWrapper: `w-full ${colors[color].contentBg}`,
-	topnavContent: `flex w-full `,
+	topnavWrapper: `w-full h-full ${colors[color].contentBg}`,
+	topnavContent: `flex w-full h-full`,
 	topnavMenu: `hidden md:flex flex-1 h-full overflow-x-auto overflow-y-hidden scrollbar-sm`,
 	menuIconTop: `text-${colors[color].accentColor} ${sizes[size].icon} group-hover:${colors[color].highlightColor}`,
+	menuOpenIcon: `os-icon os-icon-menu`,
+	menuCloseIcon: `os-icon os-icon-x`,
 
 	navitemTop: `
     group font-sans w-full

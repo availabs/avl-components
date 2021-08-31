@@ -42,7 +42,7 @@ export const input = [
 ]
 export const navitem = [
 	{ $default: "border-transparent font-medium focus:outline-none @transition"},
-	{ Top: "h-16 inline-flex items-center px-4 text-base leading-5",
+	{ Top: "h-16 flex flex-1 items-center px-4 text-base leading-5",
 		Side: "h-12 mb-1 flex pl-3 pr-4 py-2 border-l-4 text-base"
 	},
 	{ $default: "@menuBg @menuBgHover @menuText @menuTextHover",

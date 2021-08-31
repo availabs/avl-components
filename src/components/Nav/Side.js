@@ -54,7 +54,7 @@ const MobileSidebar = ({
 								{logo}
 							</Link>
 						</div>
-						{topMenu}
+						<div>{topMenu}</div>
 						<nav className="flex-1">
 							{menuItems.map((page, i) => (
 								<div key={i} className={page.sectionClass}>
@@ -69,9 +69,8 @@ const MobileSidebar = ({
 								</div>
 							))}
 						</nav>
-						<div className='border border-red-500 w-full h-16'>
-						test
-						{bottomMenu}
+						<div>
+							{bottomMenu}
 						</div>
 					</div>
 				</div>
