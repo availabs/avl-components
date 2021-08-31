@@ -5,7 +5,7 @@ import get from "lodash.get";
 import { useTheme } from "../../wrappers/with-theme";
 import NavItem from "./Item";
 
-const MobileMenu = ({ open, toggle, menuItems = [], RightNav = null }) => {
+const MobileMenu = ({ open, toggle, menuItems = [], rightMenu = null }) => {
   const theme = useTheme();
 
   return (
@@ -28,7 +28,7 @@ const MobileMenu = ({ open, toggle, menuItems = [], RightNav = null }) => {
           </NavItem>
         ))}
       </div>
-      <div className="">{RightNav}</div>
+      <div className="">{rightMenu}</div>
     </div>
   );
 };
@@ -37,14 +37,14 @@ const DesktopMenu = ({
   open,
   toggle,
   menuItems = [],
-  RightNav = null,
-  LeftNav = null,
+  rightMenu = null,
+  leftMenu = null,
 }) => {
   const theme = useTheme();
   return (
     <div className={`${theme.topnavWrapper}`}>
       <div className={`${theme.topnavContent} justify-between`}>
-        <div>{LeftNav}</div>
+        <div>{leftMenu}</div>
         <div className={`${theme.topnavMenu}`}>
           {menuItems.map((page, i) => (
             <NavItem
@@ -60,7 +60,7 @@ const DesktopMenu = ({
         </div>
 
         <div className="flex items-center justify-center h-full">
-          <div className={`${theme.topmenuRightNavContainer}`}>{RightNav}</div>
+          <div className={`${theme.topmenuRightNavContainer}`}>{rightMenu}</div>
 
           {/*<!-- Mobile menu button -->*/}
           <button

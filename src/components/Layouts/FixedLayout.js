@@ -22,7 +22,7 @@ const FixedLayout = ({ headerBar = true,
     }, []);
 
   const theme = useTheme();
-  const {TopUserMenu} = useComponents();
+  const {TopUserMenu, SideUserMenu} = useComponents();
 
   navBar = navPosition === undefined ? navBar : navPosition;
   menuItems = menuItems === undefined ? menus : menuItems;
@@ -38,7 +38,7 @@ const FixedLayout = ({ headerBar = true,
               menuItems={ menuItems }
               open={ open }
               toggle={ toggle }
-              RightNav={ !headerBar || userMenu === "nav" ? (<TopUserMenu />) : '' }/>
+              rightMenu={ !headerBar || userMenu === "nav" ? (<TopUserMenu />) : '' }/>
           </div>
         )
       }
@@ -69,7 +69,7 @@ const FixedLayout = ({ headerBar = true,
             menuItems={ menuItems }
             open={ open }
             toggle={ toggle }
-            userMenu={ !headerBar || userMenu === "nav" }/>
+            bottomMenu={ !headerBar || userMenu === "nav" ? (<SideUserMenu />) : '' }/>
           
         </div>
       )}
