@@ -59,7 +59,7 @@ const DesktopMenu = ({
           ))}
         </div>
 
-        <div class="flex items-center ">
+        <div className="flex items-center ">
           {!RightNav ? null : (
             <div className={`${theme.topmenuRightNavContainer}`}>
               <RightNav />
@@ -71,7 +71,7 @@ const DesktopMenu = ({
             className="md:hidden bg-white inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-300"
             onClick={() => toggle(!open)}
           >
-            <span class="sr-only">Open main menu</span>
+            <span className="sr-only">Open main menu</span>
             <div className={`flex justify-center items-center text-2xl`}>
               <span
                 className={!open ? "os-icon os-icon-menu" : "os-icon os-icon-x"}
