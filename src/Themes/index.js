@@ -285,14 +285,14 @@ const TEST_THEME_BASE = {
 	menuBgHover: "hover:bg-gray-300",
 	menuBgActive: "bg-teal-200",
 	menuBgActiveHover: "hover:bg-teal-300",
-	menuText: "h-12 text-gray-500",
+	menuText: "text-gray-500",
 	menuTextHover: "hover:text-gray-700",
 	menuTextActive: "text-teal-500",
 	menuTextActiveHover: "hover:text-teal-700",
 
 
 	topnavWrapper: `w-full bg-gray-200`,
-	topnavContent: `flex w-full `,
+	topnavContent: `flex w-full max-w-7xl mx-auto `,
 	topnavMenu: `hidden md:flex flex-1 h-full overflow-x-auto overflow-y-hidden scrollbar-sm`,
 	sidenavWrapper: `bg-gray-200 w-56 border-r border-gray-200 h-screen pt-16 z-50`,
 

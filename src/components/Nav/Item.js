@@ -87,11 +87,11 @@ const NavItem = ({
 			)}
 
 			{!showSubMenu || !subMenus.length ? null : (
-				<div className={`absolute ${type === "side" ? '-mt-11 left-56' : 'mt-12'}`}>
+				<div className={`absolute ${type === "side" ? 'pt-1 -mt-14  left-full' : 'top-full'}`}>
 					<div
 						className={`
 							flex
-							${type === "side" ? `pl-1` : "h-10"}
+							
 						`}
 						
 					>

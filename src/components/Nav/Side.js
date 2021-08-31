@@ -13,6 +13,7 @@ const MobileSidebar = ({
 	logo = null,
 	topMenu,
 	menuItems = [],
+	bottomMenu
 }) => {
 	const theme = useTheme();
 	return (
@@ -68,6 +69,10 @@ const MobileSidebar = ({
 								</div>
 							))}
 						</nav>
+						<div className='border border-red-500 w-full h-16'>
+						test
+						{bottomMenu}
+						</div>
 					</div>
 				</div>
 			</div>
@@ -75,7 +80,7 @@ const MobileSidebar = ({
 	);
 };
 
-const DesktopSidebar = ({ menuItems = [], logo = null, topMenu }) => {
+const DesktopSidebar = ({ menuItems = [], logo = null, topMenu, bottomMenu }) => {
 	const theme = useTheme();
 	return (
 		<div
@@ -101,8 +106,7 @@ const DesktopSidebar = ({ menuItems = [], logo = null, topMenu }) => {
 						</SidebarItem>
 					))}
 				</nav>
-
-				{/*{!userMenu ? null : <SideUserMenu />}*/}
+				{bottomMenu}
 			</div>
 		</div>
 	);
