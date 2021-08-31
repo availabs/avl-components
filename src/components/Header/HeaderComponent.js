@@ -37,7 +37,7 @@ const HeaderComponent = withAuth(({
                 {typeof LeftComp === "function" ? React.createElement(LeftComp) : LeftComp}
             </div>
 
-            <div className="flex-0 items-center relative z-10 pr-8 w-48 flex-shrink">
+            <div className="flex flex-0 items-center relative z-10 pr-8 w-48 flex-shrink">
 
                 <div className='hidden xl:block'>
                     {RightComp}
