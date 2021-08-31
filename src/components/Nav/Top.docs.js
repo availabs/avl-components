@@ -52,7 +52,7 @@ export default {
 		{
 			name: "LeftNav",
 			type: "Component",
-			default: () => (
+			default: (
 				<div className="flex items-center p-4 justify-center h-12">
 					<span className="text-lg font-medium uppercase">AVL Design</span>
 				</div>
@@ -61,8 +61,8 @@ export default {
 		{
 			name: "RightNav",
 			type: "Component",
-			default: () => (
-				<div className="flex items-center md:w-32 justify-center md:h-full h-12 w-full hover:bg-gray-400 hover:text-white">
+			default: (
+				<div className="flex items-center md:w-32 justify-center h-full w-full hover:bg-gray-400 hover:text-white">
 					<span className="text-sm cursor-pointer">Login</span>
 				</div>
 			),

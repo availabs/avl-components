@@ -28,7 +28,7 @@ const MobileMenu = ({ open, toggle, menuItems = [], RightNav = null }) => {
           </NavItem>
         ))}
       </div>
-      <div className="">{!RightNav ? null : <RightNav />}</div>
+      <div className="">{RightNav}</div>
     </div>
   );
 };
@@ -44,7 +44,7 @@ const DesktopMenu = ({
   return (
     <div className={`${theme.topnavWrapper}`}>
       <div className={`${theme.topnavContent} justify-between`}>
-        <div>{!LeftNav ? null : <LeftNav />}</div>
+        <div>{LeftNav}</div>
         <div className={`${theme.topnavMenu}`}>
           {menuItems.map((page, i) => (
             <NavItem
@@ -60,11 +60,8 @@ const DesktopMenu = ({
         </div>
 
         <div className="flex items-center justify-center h-full">
-          {!RightNav ? null : (
-            <div className={`${theme.topmenuRightNavContainer}`}>
-              <RightNav />
-            </div>
-          )}
+          <div className={`${theme.topmenuRightNavContainer}`}>{RightNav}</div>
+
           {/*<!-- Mobile menu button -->*/}
           <button
             type="button"
