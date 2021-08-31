@@ -44,7 +44,7 @@ const DesktopMenu = ({
   return (
     <div className={`${theme.topnavWrapper}`}>
       <div className={`${theme.topnavContent} justify-between`}>
-        {!LeftNav ? null : <LeftNav />}
+        <div>{!LeftNav ? null : <LeftNav />}</div>
         <div className={`${theme.topnavMenu}`}>
           {menuItems.map((page, i) => (
             <NavItem
@@ -59,7 +59,7 @@ const DesktopMenu = ({
           ))}
         </div>
 
-        <div className="flex items-center ">
+        <div className="flex items-center justify-center h-full">
           {!RightNav ? null : (
             <div className={`${theme.topmenuRightNavContainer}`}>
               <RightNav />
@@ -74,7 +74,7 @@ const DesktopMenu = ({
             <span className="sr-only">Open main menu</span>
             <div className={`flex justify-center items-center text-2xl`}>
               <span
-                className={!open ? "os-icon os-icon-menu" : "os-icon os-icon-x"}
+                className={!open ? theme.menuOpenIcon : theme.menuCloseIcon}
               />
             </div>
           </button>

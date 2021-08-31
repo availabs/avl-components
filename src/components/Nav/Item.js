@@ -7,18 +7,6 @@ import { useTheme } from "../../wrappers/with-theme";
 
 import get from "lodash.get";
 
-const STYLES = {
-	side: {
-		top: "0%",
-		left: "100%",
-	},
-	top: {
-		top: "100%",
-		left: "50%",
-		transform: "translateX(-50%)",
-	},
-};
-
 const NavItem = ({
 	children,
 	icon,
@@ -99,30 +87,32 @@ const NavItem = ({
 			)}
 
 			{!showSubMenu || !subMenus.length ? null : (
-				<div
-					className={`
-						absolute flex
-						${type === "side" ? `pl-1` : "h-10"}
-					`}
-					style={STYLES[type]}
-				>
+				<div className={`absolute ${type === "side" ? 'pt-1 -mt-14  left-full' : 'top-full'}`}>
 					<div
 						className={`
-							flex whitespace-nowrap
-							${type === "side" ? "flex-col" : "flex-row"}
+							flex
+							
 						`}
-						style={{
-							minWidth:
-								type === "top"
-									? null
-									: `${+get(theme, "sidebarW", 64) * 0.25}rem`,
-						}}
+						
 					>
-						{subMenus.map((sm, i) => (
-							<NavItem key={i} to={sm.path} icon={sm.icon} type={type}>
-								{sm.name}
-							</NavItem>
-						))}
+						<div
+							className={`
+								flex whitespace-nowrap
+								${type === "side" ? "flex-col" : "flex-row"}
+							`}
+							style={{
+								minWidth:
+									type === "top"
+										? null
+										: `${+get(theme, "sidebarW", 64) * 0.25}rem`,
+							}}
+						>
+							{subMenus.map((sm, i) => (
+								<NavItem key={i} to={sm.path} icon={sm.icon} type={type}>
+									{sm.name}
+								</NavItem>
+							))}
+						</div>
 					</div>
 				</div>
 			)}

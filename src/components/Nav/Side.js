@@ -13,6 +13,7 @@ const MobileSidebar = ({
 	logo = null,
 	topMenu,
 	menuItems = [],
+	bottomMenu
 }) => {
 	const theme = useTheme();
 	return (
@@ -53,7 +54,7 @@ const MobileSidebar = ({
 								{logo}
 							</Link>
 						</div>
-						{topMenu}
+						<div>{topMenu}</div>
 						<nav className="flex-1">
 							{menuItems.map((page, i) => (
 								<div key={i} className={page.sectionClass}>
@@ -68,6 +69,9 @@ const MobileSidebar = ({
 								</div>
 							))}
 						</nav>
+						<div>
+							{bottomMenu}
+						</div>
 					</div>
 				</div>
 			</div>
@@ -75,7 +79,7 @@ const MobileSidebar = ({
 	);
 };
 
-const DesktopSidebar = ({ menuItems = [], logo = null, topMenu }) => {
+const DesktopSidebar = ({ menuItems = [], logo = null, topMenu, bottomMenu }) => {
 	const theme = useTheme();
 	return (
 		<div
@@ -101,8 +105,7 @@ const DesktopSidebar = ({ menuItems = [], logo = null, topMenu }) => {
 						</SidebarItem>
 					))}
 				</nav>
-
-				{/*{!userMenu ? null : <SideUserMenu />}*/}
+				{bottomMenu}
 			</div>
 		</div>
 	);
