@@ -297,7 +297,7 @@ const TEST_THEME_BASE = {
 	topnavContent: `flex w-full max-w-7xl mx-auto h-full`,
 	topnavMenu: `hidden md:flex flex-1 h-full overflow-x-auto overflow-y-hidden scrollbar-sm`,
 	sidenavWrapper: `bg-gray-200 w-56 border-r border-gray-200 h-screen pt-16 z-50`,
-	topmenuRightNavContainer: "hidden md:block h-full",
+	topmenuRightNavContainer: "h-full",
 
 
 

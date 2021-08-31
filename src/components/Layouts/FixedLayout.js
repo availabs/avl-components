@@ -3,6 +3,8 @@ import React from 'react';
 import SideNav from '../Nav/Side'
 import TopNav from '../Nav/Top'
 import { useTheme } from "../../wrappers/with-theme"
+import {useComponents} from "../index"
+
 
 import HeaderComponent from "../Header/HeaderComponent"
 
@@ -20,6 +22,7 @@ const FixedLayout = ({ headerBar = true,
     }, []);
 
   const theme = useTheme();
+  const {TopUserMenu} = useComponents();
 
   navBar = navPosition === undefined ? navBar : navPosition;
   menuItems = menuItems === undefined ? menus : menuItems;
@@ -35,7 +38,7 @@ const FixedLayout = ({ headerBar = true,
               menuItems={ menuItems }
               open={ open }
               toggle={ toggle }
-              userMenu={ !headerBar || userMenu === "nav" }/>
+              RightNav={ !headerBar || userMenu === "nav" ? (<TopUserMenu />) : '' }/>
           </div>
         )
       }
