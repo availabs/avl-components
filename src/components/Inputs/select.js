@@ -128,8 +128,11 @@ class Select extends React.Component {
     } else {
       values = this.props.value;
     }
-    return this.getOptions().filter((option) => {
-      return values.includes(this.props.valueAccessor(option));
+    return this.getOptions().filter(option => {
+      // return values.includes(this.props.valueAccessor(option));
+      return values.reduce((a, c) => {
+        return a || deepequal(this.props.valueAccessor(option), c);
+      }, false)
     });
   }
   addItem(e, v) {
