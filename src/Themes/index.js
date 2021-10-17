@@ -171,6 +171,8 @@ const light_base = {
 		"mb-1 group flex pl-3 pr-4 py-2 border-l-4 border-indigo-500 text-base font-medium text-indigo-600 bg-indigo-100 focus:outline-none hover:text-indigo-800 focus:text-indigo-800 hover:bg-indigo-200 focus:bg-indigo-200 focus:border-indigo-700 transition duration-150 ease-in-out",
 
 	bg: "bg-gray-100",
+	menuButton:
+		"md:hidden bg-white inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-300",
 
 	menuBg: "bg-gray-200",
 	menuBgHover: "hover:bg-gray-300",
@@ -297,6 +299,8 @@ const TEST_THEME_BASE = {
 	topnavMenu: `hidden md:flex flex-1 h-full overflow-x-auto overflow-y-hidden scrollbar-sm`,
 	sidenavWrapper: `bg-gray-200 w-56 border-r border-gray-200 h-screen pt-16 z-50`,
 	topmenuRightNavContainer: "h-full",
+	menuButton:
+		"md:hidden bg-white inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-300",
 
 	sidebarBg: "bg-gray-200",
 	sidebarBorder: "",
@@ -468,6 +472,8 @@ const avl_design = {
     ${colors[color].accentBg} hover:${colors[color].highlightColor} 
     focus:outline-none focus:text-gray-800 focus:bg-gray-50 focus:border-gray-300 
     transition cursor-pointer`,
+	menuButton:
+		"md:hidden bg-white inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-300",
 
 	/* ------------------------- */
 	shadow: "shadow",
