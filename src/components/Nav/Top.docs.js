@@ -50,7 +50,7 @@ export default {
 			],
 		},
 		{
-			name: "LeftNav",
+			name: "leftMenu",
 			type: "Component",
 			default: (
 				<div className="flex items-center p-4 justify-center h-12">
@@ -59,10 +59,10 @@ export default {
 			),
 		},
 		{
-			name: "RightNav",
+			name: "rightMenu",
 			type: "Component",
 			default: (
-				<div className="flex items-center md:w-32 justify-center h-full w-full hover:bg-gray-400 hover:text-white">
+				<div className="flex items-center md:w-32 justify-center h-12 w-full hover:bg-gray-400 hover:text-white">
 					<span className="text-sm cursor-pointer">Login</span>
 				</div>
 			),

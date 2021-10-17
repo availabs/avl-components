@@ -81,19 +81,21 @@ const NavItem = ({
 							}
 						/>
 					)}
-
 					{children}
 				</div>
 			)}
 
 			{!showSubMenu || !subMenus.length ? null : (
-				<div className={`absolute ${type === "side" ? 'pt-1 -mt-14  left-full' : 'top-full'}`}>
+				<div
+					className={`absolute ${
+						type === "side" ? "pt-1 -mt-14 left-full" : "top-full"
+					}`}
+				>
 					<div
 						className={`
 							flex
 							
 						`}
-						
 					>
 						<div
 							className={`

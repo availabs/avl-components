@@ -292,19 +292,16 @@ const TEST_THEME_BASE = {
 	menuOpenIcon: `fas fa-bars`,
 	menuCloseIcon: `fas fa-times`,
 
-
 	topnavWrapper: `w-full bg-gray-200 h-16`,
 	topnavContent: `flex w-full max-w-7xl mx-auto h-full`,
 	topnavMenu: `hidden md:flex flex-1 h-full overflow-x-auto overflow-y-hidden scrollbar-sm`,
 	sidenavWrapper: `bg-gray-200 w-56 border-r border-gray-200 h-screen pt-16 z-50`,
 	topmenuRightNavContainer: "h-full",
 
-
-
 	sidebarBg: "bg-gray-200",
 	sidebarBorder: "",
 	sidebarW: "56",
-	
+
 	headerBg: "bg-gray-200",
 	headerBgHover: "hover:bg-gray-400",
 
@@ -340,7 +337,6 @@ const TEST_THEME_BASE = {
 	contentWidth: "w-full max-w-7xl mx-auto",
 	contentPadding: "py-4",
 
-	
 	transition: "transition ease-in-out duration-150",
 
 	tableInfoBar: "bg-white",
