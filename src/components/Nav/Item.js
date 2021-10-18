@@ -1,5 +1,5 @@
 import React from "react";
-import { Link, useRouteMatch } from "react-router-dom";
+import { Link, useRouteMatch, useHistory } from "react-router-dom";
 
 import Icon from "../Icons";
 
@@ -18,6 +18,7 @@ const NavItem = ({
 	subMenus = [],
 }) => {
 	const theme = useTheme();
+	const history = useHistory();
 
 	const To = React.useMemo(() => {
 		if (!Array.isArray(to)) {
@@ -49,73 +50,64 @@ const NavItem = ({
 	const [showSubMenu, setShowSubMenu] = React.useState(false);
 
 	return (
-		<React.Fragment
+		<div
+			onClick={
+				onClick
+					? onClick
+					: () => {
+							if (To[0]) {
+								history.push(To[0]);
+							}
+					  }
+			}
+			className={`${className ? className : navClass}`}
 			onMouseLeave={(e) => setShowSubMenu(false)}
 			onMouseOver={(e) => setShowSubMenu(true)}
 		>
-			{To[0] ? (
-				<Link to={To[0]} className={`${className ? className : navClass}`}>
-					{!icon ? null : (
-						<Icon
-							icon={icon}
-							className={
-								type === "side" ? theme.menuIconSide : theme.menuIconTop
-							}
-						/>
-					)}
-					{children}
-				</Link>
-			) : (
-				<div
-					onClick={onClick ? onClick : () => {}}
-					className={`${className ? className : navClass}`}
-				>
-					{!icon ? null : (
-						<Icon
-							icon={icon}
-							className={
-								type === "side" ? theme.menuIconSide : theme.menuIconTop
-							}
-						/>
-					)}
-					{children}
-				</div>
+			{!icon ? null : (
+				<Icon
+					icon={icon}
+					className={type === "side" ? theme.menuIconSide : theme.menuIconTop}
+				/>
 			)}
-
-			{!showSubMenu || !subMenus.length ? null : (
-				<div
-					className={`absolute ${
-						type === "side" ? "pt-1 -mt-14 left-full" : "top-full"
-					}`}
-				>
-					<div
-						className={`
-							flex
-							
-						`}
-					>
-						<div
-							className={`
-								flex whitespace-nowrap
-								${type === "side" ? "flex-col" : "flex-row"}
-							`}
-							style={{
-								minWidth:
-									type === "top"
-										? null
-										: `${+get(theme, "sidebarW", 64) * 0.25}rem`,
-							}}
-						>
-							{subMenus.map((sm, i) => (
-								<NavItem key={i} to={sm.path} icon={sm.icon} type={type}>
-									{sm.name}
-								</NavItem>
-							))}
-						</div>
-					</div>
-				</div>
-			)}
-		</React.Fragment>
+			{children}
+			<SubMenu showSubMenu={showSubMenu} subMenus={subMenus} type={type} />
+		</div>
 	);
 };
 export default NavItem;
+
+const SubMenu = ({ showSubMenu, subMenus, type }) => {
+	const theme = useTheme();
+	if (!showSubMenu || !subMenus.length) {
+		return null;
+	}
+	return (
+		<div
+			className={`absolute ${
+				type === "side" ? "pt-1 -mt-14 left-full" : "top-full"
+			}`}
+		>
+			<div className={`flex`}>
+				<div
+					className={`
+						flex whitespace-nowrap
+						${type === "side" ? "flex-col" : "flex-row"}
+					`}
+					style={{
+						minWidth:
+							type === "top"
+								? null
+								: `${+get(theme, "sidebarW", 64) * 0.25}rem`,
+					}}
+				>
+					{subMenus.map((sm, i) => (
+						<NavItem key={i} to={sm.path} icon={sm.icon} type={type}>
+							{sm.name}
+						</NavItem>
+					))}
+				</div>
+			</div>
+		</div>
+	);
+};
