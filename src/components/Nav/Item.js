@@ -49,10 +49,7 @@ const NavItem = ({
 	const [showSubMenu, setShowSubMenu] = React.useState(false);
 
 	return (
-		<div
-			className={`
-				items-stretch ${type === "side" ? "block" : "flex"}
-			`}
+		<React.Fragment
 			onMouseLeave={(e) => setShowSubMenu(false)}
 			onMouseOver={(e) => setShowSubMenu(true)}
 		>
@@ -118,7 +115,7 @@ const NavItem = ({
 					</div>
 				</div>
 			)}
-		</div>
+		</React.Fragment>
 	);
 };
 export default NavItem;
