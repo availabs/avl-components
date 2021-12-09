@@ -78,6 +78,7 @@ const RowElement = ({ children, ...props }) =>
 const GridTable = ({ columns = EMPTY_ARRAY, data = EMPTY_ARRAY,
                   sortBy, sortOrder = "",
                   initialPageSize = 10,
+                  pageSize = null,
                   onRowClick,
                   ExpandRow = DefaultExpandedRow,
                   disableFilters = false,
@@ -114,8 +115,9 @@ const GridTable = ({ columns = EMPTY_ARRAY, data = EMPTY_ARRAY,
       pageCount,
       visibleColumns,
       toggleRowExpanded,
+      setPageSize,
       state: {
-        pageSize,
+        pageSize: statePageSize,
         pageIndex,
         expanded
       }
@@ -127,7 +129,7 @@ const GridTable = ({ columns = EMPTY_ARRAY, data = EMPTY_ARRAY,
         disableFilters,
         disableSortBy,
         initialState: {
-          pageSize: initialPageSize,
+          pageSize: pageSize || initialPageSize,
           sortBy: [{ id: sortBy, desc: sortOrder.toLowerCase() === "desc" }]
         }
       },
@@ -137,6 +139,12 @@ const GridTable = ({ columns = EMPTY_ARRAY, data = EMPTY_ARRAY,
       useExpanded,
       usePagination
     );
+
+    React.useEffect(() => {
+      if ((pageSize !== null) && (pageSize !== statePageSize)) {
+        setPageSize(pageSize);
+      }
+    }, [pageSize, setPageSize]);
 
     if (!(columns.length && data.length)) return null;
 
@@ -182,8 +190,8 @@ const GridTable = ({ columns = EMPTY_ARRAY, data = EMPTY_ARRAY,
                 <div className="flex-0">
                   Page { pageIndex + 1 } of { pageCount }
                   <span className="font-extrabold">&nbsp; | &nbsp;</span>
-                  Rows { pageIndex * pageSize + 1 }-
-                  { Math.min(rows.length, pageIndex * pageSize + pageSize) } of { rows.length }
+                  Rows { pageIndex * statePageSize + 1 }-
+                  { Math.min(rows.length, pageIndex * statePageSize + statePageSize) } of { rows.length }
                 </div>
                 <div className={ `flex-1 flex justify-end items-center` }>
                   <Button disabled={ pageIndex === 0 }
