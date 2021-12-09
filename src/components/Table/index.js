@@ -135,7 +135,7 @@ export default ({ columns = EMPTY_ARRAY, data = EMPTY_ARRAY,
       if ((pageSize !== null) && (pageSize !== statePageSize)) {
         setPageSize(pageSize);
       }
-    }, [pageSize, setPageSize]);
+    }, [pageSize, statePageSize, setPageSize]);
 
     if (!(columns.length && data.length)) return null;
 
