@@ -78,6 +78,17 @@ const SideNavDocs = {
 					theme: ["navitemSide", "navitemSideActive", "menuIcon", "menuIcon"],
 				},
 			],
+			code: `
+			import {SideNav} from "@availabs/avl-components"; 
+				
+				const MySideBar = (props) => {
+					return (
+						<div className="h-full w-full bg-gray-100">
+									<SideNav {...props} />
+							</div>
+						);
+				};			
+			`,
 		},
 	],
 };
