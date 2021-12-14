@@ -71,6 +71,7 @@ const EMPTY_ARRAY = [];
 export default ({ columns = EMPTY_ARRAY, data = EMPTY_ARRAY,
                   sortBy, sortOrder = "",
                   initialPageSize = 10,
+                  pageSize = null,
                   onRowClick,
                   ExpandRow = DefaultExpandedRow,
                   disableFilters = false,
@@ -105,8 +106,9 @@ export default ({ columns = EMPTY_ARRAY, data = EMPTY_ARRAY,
       pageCount,
       visibleColumns,
       toggleRowExpanded,
+      setPageSize,
       state: {
-        pageSize,
+        pageSize: statePageSize,
         pageIndex,
         expanded
       }
@@ -118,7 +120,7 @@ export default ({ columns = EMPTY_ARRAY, data = EMPTY_ARRAY,
         disableFilters,
         disableSortBy,
         initialState: {
-          pageSize: initialPageSize,
+          pageSize: pageSize || initialPageSize,
           sortBy: [{ id: sortBy, desc: sortOrder.toLowerCase() === "desc" }]
         }
       },
@@ -128,6 +130,12 @@ export default ({ columns = EMPTY_ARRAY, data = EMPTY_ARRAY,
       useExpanded,
       usePagination
     );
+
+    React.useEffect(() => {
+      if ((pageSize !== null) && (pageSize !== statePageSize)) {
+        setPageSize(pageSize);
+      }
+    }, [pageSize, statePageSize, setPageSize]);
 
     if (!(columns.length && data.length)) return null;
 
@@ -168,8 +176,8 @@ export default ({ columns = EMPTY_ARRAY, data = EMPTY_ARRAY,
                     <div className="flex-0">
                       Page { pageIndex + 1 } of { pageCount }
                       <span className="font-extrabold">&nbsp; | &nbsp;</span>
-                      Rows { pageIndex * pageSize + 1 }-
-                      { Math.min(rows.length, pageIndex * pageSize + pageSize) } of { rows.length }
+                      Rows { pageIndex * statePageSize + 1 }-
+                      { Math.min(rows.length, pageIndex * statePageSize + statePageSize) } of { rows.length }
                     </div>
                     <div className={ `flex-1 flex justify-end items-center` }>
                       <Button disabled={ pageIndex === 0 } buttonTheme="textbuttonInfoSmall"
