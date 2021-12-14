@@ -10,6 +10,7 @@ const SideNavDocs = {
 					<SideNav {...props} />
 				</div>
 			),
+			title: 'Side bar with icons',
 			props: [
 				{
 					name: "menuItems",
@@ -81,13 +82,92 @@ const SideNavDocs = {
 			code: `
 			import {SideNav} from "@availabs/avl-components"; 
 				
-				const MySideBar = (props) => {
-					return (
-						<div className="h-full w-full bg-gray-100">
-									<SideNav {...props} />
-							</div>
-						);
-				};			
+			const MySideBar = (props) => {
+				return (
+					<div className="h-full w-full bg-gray-100">
+								<SideNav {...props} />
+						</div>
+					);
+			};			
+			`,
+		},
+
+		{
+			Component: (props) => (
+				<div className="h-full w-full bg-gray-100">
+					<SideNav {...props} />
+				</div>
+			),
+			title: 'Side bar without icons',
+			props: [
+				{
+					name: "menuItems",
+					type: "data",
+					default: [
+						{
+							name: "Layouts",
+							className: "font-light text-xs uppercase pl-6 text-blue-500 py-3",
+						},
+						{
+							name: "Dashboard",
+							active: true,
+						},
+						{
+							name: "Menu Styles",
+						},
+						{
+							name: "Options",
+							className: "font-light text-xs uppercase pl-6 text-blue-500 py-3",
+						},
+						{
+							name: "Applications",
+						},
+						{
+							name: "Pages",
+						},
+						{
+							name: "UI Kit",
+						},
+						{
+							name: "Elements",
+							className: "font-light text-xs uppercase pl-6 text-blue-500 py-3",
+						},
+						{
+							name: "Emails",
+						},
+						{
+							name: "Users",
+						},
+						{
+							name: "Forms",
+						},
+						{
+							name: "Tables",
+						},
+						{
+							name: "Tables",
+						},
+					],
+				},
+			],
+			theme: ["sidebarWrapper"],
+			dependencies: [
+				{
+					name: "Nav Item",
+					theme: ["navitemSide", "navitemSideActive"],
+				},
+			],
+			code: `
+//ex 2
+			import {SideNav} from "@availabs/avl-components"; 
+				
+			const MySideBar = (props) => {
+				return (
+					<div className="h-full w-full bg-gray-100">
+								<SideNav {...props} />
+						</div>
+					);
+			};			
 			`,
 		},
 	],
