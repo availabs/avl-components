@@ -13,47 +13,31 @@ const MobileSidebar = ({
 						   logo = null,
 						   topMenu,
 						   menuItems = [],
-						   bottomMenu
+						   bottomMenu,
+	                       ...props
 					   }) => {
-	const theme = useTheme();
+	let theme = useTheme();
+	theme = props.theme || theme;
+
 	return (
 		<>
 			<div className="md:hidden" onClick={() => toggle(!open)}>
-				<button type="button" className="px-4 border-r border-gray-200 text-gray-500 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-indigo-500 md:hidden">
-					<span className="sr-only">Open sidebar</span>
-					<svg className="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
-						<path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h16M4 18h7" />
-					</svg>
-				</button>
+				<span className={theme.menuOpenIcon} />
 			</div>
-			<div style={{ display: open ? "block" : "none" }} className="md:hidden">
+			<div style={{ display: open ? "block" : "none" }} className={`md:hidden`} >
 				<div className="fixed inset-0 z-20 transition-opacity ease-linear duration-300">
 					<div className="absolute inset-0 bg-gray-600 opacity-75" />
 				</div>
 				<div className="fixed inset-0 flex z-40">
-					<div className="flex-1 flex flex-col max-w-xs w-full transform ease-in-out duration-300">
+					<div className={`flex-1 flex flex-col max-w-xs w-full transform ease-in-out duration-300`}>
 						<div className="absolute top-0 right-0 -mr-14 p-1">
 							<button
 								onClick={() => toggle(!open)}
-								className="flex items-center justify-center h-12 w-12 rounded-full focus:outline-none focus:bg-gray-600"
-							>
-								<svg
-									className="h-6 w-6 text-gray-900"
-									stroke="currentColor"
-									fill="none"
-									viewBox="0 0 24 24"
-								>
-									<path
-										strokeLinecap="round"
-										strokeLinejoin="round"
-										strokeWidth={2}
-										d="M6 18L18 6M6 6l12 12"
-									/>
-								</svg>
-							</button>
+								className="flex items-center justify-center h-12 w-12 rounded-full focus:outline-none focus:bg-gray-600 os-icon os-icon-x"
+							/>
 						</div>
 						<div
-							className={`flex-1 h-0 pt-2 pb-4 overflow-y-auto overflow-x-hidden ${theme.menuBg}`}
+							className={`flex-1 h-0 pt-2 pb-4 overflow-y-auto overflow-x-hidden ${theme.sidenavWrapper}`}
 						>
 							<div className="px-6 pt-4 pb-8 logo-text gray-900">
 								<Link
@@ -89,8 +73,10 @@ const MobileSidebar = ({
 	);
 };
 
-const DesktopSidebar = ({ menuItems = [], logo = null, topMenu, bottomMenu }) => {
-	const theme = useTheme();
+const DesktopSidebar = ({ menuItems = [], logo = null, topMenu, bottomMenu, ...props }) => {
+	let theme = useTheme();
+	theme = props.theme || theme
+
 	return (
 		<div
 			className={`

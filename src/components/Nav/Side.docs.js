@@ -72,7 +72,6 @@ const SideNavDocs = {
 					],
 				},
 			],
-			theme: ["sidebarWrapper"],
 			dependencies: [
 				{
 					name: "Nav Item",
@@ -150,7 +149,6 @@ const SideNavDocs = {
 					],
 				},
 			],
-			theme: ["sidebarWrapper"],
 			dependencies: [
 				{
 					name: "Nav Item",
@@ -158,7 +156,6 @@ const SideNavDocs = {
 				},
 			],
 			code: `
-//ex 2
 			import {SideNav} from "@availabs/avl-components"; 
 				
 			const MySideBar = (props) => {
