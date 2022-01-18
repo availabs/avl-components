@@ -5,7 +5,7 @@ import get from "lodash.get";
 import { useTheme } from "../../wrappers/with-theme";
 import NavItem from "./Item";
 
-const MobileMenu = ({ open, toggle, menuItems = [], rightMenu = null }) => {
+export const MobileMenu = ({ open, toggle, menuItems = [], rightMenu = null }) => {
   const theme = useTheme();
 
   return (
@@ -33,7 +33,7 @@ const MobileMenu = ({ open, toggle, menuItems = [], rightMenu = null }) => {
   );
 };
 
-const DesktopMenu = ({
+export const DesktopMenu = ({
   open,
   toggle,
   menuItems = [],
@@ -65,7 +65,7 @@ const DesktopMenu = ({
           {/*<!-- Mobile menu button -->*/}
           <button
             type="button"
-            className={theme.mobileButton}
+            className={`${theme.mobileButton} border-2`}
             onClick={() => toggle(!open)}
           >
             <span className="sr-only">Open main menu</span>

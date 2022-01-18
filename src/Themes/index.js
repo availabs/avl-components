@@ -454,7 +454,7 @@ const avl_design = (color, size ) => {
 		/* -----
          Top Nav Theme Components Minimal
       ------*/
-		topnavWrapper: `w-full h-full ${colors[color].contentBg}`,
+		topnavWrapper: `w-full ${colors[color].contentBg}`,
 		topnavContent: `flex w-full h-full`,
 		topnavMenu: `hidden md:flex flex-1 h-full overflow-x-auto overflow-y-hidden scrollbar-sm`,
 		menuIconTop: `text-${colors[color].accentColor} ${sizes[size].icon} group-hover:${colors[color].highlightColor}`,

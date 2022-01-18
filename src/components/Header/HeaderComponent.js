@@ -5,7 +5,6 @@ import {useComponents} from "../index"
 import {useTheme} from "../../wrappers/with-theme"
 import withAuth from "../../wrappers/with-auth"
 
-import {DEFAULT_TOP_NAV_HEIGHT} from "../constants"
 
 const HeaderComponent = withAuth(({
                                       title,
@@ -27,7 +26,7 @@ const HeaderComponent = withAuth(({
     const LeftComp = title || LeftComponent,
         RightComp = children || RightComponent;
 
-    const tnHeight = theme.topNavHeight || DEFAULT_TOP_NAV_HEIGHT;
+    const tnHeight = theme.topNavHeight
 
     return (
         <div className={`w-full relative flex items-center justify-end ${theme.headerBg} ${className} h-${tnHeight}`}

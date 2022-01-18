@@ -6,18 +6,19 @@ import get from "lodash.get";
 import { useTheme } from "../../wrappers";
 
 import SidebarItem from "./Item";
+import { MobileMenu, DesktopMenu } from './Top'
 
 const MobileSidebar = ({
-						   open,
-						   toggle,
-						   logo = null,
-						   topMenu,
-						   menuItems = [],
-						   bottomMenu,
-	                       ...props
-					   }) => {
+   open,
+   toggle,
+   logo = null,
+   topMenu,
+   menuItems = [],
+   bottomMenu,
+   ...props
+}) => {
 	let theme = useTheme();
-	theme = props.theme || theme;
+	// theme = props.theme || theme;
 
 	return (
 		<>
@@ -73,37 +74,71 @@ const MobileSidebar = ({
 	);
 };
 
-const DesktopSidebar = ({ menuItems = [], logo = null, topMenu, bottomMenu, ...props }) => {
+const DesktopSidebar = ({ 
+	menuItems = [], 
+	logo = null, 
+	topMenu, 
+	bottomMenu, 
+	toggle, 
+	open, 
+	mobile,
+	...props }) => {
 	let theme = useTheme();
 	theme = props.theme || theme
 
 	return (
-		<div
-			className={`
-			hidden md:flex z-20
-			${theme.sidenavWrapper}
-		`}
-		>
-			<div className={`flex-1 flex flex-col scrollbar`}>
-				{!logo ? null : <div>{logo}</div>}
-				<nav className={`flex-1`}>
-					{topMenu}
+		<>
+			<div
+				className={`
+				hidden md:flex z-20
+				${theme.sidenavWrapper}
+			`}
+			>
+				<div className={`flex-1 flex flex-col scrollbar`}>
+					{!logo ? null : <div>{logo}</div>}
+					<nav className={`flex-1`}>
+						{topMenu}
 
-					{menuItems.map((page, i) => (
-						<SidebarItem
-							key={i}
-							to={page.path}
-							icon={page.icon}
-							className={page.className}
-							subMenus={get(page, "subMenus", [])}
-						>
-							{page.name}
-						</SidebarItem>
-					))}
-				</nav>
-				{bottomMenu}
+						{menuItems.map((page, i) => (
+							<SidebarItem
+								key={i}
+								to={page.path}
+								icon={page.icon}
+								className={page.className}
+								subMenus={get(page, "subMenus", [])}
+							>
+								{page.name}
+							</SidebarItem>
+						))}
+					</nav>
+					{bottomMenu}
+				</div>
 			</div>
-		</div>
+			{mobile === 'side' ? '' : 
+				<div className={`${theme.topnavWrapper} md:hidden`}>
+			      <div className={`${theme.topnavContent} justify-between`}>
+			        <div>{topMenu}</div>
+			        <div className="flex items-center justify-center h-full">
+			          <div className={`${theme.topmenuRightNavContainer}`}>{bottomMenu}</div>
+
+			          {/*<!-- Mobile menu button -->*/}
+			          <button
+			            type="button"
+			            className={theme.mobileButton}
+			            onClick={() => toggle(!open)}
+			          >
+			            <span className="sr-only">Open main menu</span>
+			            <div className={`flex justify-center items-center text-2xl`}>
+			              <span
+			                className={!open ? theme.menuOpenIcon : theme.menuCloseIcon}
+			              />
+			            </div>
+			          </button>
+			        </div>
+			      </div>
+			    </div>
+			}
+		</>
 	);
 };
 
@@ -111,8 +146,12 @@ const SideNav = (props) => {
 	const [open, setOpen] = useState(false);
 	return (
 		<>
-			<MobileSidebar open={open} toggle={setOpen} {...props} />
-			<DesktopSidebar {...props} />
+			<DesktopSidebar {...props} open={open} toggle={setOpen} />
+			{props.mobile === 'side'  ? 
+				<MobileSidebar open={open} toggle={setOpen} {...props} /> :
+				<MobileMenu open={open} {...props} />
+			}
+			
 		</>
 	);
 };

@@ -4,23 +4,23 @@ import { Link } from "react-router-dom";
 import { useTheme } from "../../wrappers/with-theme";
 import { composeOptions } from "../utils";
 
-import styled, { keyframes } from "styled-components";
+//import styled, { keyframes } from "styled-components";
 
-const scroll = keyframes`
-  from {
-    transform: translateX(0%);
-    left: 100%;
-  }
-  to {
-    transform: translateX(-100%);
-    left: 0%;
-  }
-`;
-const ConfirmMessage = styled.div`
-  position: absolute;
-  white-space: nowrap;
-  animation: ${scroll} 5s linear;
-`;
+// const scroll = keyframes`
+//   from {
+//     transform: translateX(0%);
+//     left: 100%;
+//   }
+//   to {
+//     transform: translateX(-100%);
+//     left: 0%;
+//   }
+// `;
+// const ConfirmMessage = styled.div`
+//   position: absolute;
+//   white-space: nowrap;
+//   animation: ${scroll} 5s linear;
+// `;
 
 const ConfirmButton = ({
   onClick,
@@ -62,7 +62,7 @@ const ConfirmButton = ({
       <div className="relative w-full">
         {!canClick ? null : (
           <div className="absolute top-0 left-0 right-0 bottom-0 flex items-center overflow-hidden">
-            <ConfirmMessage>{confirmMessage}</ConfirmMessage>
+            <div>{confirmMessage}</div>
           </div>
         )}
         <div style={{ color: canClick ? "transparent" : null }}>{children}</div>

@@ -10,7 +10,6 @@ import HeaderComponent from "../Header/HeaderComponent"
 
 import get from "lodash.get"
 
-import { DEFAULT_TOP_NAV_HEIGHT } from "../constants"
 
 const FixedLayout = ({ headerBar = true,
                         navPosition, navBar = "side",
@@ -77,7 +76,7 @@ const FixedLayout = ({ headerBar = true,
       <div className={ `
         flex-1 flex
         ${ headerBar || (navBar === "top") ?
-          `pt-${ theme.topNavHeight || DEFAULT_TOP_NAV_HEIGHT }` : ''
+          `pt-${ theme.topNavHeight }` : ''
         }
         ${ navBar === 'side' ? `md:pl-${ theme.sidebarW }` : '' }
       ` } style={ { alignItems: "stretch", justifyContent: "stretch" } }>

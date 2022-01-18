@@ -68,7 +68,8 @@ const DefaultExpandedRow = ({ values }) =>
 
 const EMPTY_ARRAY = [];
 
-export default ({ columns = EMPTY_ARRAY, data = EMPTY_ARRAY,
+export default ({ columns = EMPTY_ARRAY, 
+                  data = EMPTY_ARRAY,
                   sortBy, sortOrder = "",
                   initialPageSize = 10,
                   pageSize = null,
@@ -76,10 +77,9 @@ export default ({ columns = EMPTY_ARRAY, data = EMPTY_ARRAY,
                   ExpandRow = DefaultExpandedRow,
                   disableFilters = false,
                   disableSortBy = false,
-                  customTheme={},
                   ...props }) => {
 
-    const theme = {...useTheme(),...customTheme};
+    const theme = useTheme();
     const filterTypes = React.useMemo(
       () => ({
         fuzzyText: fuzzyTextFilterFn

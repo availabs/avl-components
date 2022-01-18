@@ -1,7 +1,7 @@
 import React from "react"
 
 import HeaderComponent from "./Header/HeaderComponent"
-import { FormSection, InputContainer } from './Forms/FormSection'
+//import { FormSection, InputContainer } from './Forms/FormSection'
 import { List, ListItemRemovable, ListItemAction } from './List/List'
 import { NavMenu, NavMenuItem, NavMenuSeparator } from "./Nav/Menu"
 import NavItem from './Nav/Item'
@@ -64,8 +64,7 @@ export {
 	UserMenuItems,
 	Table,
 	GridTable,
-	FormSection,
-	InputContainer,
+	
 	List,
 	ListItemRemovable,
 	ListItemAction,

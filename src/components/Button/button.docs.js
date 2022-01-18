@@ -1,7 +1,7 @@
 import { Button } from "./index";
 //import { useTheme } from "../../wrappers";
 
-const Identity = (i) => i;
+// const Identity = (i) => i;
 
 export default {
 	Component: (props) => {

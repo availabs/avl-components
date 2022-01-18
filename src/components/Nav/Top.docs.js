@@ -4,6 +4,47 @@ import TopNav from "./Top";
 export default {
 	name: "Top Nav",
 	description: "A responsive horizontal navigation component.",
+	props: [
+		{
+			name: "menuItems",
+			type: "Data",
+			required: false,
+			default: [],
+			description: [
+			'An array of Objects which represent the menu items for the nav.',
+			// 'Keys',
+			// '',
+			// 'name - The name value displayed for the item',
+			// 'icon - optional - Icon class names',
+			// 'to - optional - link url. will be active if is current page',
+			// 'active - optional - set item to active style'
+			]
+		},
+		{
+			name: "leftMenu",
+			type: "Component",
+			required: false,
+			default: '',
+		},
+		{
+			name: "rightMenu",
+			type: "Component",
+			default: '',
+		},
+		{
+			name: "mobileLocation",
+			type: "String",
+			default: 'Top',
+			required: false
+		}
+	],
+	theme: ["sidebarWrapper"],
+	dependencies: [
+		{
+			name: "Nav Item",
+			theme: ["navitemTop", "navitemTopActive", "menuIcon", "menuIcon"],
+		},
+	],
 	examples: [
 		{
 			Component: (props) => {
@@ -17,14 +58,12 @@ export default {
 			props: [
 				{
 					name: "menuItems",
-					type: "data",
 					default: [
 						{
 							name: "Hello",
 							icon: "os-icon os-icon-layout",
 							active: true,
 						},
-
 						{
 							name: "Applications",
 							icon: "os-icon os-icon-package",
@@ -54,7 +93,6 @@ export default {
 				},
 				{
 					name: "leftMenu",
-					type: "Component",
 					default: (
 						<div className="flex items-center p-4 justify-center h-12">
 							<span className="text-lg font-medium uppercase">AVL Design</span>
@@ -63,7 +101,6 @@ export default {
 				},
 				{
 					name: "rightMenu",
-					type: "Component",
 					default: (
 						<div className="flex items-center md:w-32 justify-center h-12 w-full hover:bg-gray-400 hover:text-white">
 							<span className="text-sm cursor-pointer">Login</span>
@@ -71,13 +108,7 @@ export default {
 					),
 				},
 			],
-			theme: ["sidebarWrapper"],
-			dependencies: [
-				{
-					name: "Nav Item",
-					theme: ["navitemTop", "navitemTopActive", "menuIcon", "menuIcon"],
-				},
-			],
+			
 			code: `
 			import {TopNav} from "@availabs/avl-components"; 
 				
@@ -130,13 +161,6 @@ export default {
 							name: "Tables",
 						},
 					],
-				},
-			],
-			theme: ["sidebarWrapper"],
-			dependencies: [
-				{
-					name: "Nav Item",
-					theme: ["navitemTop", "navitemTopActive", "menuIcon", "menuIcon"],
 				},
 			],
 			code: `

@@ -3,18 +3,41 @@ import SideNav from "./Side";
 const SideNavDocs = {
 	name: "Side Nav",
 	description: "A responsive vertical navigation component.",
+	props: [
+				
+				{
+					name: "menuItems",
+					type: "data",
+					default:[],
+				},
+				{
+					name: "topMenu",
+					type: "Component",
+					default: ''
+				},
+				{
+					name: "bottomMenu",
+					type: "Component",
+					default: ''
+				},
+	],
+	dependencies: [
+		{
+			name: "Nav Item",
+			theme: ["navitemSide", "navitemSideActive"],
+		},
+	],
 	examples: [
 		{
+			title: 'Side bar with icons',
 			Component: (props) => (
 				<div className="h-full w-full bg-gray-100">
 					<SideNav {...props} />
 				</div>
 			),
-			title: 'Side bar with icons',
 			props: [
 				{
 					name: "menuItems",
-					type: "data",
 					default: [
 						{
 							name: "Layouts",
@@ -71,11 +94,13 @@ const SideNavDocs = {
 						},
 					],
 				},
-			],
-			dependencies: [
 				{
-					name: "Nav Item",
-					theme: ["navitemSide", "navitemSideActive", "menuIcon", "menuIcon"],
+					name: "topMenu",
+					default: (
+						<div className="flex items-center p-6 justify-start h-12">
+							<span className="text-lg font-medium uppercase">AVL Design</span>
+						</div>
+					)
 				},
 			],
 			code: `
@@ -90,14 +115,13 @@ const SideNavDocs = {
 			};			
 			`,
 		},
-
 		{
+			title: 'Side bar without icons',
 			Component: (props) => (
 				<div className="h-full w-full bg-gray-100">
 					<SideNav {...props} />
 				</div>
 			),
-			title: 'Side bar without icons',
 			props: [
 				{
 					name: "menuItems",
@@ -149,12 +173,7 @@ const SideNavDocs = {
 					],
 				},
 			],
-			dependencies: [
-				{
-					name: "Nav Item",
-					theme: ["navitemSide", "navitemSideActive"],
-				},
-			],
+			
 			code: `
 			import {SideNav} from "@availabs/avl-components"; 
 				

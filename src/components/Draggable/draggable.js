@@ -53,6 +53,31 @@ const Reducer = (state, action) => {
   }
 }
 
+const Tool = ({ children, className = "", style = {}, ...props }) => {
+
+  const theme = useTheme();
+
+  return (
+    <div { ...props } style={ { cursor: "pointer", ...style } }
+      className={ `
+        h-7 w-7 flex items-center justify-center inline-block rounded
+        hover:${ theme.bg } hover:${ theme.textInfo } ${ theme.menuBg }
+        ${ className }
+      ` }>
+      { children }
+    </div>
+  )
+}
+
+const DragHandle = ({ dragging, ...props }) => {
+  return (
+    <Tool { ...props }
+      style={ { cursor: dragging ? "grabbing" : "pointer" } }>
+      <span className="fa fa-bars text-lg"/>
+    </Tool>
+  )
+}
+
 export const Draggable = ({ bounds,
                             children,
                             toolbar = [],
@@ -167,27 +192,6 @@ export const Draggable = ({ bounds,
   )
 }
 
-const Tool = ({ children, className = "", style = {}, ...props }) => {
+//export default Draggable
 
-  const theme = useTheme();
 
-  return (
-    <div { ...props } style={ { cursor: "pointer", ...style } }
-      className={ `
-        h-7 w-7 flex items-center justify-center inline-block rounded
-        hover:${ theme.bg } hover:${ theme.textInfo } ${ theme.menuBg }
-        ${ className }
-      ` }>
-      { children }
-    </div>
-  )
-}
-
-const DragHandle = ({ dragging, ...props }) => {
-  return (
-    <Tool { ...props }
-      style={ { cursor: dragging ? "grabbing" : "pointer" } }>
-      <span className="fa fa-bars text-lg"/>
-    </Tool>
-  )
-}
