@@ -5,8 +5,8 @@ import get from "lodash.get";
 import { useTheme } from "../../wrappers/with-theme";
 import NavItem from "./Item";
 
-export const MobileMenu = ({ open, toggle, menuItems = [], rightMenu = null }) => {
-  const theme = useTheme();
+export const MobileMenu = ({ open, toggle, menuItems = [], rightMenu = null,themeOptions={} }) => {
+  let theme = useTheme()['topnav'](themeOptions);
 
   return (
     <div
@@ -22,6 +22,7 @@ export const MobileMenu = ({ open, toggle, menuItems = [], rightMenu = null }) =
             type="top"
             to={page.path}
             icon={page.icon}
+            themeOptions={themeOptions}
             subMenus={get(page, "subMenus", [])}
           >
             {page.name}
@@ -39,8 +40,9 @@ export const DesktopMenu = ({
   menuItems = [],
   rightMenu = null,
   leftMenu = null,
+  themeOptions={}
 }) => {
-  const theme = useTheme();
+  let theme = useTheme()['topnav'](themeOptions);
   return (
     <div className={`${theme.topnavWrapper}`}>
       <div className={`${theme.topnavContent} justify-between`}>
@@ -52,6 +54,7 @@ export const DesktopMenu = ({
               type="top"
               to={page.path}
               icon={page.icon}
+              themeOptions={themeOptions}
               subMenus={get(page, "subMenus", [])}
             >
               {page.name}

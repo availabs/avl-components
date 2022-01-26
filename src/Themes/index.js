@@ -358,7 +358,7 @@ export const TEST_THEME = composeTheme(TEST_THEME_BASE);
 
 // console.log("TEST_THEME", TEST_THEME)
 
-const colors = {
+const colors_old = {
 	transparent: {
 		contentBg: "",
 		accentColor: "blue-600",
@@ -401,82 +401,122 @@ const colors = {
 	},
 };
 
-const sizes = {
-	compact: {
-		wrapper: "w-64",
-		sideItem: "flex mx-6 pr-4 py-2 text-sm font-light hover:pl-4",
-		topItem: "flex items-center text-sm px-4 border-r h-12",
-		icon: "mr-3 text-lg",
-	},
-	full: {
-		wrapper: "w-64",
-		sideItem: "flex mx-4 pr-4 py-4 text-base font-base border-b hover:pl-4",
-		topItem: "flex pr-4 py-2 text-sm font-light",
-		icon: "mr-4 text-2xl",
-	},
-	mini: {
-		wrapper: "w-20 overflow-x-hidden",
-		sideItem: "flex pr-4 py-4 text-base font-base border-b",
-		topItem: "flex px-4 items-center text-sm font-light ",
-		icon: "w-20 mr-4 text-4xl",
-	},
-	micro: {
-		wrapper: "w-14 overflow-x-hidden",
-		sideItem: "flex pr-4 py-4 text-base font-base border-b",
-		topItem: "flex mx-6 pr-4 py-2 text-sm font-light",
-		icon: "w-14 mr-4 text-2xl",
-	},
-};
 
 // let color = "white";
 // let size = "compact";
 
-const avl_design = (color, size ) => {
+const avl_design = (colorname,size) => {
+
+	const bg = 'gray-50'
+	const primary =  'gray'
+	const highlight =  'white'
+	const accent =  'blue'
+	const secondary =  'green'
+
+	let colors = {
+      			white: {
+      				contentBg: `bg-${highlight}`,
+					accentColor: `${accent}-600`,
+					accentBg: `hover:bg-${accent}-600`,
+					borderColor: `border-${primary}-100`,
+					textColor: `text-${primary}-600`,
+					highlightColor: `text-${highlight}`,
+      			},
+      			bright: {
+      				contentBg: `bg-${accent}-700`,
+					accentColor: `${accent}-400`,
+					accentBg: `hover:bg-${accent}-400`,
+					borderColor: `border-${accent}-600`,
+					textColor: `text-${highlight}`,
+					highlightColor: `text-${highlight}`,
+      			}
+      		}
+	let sizes = {
+		compact: {
+			wrapper: "w-64",
+			sideItem: "flex mx-6 pr-4 py-2 text-sm font-light hover:pl-4",
+			topItem: "flex items-center text-sm px-4 border-r h-12",
+			icon: "mr-3 text-lg",
+		},
+		full: {
+			wrapper: "w-64",
+			sideItem: "flex mx-4 pr-4 py-4 text-base font-base border-b hover:pl-4",
+			topItem: "flex pr-4 py-2 text-sm font-light",
+			icon: "mr-4 text-2xl",
+		},
+		mini: {
+			wrapper: "w-20 overflow-x-hidden",
+			sideItem: "flex pr-4 py-4 text-base font-base border-b",
+			topItem: "flex px-4 items-center text-sm font-light ",
+			icon: "w-20 mr-4 text-4xl",
+		},
+		micro: {
+			wrapper: "w-14 overflow-x-hidden",
+			sideItem: "flex pr-4 py-4 text-base font-base border-b",
+			topItem: "flex mx-6 pr-4 py-2 text-sm font-light",
+			icon: "w-14 mr-4 text-2xl",
+		},
+		
+	}
 
 	return {
 		/* -----
          Side Nav Theme Components Minimal
       ------*/
+      	sidenav: ({color='white',size='compact'}) => {
+			return {
+				sidenavWrapper: `${colors[color].contentBg} ${sizes[size].wrapper} border-r border-gray-200 h-full`,
+				menuIconSide: ` text-${colors[color].accentColor} ${sizes[size].icon} group-hover:${colors[color].highlightColor}`,
+				navitemSide: ` 
+				    group font-sans 
+				    ${sizes[size].sideItem} ${colors[color].textColor} ${colors[color].borderColor} 
+				    ${colors[color].accentBg} hover:${colors[color].highlightColor} 
+				    focus:outline-none focus:text-gray-800 focus:bg-gray-50 focus:border-gray-300 
+				    transition-all cursor-pointer
+				 `,
 
-		sidenavWrapper: `${colors[color].contentBg} ${sizes[size].wrapper} border-r border-gray-200 h-full`,
-		menuIconSide: ` text-${colors[color].accentColor} ${sizes[size].icon} group-hover:${colors[color].highlightColor}`,
-		navitemSide: ` 
-    group font-sans 
-    ${sizes[size].sideItem} ${colors[color].textColor} ${colors[color].borderColor} 
-    ${colors[color].accentBg} hover:${colors[color].highlightColor} 
-    focus:outline-none focus:text-gray-800 focus:bg-gray-50 focus:border-gray-300 
-    transition-all cursor-pointer
-  `,
-
-		navitemSideActive: `
-    group flex pl-8 pr-4 py-2 bg-${colors[color].highlightColor} text-base font-medium text-darkblue-500 focus:outline-none hover:text-indigo-800 focus:text-indigo-800 focus:bg-blue-200 focus:border-indigo-700 transition duration-150 ease-in-out`,
-
+				navitemSideActive: `
+		    		group flex pl-8 pr-4 py-2 bg-${colors[color].highlightColor} 
+		    		text-base font-medium text-darkblue-500 
+		    		focus:outline-none hover:text-indigo-800 focus:text-indigo-800 focus:bg-blue-200 focus:border-indigo-700 
+		    		transition duration-150 ease-in-out
+		    	`,
+		    }
+	    },
 		/* -----
          Top Nav Theme Components Minimal
-      ------*/
-		topnavWrapper: `w-full ${colors[color].contentBg}`,
-		topnavContent: `flex w-full h-full`,
-		topnavMenu: `hidden md:flex flex-1 h-full overflow-x-auto overflow-y-hidden scrollbar-sm`,
-		menuIconTop: `text-${colors[color].accentColor} ${sizes[size].icon} group-hover:${colors[color].highlightColor}`,
-		menuOpenIcon: `os-icon os-icon-menu`,
-		menuCloseIcon: `os-icon os-icon-x`,
+      	------*/
+      	topnav: ({color='white',size='compact'}) => {
+      		
+			return {
+				topnavWrapper: `w-full ${colors[color].contentBg}`,
+				topnavContent: `flex w-full h-full`,
+				topnavMenu: `hidden md:flex flex-1 h-full overflow-x-auto overflow-y-hidden scrollbar-sm`,
+				menuIconTop: `text-${colors[color].accentColor} ${sizes[size].icon} group-hover:${colors[color].highlightColor}`,
+				menuOpenIcon: `os-icon os-icon-menu`,
+				menuCloseIcon: `os-icon os-icon-x`,
 
-		navitemTop: `
-    group font-sans 
-    ${sizes[size].topItem} ${colors[color].textColor} ${colors[color].borderColor} 
-    ${colors[color].accentBg} hover:${colors[color].highlightColor} 
-    focus:outline-none focus:text-gray-800 focus:bg-gray-50 focus:border-gray-300 
-    transition cursor-pointer`,
-		//`px-4 text-sm font-medium tracking-widest uppercase inline-flex items-center  border-transparent  leading-5 text-white hover:bg-white hover:text-darkblue-500 border-gray-200 focus:outline-none focus:text-gray-700 focus:border-gray-300 transition duration-150 ease-in-out h-full`,
-		topmenuRightNavContainer: "hidden md:block h-full",
-		navitemTopActive: `group font-sans
-    ${sizes[size].topItem} ${colors[color].textColor} ${colors[color].borderColor} 
-    ${colors[color].accentBg} hover:${colors[color].highlightColor} 
-    focus:outline-none focus:text-gray-800 focus:bg-gray-50 focus:border-gray-300 
-    transition cursor-pointer`,
-		mobileButton:
-			"md:hidden bg-white inline-flex items-center justify-center p-2  text-gray-400 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-300",
-
+				navitemTop: `
+				    group font-sans 
+				    ${sizes[size].topItem} ${colors[color].textColor} ${colors[color].borderColor} 
+				    ${colors[color].accentBg} hover:${colors[color].highlightColor} 
+				    focus:outline-none focus:text-gray-800 focus:bg-gray-50 focus:border-gray-300 
+				    transition cursor-pointer
+				`,
+				//`px-4 text-sm font-medium tracking-widest uppercase inline-flex items-center  border-transparent  leading-5 text-white hover:bg-white hover:text-darkblue-500 border-gray-200 focus:outline-none focus:text-gray-700 focus:border-gray-300 transition duration-150 ease-in-out h-full`,
+				topmenuRightNavContainer: "hidden md:block h-full",
+				navitemTopActive: 
+					`
+					group font-sans
+		    		${sizes[size].topItem} ${colors[color].textColor} ${colors[color].borderColor} 
+		    		${colors[color].accentBg} hover:${colors[color].highlightColor} 
+		    		focus:outline-none focus:text-gray-800 focus:bg-gray-50 focus:border-gray-300 
+		    		transition cursor-pointer
+		    	`,
+				mobileButton:
+					"md:hidden bg-white inline-flex items-center justify-center p-2  text-gray-400 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-300",
+			}
+		},
 		/* ------------------------- */
 		shadow: "shadow",
 		ySpace: "py-4",
@@ -582,5 +622,5 @@ const avl_design = (color, size ) => {
 	}
 };
 
-export const AVL_THEME = composeTheme(avl_design('white', 'compact'));
-export const AVL_THEME_dynamic = (color, size) => composeTheme(avl_design(color, size));
+export const AVL_THEME = avl_design('white', 'compact');
+export const AVL_THEME_dynamic = (color, size) => avl_design(color, size);

@@ -16,8 +16,9 @@ const NavItem = ({
 	type = "side",
 	active = false,
 	subMenus = [],
+	themeOptions
 }) => {
-	const theme = useTheme();
+	const theme = useTheme()[type === 'side' ? 'sidenav' : 'topnav'](themeOptions);
 	const history = useHistory();
 
 	const To = React.useMemo(() => {

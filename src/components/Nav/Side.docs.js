@@ -39,10 +39,7 @@ const SideNavDocs = {
 				{
 					name: "menuItems",
 					default: [
-						{
-							name: "Layouts",
-							className: "font-light text-xs uppercase pl-6 text-blue-500 py-3",
-						},
+						
 						{
 							name: "Dashboard",
 							icon: "os-icon os-icon-layout",
@@ -52,10 +49,7 @@ const SideNavDocs = {
 							name: "Menu Styles",
 							icon: "os-icon os-icon-layers",
 						},
-						{
-							name: "Options",
-							className: "font-light text-xs uppercase pl-6 text-blue-500 py-3",
-						},
+						
 						{
 							name: "Applications",
 							icon: "os-icon os-icon-package",
@@ -68,10 +62,7 @@ const SideNavDocs = {
 							name: "UI Kit",
 							icon: "os-icon os-icon-life-buoy",
 						},
-						{
-							name: "Elements",
-							className: "font-light text-xs uppercase pl-6 text-blue-500 py-3",
-						},
+						
 						{
 							name: "Emails",
 							icon: "os-icon os-icon-mail",
@@ -102,6 +93,13 @@ const SideNavDocs = {
 						</div>
 					)
 				},
+				{
+					name: 'themeOptions',
+					default: {
+						color: 'white',
+						size: 'compact'
+					}
+				}
 			],
 			code: `
 			import {SideNav} from "@availabs/avl-components"; 

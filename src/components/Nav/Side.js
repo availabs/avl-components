@@ -15,9 +15,10 @@ const MobileSidebar = ({
    topMenu,
    menuItems = [],
    bottomMenu,
+   themeOptions={},
    ...props
 }) => {
-	let theme = useTheme();
+	let theme = useTheme()['sidenav'](themeOptions);
 	// theme = props.theme || theme;
 
 	return (
@@ -55,7 +56,7 @@ const MobileSidebar = ({
 										<SidebarItem
 											to={page.path}
 											icon={page.icon}
-											theme={theme}
+											themeOptions={themeOptions}
 											className={page.itemClass}
 										>
 											{page.name}
@@ -82,9 +83,10 @@ const DesktopSidebar = ({
 	toggle, 
 	open, 
 	mobile,
+	themeOptions={},
 	...props }) => {
-	let theme = useTheme();
-	theme = props.theme || theme
+	let theme = useTheme()['sidenav'](themeOptions);
+	
 
 	return (
 		<>
@@ -105,6 +107,7 @@ const DesktopSidebar = ({
 								to={page.path}
 								icon={page.icon}
 								className={page.className}
+								themeOptions={themeOptions}
 								subMenus={get(page, "subMenus", [])}
 							>
 								{page.name}

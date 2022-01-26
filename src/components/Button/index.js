@@ -4,23 +4,6 @@ import { Link } from "react-router-dom";
 import { useTheme } from "../../wrappers/with-theme";
 import { composeOptions } from "../utils";
 
-//import styled, { keyframes } from "styled-components";
-
-// const scroll = keyframes`
-//   from {
-//     transform: translateX(0%);
-//     left: 100%;
-//   }
-//   to {
-//     transform: translateX(-100%);
-//     left: 0%;
-//   }
-// `;
-// const ConfirmMessage = styled.div`
-//   position: absolute;
-//   white-space: nowrap;
-//   animation: ${scroll} 5s linear;
-// `;
 
 const ConfirmButton = ({
   onClick,
@@ -125,6 +108,7 @@ export const LinkButton = ({
   small,
   block,
   active,
+  primary,
   ...props
 }) => {
   const theme = useTheme();
@@ -134,6 +118,7 @@ export const LinkButton = ({
     block,
     disabled,
     active,
+    primary
   })}`;
   return (
     <Link
