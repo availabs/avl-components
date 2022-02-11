@@ -12,7 +12,9 @@ import get from "lodash.get"
 
 const DefaultLayout = withTheme(({ component, path, exact, layoutSettings, isAuthenticating, ...props }) => {
   const location = useLocation(),
-    Layout = get(Layouts, props.layout, Layouts["Fixed"]);
+    Layout = typeof props.layout === 'string' ? 
+      get(Layouts, props.layout, Layouts["Fixed"]) :
+      props.layout;
 
   if (isAuthenticating) {
     return (
