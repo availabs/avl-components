@@ -5,7 +5,7 @@ import get from "lodash.get";
 import { useTheme } from "../../wrappers/with-theme";
 import NavItem from "./Item";
 
-export const MobileMenu = ({ open, toggle, menuItems = [], rightMenu = null,themeOptions={} }) => {
+export const MobileMenu = ({ open, toggle, menuItems = [], rightMenu = null,themeOptions={}}) => {
   let theme = useTheme()['topnav'](themeOptions);
 
   return (

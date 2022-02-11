@@ -6,7 +6,7 @@ import get from "lodash.get";
 import { useTheme } from "../../wrappers";
 
 import SidebarItem from "./Item";
-import { MobileMenu, DesktopMenu } from './Top'
+import { MobileMenu } from './Top'
 
 const MobileSidebar = ({
    open,
@@ -91,16 +91,12 @@ const DesktopSidebar = ({
 	return (
 		<>
 			<div
-				className={`
-				hidden md:flex z-20
-				${theme.sidenavWrapper}
-			`}
+				className={`${theme.sidenavWrapper}`}
 			>
-				<div className={`flex-1 flex flex-col scrollbar`}>
-					{!logo ? null : <div>{logo}</div>}
-					<nav className={`flex-1`}>
-						{topMenu}
-
+				<div>
+					{topMenu}
+					<nav className={`${theme.itemsWrapper}`}>
+						
 						{menuItems.map((page, i) => (
 							<SidebarItem
 								key={i}
@@ -152,7 +148,7 @@ const SideNav = (props) => {
 			<DesktopSidebar {...props} open={open} toggle={setOpen} />
 			{props.mobile === 'side'  ? 
 				<MobileSidebar open={open} toggle={setOpen} {...props} /> :
-				<MobileMenu open={open} {...props} />
+				<MobileMenu open={open} {...props} themeOptions={{}}/>
 			}
 			
 		</>
