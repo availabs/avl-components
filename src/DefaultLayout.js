@@ -49,6 +49,7 @@ function sendToLogin(props) {
   const requiresAuth = getAuthLevel(props) > -1;
   return requiresAuth && !get(props, ["user", "authed"], false);
 }
+
 function sendToHome(props) {
   return get(props , ["user", "authLevel"], -1) < getAuthLevel(props);
 }

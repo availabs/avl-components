@@ -412,58 +412,57 @@ const avl_design = (colorname,size) => {
 	const highlight =  'white'
 	const accent =  'blue'
 	const secondary =  'green'
-
-	let colors = {
-      			white: {
-      				contentBg: `bg-${highlight}`,
+	
+	return {
+		sidenav: ({color='white',size='compact'}) =>  {
+			
+			let colors = {
+				white: {
+					contentBg: `bg-${highlight}`,
 					accentColor: `${accent}-600`,
 					accentBg: `hover:bg-${accent}-600`,
 					borderColor: `border-${primary}-100`,
 					textColor: `text-${primary}-600`,
 					highlightColor: `text-${highlight}`,
-      			},
-      			bright: {
-      				contentBg: `bg-${accent}-700`,
+				},
+				bright: {
+					contentBg: `bg-${accent}-700`,
 					accentColor: `${accent}-400`,
 					accentBg: `hover:bg-${accent}-400`,
 					borderColor: `border-${accent}-600`,
 					textColor: `text-${highlight}`,
 					highlightColor: `text-${highlight}`,
-      			}
-      		}
-	let sizes = {
-		compact: {
-			wrapper: "w-64",
-			sideItem: "flex mx-6 pr-4 py-2 text-sm font-light hover:pl-4",
-			topItem: "flex items-center text-sm px-4 border-r h-12",
-			icon: "mr-3 text-lg",
-		},
-		full: {
-			wrapper: "w-64",
-			sideItem: "flex mx-4 pr-4 py-4 text-base font-base border-b hover:pl-4",
-			topItem: "flex pr-4 py-2 text-sm font-light",
-			icon: "mr-4 text-2xl",
-		},
-		mini: {
-			wrapper: "w-20 overflow-x-hidden",
-			sideItem: "flex pr-4 py-4 text-base font-base border-b",
-			topItem: "flex px-4 items-center text-sm font-light ",
-			icon: "w-20 mr-4 text-4xl",
-		},
-		micro: {
-			wrapper: "w-14 overflow-x-hidden",
-			sideItem: "flex pr-4 py-4 text-base font-base border-b",
-			topItem: "flex mx-6 pr-4 py-2 text-sm font-light",
-			icon: "w-14 mr-4 text-2xl",
-		},
-		
-	}
+				}
+			}
 
-	return {
-		/* -----
-         Side Nav Theme Components Minimal
-      ------*/
-      	sidenav: ({color='white',size='compact'}) => {
+			let sizes = {
+				compact: {
+					wrapper: "w-64",
+					sideItem: "flex mx-6 pr-4 py-2 text-sm font-light hover:pl-4",
+					topItem: "flex items-center text-sm px-4 border-r h-12",
+					icon: "mr-3 text-lg",
+				},
+				full: {
+					wrapper: "w-64",
+					sideItem: "flex mx-4 pr-4 py-4 text-base font-base border-b hover:pl-4",
+					topItem: "flex pr-4 py-2 text-sm font-light",
+					icon: "mr-4 text-2xl",
+				},
+				mini: {
+					wrapper: "w-20 overflow-x-hidden",
+					sideItem: "flex pr-4 py-4 text-base font-base border-b",
+					topItem: "flex px-4 items-center text-sm font-light ",
+					icon: "w-20 mr-4 text-4xl",
+				},
+				micro: {
+					wrapper: "w-14 overflow-x-hidden",
+					sideItem: "flex pr-4 py-4 text-base font-base border-b",
+					topItem: "flex mx-6 pr-4 py-2 text-sm font-light",
+					icon: "w-14 mr-4 text-2xl",
+				},
+
+			}
+
 			return {
 				sidenavWrapper: `${colors[color].contentBg} ${sizes[size].wrapper} border-r border-gray-200 h-full`,
 				menuIconSide: ` text-${colors[color].accentColor} ${sizes[size].icon} group-hover:${colors[color].highlightColor}`,
@@ -481,13 +480,53 @@ const avl_design = (colorname,size) => {
 		    		focus:outline-none hover:text-indigo-800 focus:text-indigo-800 focus:bg-blue-200 focus:border-indigo-700 
 		    		transition duration-150 ease-in-out
 		    	`,
+		    	vars: {
+		    		colors,
+		    		sizes
+		    	}
 		    }
-	    },
+		},
+
+
 		/* -----
          Top Nav Theme Components Minimal
       	------*/
       	topnav: ({color='white',size='compact'}) => {
       		
+      		let colors = {
+				white: {
+					contentBg: `bg-${highlight}`,
+					accentColor: `${accent}-600`,
+					accentBg: `hover:bg-${accent}-600`,
+					borderColor: `border-${primary}-100`,
+					textColor: `text-${primary}-600`,
+					highlightColor: `text-${highlight}`,
+				},
+					bright: {
+					contentBg: `bg-${accent}-700`,
+					accentColor: `${accent}-400`,
+					accentBg: `hover:bg-${accent}-400`,
+					borderColor: `border-${accent}-600`,
+					textColor: `text-${highlight}`,
+					highlightColor: `text-${highlight}`,
+				}
+			}
+			let sizes = {
+				compact: {
+					wrapper: "w-64",
+					sideItem: "flex mx-6 pr-4 py-2 text-sm font-light hover:pl-4",
+					topItem: "flex items-center text-sm px-4 border-r h-12",
+					icon: "mr-3 text-lg",
+				},
+				full: {
+					wrapper: "w-64",
+					sideItem: "flex mx-4 pr-4 py-4 text-base font-base border-b hover:pl-4",
+					topItem: "flex pr-4 py-2 text-sm font-light",
+					icon: "mr-4 text-2xl",
+				},
+			}
+
+
 			return {
 				topnavWrapper: `w-full ${colors[color].contentBg}`,
 				topnavContent: `flex w-full h-full`,
@@ -495,7 +534,6 @@ const avl_design = (colorname,size) => {
 				menuIconTop: `text-${colors[color].accentColor} ${sizes[size].icon} group-hover:${colors[color].highlightColor}`,
 				menuOpenIcon: `os-icon os-icon-menu`,
 				menuCloseIcon: `os-icon os-icon-x`,
-
 				navitemTop: `
 				    group font-sans 
 				    ${sizes[size].topItem} ${colors[color].textColor} ${colors[color].borderColor} 
@@ -515,8 +553,15 @@ const avl_design = (colorname,size) => {
 		    	`,
 				mobileButton:
 					"md:hidden bg-white inline-flex items-center justify-center p-2  text-gray-400 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-300",
+				vars: {
+		    		colors,
+		    		sizes
+		    	}
 			}
+
 		},
+
+
 		/* ------------------------- */
 		shadow: "shadow",
 		ySpace: "py-4",
