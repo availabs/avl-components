@@ -1,4 +1,10 @@
-import React from "react";
+import React, { 
+  useEffect, 
+  useState,
+  useCallback,
+  KeyboardEvent,
+  
+} from "react";
 
 import Input from "./input";
 import { hasValue } from "./utils";
@@ -11,8 +17,8 @@ import get from "lodash.get";
 import { matchSorter } from "match-sorter";
 
 const Dropdown = React.forwardRef(
-  ({ children, searchable, opened, direction, customTheme }, ref) => {
-    const theme = useTheme();
+  ({ children, searchable, opened, direction, themeOptions={} }, ref) => {
+    const theme = useTheme()['select'](themeOptions);
     return (
       <div
         className={`
@@ -22,25 +28,24 @@ const Dropdown = React.forwardRef(
         style={direction === "down" ? { top: "100%" } : { bottom: "100%" }}
         ref={ref}
       >
-        <div className={`${theme.accent3} my-1 ${searchable ? "pt-1" : ""}`}>
+        <div className={`${theme.menuWrapper}`}>
           {children}
         </div>
       </div>
     );
   }
 );
-const DropdownItem = ({ children, isActive, customTheme, ...props }) => {
-  const theme = useTheme();
+
+const DropdownItem = ({ children, isActive, themeOptions={}, ...props }) => {
+  const theme = useTheme()['select'](themeOptions);
   return (
     <div
       {...props}
       className={`
-        px-2 whitespace-no-wrap
-        ${theme.itemText}
         ${
           isActive
-            ? `cursor-not-allowed ${theme.accent2}`
-            : `cursor-pointer hover:${theme.accent2}`
+            ? `${theme.menuItemActive}`
+            : `${theme.menuItem}`
         }
       `}
     >
@@ -51,226 +56,282 @@ const DropdownItem = ({ children, isActive, customTheme, ...props }) => {
 
 const Identity = (i) => i;
 
-class Select extends React.Component {
-  static defaultProps = {
-    multi: false,
-    searchable: false,
-    domain: [],
-    options: [],
-    value: null,
-    placeholder: "Select a value...",
-    accessor: Identity,
-    displayAccessor: null,
-    listAccessor: null,
-    id: "avl-select",
-    autoFocus: false,
-    disabled: false,
-    removable: true,
-    customTheme: {},
-    valueAccessor: Identity,
-  };
+const Select = (props) => {
+  const {
+    multi = false,
+    searchable = false,
+    domain = [],
+    options = [],
+    value = null,
+    placeholder = "Select a value...",
+    accessor = Identity,
+    displayAccessor = null,
+    listAccessor = null,
+    id = "avl-select",
+    autoFocus = false,
+    disabled = false,
+    removable = false,
+    themeOptions = {},
+    onChange= Identity,
+    valueAccessor = Identity,
+    className = ''
+  } =  props;
 
-  constructor(...args) {
-    super(...args);
+  const theme = useTheme()['select'](themeOptions);
+  const node = React.useRef();
+  const vcNode = React.useRef();
+  const dropdown = React.useRef();
+  const optionRefs = React.useRef(new Array())
 
-    this.node = null;
-    this.vcNode = null;
-    this.dropdown = null;
-
-    this.state = {
-      opened: false,
-      direction: "down",
-      hasFocus: false,
-      search: "",
-    };
-  }
-
-  checkOutside = (e) => {
-    if (this.node.contains(e.target)) {
+  const [opened, setOpened] = useState(false)
+  const [direction, setDirection] = useState('down')
+  const [hasFocus, setHasFocus] = useState(false)
+  const [search, setSearch] = useState('')
+  const [optionFocus, setOptionFocus] = useState(false)
+   
+  
+  const checkOutside = (e) => {
+    if (node && node.current && node.current.contains(e.target)) {
       return;
     }
-    this.closeDropdown();
+    closeDropdown();
   };
-  openDropdown = (e) => {
+  const openDropdown = (e) => {
     e.stopPropagation();
-    this.setState({ opened: true, hasFocus: true });
+    setOpened(true)
+    setHasFocus(true)
   };
-  closeDropdown = (e) => {
-    this.state.opened && this.vcNode && this.vcNode.focus();
-    this.setState({ opened: false, direction: "down", search: "" });
+  const closeDropdown = (e) => {
+    opened && vcNode && vcNode.current.focus();
+    setOpened(false)
   };
 
-  componentDidMount() {
-    this.props.autoFocus && this.focus();
+  const focus = () => {
+    vcNode && vcNode.focus();
   }
-  focus() {
-    this.vcNode && this.vcNode.focus();
-  }
-  componentDidUpdate() {
-    document.addEventListener("mousedown", this.checkOutside);
-    if (this.dropdown && this.state.opened && this.state.direction === "down") {
-      const rect = this.dropdown.getBoundingClientRect();
+
+  useEffect(() => {
+    autoFocus && focus();
+  },[])
+
+  useEffect(() => {
+    document.addEventListener("mousedown", checkOutside);
+    if (dropdown && dropdown.current && opened && direction === "down") {
+      const rect = dropdown.current.getBoundingClientRect();
       if (rect.top + rect.height > window.innerHeight) {
-        this.setState({ direction: "up" });
+        setDirection("up");
       }
     }
-  }
-  componentWillUnmount() {
-    document.removeEventListener("mousedown", this.checkOutside);
-  }
-  getValues() {
+    return () => {document.removeEventListener("mousedown", checkOutside)};
+  },[])
+  /*componentWillUnmount() {
+    
+  }*/
+
+  const getValues = () => {
     let values = [];
 
-    if (!hasValue(this.props.value)) return [];
+    if (!hasValue(value)) return [];
 
-    if (!Array.isArray(this.props.value)) {
-      values = [this.props.value];
+    if (!Array.isArray(value)) {
+      values = [value];
     } else {
-      values = this.props.value;
+      values = value;
     }
-    return this.getOptions().filter(option => {
+    return getOptions().filter(option => {
       // return values.includes(this.props.valueAccessor(option));
       return values.reduce((a, c) => {
-        return a || deepequal(this.props.valueAccessor(option), c);
+        return a || deepequal(valueAccessor(option), c);
       }, false)
     });
   }
-  addItem(e, v) {
+
+  const addItem = (e, v) => {
     e.stopPropagation();
-    this.closeDropdown();
+    closeDropdown();
 
-    v = this.props.valueAccessor(v);
+    v = valueAccessor(v);
 
-    if (this.props.multi) {
-      if (!hasValue(this.props.value)) {
-        this.props.onChange([v]);
+    if (multi) {
+      if (!hasValue(value)) {
+        onChange([v]);
       } else if (
-        this.props.value.reduce((a, c) => a && !deepequal(c, v), true)
+        value.reduce((a, c) => a && !deepequal(c, v), true)
       ) {
-        this.props.onChange([...this.props.value, v]);
+        onChange([...value, v]);
       }
     } else {
-      this.props.onChange(v);
+      onChange(v);
     }
   }
-  removeItem(e, v) {
+  const removeItem = (e, v) => {
     e.stopPropagation();
-
-    v = this.props.valueAccessor(v);
-
-    if (this.props.multi) {
-      this.props.onChange(this.props.value.filter((d) => !deepequal(d, v)));
+    v = valueAccessor(v);
+    if (multi) {
+      onChange(value.filter((d) => !deepequal(d, v)));
     } else {
-      this.props.onChange(null);
+      onChange(null);
     }
   }
-  setSearch(search) {
-    this.setState({ search });
-  }
-  getOptions() {
-    return this.props.options.length ? this.props.options : this.props.domain;
-  }
-  render() {
-    const { disabled, accessor, searchable, customTheme } = this.props,
-      values = this.getValues(),
-      search = this.state.search,
-      _options = this.getOptions(),
-      activeOptions = _options.filter((d) => values.includes(d)),
-      listAccessor = this.props.listAccessor || accessor,
-      options = !search
-        ? _options
-        : matchSorter(_options, search, { keys: [listAccessor] });
 
-    return (
-      <div
-        ref={(n) => (this.node = n)}
-        className="relative"
-        onMouseLeave={(e) => this.closeDropdown()}
-      >
-        <div className="cursor-pointer">
-          <ValueContainer
-            id={this.props.id}
-            ref={(n) => (this.vcNode = n)}
-            onBlur={(e) => this.setState({ hasFocus: false })}
-            onFocus={(e) => this.setState({ hasFocus: true })}
-            hasFocus={this.state.opened || this.state.hasFocus}
+  const getOptions = () => {
+    return options.length ? options : domain;
+  }
+
+  let handleKeyDown = useCallback((e)=>{
+      switch (e.key) {
+        // Ref: https://www.w3.org/TR/wai-aria-practices-1.2/#keyboard-interaction-13
+
+        case 'Space':
+        case 'Enter':
+        case 'ArrowDown':
+          e.preventDefault()
+          if(!opened) {
+            setOpened(true)
+          }
+          console.log('set option focus', optionRefs)
+            
+          if(optionRefs[0] && optionRefs[0].current) {
+            optionRefs[0].current.focus()
+          }
+          // d.nextFrame(() => {
+          //   if (!state.propsRef.current.value)
+          //     dispatch({ type: ActionTypes.GoToOption, focus: Focus.First })
+          // })
+          break
+
+        case 'ArrowUp':
+          e.preventDefault()
+          if(!opened) {
+            setOpened(true)
+          }
+          if(optionRefs[0] && optionRefs[0].current) {
+            console.log('set option focus',  optionRefs[0].current, optionRefs)
+            optionRefs[0].current.focus()
+          }
+          break
+
+        case 'Escape':
+          e.preventDefault()
+          e.stopPropagation()
+          if(opened) {
+            setOpened(false)
+          }
+          break
+
+        // case 'Tab':
+        //   e.preventDefault()
+        //   e.stopPropagation()
+        //   break
+
+
+      }
+  
+  },[opened])
+
+  const values = getValues()
+  const _options = getOptions()
+  let activeOptions = _options.filter((d) => values.includes(d))
+  const uselistAccessor = listAccessor || accessor
+  const viewOptions = !search
+        ? _options
+        : matchSorter(_options, search, { keys: [uselistAccessor] });
+
+  return (
+    <div
+      ref={node}
+      className="relative"
+      onMouseLeave={(e) => closeDropdown()}
+    >
+      <div className="cursor-pointer">
+        <div 
+            id={props.id}
+            ref={vcNode}
+            onBlur={(e) => setHasFocus(false)}
+            onFocus={(e) => setHasFocus(true)}
+            onKeyDown={handleKeyDown}
             disabled={disabled}
             tabIndex={disabled ? -1 : 0}
-            onClick={this.openDropdown}
-            customTheme={customTheme}
-          >
-            {values.length ? (
-              values.map((v, i, a) => (
-                <ValueItem
-                  key={i}
-                  disabled={disabled}
-                  customTheme={customTheme}
-                  remove={
-                    this.props.removable ? (e) => this.removeItem(e, v) : null
-                  }
-                >
-                  {accessor(v, a)}
-                </ValueItem>
-              ))
-            ) : (
-              <ValueItem key="placeholder" isPlaceholder={true}>
-                {this.props.placeholder}
+            onClick={openDropdown}
+            className={`${theme.select} ${className}`}>
+          {values.length ? (
+            values.map((v, i, a) => (
+              <ValueItem
+                key={i}
+                disabled={disabled}
+                themeOptions={themeOptions}
+                remove={
+                  removable ? (e) => removeItem(e, v) : null
+                }
+              >
+                {accessor(v, a)}
               </ValueItem>
-            )}
-          </ValueContainer>
+            ))
+          ) : (
+            <ValueItem key="placeholder" isPlaceholder={true}>
+              {placeholder}
+            </ValueItem>
+          )}
+          <div className={`${theme.selectIcon}`}/>
         </div>
 
-        {disabled || !this.state.opened ? null : (
-          <Dropdown
-            opened={this.state.opened}
-            direction={this.state.direction}
-            searchable={searchable}
-            ref={(n) => (this.dropdown = n)}
-            customTheme={customTheme}
-          >
-            {!searchable ? null : (
-              <div className="p-2 pt-1 w-full">
-                <Input
-                  type="text"
-                  autoFocus
-                  placeholder="search..."
-                  className="w-full"
-                  value={this.state.search}
-                  onChange={(v) => this.setSearch(v)}
-                />
-              </div>
-            )}
-            {!options.length ? (
-              <div className="p-1 text-center">No Selections</div>
-            ) : (
-              <div
-                className="scrollbar overflow-y-auto"
-                style={{ maxHeight: "15rem" }}
-              >
-                {options.map((d, i) => (
-                  <DropdownItem
-                    key={`${accessor(d)}-${i}`}
-                    customTheme={customTheme}
-                    onClick={
-                      activeOptions.includes(d)
-                        ? (e) => e.stopPropagation()
-                        : (e) => this.addItem(e, d)
-                    }
-                    isActive={activeOptions.includes(d)}
-                  >
-                    {get(d, "OptionComponent") ? (
-                      <d.OptionComponent option={d} />
-                    ) : (
-                      listAccessor(d)
-                    )}
-                  </DropdownItem>
-                ))}
-              </div>
-            )}
-          </Dropdown>
-        )}
       </div>
-    );
-  }
+
+      {disabled || !opened ? null : (
+        <Dropdown
+          opened={opened}
+          direction={direction}
+          searchable={searchable}
+          ref={dropdown}
+          themeOptions={themeOptions}
+        >
+          {!searchable ? null : (
+            <div className="p-2 pt-1 w-full">
+              <Input
+                type="text"
+                autoFocus
+                placeholder="search..."
+                className="w-full"
+                value={search}
+                onChange={(v) => setSearch(v)}
+              />
+            </div>
+          )}
+          {!viewOptions.length ? (
+            <div className="p-1 text-center">No Selections</div>
+          ) : (
+            <div
+              className="scrollbar overflow-y-auto"
+              style={{ maxHeight: "15rem" }}
+            >
+              {viewOptions.map((d, i) => (
+                <div
+                  ref={(element) => optionRefs.current.push(element)}
+                  key={`${accessor(d)}-${i}`}
+                  onClick={
+                    activeOptions.includes(d)
+                      ? (e) => e.stopPropagation()
+                      : (e) => addItem(e, d)
+                  }
+                  className={`${
+                    activeOptions.includes(d)
+                      ? `${theme.menuItemActive}`
+                      : `${theme.menuItem}`
+                  }`}
+                >
+                  {get(d, "OptionComponent") ? (
+                    <d.OptionComponent option={d} />
+                  ) : (
+                    uselistAccessor(d)
+                  )}
+                </div>
+              ))}
+            </div>
+          )}
+        </Dropdown>
+      )}
+    </div>
+  );
+  
 }
 export default Select;
