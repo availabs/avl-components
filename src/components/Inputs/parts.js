@@ -11,7 +11,7 @@ export const ValueItem = ({ isPlaceholder, children, remove, edit, customTheme, 
             mr-1 pl-2 ${ (!disabled && (remove || edit)) ? "pr-1" : "pr-2" }
           ` }
         ${theme.itemText}
-        whitespace-pre-wrap mt-1 relative flex items-center
+        whitespace-pre-wrap mt-1 flex items-center
       ` }>
       { children }
       { isPlaceholder || disabled || !edit ? null :

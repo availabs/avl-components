@@ -5,6 +5,7 @@ import HeaderComponent from "./Header/HeaderComponent"
 import { List, ListItemRemovable, ListItemAction } from './List/List'
 import { NavMenu, NavMenuItem, NavMenuSeparator } from "./Nav/Menu"
 import NavItem from './Nav/Item'
+import FlyoutMenu from './Menu/FlyoutMenu'
 import Table from './Table'
 import GridTable from "./Table/grid-table"
 import SideNav from './Nav/Side'
@@ -74,6 +75,7 @@ export {
 	NavMenu,
 	NavMenuItem,
 	NavMenuSeparator,
+	FlyoutMenu,
 	Layouts,
 	Loading,
 	ScalableLoading,

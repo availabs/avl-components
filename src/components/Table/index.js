@@ -169,50 +169,7 @@ export default ({ columns = EMPTY_ARRAY,
                 </tr>
               )
             }
-            { pageCount <= 1 ? null :
-              <tr className={ theme.tableInfoBar }>
-                <td colSpan={ columns.length } className="px-4">
-                  <div className={ `flex items-center ${ theme.textInfo }` }>
-                    <div className="flex-0">
-                      Page { pageIndex + 1 } of { pageCount }
-                      <span className="font-extrabold">&nbsp; | &nbsp;</span>
-                      Rows { pageIndex * statePageSize + 1 }-
-                      { Math.min(rows.length, pageIndex * statePageSize + statePageSize) } of { rows.length }
-                    </div>
-                    <div className={ `flex-1 flex justify-end items-center` }>
-                      <Button disabled={ pageIndex === 0 } buttonTheme="textbuttonInfoSmall"
-                        onClick={ e => gotoPage(0) }>
-                        { "<<" }
-                      </Button>
-                      <Button disabled={ !canPreviousPage } buttonTheme="textbuttonInfoSmall"
-                        onClick={ e => previousPage() }>
-                        { "<" }
-                      </Button>
-                      { getPageSpread(pageIndex, pageCount - 1)
-                          .map(p => {
-                            const active = (p === pageIndex);
-                            return (
-                              <Button key={ p } buttonTheme="textbuttonInfo"
-                                active={ active } large={ active } small={ !active }
-                                onClick={ active ? null : e => gotoPage(p) }>
-                                { p + 1 }
-                              </Button>
-                            )
-                          })
-                      }
-                      <Button disabled={ !canNextPage } buttonTheme="textbuttonInfoSmall"
-                        onClick={ e => nextPage(0) }>
-                        { ">" }
-                      </Button>
-                      <Button disabled={ pageIndex === (pageCount - 1) } buttonTheme="textbuttonInfoSmall"
-                        onClick={ e => gotoPage(pageCount - 1) }>
-                        { ">>" }
-                      </Button>
-                    </div>
-                  </div>
-                </td>
-              </tr>
-            }
+            
           </thead>
           <tbody { ...getTableBodyProps() }>
             { page.map(row => {
@@ -269,7 +226,54 @@ export default ({ columns = EMPTY_ARRAY,
                 )
               })
             }
+
           </tbody>
+           <tfoot>
+              { pageCount <= 1 ? null :
+              <tr className={ theme.tableInfoBar }>
+                <td colSpan={ columns.length } className="px-4">
+                  <div className={ `flex items-center ${ theme.textInfo }` }>
+                    <div className="flex-0">
+                      Page { pageIndex + 1 } of { pageCount }
+                      <br />{/*<span className="font-extrabold">&nbsp; | &nbsp;</span>*/}
+                      Rows { pageIndex * statePageSize + 1 }-
+                      { Math.min(rows.length, pageIndex * statePageSize + statePageSize) } of { rows.length }
+                    </div>
+                    <div className={ `flex-1 flex justify-end items-center` }>
+                      <Button disabled={ pageIndex === 0 } buttonTheme="textbuttonInfoSmall"
+                        onClick={ e => gotoPage(0) }>
+                        { "<<" }
+                      </Button>
+                      <Button disabled={ !canPreviousPage } buttonTheme="textbuttonInfoSmall"
+                        onClick={ e => previousPage() }>
+                        { "<" }
+                      </Button>
+                      { getPageSpread(pageIndex, pageCount - 1)
+                          .map(p => {
+                            const active = (p === pageIndex);
+                            return (
+                              <Button key={ p } buttonTheme="textbuttonInfo"
+                                active={ active } large={ active } small={ !active }
+                                onClick={ active ? null : e => gotoPage(p) }>
+                                { p + 1 }
+                              </Button>
+                            )
+                          })
+                      }
+                      <Button disabled={ !canNextPage } buttonTheme="textbuttonInfoSmall"
+                        onClick={ e => nextPage(0) }>
+                        { ">" }
+                      </Button>
+                      <Button disabled={ pageIndex === (pageCount - 1) } buttonTheme="textbuttonInfoSmall"
+                        onClick={ e => gotoPage(pageCount - 1) }>
+                        { ">>" }
+                      </Button>
+                    </div>
+                  </div>
+                </td>
+              </tr>
+            }
+            </tfoot>
         </table>
       </div>
     )

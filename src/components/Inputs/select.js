@@ -240,7 +240,7 @@ const Select = (props) => {
   return (
     <div
       ref={node}
-      className="relative"
+
       onMouseLeave={(e) => closeDropdown()}
     >
       <div className="cursor-pointer">
@@ -276,7 +276,7 @@ const Select = (props) => {
         </div>
 
       </div>
-
+      <div className='relative'>
       {disabled || !opened ? null : (
         <Dropdown
           opened={opened}
@@ -330,6 +330,7 @@ const Select = (props) => {
           )}
         </Dropdown>
       )}
+      </div>
     </div>
   );
   

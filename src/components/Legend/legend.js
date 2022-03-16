@@ -220,9 +220,9 @@ const LinearScale = ({ scale, format, size, ticks = 5 }) => {
   return (
     <div>
       <ColorBar size={ size } colors={ scaleTicks.map(t => scale(t)) }/>
-      <div className={ `text-sm grid grid-cols-${ scaleTicks.length }` }>
+      <div className={ `text-sm flex` }>
         { scaleTicks.map(t =>
-            <div className="col-span-1 text-right pr-1" key={ t }>
+            <div className="col-span-1 text-right pr-1 flex-1" key={ t }>
               { format(t) }
             </div>
           )
@@ -237,16 +237,16 @@ const OrdinalScale = ({ scale, format, height = 3, direction = "vertical" }) => 
     <div>
       { direction === "horizontal" ?
         <>
-          <div className={ `grid grid-cols-${ range.length }` }>
+          <div className={ `flex` }>
             { range.map(c =>
-                <div className="col-span-1 h-3 mx-2 rounded" key={ c }
+                <div className="flex-1  h-3 mx-2 rounded" key={ c }
                   style={ { backgroundColor: c } }/>
               )
             }
           </div>
-          <div className={ `grid grid-cols-${ range.length }` }>
+          <div className={ `flex` }>
             { scale.domain().map(d =>
-                <div className="col-span-1 text-center" key={ d }>
+                <div className="flex-1 text-center" key={ d }>
                   { format(d) }
                 </div>
               )
@@ -287,9 +287,9 @@ const QuantizleScale = ({ scale, format, size }) => {
   return (
     <div>
       <ColorBar size={ size } colors={ range }/>
-      <div className={ `text-sm grid grid-cols-${ range.length }` }>
+      <div className={ `text-sm flex` }>
         { range.map(r =>
-            <div className="col-span-1 text-right pr-1" key={ r }>
+            <div className="flex-1 text-right pr-1" key={ r }>
               { format(scale.invertExtent(r)[1]) }
             </div>
           )

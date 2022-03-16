@@ -2,7 +2,6 @@ import React from "react"
 
 import colorbrewer from "colorbrewer"
 
-import styled from "styled-components"
 import get from "lodash.get"
 
 const ColorRanges = {}
@@ -31,28 +30,19 @@ export const getColorRange = (size, name) =>
 	get(ColorRanges, [size], [])
 		.reduce((a, c) => c.name === name ? c.colors : a, []).slice();
 
-const ColorBarContainer =styled.div`
-  > *:first-child {
-    border-top-left-radius: 0.25rem;
-    border-bottom-left-radius: 0.25rem;
-  }
-  > *:last-child {
-    border-top-right-radius: 0.25rem;
-    border-bottom-right-radius: 0.25rem;
-  }
-`
+
 export const ColorBar = ({ colors, size = 3 }) => {
   return (
-    <ColorBarContainer className={ `grid grid-cols-${ colors.length }` }>
+    <div className={ `flex` }>
       { colors.map((c, i) =>
           <div key={ i }
 						style={ {
 							backgroundColor: c,
 							transition: "background-color 0.5s"
 						} }
-            className={ `col-span-1 h-${ size }` }/>
+            className={ `flex-1 h-${ size }` }/>
         )
       }
-    </ColorBarContainer>
+    </div>
   )
 }
