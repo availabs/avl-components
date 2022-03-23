@@ -3,6 +3,7 @@ import TopNav from "./Top";
 
 export default {
 	name: "Top Nav",
+	themeVar: "topnav",
 	description: "A responsive horizontal navigation component.",
 	props: [
 		{

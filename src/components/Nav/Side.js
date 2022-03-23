@@ -86,7 +86,7 @@ const DesktopSidebar = ({
 	themeOptions={},
 	...props }) => {
 	let theme = useTheme()['sidenav'](themeOptions);
-	
+	console.log('SideNav', themeOptions, theme, useTheme()['sidenav'](themeOptions))
 
 	return (
 		<>
