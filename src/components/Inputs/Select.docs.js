@@ -61,5 +61,52 @@ export default {
 				</div>
 			);
 		},
+	},
+	{
+		title: 'Multi Select',
+		props: [
+			{ 
+				name: "options", 
+				default: [
+					"Afghanistan",
+					"Albania",
+					"Algeria",
+					"Andorra",
+					"Angola",
+					"Antigua",
+					"Argentina",
+					"Armenia",
+					"Australia",
+					"Austria",
+					"Really long selection to test what happens when something like this is selected"
+				]
+			},
+			{ 
+				name: "multi", 
+				default: true
+			},
+			{ 
+				name: "removable", 
+				default: true
+			},
+			
+
+		],
+		Component: (props) => {
+			const [selected, setSelected] = React.useState('')
+			return (
+				<div className="h-full w-full bg-gray-100">
+					<div className="w-72 mx-auto py-12">
+						Select:
+						<Select 
+							{...props}
+							value={selected}
+							onChange={(v) => setSelected(v)}
+							className=''
+						/>
+					</div>
+				</div>
+			);
+		},
 	}],
 };

@@ -23,12 +23,12 @@ export const ValueItem = ({ isPlaceholder, children, remove, edit, disabled = fa
     <div className={ `
         ${ isPlaceholder ? theme.textLight :
           `${ disabled ? theme.accent2 : (!(remove || edit) ? "" : theme.menuBgActive) }
-            mr-1 pl-2 ${ (!disabled && (remove || edit)) ? "pr-1" : "pr-2" }
+            mr-1 pl-2 ${ (!disabled && (remove || edit)) ? "pr-1" : "pr-4" }
           ` }
         ${theme.itemText}
-         mt-1 flex items-center truncate
+         mt-1 flex items-center max-w-full
       ` }>
-      { children }
+      <span className={"max-w-full"}>{ children }</span>
       { isPlaceholder || disabled || !edit ? null :
         <div className={ `
             ${ theme.menuBgActive } ${ theme.menuBgActiveHover } ${ theme.textContrast }
@@ -294,24 +294,26 @@ const Select = (props) => {
             tabIndex={disabled ? -1 : 0}
             onClick={openDropdown}
             className={`${theme.select} ${className}`}>
-          {values.length ? (
-            values.map((v, i, a) => (
-              <ValueItem
-                key={i}
-                disabled={disabled}
-                themeOptions={themeOptions}
-                remove={
-                  removable ? (e) => removeItem(e, v) : null
-                }
-              >
-                {accessor(v, a)}
-              </ValueItem>
-            ))
-          ) : (
-            <ValueItem key="placeholder" isPlaceholder={true}>
-              {placeholder}
-            </ValueItem>
-          )}
+            <div className='flex-1 flex flex-wrap max-w-full'>
+              {values.length ? (
+                values.map((v, i, a) => (
+                  <ValueItem
+                    key={i}
+                    disabled={disabled}
+                    themeOptions={themeOptions}
+                    remove={
+                      removable ? (e) => removeItem(e, v) : null
+                    }
+                  >
+                    {accessor(v, a)}
+                  </ValueItem>
+                ))
+              ) : (
+                <ValueItem key="placeholder" isPlaceholder={true}>
+                  {placeholder}
+                </ValueItem>
+              )}
+            </div>
           <div className={`${theme.selectIcon}`}/>
         </div>
 
