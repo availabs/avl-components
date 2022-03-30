@@ -414,7 +414,8 @@ const avl_design = (colorname,size) => {
 	//const secondary =  'green'
 	
 	return {
-		sidenav: ({color='white',size='compact'}) =>  {
+		sidenav: (opts={}) =>  {
+     		const {color='white',size='compact'} = opts
       	
 	      let colors = {
 	        white: {
@@ -512,7 +513,8 @@ const avl_design = (colorname,size) => {
 		/* -----
          Top Nav Theme Components Minimal
       	------*/
-      	topnav: ({color='white',size='compact'}) => {
+      	topnav: (opts={}) =>  {
+     		const {color='white',size='compact'} = opts
       		
       		let colors = {
 				white: {
@@ -579,6 +581,20 @@ const avl_design = (colorname,size) => {
 			}
 
 		},
+		select: (opts) => {
+      	  const { color='white' } = opts
+	      let colors = {
+	        white: 'white',
+	        transparent: 'gray-100'
+	      }
+	      return {
+	        menuWrapper: `bg-${colors[color]} my-1 text-sm`,
+	        menuItemActive: `px-2 py-2 cursor-not-allowed bg-${accent}-200 border-1 border-${colors[color]} focus:border-${accent}-300`,
+	        menuItem: `px-2 py-2 cursor-pointer hover:bg-blue-100 border-1 border-${colors[color]} focus:border-blue-300`,
+	        select: `bg-${colors[color]} w-full flex flex-row justify-between truncate px-4 py-2 cursor-pointer border-2 border-${colors[color]} focus:border-blue-300`,
+	        selectIcon: `fa fa-angle-down text-gray-400 pt-2 px-2`
+	      }
+	    },
 
 
 		/* ------------------------- */

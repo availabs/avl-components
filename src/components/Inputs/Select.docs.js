@@ -1,20 +1,13 @@
-import Select from "./select";
+import Select from "./Select";
+import React from 'react'
 //import { useTheme } from "../../wrappers";
 
 const Identity = (i) => i;
 
 export default {
-	Component: (props) => {
-		return (
-			<div className="h-full w-full bg-gray-100">
-				<div className="w-96 mx-auto py-12">
-					Select:
-					<Select {...props} />
-				</div>
-			</div>
-		);
-	},
+	
 	name: "Select",
+	themeVar: 'select',
 	description: "Select component supports, multi, search ",
 	props: [
 		{ name: "multi", default: true, type: "Boolean" },
@@ -32,6 +25,41 @@ export default {
 		{ name: "disabled", default: false, type: "Boolean" },
 		{ name: "removable", default: true, type: "Boolean" },
 	],
-	theme: ["sidebarWrapper"],
-	dependencies: [],
+	examples: [{
+		title: 'Simple Select',
+		props: [
+			{ 
+				name: "options", 
+				default: [
+					"Afghanistan",
+					"Albania",
+					"Algeria",
+					"Andorra",
+					"Angola",
+					"Antigua",
+					"Argentina",
+					"Armenia",
+					"Australia",
+					"Austria",
+					"Really long selection to test what happens when something like this is selected"
+				]
+			},
+		],
+		Component: (props) => {
+			const [selected, setSelected] = React.useState('')
+			return (
+				<div className="h-full w-full bg-gray-100">
+					<div className="w-40 mx-auto py-12">
+						Select:
+						<Select 
+							{...props}
+							value={selected}
+							onChange={(v) => setSelected(v)}
+							className='text-5xl'
+						/>
+					</div>
+				</div>
+			);
+		},
+	}],
 };

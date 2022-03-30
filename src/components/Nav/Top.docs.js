@@ -39,13 +39,6 @@ export default {
 			required: false
 		}
 	],
-	theme: ["sidebarWrapper"],
-	dependencies: [
-		{
-			name: "Nav Item",
-			theme: ["navitemTop", "navitemTopActive", "menuIcon", "menuIcon"],
-		},
-	],
 	examples: [
 		{
 			Component: (props) => {
