@@ -21,7 +21,7 @@ const DefaultColumnFilter = ({ column }) => {
       setFilter
     } = column;
     // count = preFilteredRows.length;
-  const theme = useTheme();
+  const theme = useTheme(); //use
   return (
     <div className="w-3/4">
       <input className={ theme.inputSmall }
@@ -77,9 +77,11 @@ export default ({ columns = EMPTY_ARRAY,
                   ExpandRow = DefaultExpandedRow,
                   disableFilters = false,
                   disableSortBy = false,
+                  themeOptions = {},
                   ...props }) => {
 
     const theme = useTheme();
+    //const theme = useTheme().table(props.themeOptions);
     const filterTypes = React.useMemo(
       () => ({
         fuzzyText: fuzzyTextFilterFn
