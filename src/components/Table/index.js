@@ -80,8 +80,8 @@ export default ({ columns = EMPTY_ARRAY,
                   themeOptions = {},
                   ...props }) => {
 
-    const theme = useTheme();
-    //const theme = useTheme().table(props.themeOptions);
+    const theme = useTheme().table(themeOptions);
+
     const filterTypes = React.useMemo(
       () => ({
         fuzzyText: fuzzyTextFilterFn
