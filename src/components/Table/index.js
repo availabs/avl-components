@@ -21,7 +21,7 @@ const DefaultColumnFilter = ({ column }) => {
       setFilter
     } = column;
     // count = preFilteredRows.length;
-  const theme = useTheme(); //use
+    const theme = useTheme().table();
   return (
     <div className="w-3/4">
       <input className={ theme.inputSmall }

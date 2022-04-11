@@ -45,14 +45,33 @@ const TableDocs = {
                 {
                     name: "data",
                     default: [
-                        {col1: 'data for col1 row1', col2: 'data for col2 row1', col3: 'data for col3 row1'},
-                        {col1: 'data for col1 row2', col2: 'data for col2 row2', col3: 'data for col3 row2'}
+                        {col1: 'data for col1 row1',
+                            col2: 'data for col2 row1',
+                            col3: 'data for col3 row1',
+                            col4: 'data for col3 row1',
+                            col5: 'data for col3 row1',
+                            col6: 'data for col3 row1',
+                            col7: 'data for col3 row1',
+                        },
+                        {col1: 'data for col1 row2',
+                            col2: 'data for col2 row2',
+                            col3: 'data for col3 row2',
+                            col4: 'data for col3 row1',
+                            col5: 'data for col3 row1',
+                            col6: 'data for col3 row1',
+                            col7: 'data for col3 row1',}
                     ],
                 },
                 {
                     name: "columns",
                     default: [
-                        {Header: 'col1', accessor: 'col1'}, {Header: 'col2', accessor: 'col2'}, {Header: 'col3', accessor: 'col3'},
+                        {Header: 'col1', accessor: 'col1'},
+                        {Header: 'col2', accessor: 'col2'},
+                        {Header: 'col3', accessor: 'col3'},
+                        {Header: 'col4', accessor: 'col4'},
+                        {Header: 'col5', accessor: 'col5'},
+                        {Header: 'col6', accessor: 'col6'},
+                        {Header: 'col7', accessor: 'col7'},
                     ],
                 },
                 {
@@ -84,14 +103,33 @@ const TableDocs = {
                 {
                     name: "data",
                     default: [
-                        {col1: 'data for col1 row1', col2: 'data for col2 row1', col3: 'data for col3 row1'},
-                        {col1: 'data for col1 row2', col2: 'data for col2 row2', col3: 'data for col3 row2'}
+                        {col1: 'data for col1 row1',
+                            col2: 'data for col2 row1',
+                            col3: 'data for col3 row1',
+                            col4: 'data for col3 row1',
+                            col5: 'data for col3 row1',
+                            col6: 'data for col3 row1',
+                            col7: 'data for col3 row1',
+                        },
+                        {col1: 'data for col1 row2',
+                            col2: 'data for col2 row2',
+                            col3: 'data for col3 row2',
+                            col4: 'data for col3 row1',
+                            col5: 'data for col3 row1',
+                            col6: 'data for col3 row1',
+                            col7: 'data for col3 row1',}
                     ],
                 },
                 {
                     name: "columns",
                     default: [
-                        {Header: 'col1', accessor: 'col1'}, {Header: 'col2', accessor: 'col2'}, {Header: 'col3', accessor: 'col3'},
+                        {Header: 'col1', accessor: 'col1'},
+                        {Header: 'col2', accessor: 'col2'},
+                        {Header: 'col3', accessor: 'col3'},
+                        {Header: 'col4', accessor: 'col4'},
+                        {Header: 'col5', accessor: 'col5'},
+                        {Header: 'col6', accessor: 'col6'},
+                        {Header: 'col7', accessor: 'col7'},
                     ],
                 },
                 {

@@ -616,6 +616,7 @@ const avl_design = (colorname, size) => {
                 tableRow: `${colors[color]} transition ease-in-out duration-150`,
                 tableRowStriped: `bg-gray-100 even:bg-gray-200 hover:bg-gray-300 transition ease-in-out duration-150`,
                 tableCell: `${sizes[size]} whitespace-no-wrap`,
+                inputSmall: 'w-24',
                 vars: {
                     color: colors,
                     size: sizes
