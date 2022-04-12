@@ -3,6 +3,7 @@ import TopNav from "./Top";
 
 export default {
 	name: "Top Nav",
+	themeVar: "topnav",
 	description: "A responsive horizontal navigation component.",
 	props: [
 		{
@@ -37,13 +38,6 @@ export default {
 			default: 'Top',
 			required: false
 		}
-	],
-	theme: ["sidebarWrapper"],
-	dependencies: [
-		{
-			name: "Nav Item",
-			theme: ["navitemTop", "navitemTopActive", "menuIcon", "menuIcon"],
-		},
 	],
 	examples: [
 		{

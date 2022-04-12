@@ -77,23 +77,14 @@ const processConfig = (config, i = [0], outerConfig = {}) => {
     ...get(outerConfig, "children", []),
     ...get(config, "children", [])
   ];
-// const processConfig = (config, i = [0]) => {
-//   const Component = applyWrappers(getComponent(config), config),
-//     children = get(config, "children", []);
 
-// console.log("CHILDEN:", children)
-// console.log("CONFIG PROPS:", config.props)
   return (
     <Component key={ getKey(config, i) }
       { ...get(config, "props", {}) }
       { ...get(outerConfig, "props", {}) }>
       { children.map((child, ii) => processConfig(child, [...i, ii])) }
     </Component>
-  )
-  // return React.createElement(Component,
-  //   { ...config.props, key: getKey(config, i) },
-  //   children.map((child, i) => processConfig(child, i))
-  // );
+  );
 }
 
 export const ComponentFactory = ({ config }) => {

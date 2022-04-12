@@ -2,6 +2,7 @@ import SideNav from "./Side";
 
 const SideNavDocs = {
 	name: "Side Nav",
+	themeVar: "sidenav", 
 	description: "A responsive vertical navigation component.",
 	props: [
 				
@@ -178,9 +179,9 @@ const SideNavDocs = {
 			const MySideBar = (props) => {
 				return (
 					<div className="h-full w-full bg-gray-100">
-								<SideNav {...props} />
-						</div>
-					);
+						<SideNav {...props} />
+					</div>
+				);
 			};			
 			`,
 		},

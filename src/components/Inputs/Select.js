@@ -8,7 +8,7 @@ import React, {
 
 import Input from "./input";
 import { hasValue } from "./utils";
-import { ValueContainer, ValueItem } from "./parts";
+import { ValueContainer } from "./parts";
 
 import { useTheme } from "../../wrappers/with-theme";
 
@@ -16,13 +16,54 @@ import deepequal from "deep-equal";
 import get from "lodash.get";
 import { matchSorter } from "match-sorter";
 
+
+export const ValueItem = ({ isPlaceholder, children, remove, edit, disabled = false }) => {
+  const theme = {...useTheme()};
+  return (
+    <div className={ `
+        ${ isPlaceholder ? theme.textLight :
+          `${ disabled ? theme.accent2 : (!(remove || edit) ? "" : theme.menuBgActive) }
+            mr-1 pl-2 ${ (!disabled && (remove || edit)) ? "pr-1" : "pr-4" }
+          ` }
+        ${theme.itemText}
+         mt-1 flex items-center max-w-full
+      ` }>
+      <span className={"max-w-full"}>{ children }</span>
+      { isPlaceholder || disabled || !edit ? null :
+        <div className={ `
+            ${ theme.menuBgActive } ${ theme.menuBgActiveHover } ${ theme.textContrast }
+            ml-2 p-1 flex justify-center items-center rounded cursor-pointer
+          ` }
+          onClick={ edit }>
+          <svg width="8" height="8">
+            <line x1="0" y1="6" x2="4" y2="2" style={ { stroke: "currentColor", strokeWidth: 2 } }/>
+            <line x1="4" y1="2" x2="8" y2="6" style={ { stroke: "currentColor", strokeWidth: 2 } }/>
+          </svg>
+        </div>
+      }
+      { isPlaceholder || disabled || !remove ? null :
+        <div className={ `
+            ${ theme.menuBgActive } ${ theme.menuBgActiveHover } ${ theme.textContrast }
+            ${ edit ? "ml-1" : "ml-2" } p-1 flex justify-center items-center rounded cursor-pointer
+          ` }
+          onClick={ remove }>
+          <svg width="8" height="8">
+            <line x2="8" y2="8" style={ { stroke: "currentColor", strokeWidth: 2 } }/>
+            <line y1="8" x2="8" style={ { stroke: "currentColor", strokeWidth: 2 } }/>
+          </svg>
+        </div>
+      }
+    </div>
+  )
+}
+
 const Dropdown = React.forwardRef(
   ({ children, searchable, opened, direction, themeOptions={} }, ref) => {
     const theme = useTheme()['select'](themeOptions);
     return (
       <div
         className={`
-      absolute left-0 z-40 overflow-hidden w-full
+      absolute left-0 z-40 overflow-hidden min-w-full
       ${opened ? "block" : "hidden"}
     `}
         style={direction === "down" ? { top: "100%" } : { bottom: "100%" }}
@@ -240,7 +281,6 @@ const Select = (props) => {
   return (
     <div
       ref={node}
-
       onMouseLeave={(e) => closeDropdown()}
     >
       <div className="cursor-pointer">
@@ -254,24 +294,26 @@ const Select = (props) => {
             tabIndex={disabled ? -1 : 0}
             onClick={openDropdown}
             className={`${theme.select} ${className}`}>
-          {values.length ? (
-            values.map((v, i, a) => (
-              <ValueItem
-                key={i}
-                disabled={disabled}
-                themeOptions={themeOptions}
-                remove={
-                  removable ? (e) => removeItem(e, v) : null
-                }
-              >
-                {accessor(v, a)}
-              </ValueItem>
-            ))
-          ) : (
-            <ValueItem key="placeholder" isPlaceholder={true}>
-              {placeholder}
-            </ValueItem>
-          )}
+            <div className='flex-1 flex flex-wrap max-w-full'>
+              {values.length ? (
+                values.map((v, i, a) => (
+                  <ValueItem
+                    key={i}
+                    disabled={disabled}
+                    themeOptions={themeOptions}
+                    remove={
+                      removable ? (e) => removeItem(e, v) : null
+                    }
+                  >
+                    {accessor(v, a)}
+                  </ValueItem>
+                ))
+              ) : (
+                <ValueItem key="placeholder" isPlaceholder={true}>
+                  {placeholder}
+                </ValueItem>
+              )}
+            </div>
           <div className={`${theme.selectIcon}`}/>
         </div>
 
