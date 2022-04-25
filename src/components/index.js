@@ -13,6 +13,7 @@ import TopNav from './Nav/Top'
 import Layouts from "./Layouts"
 import Loading, { ScalableLoading } from "./Loading"
 import Scrollspy from "./Sidebar/scrollSpy/scrollspy";
+import TabPanel from "./TabPanel/TabPanel"
 
 import {
 	TopUserMenu, TopUserMenuControl,
@@ -79,5 +80,6 @@ export {
 	Layouts,
 	Loading,
 	ScalableLoading,
-	Scrollspy
+	Scrollspy,
+	TabPanel
 }
