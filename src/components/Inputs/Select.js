@@ -1,9 +1,9 @@
-import React, { 
-  useEffect, 
+import React, {
+  useEffect,
   useState,
   useCallback,
   KeyboardEvent,
-  
+
 } from "react";
 
 import Input from "./input";
@@ -129,8 +129,8 @@ const Select = (props) => {
   const [hasFocus, setHasFocus] = useState(false)
   const [search, setSearch] = useState('')
   const [optionFocus, setOptionFocus] = useState(false)
-   
-  
+
+
   const checkOutside = (e) => {
     if (node && node.current && node.current.contains(e.target)) {
       return;
@@ -166,7 +166,7 @@ const Select = (props) => {
     return () => {document.removeEventListener("mousedown", checkOutside)};
   },[])
   /*componentWillUnmount() {
-    
+
   }*/
 
   const getValues = () => {
@@ -231,7 +231,7 @@ const Select = (props) => {
             setOpened(true)
           }
           console.log('set option focus', optionRefs)
-            
+
           if(optionRefs[0] && optionRefs[0].current) {
             optionRefs[0].current.focus()
           }
@@ -267,7 +267,7 @@ const Select = (props) => {
 
 
       }
-  
+
   },[opened])
 
   const values = getValues()
@@ -284,7 +284,7 @@ const Select = (props) => {
       onMouseLeave={(e) => closeDropdown()}
     >
       <div className="cursor-pointer">
-        <div 
+        <div
             id={props.id}
             ref={vcNode}
             onBlur={(e) => setHasFocus(false)}
@@ -375,6 +375,6 @@ const Select = (props) => {
       </div>
     </div>
   );
-  
+
 }
 export default Select;

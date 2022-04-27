@@ -75,18 +75,18 @@ const MobileSidebar = ({
 	);
 };
 
-const DesktopSidebar = ({ 
-	menuItems = [], 
-	logo = null, 
-	topMenu, 
-	bottomMenu, 
-	toggle, 
-	open, 
+const DesktopSidebar = ({
+	menuItems = [],
+	logo = null,
+	topMenu,
+	bottomMenu,
+	toggle,
+	open,
 	mobile,
 	themeOptions={},
 	...props }) => {
 	let theme = useTheme()['sidenav'](themeOptions);
-	console.log('SideNav', themeOptions, theme, useTheme()['sidenav'](themeOptions))
+	// console.log('SideNav', themeOptions, theme, useTheme()['sidenav'](themeOptions))
 
 	return (
 		<>
@@ -96,7 +96,7 @@ const DesktopSidebar = ({
 				<div>
 					{topMenu}
 					<nav className={`${theme.itemsWrapper}`}>
-						
+
 						{menuItems.map((page, i) => (
 							<SidebarItem
 								key={i}
@@ -113,7 +113,7 @@ const DesktopSidebar = ({
 					{bottomMenu}
 				</div>
 			</div>
-			{mobile === 'side' ? '' : 
+			{mobile === 'side' ? '' :
 				<div className={`${theme.topnavWrapper} md:hidden`}>
 			      <div className={`${theme.topnavContent} justify-between`}>
 			        <div>{topMenu}</div>
@@ -146,11 +146,11 @@ const SideNav = (props) => {
 	return (
 		<>
 			<DesktopSidebar {...props} open={open} toggle={setOpen} />
-			{props.mobile === 'side'  ? 
+			{props.mobile === 'side'  ?
 				<MobileSidebar open={open} toggle={setOpen} {...props} /> :
 				<MobileMenu open={open} {...props} themeOptions={{}}/>
 			}
-			
+
 		</>
 	);
 };

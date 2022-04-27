@@ -68,12 +68,14 @@ const DefaultExpandedRow = ({ values }) =>
 
 const EMPTY_ARRAY = [];
 
-export default ({ columns = EMPTY_ARRAY, 
+export default ({ columns = EMPTY_ARRAY,
                   data = EMPTY_ARRAY,
                   sortBy, sortOrder = "",
                   initialPageSize = 10,
                   pageSize = null,
                   onRowClick,
+                  onRowEnter,
+                  onRowLeave,
                   ExpandRow = DefaultExpandedRow,
                   disableFilters = false,
                   disableSortBy = false,
@@ -171,7 +173,7 @@ export default ({ columns = EMPTY_ARRAY,
                 </tr>
               )
             }
-            
+
           </thead>
           <tbody { ...getTableBodyProps() }>
             { page.map(row => {
@@ -180,6 +182,8 @@ export default ({ columns = EMPTY_ARRAY,
                 return (
                   <React.Fragment key={ row.getRowProps().key }>
                     <tr { ...row.getRowProps() }
+                      onMouseEnter={ typeof onRowEnter === "function" ? e => onRowEnter(e, row) : null }
+                      onMouseLeave={ typeof onRowLeave === "function" ? e => onRowLeave(e, row) : null }
                       className={ `
                         ${ props.striped ? theme.tableRowStriped : theme.tableRow }
                         ${ (onClick || onRowClick) ? "cursor-pointer" : "" }
