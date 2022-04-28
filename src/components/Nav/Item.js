@@ -5,8 +5,6 @@ import Icon from "../Icons";
 
 import { useTheme } from "../../wrappers";
 
-import get from "lodash.get";
-
 const NavItem = ({
 	children,
 	icon,
@@ -53,15 +51,14 @@ const NavItem = ({
 
 	return (
 		<div
-			onClick={() =>
-				subMenuActivate === 'onClick' ? setShowSubMenu(!showSubMenu) :
-					!subMenus.length && onClick ? onClick
-						: () => {
-							if (!subMenus.length && To[0]) {
-								history.push(To[0]);
-							}
-						}
-		}
+			onClick={() => {
+				if (subMenuActivate === 'onClick') setShowSubMenu(!showSubMenu);
+
+				if (onClick) return onClick;
+
+				if (To[0]) history.push(To[0]);
+			}
+			}
 			onMouseLeave={() => subMenuActivate === 'onHover' ? setShowSubMenu(false) : ''}
 			 onMouseOver={() => subMenuActivate === 'onHover' ? setShowSubMenu(true) : ''}
 			className={type === "side" ? theme.subMenuParentWrapper : null}
