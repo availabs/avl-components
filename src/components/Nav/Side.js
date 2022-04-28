@@ -8,6 +8,20 @@ import { useTheme } from "../../wrappers";
 import SidebarItem from "./Item";
 import { MobileMenu } from './Top'
 
+const sideBarItem = ({i, page, themeOptions, subMenuActivate, subMenuStyle}) => (
+	<SidebarItem
+		key={i}
+		to={page.path}
+		icon={page.icon}
+		className={page.className}
+		themeOptions={themeOptions}
+		subMenuActivate={subMenuActivate}
+		subMenuStyle={subMenuStyle}
+		subMenus={get(page, "subMenus", [])}
+	>
+		{page.name}
+	</SidebarItem>
+)
 const MobileSidebar = ({
    open,
    toggle,
@@ -16,6 +30,7 @@ const MobileSidebar = ({
    menuItems = [],
    bottomMenu,
    themeOptions={},
+	subMenuActivate, subMenuStyle,
    ...props
 }) => {
 	let theme = useTheme()['sidenav'](themeOptions);
@@ -50,19 +65,10 @@ const MobileSidebar = ({
 								</Link>
 							</div>
 							<div>{topMenu}</div>
-							<nav className="flex-1 findme">
+							<nav className="flex-1">
 								{menuItems.map((page, i) => (
 									<div key={i} className={page.sectionClass}>
-										<SidebarItem
-											key={i}
-											to={page.path}
-											icon={page.icon}
-											className={page.className}
-											themeOptions={themeOptions}
-											subMenus={get(page, "subMenus", [])}
-										>
-											{page.name}
-										</SidebarItem>
+										{sideBarItem({i, page, themeOptions, subMenuActivate, subMenuStyle})}
 									</div>
 								))}
 							</nav>
@@ -86,6 +92,7 @@ const DesktopSidebar = ({
 	open,
 	mobile,
 	themeOptions={},
+	subMenuActivate, subMenuStyle,
 	...props }) => {
 	let theme = useTheme()['sidenav'](themeOptions);
 	// console.log('SideNav', themeOptions, theme, useTheme()['sidenav'](themeOptions))
@@ -99,18 +106,9 @@ const DesktopSidebar = ({
 					{topMenu}
 					<nav className={`${theme.itemsWrapper}`}>
 
-						{menuItems.map((page, i) => (
-							<SidebarItem
-								key={i}
-								to={page.path}
-								icon={page.icon}
-								className={page.className}
-								themeOptions={themeOptions}
-								subMenus={get(page, "subMenus", [])}
-							>
-								{page.name}
-							</SidebarItem>
-						))}
+						{menuItems.map((page, i) =>
+							sideBarItem({i, page, themeOptions, subMenuActivate, subMenuStyle})
+						)}
 					</nav>
 					{bottomMenu}
 				</div>
@@ -145,7 +143,6 @@ const DesktopSidebar = ({
 
 const SideNav = (props) => {
 	const [open, setOpen] = useState(false);
-	console.log('p',props.mobile === 'side', props)
 	return (
 		<>
 			<DesktopSidebar {...props} open={open} toggle={setOpen} />

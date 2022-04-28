@@ -16,7 +16,9 @@ const NavItem = ({
 	type = "side",
 	active = false,
 	subMenus = [],
-	themeOptions
+	themeOptions,
+	subMenuActivate = 'onClick',
+	subMenuStyle = 'inline'
 }) => {
 	const theme = useTheme()[type === 'side' ? 'sidenav' : 'topnav'](themeOptions);
 	const history = useHistory();
@@ -48,13 +50,13 @@ const NavItem = ({
 
 	const navClass = routeMatch || active ? activeClasses : linkClasses;
 
-	const [showSubMenu, setShowSubMenu] = React.useState(false);
+	const [showSubMenu, setShowSubMenu] = React.useState(subMenuActivate === 'active');
 
 	return (
 		<div
-			onClick={(e) => setShowSubMenu(!showSubMenu)}
-			// onMouseLeave={(e) => setShowSubMenu(false)}
-			//  onMouseOver={(e) => setShowSubMenu(true)}
+			onClick={(e) => subMenuActivate === 'onClick' ? setShowSubMenu(!showSubMenu) : ''}
+			onMouseLeave={(e) => subMenuActivate === 'onHover' ? setShowSubMenu(false) : ''}
+			 onMouseOver={(e) => subMenuActivate === 'onHover' ? setShowSubMenu(true) : ''}
 		>
 			<div
 				onClick={
@@ -76,28 +78,40 @@ const NavItem = ({
 				{children}
 				{subMenus.length ? <Icon icon={'os-icon os-icon-arrow-down'}/> : null}
 			</div>
-			<SubMenu showSubMenu={showSubMenu} subMenus={subMenus} type={type} />
+			<SubMenu showSubMenu={showSubMenu} subMenus={subMenus} type={type} subMenuStyle={subMenuStyle} themeOptions={themeOptions} className={className}/>
 		</div>
 	);
 };
 export default NavItem;
 
-const SubMenu = ({ showSubMenu, subMenus, type }) => {
-	const theme = useTheme();
+const SubMenu = ({ showSubMenu, subMenus, type, subMenuStyle, themeOptions, className }) => {
+	const theme = useTheme()[type === 'side' ? 'sidenav' : 'topnav'](themeOptions);
 	if (!showSubMenu || !subMenus.length) {
 		return null;
 	}
 	return (
 		<div
-			className={`ml-5`}
-			// className={`absolute ${
-			// 	type === "side" ? "pt-1 -mt-14 left-full" : "top-full"
-			// }`}
+			className={
+				subMenuStyle === 'inline' ? `ml-5`:
+				`absolute ${
+				type === "side" ? "absolute -mt-10" : "top-full"
+			}`}
+
+			style={subMenuStyle === 'flyout' ? {
+				marginLeft:
+					type === "top"
+						? null
+						: `${+get(theme, "sidebarW", 64) * 0.10}rem`,
+				paddingLeft:
+					type === "top"
+						? null
+						: `${+get(theme, "sidebarW", 64) * 0.05}rem`,
+			} : null}
 		>
 			<div className={`flex`}>
 				<div
-					className={`
-						flex whitespace-nowrap
+					className={` ${subMenuStyle === 'flyout' ? theme.contentBg : ''}
+						flex whitespace-nowrap 
 						${type === "side" ? "flex-col" : "flex-row"}
 					`}
 					style={{
@@ -108,7 +122,7 @@ const SubMenu = ({ showSubMenu, subMenus, type }) => {
 					}}
 				>
 					{subMenus.map((sm, i) => (
-						<NavItem key={i} to={sm.path} icon={sm.icon} type={type}>
+						<NavItem key={i} to={sm.path} icon={sm.icon} type={type} className={className} themeOptions={themeOptions}>
 							{sm.name}
 						</NavItem>
 					))}
