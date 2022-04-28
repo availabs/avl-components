@@ -8,7 +8,7 @@ import { useTheme } from "../../wrappers";
 import SidebarItem from "./Item";
 import { MobileMenu } from './Top'
 
-const sideBarItem = ({i, page, themeOptions, subMenuActivate, subMenuStyle}) => (
+const sideBarItem = ({i, page, themeOptions, subMenuActivate}) => (
 	<SidebarItem
 		key={i}
 		to={page.path}
@@ -16,7 +16,6 @@ const sideBarItem = ({i, page, themeOptions, subMenuActivate, subMenuStyle}) => 
 		className={page.className}
 		themeOptions={themeOptions}
 		subMenuActivate={subMenuActivate}
-		subMenuStyle={subMenuStyle}
 		subMenus={get(page, "subMenus", [])}
 	>
 		{page.name}
@@ -68,7 +67,7 @@ const MobileSidebar = ({
 							<nav className="flex-1">
 								{menuItems.map((page, i) => (
 									<div key={i} className={page.sectionClass}>
-										{sideBarItem({i, page, themeOptions, subMenuActivate, subMenuStyle})}
+										{sideBarItem({i, page, themeOptions, subMenuActivate})}
 									</div>
 								))}
 							</nav>
@@ -107,7 +106,7 @@ const DesktopSidebar = ({
 					<nav className={`${theme.itemsWrapper}`}>
 
 						{menuItems.map((page, i) =>
-							sideBarItem({i, page, themeOptions, subMenuActivate, subMenuStyle})
+							sideBarItem({i, page, themeOptions, subMenuActivate})
 						)}
 					</nav>
 					{bottomMenu}

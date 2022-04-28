@@ -17,14 +17,10 @@ const NavItem = ({
 	active = false,
 	subMenus = [],
 	themeOptions,
-	subMenuActivate = 'onClick',
-	subMenuStyle = 'inline'
+	subMenuActivate = 'onClick'
 }) => {
 	const theme = useTheme()[type === 'side' ? 'sidenav' : 'topnav'](themeOptions);
-	const subMenuArrowHeadMapping = {
-		inline: 'down',
-		flyout: 'right2'
-	}
+
 	const history = useHistory();
 	const To = React.useMemo(() => {
 		if (!Array.isArray(to)) {
@@ -57,72 +53,54 @@ const NavItem = ({
 
 	return (
 		<div
-			onClick={() => subMenuActivate === 'onClick' ? setShowSubMenu(!showSubMenu) : ''}
+			onClick={() =>
+				subMenuActivate === 'onClick' ? setShowSubMenu(!showSubMenu) :
+					!subMenus.length && onClick ? onClick
+						: () => {
+							if (!subMenus.length && To[0]) {
+								history.push(To[0]);
+							}
+						}
+		}
 			onMouseLeave={() => subMenuActivate === 'onHover' ? setShowSubMenu(false) : ''}
 			 onMouseOver={() => subMenuActivate === 'onHover' ? setShowSubMenu(true) : ''}
+			className={type === "side" ? theme.subMenuParentWrapper : null}
 		>
 			<div
-				onClick={
-					!subMenus.length && onClick ? onClick
-							: () => {
-								if (!subMenus.length && To[0]) {
-									history.push(To[0]);
-								}
-							}
-				}
-				className={`${className ? className : navClass}`}
+				className={`${className ? className : navClass} ${type === "side" ? `flex flex-col` : null}`}
 			>
-				{!icon ? null : (
-					<Icon
-						icon={icon}
-						className={type === "side" ? theme.menuIconSide : theme.menuIconTop}
-					/>
-				)}
-				{children}
-				{subMenus.length ? <Icon icon={`os-icon os-icon-arrow-${subMenuArrowHeadMapping[subMenuStyle]}`}/> : null}
+				<div className={'flex flex-row'}>
+					{!icon ? null : (
+						<Icon
+							icon={icon}
+							className={type === "side" ? theme.menuIconSide : theme.menuIconTop}
+						/>
+					)}
+					{children}
+					{subMenus.length ? <Icon icon={theme.indicatorIcon}/> : null}
+				</div>
 			</div>
-			<SubMenu showSubMenu={showSubMenu} subMenus={subMenus} type={type} subMenuStyle={subMenuStyle} themeOptions={themeOptions} className={className}/>
+			<SubMenu showSubMenu={showSubMenu} subMenus={subMenus} type={type} themeOptions={themeOptions} className={className}/>
 		</div>
 	);
 };
 export default NavItem;
 
-const SubMenu = ({ showSubMenu, subMenus, type, subMenuStyle, themeOptions, className }) => {
+const SubMenu = ({ showSubMenu, subMenus, type, themeOptions, className }) => {
 	const theme = useTheme()[type === 'side' ? 'sidenav' : 'topnav'](themeOptions);
 	if (!showSubMenu || !subMenus.length) {
 		return null;
 	}
 	return (
 		<div
-			className={
-				subMenuStyle === 'inline' ? `ml-5`:
-				`absolute ${
-				type === "side" ? "absolute -mt-10" : "top-full"
-			}`}
-
-			style={subMenuStyle === 'flyout' ? {
-				marginLeft:
-					type === "top"
-						? null
-						: `${+get(theme, "sidebarW", 64) * 0.10}rem`,
-				paddingLeft:
-					type === "top"
-						? null
-						: `${+get(theme, "sidebarW", 64) * 0.05}rem`,
-			} : null}
+			className={ type === "side" ? theme.subMenuWrapper : theme.subMenuWrapperTop }
 		>
-			<div className={`flex`}>
+			<div className={`flex overflow-hidden`}>
 				<div
-					className={` ${subMenuStyle === 'flyout' ? theme.contentBg : ''}
+					className={` ${theme.contentBg}
 						flex whitespace-nowrap 
 						${type === "side" ? "flex-col" : "flex-row"}
 					`}
-					style={{
-						minWidth:
-							type === "top"
-								? null
-								: `${+get(theme, "sidebarW", 64) * 0.25}rem`,
-					}}
 				>
 					{subMenus.map((sm, i) => (
 						<NavItem key={i} to={sm.path} icon={sm.icon} type={type} className={className} themeOptions={themeOptions}>
