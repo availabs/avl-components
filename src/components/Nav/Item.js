@@ -52,26 +52,30 @@ const NavItem = ({
 
 	return (
 		<div
-			onClick={
-				onClick
-					? onClick
-					: () => {
-							if (To[0]) {
-								history.push(To[0]);
-							}
-					  }
-			}
-			className={`${className ? className : navClass}`}
-			onMouseLeave={(e) => setShowSubMenu(false)}
-			onMouseOver={(e) => setShowSubMenu(true)}
+			onClick={(e) => setShowSubMenu(!showSubMenu)}
+			// onMouseLeave={(e) => setShowSubMenu(false)}
+			//  onMouseOver={(e) => setShowSubMenu(true)}
 		>
-			{!icon ? null : (
-				<Icon
-					icon={icon}
-					className={type === "side" ? theme.menuIconSide : theme.menuIconTop}
-				/>
-			)}
-			{children}
+			<div
+				onClick={
+					!subMenus.length && onClick ? onClick
+							: () => {
+								if (!subMenus.length && To[0]) {
+									history.push(To[0]);
+								}
+							}
+				}
+				className={`${className ? className : navClass}`}
+			>
+				{!icon ? null : (
+					<Icon
+						icon={icon}
+						className={type === "side" ? theme.menuIconSide : theme.menuIconTop}
+					/>
+				)}
+				{children}
+				{subMenus.length ? <Icon icon={'os-icon os-icon-arrow-down'}/> : null}
+			</div>
 			<SubMenu showSubMenu={showSubMenu} subMenus={subMenus} type={type} />
 		</div>
 	);
@@ -85,9 +89,10 @@ const SubMenu = ({ showSubMenu, subMenus, type }) => {
 	}
 	return (
 		<div
-			className={`absolute ${
-				type === "side" ? "pt-1 -mt-14 left-full" : "top-full"
-			}`}
+			className={`ml-5`}
+			// className={`absolute ${
+			// 	type === "side" ? "pt-1 -mt-14 left-full" : "top-full"
+			// }`}
 		>
 			<div className={`flex`}>
 				<div

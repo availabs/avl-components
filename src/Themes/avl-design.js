@@ -77,9 +77,13 @@ const avl_design = (colorname, size) => {
             }
 
             return {
+                contentBg: `${colors[color].contentBg}`,
+                contentBgAccent: `${colors[color].contentBgAccent}`,
                 logoWrapper: `${sizes[size].wrapper} ${colors[color].contentBgAccent} ${colors[color].textColorAccent}`,
                 sidenavWrapper: `${colors[color].contentBg} ${sizes[size].wrapper} h-full hidden md:flex z-20`,
-                menuIconSide: ` text-${colors[color].accentColor} ${sizes[size].icon} group-hover:${colors[color].highlightColor}`,
+                menuIconSide: `text-${colors[color].accentColor} ${sizes[size].icon} group-hover:${colors[color].highlightColor}`,
+                menuIconClosed: `fa fa-bars p-3 cursor-pointer`,
+                menuIconOpen: `fa fa-cancel`,
                 itemsWrapper: `p-4 border-t ${colors[color].borderColor} ${sizes[size].wrapper}`,
                 navitemSide: ` 
 	            group font-sans 

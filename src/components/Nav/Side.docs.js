@@ -21,6 +21,11 @@ const SideNavDocs = {
 					type: "Component",
 					default: ''
 				},
+				{
+					name: "mobile",
+					type: "data",
+					default: ''
+				},
 	],
 	dependencies: [
 		{
@@ -38,9 +43,13 @@ const SideNavDocs = {
 			),
 			props: [
 				{
+					name: 'mobile',
+					default: 'side'
+				},
+				{
 					name: "menuItems",
 					default: [
-						
+
 						{
 							name: "Dashboard",
 							icon: "os-icon os-icon-layout",
@@ -50,7 +59,7 @@ const SideNavDocs = {
 							name: "Menu Styles",
 							icon: "os-icon os-icon-layers",
 						},
-						
+
 						{
 							name: "Applications",
 							icon: "os-icon os-icon-package",
@@ -63,7 +72,128 @@ const SideNavDocs = {
 							name: "UI Kit",
 							icon: "os-icon os-icon-life-buoy",
 						},
-						
+
+						{
+							name: "Emails",
+							icon: "os-icon os-icon-mail",
+						},
+						{
+							name: "Users",
+							icon: "os-icon os-icon-users",
+						},
+						{
+							name: "Forms",
+							icon: "os-icon os-icon-edit-32",
+						},
+						{
+							name: "Tables",
+							icon: "os-icon os-icon-grid",
+						},
+						{
+							name: "Tables",
+							icon: "os-icon os-icon-zap",
+						},
+					],
+				},
+				{
+					name: "topMenu",
+					default: (
+						<div className="flex items-center p-6 justify-start h-12">
+							<span className="text-lg font-medium uppercase">AVL Design</span>
+						</div>
+					)
+				},
+				{
+					name: 'themeOptions',
+					default: {
+						color: 'white',
+						size: 'compact'
+					}
+				}
+			],
+			code: `
+			import {SideNav} from "@availabs/avl-components";
+
+			const MySideBar = (props) => {
+				return (
+					<div className="h-full w-full bg-gray-100">
+								<SideNav {...props} />
+						</div>
+					);
+			};
+			`,
+		},
+		{
+			title: 'Nested Menu',
+			Component: (props) => (
+				<div className="h-full w-full bg-gray-100">
+					<SideNav {...props} />
+				</div>
+			),
+			props: [
+				{
+					name: 'mobile',
+					default: 'side'
+				},
+				{
+					name: "menuItems",
+					default: [
+						{
+							name: "Dashboard",
+							icon: "os-icon os-icon-layout",
+							active: true,
+							path: 'www.google.con', // this will not work, as menu opens on click.
+							subMenus: [
+								{
+									name: "Sub Menu 1",
+									icon: "os-icon os-icon-layers",
+									path: 'www.google.con'
+								},
+
+								{
+									name: "Sub Menu 2",
+									icon: "os-icon os-icon-package",
+								},
+								{
+									name: "Sub Menu 3",
+									icon: "os-icon os-icon-file-text",
+								},
+							]
+						},
+						{
+							name: "Menu Styles",
+							icon: "os-icon os-icon-layers",
+							path: 'www.google.con'
+						},
+
+						{
+							name: "Applications",
+							icon: "os-icon os-icon-package",
+							subMenus: [
+								{
+									name: "Sub Menu 1",
+									icon: "os-icon os-icon-layers",
+								},
+
+								{
+									name: "Sub Menu 2",
+									icon: "os-icon os-icon-package",
+								},
+								{
+									name: "Sub Menu 3",
+									icon: "os-icon os-icon-file-text",
+								},
+							]
+						},
+						{
+							name: "Pages",
+							icon: "os-icon os-icon-file-text",
+						},
+						{
+							name: "UI Kit",
+							icon: "os-icon os-icon-life-buoy",
+						},
+
 						{
 							name: "Emails",
 							icon: "os-icon os-icon-mail",
