@@ -3,7 +3,7 @@ import { useRouteMatch, useHistory } from "react-router-dom";
 
 import Icon from "../Icons";
 
-import { useTheme } from "../../wrappers/with-theme";
+import { useTheme } from "../../wrappers";
 
 import get from "lodash.get";
 
@@ -21,8 +21,11 @@ const NavItem = ({
 	subMenuStyle = 'inline'
 }) => {
 	const theme = useTheme()[type === 'side' ? 'sidenav' : 'topnav'](themeOptions);
+	const subMenuArrowHeadMapping = {
+		inline: 'down',
+		flyout: 'right2'
+	}
 	const history = useHistory();
-
 	const To = React.useMemo(() => {
 		if (!Array.isArray(to)) {
 			return [to];
@@ -54,9 +57,9 @@ const NavItem = ({
 
 	return (
 		<div
-			onClick={(e) => subMenuActivate === 'onClick' ? setShowSubMenu(!showSubMenu) : ''}
-			onMouseLeave={(e) => subMenuActivate === 'onHover' ? setShowSubMenu(false) : ''}
-			 onMouseOver={(e) => subMenuActivate === 'onHover' ? setShowSubMenu(true) : ''}
+			onClick={() => subMenuActivate === 'onClick' ? setShowSubMenu(!showSubMenu) : ''}
+			onMouseLeave={() => subMenuActivate === 'onHover' ? setShowSubMenu(false) : ''}
+			 onMouseOver={() => subMenuActivate === 'onHover' ? setShowSubMenu(true) : ''}
 		>
 			<div
 				onClick={
@@ -76,7 +79,7 @@ const NavItem = ({
 					/>
 				)}
 				{children}
-				{subMenus.length ? <Icon icon={'os-icon os-icon-arrow-down'}/> : null}
+				{subMenus.length ? <Icon icon={`os-icon os-icon-arrow-${subMenuArrowHeadMapping[subMenuStyle]}`}/> : null}
 			</div>
 			<SubMenu showSubMenu={showSubMenu} subMenus={subMenus} type={type} subMenuStyle={subMenuStyle} themeOptions={themeOptions} className={className}/>
 		</div>
