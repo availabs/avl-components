@@ -204,7 +204,7 @@ const SideNavDocs = {
                             active: true,
                             subMenus: [
                                 {
-                                    name: "Sub Menu 1",
+                                    name: "Menu with link",
                                     icon: "os-icon os-icon-layers",
                                     path: 'Table'
                                 },
@@ -319,7 +319,7 @@ const SideNavDocs = {
                             active: true,
                             subMenus: [
                                 {
-                                    name: "Sub Menu 1",
+                                    name: "Menu with link",
                                     icon: "os-icon os-icon-layers",
                                     path: 'Table'
                                 },

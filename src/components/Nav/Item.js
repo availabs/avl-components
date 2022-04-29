@@ -95,7 +95,7 @@ const SubMenu = ({ showSubMenu, subMenus, type, themeOptions, className }) => {
 			<div className={`flex overflow-hidden`}>
 				<div
 					className={` ${theme.contentBg}
-						flex whitespace-nowrap 
+						flex
 						${type === "side" ? "flex-col" : "flex-row"}
 					`}
 				>
