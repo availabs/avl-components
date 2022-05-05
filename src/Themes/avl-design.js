@@ -241,8 +241,9 @@ const avl_design = (colorname, size) => {
                 tableRowStriped: `bg-gray-100 even:bg-gray-200 hover:bg-gray-300 transition ease-in-out duration-150`,
                 tableCell: `${sizes[size]} whitespace-no-wrap`,
                 inputSmall: 'w-24',
-                sortIconDown: 'fa-chevron-down',
-                sortIconUp: 'fa-chevron-up',
+                sortIconDown: 'fas fa-sort-amount-down',
+                sortIconUp: 'fas fa-sort-amount-up',
+                sortIconIdeal: 'fas fa-sort-alt',
                 vars: {
                     color: colors,
                     size: sizes
