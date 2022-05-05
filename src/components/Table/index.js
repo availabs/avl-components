@@ -157,11 +157,11 @@ export default ({ columns = EMPTY_ARRAY,
                           className={ theme.tableHeader }>
                           <div className="flex">
                             <div className="flex-1">{ column.render("Header") }</div>
-                            { !column.isSorted ? null :
+                            { !column.isSorted ? <i className={`ml-2 pt-1 fas ${theme.sortIconIdeal}`}/> :
                               <div className="flex-0 mr-8">
                                 { column.isSortedDesc ?
-                                    <i className="ml-2 pt-1 fas fa-chevron-down"/> :
-                                    <i className="ml-2 pt-1 fas fa-chevron-up"/>
+                                    <i className={`ml-2 pt-1 fas ${theme.sortIconDown}`}/> :
+                                    <i className={`ml-2 pt-1 fas ${theme.sortIconUp}`}/>
                                 }
                               </div>
                             }
