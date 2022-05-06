@@ -17,23 +17,23 @@ const TabPanel = (props) => {
 
 	return(
 		<div className={`${theme.tabpanelWrapper}`}>
-			<div className={`${theme.tabWrapper}`}> 
+			<div className={`${theme.tabWrapper}`}>
 	            { tabs.map(({ icon,name }, i) => (
-                  	<div 
-	                  	key={ i } 
+                  	<div
+	                  	key={ i }
 	                  	onClick={ e => setActiveIndex ? setActiveIndex(i) : setActiveTabIndex(i)  }
 	                  	className={`${ i === activeTabIndex ? theme.tabActive : theme.tab}`}
 	                >
 	                    <span className={ `${ icon } ${theme.icon}` }/>
 	                    <span className={`${theme.tabName}`}> {name} </span>
                     </div>
-	                  
+
 	                ))
 	            }
           	</div>
 	        <div className={`${theme.contentWrapper}`}>
 	            { tabs.map(({ Component }, i) => (
-	                <div 
+	                <div
 	                  key={ i }
 	                  style={ { display: i === activeTabIndex ? "block" : "none" } }>
 	                  <Component { ...props } />
