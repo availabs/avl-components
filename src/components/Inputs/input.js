@@ -1,7 +1,5 @@
 import React from "react";
-
-import { composeOptions } from "../utils";
-import { useTheme } from "../../wrappers/with-theme";
+import { useTheme } from "../../wrappers";
 import { hasValue } from "./utils";
 
 export default React.forwardRef(
@@ -14,13 +12,13 @@ export default React.forwardRef(
       value,
       showClear = false,
       placeholder = "type a value...",
+        themeOptions = {color: 'white', size: 'base', width: 'block'},
       ...props
     },
     ref
   ) => {
-    const theme = useTheme(),
-      inputTheme = theme[`input${composeOptions({ large, small })}`];
-    //console.log('test', `input${ composeOptions({ large, small }) }`)
+    const theme = useTheme()['input'](themeOptions).input
+    console.log('test', theme)
     const doOnChange = React.useCallback(
       (e) => {
         e.stopPropagation();
@@ -35,7 +33,7 @@ export default React.forwardRef(
           ref={ref}
           onChange={doOnChange}
           value={hasValue(value) ? value : ""}
-          className={`${inputTheme} ${className}`}
+          className={`${theme} ${className}`}
           placeholder={placeholder}
         />
         {!hasValue(value) ? null : (
@@ -49,7 +47,7 @@ export default React.forwardRef(
                 ${theme.menuBgActive} ${theme.menuBgActiveHover} ${theme.textContrast}
                 p-1 flex justify-center items-center rounded cursor-pointer
               `}
-              onClick={(e) => onChange("")}
+              onClick={() => onChange("")}
             >
               <svg width="8" height="8">
                 <line
@@ -73,7 +71,7 @@ export default React.forwardRef(
         ref={ref}
         onChange={doOnChange}
         value={hasValue(value) ? value : ""}
-        className={`${inputTheme} ${className}`}
+        className={`${theme} ${className}`}
         placeholder={placeholder}
       />
     );

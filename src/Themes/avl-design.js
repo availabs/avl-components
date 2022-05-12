@@ -320,6 +320,36 @@ const avl_design = (colorname, size) => {
             } 
         },
 
+        input: (opts = {}) => {
+            const {color = 'white', size = 'base', width = 'block'} = opts
+            let colors = {
+                white: 'bg-white',
+                gray: 'bg-gray-100'
+            }
+
+            let sizes  = {
+                base: 'px-4 py-4 font-medium',
+                small: 'text-sm px-2 py-2 font-medium',
+                large: 'text-lg px-6 py-6 font-medium'
+            }
+
+            let widths = {
+                'block': '',
+                'full' : 'w-full'
+            }
+
+            return {
+                input: `
+                 ${colors[color]} ${sizes[size]} ${widths[width]}
+                `,
+                vars: {
+                    color: colors,
+                    size: sizes,
+                    width: widths
+                }
+            }
+        },
+
 
         /* ------------------------- */
         shadow: "shadow",
