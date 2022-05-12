@@ -2,7 +2,8 @@ import React from 'react'
 import { useTheme } from "../../wrappers/with-theme"
 
 
-const TabPanel = ({tabs,activeIndex=0,setActiveIndex=null, themeOptions}, ...rest) => {
+const TabPanel = (props) => {
+	let {tabs,activeIndex=0,setActiveIndex=null, themeOptions} = props
 	const theme = useTheme()['tabpanel'](themeOptions);
 	const [activeTabIndex, setActiveTabIndex] = React.useState(activeIndex)
 
@@ -35,7 +36,7 @@ const TabPanel = ({tabs,activeIndex=0,setActiveIndex=null, themeOptions}, ...res
 	                <div
 	                  key={ i }
 	                  style={ { display: i === activeTabIndex ? "block" : "none" } }>
-	                  <Component { ...rest } />
+	                  <Component { ...props } />
 	                </div>
 	              ))
 	            }
