@@ -9,6 +9,7 @@ import {
 } from 'react-table'
 
 import { Button } from "../Button"
+import Select from "../Inputs/Select"
 
 import { matchSorter } from 'match-sorter'
 
@@ -32,8 +33,57 @@ const DefaultColumnFilter = ({ column }) => {
   )
 }
 
+const DropDownColumnFilter = ({
+                                     column: { filterValue, setFilter, preFilteredRows, id , filterMeta, filterDomain, filterThemeOptions, filterClassName, filterMulti, filterRemovable = true},
+                                 }) => {
+    // Calculate the options for filtering
+    // using the preFilteredRows
+    const options = React.useMemo(() => {
+        const options = new Set()
+        if (filterMeta){
+            return filterMeta
+        }
+        preFilteredRows.forEach(row => {
+            options.add(row.values[id])
+        })
+        return [...options.values()]
+    }, [filterMeta, id, preFilteredRows])
+        .filter(d => d)
+
+    const count = preFilteredRows.length;
+
+    // Render a multi-select box
+    return (
+        <div className="w-3/4">
+            <Select
+                domain = {filterDomain || options}
+                value = {filterValue ? filterValue : []}
+                // value = {['row2']}
+                onChange={(e) => {
+                    setFilter(e || undefined) // Set undefined to remove the filter entirely
+                }}
+                placeHolder={`Search ${count} records...`}
+                removable={filterRemovable}
+                multi={filterMulti}
+                themeOptions = {filterThemeOptions}
+                className={`${filterClassName}`}
+            />
+        </div>
+    )
+}
+
 function fuzzyTextFilterFn(rows, id, filterValue) {
   return matchSorter(rows, filterValue, { keys: [row => row.values[id]] });
+}
+
+function DropDownFilterFn(rows, id, filterValue) {
+    console.log(filterValue)
+  return rows.filter(row => {
+        const rowValue = row.values[id];
+        return rowValue !== undefined && Array.isArray(filterValue) && filterValue.length
+            ? filterValue.includes(rowValue)
+            : rowValue !== undefined && filterValue.length ? rowValue === filterValue : true
+    })
 }
 
 const getPageSpread = (page, maxPage) => {
@@ -86,7 +136,13 @@ export default ({ columns = EMPTY_ARRAY,
 
     const filterTypes = React.useMemo(
       () => ({
-        fuzzyText: fuzzyTextFilterFn
+        fuzzyText: fuzzyTextFilterFn, dropdown: DropDownFilterFn
+      }), []
+    );
+
+    const filters = React.useMemo(
+      () => ({
+          dropdown: DropDownColumnFilter
       }), []
     );
 
@@ -165,7 +221,7 @@ export default ({ columns = EMPTY_ARRAY,
                                   }
                               </div>
                           </div>
-                          { !column.canFilter ? null : <div>{ column.render('Filter') }</div> }
+                          { !column.canFilter ? null : <div>{ column.render(filters[column.filter] || 'Filter') }</div> }
                         </th>
                       )
                   }

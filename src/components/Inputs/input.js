@@ -12,7 +12,7 @@ export default React.forwardRef(
       value,
       showClear = false,
       placeholder = "type a value...",
-        themeOptions = {color: 'white', size: 'base', width: 'block'},
+        themeOptions = {color: 'white', size: 'small', width: 'block'},
       ...props
     },
     ref
