@@ -215,8 +215,8 @@ const avl_design = (colorname, size) => {
             return {
                 menuWrapper: `bg-${colors[color]} my-1 text-sm`,
                 menuItemActive: `px-2 py-2 cursor-not-allowed bg-${accent}-200 border-1 border-${colors[color]} focus:border-${accent}-300`,
-                menuItem: `px-2 py-2 cursor-pointer hover:bg-blue-100 border-1 border-${colors[color]} focus:border-blue-300`,
-                select: `bg-${colors[color]} w-full flex flex-row justify-between truncate ${sizes[size]} cursor-pointer border-2 border-${colors[color]} focus:border-blue-300`,
+                menuItem: `px-2 py-2 cursor-pointer hover:bg-blue-100 border-1 border-${colors[color]} focus:border-blue-300 flex-wrap`,
+                select: `bg-${colors[color]} w-full flex flex-0 flex-row justify-between truncate ${sizes[size]} cursor-pointer border-2 border-${colors[color]} focus:border-blue-300`,
                 selectIcon: `fa fa-angle-down text-gray-400 pt-2 px-2`
             }
         },
@@ -321,7 +321,7 @@ const avl_design = (colorname, size) => {
         },
 
         input: (opts = {}) => {
-            const {color = 'white', size = 'base', width = 'block'} = opts
+            const {color = 'white', size = 'small', width = 'block'} = opts
             let colors = {
                 white: 'bg-white',
                 gray: 'bg-gray-100'
