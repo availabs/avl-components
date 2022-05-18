@@ -349,6 +349,32 @@ const avl_design = (colorname, size) => {
                 }
             }
         },
+        modal: (opts = {}) => {
+            const {size = 'base', overlay = 'default'} = opts
+            let overlays = {
+                default: 'fixed  inset-0 bg-gray-500 opacity-75',
+                none: ''
+            }
+
+            let sizes = {
+                base: 'sm:max-w-2xl',
+                small: 'w-64',
+                large: 'sm:max-w-4xl',
+                xlarge: 'sm:max-w-8xl'
+
+            }
+
+
+            return {
+                modalContainer: `${overlay === 'default' ? '' : 'pointer-events-none'} fixed bottom-0 inset-x-0 px-4 pb-4 inset-0 flex items-center justify-center`,
+                modalOverlay: overlays[overlay],
+                modal: `${sizes[size]}  pointer-events-auto bg-white rounded-lg overflow-hidden shadow-xl transform transition-all`,
+                vars: {
+                    size: sizes,
+                    overlay: overlays
+                }
+            }
+        },
 
 
         /* ------------------------- */
