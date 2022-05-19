@@ -294,7 +294,7 @@ const Select = (props) => {
             tabIndex={disabled ? -1 : 0}
             onClick={openDropdown}
             className={`${theme.select} ${className}`}>
-            <div className='flex-1 flex flex-wrap max-w-full'>
+            <div className='flex-1 flex flex-wrap w-full'>
               {values.length ? (
                 values.map((v, i, a) => (
                   <ValueItem

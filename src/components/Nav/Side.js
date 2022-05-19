@@ -8,6 +8,19 @@ import { useTheme } from "../../wrappers";
 import SidebarItem from "./Item";
 import { MobileMenu } from './Top'
 
+const sideBarItem = ({i, page, themeOptions, subMenuActivate}) => (
+	<SidebarItem
+		key={i}
+		to={page.path}
+		icon={page.icon}
+		className={page.className}
+		themeOptions={themeOptions}
+		subMenuActivate={subMenuActivate}
+		subMenus={get(page, "subMenus", [])}
+	>
+		{page.name}
+	</SidebarItem>
+)
 const MobileSidebar = ({
    open,
    toggle,
@@ -16,6 +29,7 @@ const MobileSidebar = ({
    menuItems = [],
    bottomMenu,
    themeOptions={},
+	subMenuActivate, subMenuStyle,
    ...props
 }) => {
 	let theme = useTheme()['sidenav'](themeOptions);
@@ -24,14 +38,14 @@ const MobileSidebar = ({
 	return (
 		<>
 			<div className="md:hidden" onClick={() => toggle(!open)}>
-				<span className={theme.menuOpenIcon} />
+				<span className={open ? theme.menuIconOpen : theme.menuIconClosed} />
 			</div>
 			<div style={{ display: open ? "block" : "none" }} className={`md:hidden`} >
 				<div className="fixed inset-0 z-20 transition-opacity ease-linear duration-300">
-					<div className="absolute inset-0 bg-gray-600 opacity-75" />
+					<div className="absolute inset-0 opacity-75" />
 				</div>
-				<div className="fixed inset-0 flex z-40">
-					<div className={`flex-1 flex flex-col max-w-xs w-full transform ease-in-out duration-300`}>
+				<div className={`fixed inset-0 flex z-40 ${theme.contentBgAccent}`}>
+					<div className={`flex-1 flex flex-col max-w-xs w-full transform ease-in-out duration-300 ${theme.contentBg}`}>
 						<div className="absolute top-0 right-0 -mr-14 p-1">
 							<button
 								onClick={() => toggle(!open)}
@@ -39,7 +53,7 @@ const MobileSidebar = ({
 							/>
 						</div>
 						<div
-							className={`flex-1 h-0 pt-2 pb-4 overflow-y-auto overflow-x-hidden ${theme.sidenavWrapper}`}
+							className={`flex-1 h-0 pt-2 pb-4 overflow-y-auto overflow-x-hidden`}
 						>
 							<div className="px-6 pt-4 pb-8 logo-text gray-900">
 								<Link
@@ -53,14 +67,7 @@ const MobileSidebar = ({
 							<nav className="flex-1">
 								{menuItems.map((page, i) => (
 									<div key={i} className={page.sectionClass}>
-										<SidebarItem
-											to={page.path}
-											icon={page.icon}
-											themeOptions={themeOptions}
-											className={page.itemClass}
-										>
-											{page.name}
-										</SidebarItem>
+										{sideBarItem({i, page, themeOptions, subMenuActivate})}
 									</div>
 								))}
 							</nav>
@@ -84,6 +91,7 @@ const DesktopSidebar = ({
 	open,
 	mobile,
 	themeOptions={},
+	subMenuActivate, subMenuStyle,
 	...props }) => {
 	let theme = useTheme()['sidenav'](themeOptions);
 	// console.log('SideNav', themeOptions, theme, useTheme()['sidenav'](themeOptions))
@@ -97,18 +105,9 @@ const DesktopSidebar = ({
 					{topMenu}
 					<nav className={`${theme.itemsWrapper}`}>
 
-						{menuItems.map((page, i) => (
-							<SidebarItem
-								key={i}
-								to={page.path}
-								icon={page.icon}
-								className={page.className}
-								themeOptions={themeOptions}
-								subMenus={get(page, "subMenus", [])}
-							>
-								{page.name}
-							</SidebarItem>
-						))}
+						{menuItems.map((page, i) =>
+							sideBarItem({i, page, themeOptions, subMenuActivate})
+						)}
 					</nav>
 					{bottomMenu}
 				</div>
