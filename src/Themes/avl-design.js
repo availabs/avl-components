@@ -200,7 +200,8 @@ const avl_design = (colorname, size) => {
         },
 
         select: (opts = {}) => {
-            const {color = 'white', size = 'full'} = opts
+            const {color = 'white', size = 'full', wrapStyle = 'no-wrap'} = opts
+
             let colors = {
                 white: 'white',
                 transparent: 'gray-100'
@@ -212,12 +213,24 @@ const avl_design = (colorname, size) => {
                 full: 'px-4 py-2'
             }
 
+            let wrapStyles = {
+                'no-wrap': 'overflow-x-hidden',
+                'wrap': 'whitespace-normal'
+            }
+
             return {
                 menuWrapper: `bg-${colors[color]} my-1 text-sm`,
                 menuItemActive: `px-2 py-2 cursor-not-allowed bg-${accent}-200 border-1 border-${colors[color]} focus:border-${accent}-300`,
                 menuItem: `px-2 py-2 cursor-pointer hover:bg-blue-100 border-1 border-${colors[color]} focus:border-blue-300 flex-wrap`,
-                select: `bg-${colors[color]} w-full flex flex-0 flex-row justify-between truncate ${sizes[size]} cursor-pointer border-2 border-${colors[color]} focus:border-blue-300`,
-                selectIcon: `fa fa-angle-down text-gray-400 pt-2 px-2`
+                valueItem: `max-w-full ${wrapStyles[wrapStyle]}`,
+                itemText: 'text-xl',
+                select: `bg-${colors[color]} w-full flex flex-1 flex-row justify-between truncate ${sizes[size]} cursor-pointer border-2 border-${colors[color]} focus:border-blue-300`,
+                selectIcon: `self-center fa fa-angle-down text-gray-400 pt-2 px-2`,
+                vars: {
+                    color: colors,
+                    size: sizes,
+                    wrapStyle: wrapStyles
+                }
             }
         },
 
