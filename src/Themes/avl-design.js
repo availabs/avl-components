@@ -70,6 +70,7 @@ const avl_design = (colorname, size) => {
                     sideItem: "flex pr-4 py-4 text-base font-base border-b",
                     topItem: "flex mx-6 pr-4 py-2 text-sm font-light",
                     icon: "w-14 mr-4 text-2xl",
+                    sideItemContent: 'hidden'
                 },
                 none: {
                     width: "0",
@@ -84,7 +85,7 @@ const avl_design = (colorname, size) => {
             let subMenuStyles = {
                 inline: {
                     indicatorIcon: 'os-icon os-icon-arrow-down',
-                    subMenuWrapper: `ml-3`,
+                    subMenuWrapper: `ml-3 flex flex-col`,
                     subMenuParentWrapper: `flex flex-col`
                 },
                 flyout: {
@@ -98,13 +99,13 @@ const avl_design = (colorname, size) => {
                 contentBg: `${colors[color].contentBg}`,
                 contentBgAccent: `${colors[color].contentBgAccent}`,
                 logoWrapper: `${sizes[size].wrapper} ${colors[color].contentBgAccent} ${colors[color].textColorAccent}`,
-                sidenavWrapper: `${colors[color].contentBg} ${sizes[size].wrapper} h-full hidden md:flex z-20`,
+                sidenavWrapper: `${colors[color].contentBg} ${sizes[size].wrapper} h-full hidden md:block z-20`,
                 menuIconSide: `text-${colors[color].accentColor} ${sizes[size].icon} group-hover:${colors[color].highlightColor}`,
                 menuIconClosed: `fa fa-bars p-3 cursor-pointer`,
                 menuIconOpen: `fa fa-cancel`,
                 itemsWrapper: `p-4 border-t ${colors[color].borderColor} ${sizes[size].wrapper}`,
                 navitemSide: ` 
-	            group font-sans 
+	            group font-sans flex flex-col
 	            ${sizes[size].sideItem} ${colors[color].textColor} ${colors[color].borderColor} 
 	            hover:${colors[color].highlightColor} 
 	            focus:outline-none focus:text-gray-800 focus:bg-gray-50 focus:border-gray-300 
@@ -112,7 +113,7 @@ const avl_design = (colorname, size) => {
 	         `,
 
                 navitemSideActive: `
-	            group font-sans 
+	            group font-sans flex flex-col w-full
 	            ${sizes[size].sideItem} ${colors[color].textColor} ${colors[color].borderColor} 
 	            hover:${colors[color].highlightColor} 
 	            focus:outline-none focus:text-gray-800 focus:bg-gray-50 focus:border-gray-300 
