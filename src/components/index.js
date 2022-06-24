@@ -5,6 +5,7 @@ import HeaderComponent from "./Header/HeaderComponent"
 import { List, ListItemRemovable, ListItemAction } from './List/List'
 import { NavMenu, NavMenuItem, NavMenuSeparator } from "./Nav/Menu"
 import NavItem from './Nav/Item'
+import Dropdown from './Dropdown'
 import FlyoutMenu from './Menu/FlyoutMenu'
 import Table from './Table'
 import GridTable from "./Table/grid-table"
@@ -57,6 +58,7 @@ export const ComponentProvider = ({ children, ...props }) => {
 }
 
 export {
+	Dropdown,
 	HeaderComponent,
 	TopUserMenu,
 	TopUserMenuControl,

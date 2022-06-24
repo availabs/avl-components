@@ -7,18 +7,18 @@ export default React.forwardRef(
     {
       large,
       small,
-      className = "",
+      className = null,
       onChange,
       value,
       showClear = false,
       placeholder = "type a value...",
-        themeOptions = {color: 'white', size: 'small', width: 'block'},
+      themeOptions = {color: 'white', size: 'small', width: 'block'},
       ...props
     },
     ref
   ) => {
     const theme = useTheme()['input'](themeOptions).input
-    console.log('test', theme)
+    //console.log('test', theme)
     const doOnChange = React.useCallback(
       (e) => {
         e.stopPropagation();
@@ -27,13 +27,13 @@ export default React.forwardRef(
       [onChange]
     );
     return showClear ? (
-      <div className={`relative`}>
+      <>
         <input
           {...props}
           ref={ref}
           onChange={doOnChange}
           value={hasValue(value) ? value : ""}
-          className={`${theme} ${className}`}
+          className={`${className ? className : theme} `}
           placeholder={placeholder}
         />
         {!hasValue(value) ? null : (
@@ -64,14 +64,14 @@ export default React.forwardRef(
             </div>
           </div>
         )}
-      </div>
+      </>
     ) : (
       <input
         {...props}
         ref={ref}
         onChange={doOnChange}
         value={hasValue(value) ? value : ""}
-        className={`${theme} ${className}`}
+        className={`${className ? className : theme} `}
         placeholder={placeholder}
       />
     );

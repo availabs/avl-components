@@ -301,11 +301,11 @@ export default ({ columns = EMPTY_ARRAY,
                       { Math.min(rows.length, pageIndex * statePageSize + statePageSize) } of { rows.length }
                     </div>
                     <div className={ `flex-1 flex justify-end items-center` }>
-                      <Button disabled={ pageIndex === 0 } buttonTheme="textbuttonInfoSmall"
+                      <Button disabled={ pageIndex === 0 } themeOptions={{size:'sm'}}
                         onClick={ e => gotoPage(0) }>
                         { "<<" }
                       </Button>
-                      <Button disabled={ !canPreviousPage } buttonTheme="textbuttonInfoSmall"
+                      <Button disabled={ !canPreviousPage } themeOptions={{size:'sm'}}
                         onClick={ e => previousPage() }>
                         { "<" }
                       </Button>
@@ -313,19 +313,18 @@ export default ({ columns = EMPTY_ARRAY,
                           .map(p => {
                             const active = (p === pageIndex);
                             return (
-                              <Button key={ p } buttonTheme="textbuttonInfo"
-                                active={ active } large={ active } small={ !active }
+                              <Button key={ p } themeOptions={{size:'sm', color: active ? 'primary' : 'white' }}
                                 onClick={ active ? null : e => gotoPage(p) }>
                                 { p + 1 }
                               </Button>
                             )
                           })
                       }
-                      <Button disabled={ !canNextPage } buttonTheme="textbuttonInfoSmall"
+                      <Button disabled={ !canNextPage } themeOptions={{size:'sm'}}
                         onClick={ e => nextPage(0) }>
                         { ">" }
                       </Button>
-                      <Button disabled={ pageIndex === (pageCount - 1) } buttonTheme="textbuttonInfoSmall"
+                      <Button disabled={ pageIndex === (pageCount - 1) } themeOptions={{size:'sm'}}
                         onClick={ e => gotoPage(pageCount - 1) }>
                         { ">>" }
                       </Button>

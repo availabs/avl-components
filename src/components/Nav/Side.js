@@ -8,17 +8,18 @@ import { useTheme } from "../../wrappers";
 import SidebarItem from "./Item";
 import { MobileMenu } from './Top'
 
-const sideBarItem = ({i, page, themeOptions, subMenuActivate}) => (
+const sideBarItem = ({i, item, themeOptions, subMenuActivate}) => (
 	<SidebarItem
 		key={i}
-		to={page.path}
-		icon={page.icon}
-		className={page.className}
+		to={item.path}
+		icon={item.icon}
+		className={item.className}
+		onClick={item.onClick}
 		themeOptions={themeOptions}
 		subMenuActivate={subMenuActivate}
-		subMenus={get(page, "subMenus", [])}
+		subMenus={get(item, "subMenus", [])}
 	>
-		{page.name}
+		{item.name}
 	</SidebarItem>
 )
 const MobileSidebar = ({
@@ -101,16 +102,13 @@ const DesktopSidebar = ({
 			<div
 				className={`${theme.sidenavWrapper}`}
 			>
-				<div>
-					{topMenu}
-					<nav className={`${theme.itemsWrapper}`}>
-
-						{menuItems.map((page, i) =>
-							sideBarItem({i, page, themeOptions, subMenuActivate})
-						)}
-					</nav>
-					{bottomMenu}
-				</div>
+				{topMenu}
+				<nav className={`${theme.itemsWrapper}`}>
+					{menuItems.map((item, i) =>
+						sideBarItem({i, item, themeOptions, subMenuActivate})
+					)}
+				</nav>
+				{bottomMenu}
 			</div>
 			{mobile === 'side' ? '' :
 				<div className={`${theme.topnavWrapper} md:hidden`}>
@@ -134,7 +132,7 @@ const DesktopSidebar = ({
 			          </button>
 			        </div>
 			      </div>
-			    </div>
+			   </div>
 			}
 		</>
 	);
