@@ -266,27 +266,30 @@ const avl_design = (colorname, size) => {
         },
 
         tabpanel: (opts = {}) => {
-            const {color = 'white', size = 'compact'} = opts
-            let colors = {
-                white: 'bg-white hover:bg-gray-100',
-                transparent: 'gray-100'
-            }
-
-            let sizes = {
-                compact: 'px-4 py-1',
-                full: 'px-10 py-5'
+            const { tabLocation = 'top' } = opts
+            
+             let tabLocations = {
+                top:  {
+                        tabpanelWrapper: 'flex-col',
+                        tabWrapper: 'flex-row',
+                        tab: `border-b-2`
+                },
+                left:  {
+                        tabpanelWrapper: 'flex-row',
+                        tabWrapper: 'flex-col',
+                        tab: `border-r-2`
+                }
             }
             return {
-                tabpanelWrapper: '',
-                tabWrapper: 'flex',
-                tab: `p-4 hover:text-${accent}-500 cursor-pointer flex items-center justify-center`,
-                tabActive: `text-${accent}-500 border-b-2 border-${accent}-500 p-4 flex items-center justify-center`,
+                tabpanelWrapper: `flex ${tabLocations[tabLocation].tabpanelWrapper} w-full h-full`,
+                tabWrapper: `flex ${tabLocations[tabLocation].tabWrapper}`,
+                tab: `px-4 py-2 hover:text-gray-800 cursor-pointer   text-center text-gray-500`,
+                tabActive: `px-4 py-2 text-${accent}-500 ${tabLocations[tabLocation].tab} border-blue-500 text-center`,
                 icon: '',
-                tabName: 'px-2',
-                contentWrapper: 'bg-white p-4',
+                tabName: '',
+                contentWrapper: 'bg-white flex-1 h-full',
                 vars: {
-                    color: colors,
-                    size: sizes
+                    tabLocation: tabLocations
                 }
             }
         },

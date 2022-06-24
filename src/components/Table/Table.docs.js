@@ -26,6 +26,11 @@ const TableDocs = {
             type: "boolean",
             default: false
         },
+        {
+            name: "pageSize",
+            type: "number",
+            default: 10
+        },
     ],
     dependencies: [
         // {
