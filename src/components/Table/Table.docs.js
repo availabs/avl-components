@@ -26,6 +26,11 @@ const TableDocs = {
             type: "boolean",
             default: false
         },
+        {
+            name: "pageSize",
+            type: "number",
+            default: 10
+        },
     ],
     dependencies: [
         // {
@@ -168,7 +173,7 @@ const TableDocs = {
                 {
                     name: "columns",
                     default: [
-                        {Header: 'col1', accessor: 'col1'}, {Header: 'col2', accessor: 'col2', disableFilters: true}, {Header: 'col3', accessor: 'col3'},
+                        {Header: 'col1', accessor: 'col1', filterLocation: 'inline'}, {Header: 'col2', accessor: 'col2', disableFilters: true}, {Header: 'col3', accessor: 'col3'},
                     ],
                 },
                 {

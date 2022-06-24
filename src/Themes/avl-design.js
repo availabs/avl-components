@@ -70,6 +70,7 @@ const avl_design = (colorname, size) => {
                     sideItem: "flex pr-4 py-4 text-base font-base border-b",
                     topItem: "flex mx-6 pr-4 py-2 text-sm font-light",
                     icon: "w-14 mr-4 text-2xl",
+                    sideItemContent: 'hidden'
                 },
                 none: {
                     width: "0",
@@ -84,7 +85,7 @@ const avl_design = (colorname, size) => {
             let subMenuStyles = {
                 inline: {
                     indicatorIcon: 'os-icon os-icon-arrow-down',
-                    subMenuWrapper: `ml-3`,
+                    subMenuWrapper: `ml-3 flex flex-col`,
                     subMenuParentWrapper: `flex flex-col`
                 },
                 flyout: {
@@ -98,13 +99,13 @@ const avl_design = (colorname, size) => {
                 contentBg: `${colors[color].contentBg}`,
                 contentBgAccent: `${colors[color].contentBgAccent}`,
                 logoWrapper: `${sizes[size].wrapper} ${colors[color].contentBgAccent} ${colors[color].textColorAccent}`,
-                sidenavWrapper: `${colors[color].contentBg} ${sizes[size].wrapper} h-full hidden md:flex z-20`,
+                sidenavWrapper: `${colors[color].contentBg} ${sizes[size].wrapper} h-full hidden md:block z-20`,
                 menuIconSide: `text-${colors[color].accentColor} ${sizes[size].icon} group-hover:${colors[color].highlightColor}`,
                 menuIconClosed: `fa fa-bars p-3 cursor-pointer`,
                 menuIconOpen: `fa fa-cancel`,
                 itemsWrapper: `p-4 border-t ${colors[color].borderColor} ${sizes[size].wrapper}`,
                 navitemSide: ` 
-	            group font-sans 
+	            group font-sans flex flex-col
 	            ${sizes[size].sideItem} ${colors[color].textColor} ${colors[color].borderColor} 
 	            hover:${colors[color].highlightColor} 
 	            focus:outline-none focus:text-gray-800 focus:bg-gray-50 focus:border-gray-300 
@@ -112,7 +113,7 @@ const avl_design = (colorname, size) => {
 	         `,
 
                 navitemSideActive: `
-	            group font-sans 
+	            group font-sans flex flex-col w-full
 	            ${sizes[size].sideItem} ${colors[color].textColor} ${colors[color].borderColor} 
 	            hover:${colors[color].highlightColor} 
 	            focus:outline-none focus:text-gray-800 focus:bg-gray-50 focus:border-gray-300 
@@ -200,7 +201,8 @@ const avl_design = (colorname, size) => {
         },
 
         select: (opts = {}) => {
-            const {color = 'white', size = 'full'} = opts
+            const {color = 'white', size = 'full', wrapStyle = 'no-wrap'} = opts
+
             let colors = {
                 white: 'white',
                 transparent: 'gray-100'
@@ -212,12 +214,24 @@ const avl_design = (colorname, size) => {
                 full: 'px-4 py-2'
             }
 
+            let wrapStyles = {
+                'no-wrap': 'overflow-x-hidden',
+                'wrap': 'whitespace-normal'
+            }
+
             return {
                 menuWrapper: `bg-${colors[color]} my-1 text-sm`,
                 menuItemActive: `px-2 py-2 cursor-not-allowed bg-${accent}-200 border-1 border-${colors[color]} focus:border-${accent}-300`,
                 menuItem: `px-2 py-2 cursor-pointer hover:bg-blue-100 border-1 border-${colors[color]} focus:border-blue-300 flex-wrap`,
-                select: `bg-${colors[color]} w-full flex flex-0 flex-row justify-between truncate ${sizes[size]} cursor-pointer border-2 border-${colors[color]} focus:border-blue-300`,
-                selectIcon: `fa fa-angle-down text-gray-400 pt-2 px-2`
+                valueItem: `max-w-full ${wrapStyles[wrapStyle]}`,
+                itemText: 'text-xl',
+                select: `bg-${colors[color]} w-full flex flex-1 flex-row justify-between truncate ${sizes[size]} cursor-pointer border-2 border-${colors[color]} focus:border-blue-300`,
+                selectIcon: `self-center fa fa-angle-down text-gray-400 pt-2 px-2`,
+                vars: {
+                    color: colors,
+                    size: sizes,
+                    wrapStyle: wrapStyles
+                }
             }
         },
 
@@ -252,27 +266,30 @@ const avl_design = (colorname, size) => {
         },
 
         tabpanel: (opts = {}) => {
-            const {color = 'white', size = 'compact'} = opts
-            let colors = {
-                white: 'bg-white hover:bg-gray-100',
-                transparent: 'gray-100'
-            }
-
-            let sizes = {
-                compact: 'px-4 py-1',
-                full: 'px-10 py-5'
+            const { tabLocation = 'top' } = opts
+            
+             let tabLocations = {
+                top:  {
+                        tabpanelWrapper: 'flex-col',
+                        tabWrapper: 'flex-row',
+                        tab: `border-b-2`
+                },
+                left:  {
+                        tabpanelWrapper: 'flex-row',
+                        tabWrapper: 'flex-col',
+                        tab: `border-r-2`
+                }
             }
             return {
-                tabpanelWrapper: '',
-                tabWrapper: 'flex',
-                tab: `p-4 hover:text-${accent}-500 cursor-pointer flex items-center justify-center`,
-                tabActive: `text-${accent}-500 border-b-2 border-${accent}-500 p-4 flex items-center justify-center`,
+                tabpanelWrapper: `flex ${tabLocations[tabLocation].tabpanelWrapper} w-full h-full`,
+                tabWrapper: `flex ${tabLocations[tabLocation].tabWrapper}`,
+                tab: `px-4 py-2 hover:text-gray-800 cursor-pointer   text-center text-gray-500`,
+                tabActive: `px-4 py-2 text-${accent}-500 ${tabLocations[tabLocation].tab} border-blue-500 text-center`,
                 icon: '',
-                tabName: 'px-2',
-                contentWrapper: 'bg-white p-4',
+                tabName: '',
+                contentWrapper: 'bg-white flex-1 h-full',
                 vars: {
-                    color: colors,
-                    size: sizes
+                    tabLocation: tabLocations
                 }
             }
         },

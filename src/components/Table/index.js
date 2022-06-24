@@ -201,6 +201,10 @@ export default ({ columns = EMPTY_ARRAY,
 
     if (!preFilteredRows.length) return null;
 
+    const filterLocationToClass = {
+        inline: 'flex-row',
+        [undefined]: 'flex-col'
+    }
     return (
       <div className="overflow-auto scrollbar-sm">
         <table { ...getTableProps() } className="w-full">
@@ -211,17 +215,19 @@ export default ({ columns = EMPTY_ARRAY,
                       .map(column =>
                         <th { ...column.getHeaderProps(column.getSortByToggleProps()) }
                           className={ theme.tableHeader }>
-                          <div className="flex">
-                            <div className="flex-1">{ column.render("Header") }</div>
-                              <div className="flex-0">
+                          <div className={'flex justify-between'}>
+                              <div className={`flex ${filterLocationToClass[columns.find(c => c.Header === column.Header).filterLocation]}`}>
+                                  <div className="flex-1 pr-1">{ column.render("Header") }</div>
+                                  { !column.canFilter ? null : <div>{ column.render(filters[column.filter] || 'Filter') }</div> }
+                              </div>
+                              <div>
                                   { !column.canSort ? null :
                                       !column.isSorted ? <i className={`ml-2 pt-1 ${theme.sortIconIdeal}`}/> :
-                                              column.isSortedDesc ? <i className={`ml-2 pt-1 ${theme.sortIconDown}`}/> :
-                                                  <i className={`ml-2 pt-1 ${theme.sortIconUp}`}/>
+                                          column.isSortedDesc ? <i className={`ml-2 pt-1 ${theme.sortIconDown}`}/> :
+                                              <i className={`ml-2 pt-1 ${theme.sortIconUp}`}/>
                                   }
                               </div>
                           </div>
-                          { !column.canFilter ? null : <div>{ column.render(filters[column.filter] || 'Filter') }</div> }
                         </th>
                       )
                   }
@@ -248,7 +254,7 @@ export default ({ columns = EMPTY_ARRAY,
                         (typeof onClick === "function") && onClick(e, row);
                       } }>
                         { row.cells.map((cell, ii) =>
-                            <td { ...cell.getCellProps() } className={ theme.tableCell }>
+                            <td { ...cell.getCellProps() } className={ `text-${columns.find(c => c.Header === cell.column.Header).align || 'center'} ${theme.tableCell}` }>
                               { (ii > 0) || ((row.subRows.length === 0) && (expand.length === 0)) ?
                                   cell.render('Cell')
                                 :

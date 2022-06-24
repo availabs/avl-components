@@ -17,8 +17,9 @@ import get from "lodash.get";
 import { matchSorter } from "match-sorter";
 
 
-export const ValueItem = ({ isPlaceholder, children, remove, edit, disabled = false }) => {
-  const theme = {...useTheme()};
+export const ValueItem = ({ isPlaceholder, children, remove, edit, disabled = false , themeOptions}) => {
+  const theme = useTheme()['select'](themeOptions);
+
   return (
     <div className={ `
         ${ isPlaceholder ? theme.textLight :
@@ -28,7 +29,7 @@ export const ValueItem = ({ isPlaceholder, children, remove, edit, disabled = fa
         ${theme.itemText}
          mt-1 flex items-center max-w-full
       ` }>
-      <span className={"max-w-full"}>{ children }</span>
+      <span className={theme.valueItem}>{ children }</span>
       { isPlaceholder || disabled || !edit ? null :
         <div className={ `
             ${ theme.menuBgActive } ${ theme.menuBgActiveHover } ${ theme.textContrast }
@@ -294,7 +295,8 @@ const Select = (props) => {
             tabIndex={disabled ? -1 : 0}
             onClick={openDropdown}
             className={`${theme.select} ${className}`}>
-            <div className='flex-1 flex flex-wrap w-full'>
+
+            <div className='w-11/12 overflow-x-hidden'>
               {values.length ? (
                 values.map((v, i, a) => (
                   <ValueItem
