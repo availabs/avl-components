@@ -1,6 +1,5 @@
 import React from "react"
 import { useTheme } from "../../wrappers/with-theme"
-const noop = ()=> {}
 
 export default  ({children, open, themeOptions}) =>{
   const theme = useTheme()['modal'](themeOptions);
