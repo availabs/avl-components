@@ -55,25 +55,15 @@ const ConfirmButton = ({
 };
 
 export const Button = ({
-  buttonTheme = "button",
-  className = "",
-  type = "button",
   children,
-  large,
-  small,
-  block,
-  active,
-  showConfirm,
+  type = "button",
+  showConfirm=false,
   confirmMessage = "click to confirm",
+  themeOptions={},
   ...props
 }) => {
-  const theme = useTheme();
-  buttonTheme = `${buttonTheme}${composeOptions({
-    large,
-    small,
-    block,
-    active,
-  })}`;
+  const fullTheme = useTheme();
+  let theme = fullTheme['button'](themeOptions)
 
   if (showConfirm) {
     return (
@@ -81,7 +71,7 @@ export const Button = ({
         type={type}
         {...props}
         confirmMessage={confirmMessage}
-        className={`${theme[buttonTheme] || theme["button"]} ${className}`}
+        className={`${theme.button}`}
       >
         {children}
       </ConfirmButton>
@@ -91,7 +81,7 @@ export const Button = ({
     <button
       type={type}
       {...props}
-      className={`${theme[buttonTheme] || theme["button"]} ${className}`}
+      className={`${theme.button}`}
     >
       {children}
     </button>
