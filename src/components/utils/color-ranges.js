@@ -24,11 +24,16 @@ for (const type in colorbrewer.schemeGroups) {
 }
 
 export { ColorRanges };
-console.log("ColorRanges", ColorRanges);
+//console.log("ColorRanges", ColorRanges);
 
-export const getColorRange = (size, name) =>
-	get(ColorRanges, [size], [])
+export const getColorRange = (size, name, reverse=false) => {
+	let range = get(ColorRanges, [size], [])
 		.reduce((a, c) => c.name === name ? c.colors : a, []).slice();
+	if(reverse) {
+		range.reverse()
+	}
+	return range
+}
 
 
 export const ColorBar = ({ colors, size = 3 }) => {
