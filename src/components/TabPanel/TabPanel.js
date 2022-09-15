@@ -2,7 +2,9 @@ import React from 'react'
 import { useTheme } from "../../wrappers/with-theme"
 
 
-const TabPanel = ({tabs,activeIndex=0,setActiveIndex=null}, ...rest) => {
+const TabPanel = (props) => {
+	let {tabs,activeIndex=0,setActiveIndex=null, themeOptions} = props
+	const theme = useTheme()['tabpanel'](themeOptions);
 	const [activeTabIndex, setActiveTabIndex] = React.useState(activeIndex)
 
 	// ----------
@@ -14,37 +16,33 @@ const TabPanel = ({tabs,activeIndex=0,setActiveIndex=null}, ...rest) => {
 	},[activeIndex])
 
 	return(
-		<div>
-			<div>
-	            { tabs.map(({ icon }, i) => (
-	                <div key={ i } onClick={ e => setActiveIndex ? setActiveIndex(i) : setActiveTabIndex(i)  }
-	                  className={ `
-	                    p-1 rounded-t-lg  first:ml-l
-	                    ${ theme.menuBg } inline-block
-	                  ` }>
-	                  <div className={ `
-	                      w-10 h-9 hover:${ theme.bg } rounded-t-lg transition
-	                      ${ i === sidebarTabIndex ?
-	                        `${ theme.bg } ${ theme.menuTextActive }` :
-	                        `${ theme.menuBg} cursor-pointer`
-	                      } hover:${ theme.menuTextActive }
-	                      flex items-center justify-center
-	                    ` }>
-	                      <span className={ `fa fa-lg ${ icon }` }/>
-	                    </div>
-	                  </div>
+		<div className={`${theme.tabpanelWrapper}`}>
+			<div className={`${theme.tabWrapper}`}>
+	            { tabs.map(({ icon,name }, i) => (
+                  	<div
+	                  	key={ i }
+	                  	onClick={ e => setActiveIndex ? setActiveIndex(i) : setActiveTabIndex(i)  }
+	                  	className={`${ i === activeTabIndex ? theme.tabActive : theme.tab}`}
+	                >
+	                    <span className={ `${ icon } ${theme.icon}` }/>
+	                    <span className={`${theme.tabName}`}> {name} </span>
+                    </div>
+
 	                ))
 	            }
           	</div>
-	        <div>
+	        <div className={`${theme.contentWrapper}`}>
 	            { tabs.map(({ Component }, i) => (
-	                <div key={ i } className="relative z-10"
-	                  style={ { display: i === sidebarTabIndex ? "block" : "none" } }>
-	                  <Component { ...rest } />
+	                <div
+	                  key={ i }
+	                  style={ { display: i === activeTabIndex ? "block" : "none" } }>
+	                  <Component { ...props } />
 	                </div>
 	              ))
 	            }
 	        </div>
-		<div>
+		</div>
 	)
 }
+
+export default TabPanel

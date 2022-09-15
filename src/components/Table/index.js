@@ -9,6 +9,7 @@ import {
 } from 'react-table'
 
 import { Button } from "../Button"
+import Select from "../Inputs/Select"
 
 import { matchSorter } from 'match-sorter'
 
@@ -32,8 +33,57 @@ const DefaultColumnFilter = ({ column }) => {
   )
 }
 
+const DropDownColumnFilter = ({
+                                     column: { filterValue, setFilter, preFilteredRows, id , filterMeta, filterDomain, filterThemeOptions, filterClassName, filterMulti, filterRemovable = true},
+                                 }) => {
+    // Calculate the options for filtering
+    // using the preFilteredRows
+    const options = React.useMemo(() => {
+        const options = new Set()
+        if (filterMeta){
+            return filterMeta
+        }
+        preFilteredRows.forEach(row => {
+            options.add(row.values[id])
+        })
+        return [...options.values()]
+    }, [filterMeta, id, preFilteredRows])
+        .filter(d => d)
+
+    const count = preFilteredRows.length;
+
+    // Render a multi-select box
+    return (
+        <div className="w-3/4">
+            <Select
+                domain = {filterDomain || options}
+                value = {filterValue ? filterValue : []}
+                // value = {['row2']}
+                onChange={(e) => {
+                    setFilter(e || undefined) // Set undefined to remove the filter entirely
+                }}
+                placeHolder={`Search ${count} records...`}
+                removable={filterRemovable}
+                multi={filterMulti}
+                themeOptions = {filterThemeOptions}
+                className={`${filterClassName}`}
+            />
+        </div>
+    )
+}
+
 function fuzzyTextFilterFn(rows, id, filterValue) {
   return matchSorter(rows, filterValue, { keys: [row => row.values[id]] });
+}
+
+function DropDownFilterFn(rows, id, filterValue) {
+    console.log(filterValue)
+  return rows.filter(row => {
+        const rowValue = row.values[id];
+        return rowValue !== undefined && Array.isArray(filterValue) && filterValue.length
+            ? filterValue.includes(rowValue)
+            : rowValue !== undefined && filterValue.length ? rowValue === filterValue : true
+    })
 }
 
 const getPageSpread = (page, maxPage) => {
@@ -68,12 +118,14 @@ const DefaultExpandedRow = ({ values }) =>
 
 const EMPTY_ARRAY = [];
 
-export default ({ columns = EMPTY_ARRAY, 
+export default ({ columns = EMPTY_ARRAY,
                   data = EMPTY_ARRAY,
                   sortBy, sortOrder = "",
                   initialPageSize = 10,
                   pageSize = null,
                   onRowClick,
+                  onRowEnter,
+                  onRowLeave,
                   ExpandRow = DefaultExpandedRow,
                   disableFilters = false,
                   disableSortBy = false,
@@ -84,7 +136,13 @@ export default ({ columns = EMPTY_ARRAY,
 
     const filterTypes = React.useMemo(
       () => ({
-        fuzzyText: fuzzyTextFilterFn
+        fuzzyText: fuzzyTextFilterFn, dropdown: DropDownFilterFn
+      }), []
+    );
+
+    const filters = React.useMemo(
+      () => ({
+          dropdown: DropDownColumnFilter
       }), []
     );
 
@@ -143,6 +201,10 @@ export default ({ columns = EMPTY_ARRAY,
 
     if (!preFilteredRows.length) return null;
 
+    const filterLocationToClass = {
+        inline: 'flex-row',
+        [undefined]: 'flex-col'
+    }
     return (
       <div className="overflow-auto scrollbar-sm">
         <table { ...getTableProps() } className="w-full">
@@ -153,25 +215,26 @@ export default ({ columns = EMPTY_ARRAY,
                       .map(column =>
                         <th { ...column.getHeaderProps(column.getSortByToggleProps()) }
                           className={ theme.tableHeader }>
-                          <div className="flex">
-                            <div className="flex-1">{ column.render("Header") }</div>
-                            { !column.isSorted ? null :
-                              <div className="flex-0 mr-8">
-                                { column.isSortedDesc ?
-                                    <i className="ml-2 pt-1 fas fa-chevron-down"/> :
-                                    <i className="ml-2 pt-1 fas fa-chevron-up"/>
-                                }
+                          <div className={'flex justify-between'}>
+                              <div className={`flex ${filterLocationToClass[columns.find(c => c.Header === column.Header).filterLocation]}`}>
+                                  <div className="flex-1 pr-1">{ column.render("Header") }</div>
+                                  { !column.canFilter ? null : <div>{ column.render(filters[column.filter] || 'Filter') }</div> }
                               </div>
-                            }
+                              <div>
+                                  { !column.canSort ? null :
+                                      !column.isSorted ? <i className={`ml-2 pt-1 ${theme.sortIconIdeal}`}/> :
+                                          column.isSortedDesc ? <i className={`ml-2 pt-1 ${theme.sortIconDown}`}/> :
+                                              <i className={`ml-2 pt-1 ${theme.sortIconUp}`}/>
+                                  }
+                              </div>
                           </div>
-                          { !column.canFilter ? null : <div>{ column.render('Filter') }</div> }
                         </th>
                       )
                   }
                 </tr>
               )
             }
-            
+
           </thead>
           <tbody { ...getTableBodyProps() }>
             { page.map(row => {
@@ -180,6 +243,8 @@ export default ({ columns = EMPTY_ARRAY,
                 return (
                   <React.Fragment key={ row.getRowProps().key }>
                     <tr { ...row.getRowProps() }
+                      onMouseEnter={ typeof onRowEnter === "function" ? e => onRowEnter(e, row) : null }
+                      onMouseLeave={ typeof onRowLeave === "function" ? e => onRowLeave(e, row) : null }
                       className={ `
                         ${ props.striped ? theme.tableRowStriped : theme.tableRow }
                         ${ (onClick || onRowClick) ? "cursor-pointer" : "" }
@@ -189,7 +254,7 @@ export default ({ columns = EMPTY_ARRAY,
                         (typeof onClick === "function") && onClick(e, row);
                       } }>
                         { row.cells.map((cell, ii) =>
-                            <td { ...cell.getCellProps() } className={ theme.tableCell }>
+                            <td { ...cell.getCellProps() } className={ `text-${columns.find(c => c.Header === cell.column.Header).align || 'center'} ${theme.tableCell}` }>
                               { (ii > 0) || ((row.subRows.length === 0) && (expand.length === 0)) ?
                                   cell.render('Cell')
                                 :
@@ -242,11 +307,11 @@ export default ({ columns = EMPTY_ARRAY,
                       { Math.min(rows.length, pageIndex * statePageSize + statePageSize) } of { rows.length }
                     </div>
                     <div className={ `flex-1 flex justify-end items-center` }>
-                      <Button disabled={ pageIndex === 0 } buttonTheme="textbuttonInfoSmall"
+                      <Button disabled={ pageIndex === 0 } themeOptions={{size:'sm'}}
                         onClick={ e => gotoPage(0) }>
                         { "<<" }
                       </Button>
-                      <Button disabled={ !canPreviousPage } buttonTheme="textbuttonInfoSmall"
+                      <Button disabled={ !canPreviousPage } themeOptions={{size:'sm'}}
                         onClick={ e => previousPage() }>
                         { "<" }
                       </Button>
@@ -254,19 +319,18 @@ export default ({ columns = EMPTY_ARRAY,
                           .map(p => {
                             const active = (p === pageIndex);
                             return (
-                              <Button key={ p } buttonTheme="textbuttonInfo"
-                                active={ active } large={ active } small={ !active }
+                              <Button key={ p } themeOptions={{size:'sm', color: active ? 'primary' : 'white' }}
                                 onClick={ active ? null : e => gotoPage(p) }>
                                 { p + 1 }
                               </Button>
                             )
                           })
                       }
-                      <Button disabled={ !canNextPage } buttonTheme="textbuttonInfoSmall"
+                      <Button disabled={ !canNextPage } themeOptions={{size:'sm'}}
                         onClick={ e => nextPage(0) }>
                         { ">" }
                       </Button>
-                      <Button disabled={ pageIndex === (pageCount - 1) } buttonTheme="textbuttonInfoSmall"
+                      <Button disabled={ pageIndex === (pageCount - 1) } themeOptions={{size:'sm'}}
                         onClick={ e => gotoPage(pageCount - 1) }>
                         { ">>" }
                       </Button>

@@ -5,6 +5,7 @@ import HeaderComponent from "./Header/HeaderComponent"
 import { List, ListItemRemovable, ListItemAction } from './List/List'
 import { NavMenu, NavMenuItem, NavMenuSeparator } from "./Nav/Menu"
 import NavItem from './Nav/Item'
+import Dropdown from './Dropdown'
 import FlyoutMenu from './Menu/FlyoutMenu'
 import Table from './Table'
 import GridTable from "./Table/grid-table"
@@ -13,6 +14,8 @@ import TopNav from './Nav/Top'
 import Layouts from "./Layouts"
 import Loading, { ScalableLoading } from "./Loading"
 import Scrollspy from "./Sidebar/scrollSpy/scrollspy";
+import TabPanel from "./TabPanel/TabPanel"
+import Modal from "./Modal/Modal"
 
 import {
 	TopUserMenu, TopUserMenuControl,
@@ -55,6 +58,7 @@ export const ComponentProvider = ({ children, ...props }) => {
 }
 
 export {
+	Dropdown,
 	HeaderComponent,
 	TopUserMenu,
 	TopUserMenuControl,
@@ -65,7 +69,6 @@ export {
 	UserMenuItems,
 	Table,
 	GridTable,
-	
 	List,
 	ListItemRemovable,
 	ListItemAction,
@@ -79,5 +82,7 @@ export {
 	Layouts,
 	Loading,
 	ScalableLoading,
-	Scrollspy
+	Scrollspy,
+	TabPanel,
+	Modal
 }

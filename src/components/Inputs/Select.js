@@ -1,9 +1,9 @@
-import React, { 
-  useEffect, 
+import React, {
+  useEffect,
   useState,
   useCallback,
   KeyboardEvent,
-  
+
 } from "react";
 
 import Input from "./input";
@@ -17,8 +17,9 @@ import get from "lodash.get";
 import { matchSorter } from "match-sorter";
 
 
-export const ValueItem = ({ isPlaceholder, children, remove, edit, disabled = false }) => {
-  const theme = {...useTheme()};
+export const ValueItem = ({ isPlaceholder, children, remove, edit, disabled = false , themeOptions}) => {
+  const theme = useTheme()['select'](themeOptions);
+
   return (
     <div className={ `
         ${ isPlaceholder ? theme.textLight :
@@ -28,7 +29,7 @@ export const ValueItem = ({ isPlaceholder, children, remove, edit, disabled = fa
         ${theme.itemText}
          mt-1 flex items-center max-w-full
       ` }>
-      <span className={"max-w-full"}>{ children }</span>
+      <span className={theme.valueItem}>{ children }</span>
       { isPlaceholder || disabled || !edit ? null :
         <div className={ `
             ${ theme.menuBgActive } ${ theme.menuBgActiveHover } ${ theme.textContrast }
@@ -129,8 +130,8 @@ const Select = (props) => {
   const [hasFocus, setHasFocus] = useState(false)
   const [search, setSearch] = useState('')
   const [optionFocus, setOptionFocus] = useState(false)
-   
-  
+
+
   const checkOutside = (e) => {
     if (node && node.current && node.current.contains(e.target)) {
       return;
@@ -166,7 +167,7 @@ const Select = (props) => {
     return () => {document.removeEventListener("mousedown", checkOutside)};
   },[])
   /*componentWillUnmount() {
-    
+
   }*/
 
   const getValues = () => {
@@ -231,7 +232,7 @@ const Select = (props) => {
             setOpened(true)
           }
           console.log('set option focus', optionRefs)
-            
+
           if(optionRefs[0] && optionRefs[0].current) {
             optionRefs[0].current.focus()
           }
@@ -267,7 +268,7 @@ const Select = (props) => {
 
 
       }
-  
+
   },[opened])
 
   const values = getValues()
@@ -284,7 +285,7 @@ const Select = (props) => {
       onMouseLeave={(e) => closeDropdown()}
     >
       <div className="cursor-pointer">
-        <div 
+        <div
             id={props.id}
             ref={vcNode}
             onBlur={(e) => setHasFocus(false)}
@@ -294,7 +295,8 @@ const Select = (props) => {
             tabIndex={disabled ? -1 : 0}
             onClick={openDropdown}
             className={`${theme.select} ${className}`}>
-            <div className='flex-1 flex flex-wrap max-w-full'>
+
+            <div className='w-11/12 overflow-x-hidden'>
               {values.length ? (
                 values.map((v, i, a) => (
                   <ValueItem
@@ -375,6 +377,6 @@ const Select = (props) => {
       </div>
     </div>
   );
-  
+
 }
 export default Select;
