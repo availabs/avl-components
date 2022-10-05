@@ -139,17 +139,12 @@ const Select = (props) => {
     setHasFocus(true)
   };
   
-  const closeDropdown = React((e) => {
+  const closeDropdown = (e) => {
     opened && vcNode && vcNode.current.focus();
     setOpened(false)
-  },[opened]);
+  };
 
-  const checkOutside = React.useMemo((e) => {
-    if (node && node.current && node.current.contains(e.target)) {
-      return;
-    }
-    closeDropdown();
-  },[closeDropdown]);
+  
 
   const focus = () => {
     vcNode && vcNode.focus();
@@ -160,6 +155,18 @@ const Select = (props) => {
   },[autoFocus])
 
   useEffect(() => {
+     const closeDropdownEffect = (e) => {
+        opened && vcNode && vcNode.current.focus();
+        setOpened(false)
+      };
+
+    const checkOutside = (e) => {
+      if (node && node.current && node.current.contains(e.target)) {
+        return;
+      }
+      closeDropdownEffect();
+    };
+
     document.addEventListener("mousedown", checkOutside);
     if (dropdown && dropdown.current && opened && direction === "down") {
       const rect = dropdown.current.getBoundingClientRect();
@@ -168,7 +175,7 @@ const Select = (props) => {
       }
     }
     return () => {document.removeEventListener("mousedown", checkOutside)};
-  },[checkOutside, direction, opened])
+  },[ direction, opened])
   /*componentWillUnmount() {
 
   }*/
