@@ -1,8 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
-
 import { useTheme } from "../../wrappers/with-theme";
-import { composeOptions } from "../utils";
 
 
 const ConfirmButton = ({
@@ -89,32 +87,20 @@ export const Button = ({
 };
 
 export const LinkButton = ({
-  buttonTheme = "button",
+  themeOptions={},
   className = "",
   type,
   children,
   disabled,
-  large,
-  small,
-  block,
-  active,
-  primary,
   ...props
 }) => {
-  const theme = useTheme();
-  buttonTheme = `${buttonTheme}${composeOptions({
-    large,
-    small,
-    block,
-    disabled,
-    active,
-    primary
-  })}`;
+  const fullTheme = useTheme();
+  let buttonTheme = fullTheme['button'](themeOptions)
   return (
     <Link
       {...props}
       onClick={(e) => e.stopPropagation()}
-      className={` ${theme[buttonTheme] || theme["button"]} ${className}`}
+      className={`${buttonTheme} ${className}`}
     >
       {children}
     </Link>
