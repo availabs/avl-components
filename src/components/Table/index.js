@@ -22,7 +22,7 @@ const DefaultColumnFilter = ({ column }) => {
       setFilter
     } = column;
     // count = preFilteredRows.length;
-    const theme = useTheme() //.table();
+    const theme = useTheme().table();
   return (
     <div className="w-3/4">
       <input className={ theme.inputSmall }
@@ -130,8 +130,8 @@ export default ({ columns = EMPTY_ARRAY,
                   disableSortBy = false,
                   themeOptions = {},
                   ...props }) => {
-    const theme = useTheme()//.table(themeOptions);
-    console.log('theme in table', useTheme(), theme)
+
+    const theme = useTheme().table(themeOptions);
 
     const filterTypes = React.useMemo(
       () => ({
