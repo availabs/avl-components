@@ -322,7 +322,7 @@ const Select = (props) => {
                   </ValueItem>
                 ))
               ) : (
-                <ValueItem key="placeholder" isPlaceholder={true}>
+                <ValueItem key="placeholder" isPlaceholder={true} themeOptions={themeOptions}>
                   {placeholder}
                 </ValueItem>
               )}
