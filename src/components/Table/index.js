@@ -34,7 +34,7 @@ const DefaultColumnFilter = ({ column }) => {
 }
 
 const DropDownColumnFilter = ({
-                                     column: { filterValue, setFilter, preFilteredRows, id , filterMeta, filterDomain, filterThemeOptions, filterClassName, filterMulti, filterRemovable = true},
+                                     column: { filterValue, setFilter, preFilteredRows, id , filterMeta, filterDomain, onFilterChange, customValue, filterThemeOptions, filterClassName, filterMulti, filterRemovable = true},
                                  }) => {
     // Calculate the options for filtering
     // using the preFilteredRows
@@ -51,16 +51,16 @@ const DropDownColumnFilter = ({
         .filter(d => d)
 
     const count = preFilteredRows.length;
-
     // Render a multi-select box
     return (
-        <div className="w-3/4">
+        <div className="">
             <Select
                 domain = {filterDomain || options}
-                value = {filterValue ? filterValue : []}
+                value = {filterValue || customValue || []}
                 // value = {['row2']}
                 onChange={(e) => {
-                    setFilter(e || undefined) // Set undefined to remove the filter entirely
+                    setFilter(e || undefined)
+                    onFilterChange(e || undefined) // Set undefined to remove the filter entirely
                 }}
                 placeHolder={`Search ${count} records...`}
                 removable={filterRemovable}
@@ -77,7 +77,6 @@ function fuzzyTextFilterFn(rows, id, filterValue) {
 }
 
 function DropDownFilterFn(rows, id, filterValue) {
-    console.log(filterValue)
   return rows.filter(row => {
         const rowValue = row.values[id];
         return rowValue !== undefined && Array.isArray(filterValue) && filterValue.length
@@ -205,6 +204,7 @@ export default ({ columns = EMPTY_ARRAY,
         inline: 'flex-row',
         [undefined]: 'flex-col'
     }
+
     return (
       <div className="overflow-auto scrollbar-sm">
         <table { ...getTableProps() } className="w-full">
@@ -213,19 +213,23 @@ export default ({ columns = EMPTY_ARRAY,
                 <tr { ...headerGroup.getHeaderGroupProps() }>
                   { headerGroup.headers
                       .map(column =>
-                        <th { ...column.getHeaderProps(column.getSortByToggleProps()) }
+                        <th { ...column.getHeaderProps({
+                            ...column.getSortByToggleProps(),
+                                style: { minWidth: column.minWidth, width: column.width, maxWidth: column.maxWidth },
+                            }) }
                           className={ theme.tableHeader }>
-                          <div className={'flex justify-between'}>
-                              <div className={`flex ${filterLocationToClass[columns.find(c => c.Header === column.Header).filterLocation]}`}>
+                          <div className={'flex flex-col'}>
+                              <div className={`flex justify-between`}>
                                   <div className="flex-1 pr-1">{ column.render("Header") }</div>
-                                  { !column.canFilter ? null : <div>{ column.render(filters[column.filter] || 'Filter') }</div> }
-                              </div>
-                              <div>
+
                                   { !column.canSort ? null :
                                       !column.isSorted ? <i className={`ml-2 pt-1 ${theme.sortIconIdeal}`}/> :
                                           column.isSortedDesc ? <i className={`ml-2 pt-1 ${theme.sortIconDown}`}/> :
                                               <i className={`ml-2 pt-1 ${theme.sortIconUp}`}/>
                                   }
+                              </div>
+                              <div>
+                                  { !column.canFilter ? null : <div>{ column.render(filters[column.filter] || 'Filter') }</div> }
                               </div>
                           </div>
                         </th>
@@ -254,7 +258,13 @@ export default ({ columns = EMPTY_ARRAY,
                         (typeof onClick === "function") && onClick(e, row);
                       } }>
                         { row.cells.map((cell, ii) =>
-                            <td { ...cell.getCellProps() } className={ `text-${columns.find(c => c.Header === cell.column.Header).align || 'center'} ${theme.tableCell}` }>
+                            <td { ...cell.getCellProps({
+                                style: {
+                                    minWidth: cell.column.minWidth,
+                                    maxWidth: cell.column.maxWidth,
+                                    width: cell.column.width,
+                                },
+                            }) } className={ `text-${columns.find(c => c.Header === cell.column.Header).align || 'center'} ${theme.tableCell}` }>
                               { (ii > 0) || ((row.subRows.length === 0) && (expand.length === 0)) ?
                                   cell.render('Cell')
                                 :

@@ -303,6 +303,7 @@ const TableDocs = {
                         {Header: 'col1', accessor: 'col1',
                             filter: 'dropdown',
                             filterDomain: ['custom option 1', 'custom option 2', 'data for col1 row1'],
+                            customValue: 'custom option 2',
                             filterThemeOptions: {size: 'mini'},
                             filterClassName: 'w-full text-sm z-50',
                             filterMulti: true
