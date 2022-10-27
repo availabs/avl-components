@@ -64,16 +64,16 @@ const NavItem = ({
 			 	onMouseOver={() => subMenuActivate === 'onHover' ? setShowSubMenu(true) : ''}
 			>
 				<div className={'flex'}>
-					<div className='flex-1'>
+					<div className='flex-1 flex'>
 						{!icon ? null : (
 							<Icon
 								icon={icon}
 								className={type === "side" ? theme.menuIconSide : theme.menuIconTop}
 							/>
 						)}
-						<span className={theme.navItemContent}>
-						{children}
-						</span>
+						<div className={theme.navItemContent}>
+							{children}
+						</div>
 					</div>
 					<div>
 					{

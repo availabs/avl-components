@@ -106,6 +106,8 @@ export const CollapsibleSidebar = ({ placeBeside,
 
   const [state, dispatch] = React.useReducer(Reducer, startOpen, InitState);
 
+  const ref = React.useRef();
+  
   const { open, transitioning } = state;
 
   const setOpen = React.useCallback(open => {
@@ -149,7 +151,7 @@ export const CollapsibleSidebar = ({ placeBeside,
   }, [open, setOpen]);
 
   const contextValue = React.useMemo(() => {
-    return { ...state, extendSidebar, passCompProps, closeExtension, open };
+    return { ...state, extendSidebar, passCompProps, closeExtension, open, sidebarRef: ref };
   }, [extendSidebar, passCompProps, closeExtension, state, open]);
 
   const theme = {...useTheme(),...customTheme};
@@ -157,7 +159,7 @@ export const CollapsibleSidebar = ({ placeBeside,
   const styleWidth = `calc(${ (width - padding * 2) * open }px - ${ open > 1 ? `${ shift.value * (open - 1) }${ shift.unit }` : "0rem" })`;
 
   return (
-    <div className={ `absolute ${ position }-0 top-0 bottom-0 z-30` }
+    <div ref={ref} className={ `absolute ${ position }-0 top-0 bottom-0 z-30` }
       style={ { padding: `${ padding }px` } }>
 
       <SidebarContext.Provider value={ contextValue }>
@@ -187,7 +189,8 @@ export const CollapsibleSidebar = ({ placeBeside,
 
           </div>
 
-          <ExtendedSidebar top={ state.top } open={ open === 2 }
+          <ExtendedSidebar 
+            top={ state.top }  open={ open === 2 }
             transitioning={ transitioning }
             width={ width} padding={ padding }>
 
