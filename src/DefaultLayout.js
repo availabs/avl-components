@@ -53,7 +53,7 @@ function sendToLogin(props) {
 }
 
 function sendToHome(props) {
-  return get(props , ["user", "authLevel"], -1) < getAuthLevel(props);
+  return (get(props , ["user", "authLevel"], -1) < getAuthLevel(props)) || get(props, ['location', 'pathname']) === '/auth/login';
 }
 
 export default DefaultLayout
