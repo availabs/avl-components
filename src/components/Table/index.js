@@ -10,7 +10,7 @@ import {
 
 import { Button } from "../Button"
 import Select from "../Inputs/Select"
-
+import get from 'lodash.get'
 import { matchSorter } from 'match-sorter'
 
 import { useTheme } from "../../wrappers/with-theme"
@@ -264,7 +264,7 @@ export default ({ columns = EMPTY_ARRAY,
                                     maxWidth: cell.column.maxWidth,
                                     width: cell.column.width,
                                 },
-                            }) } className={ `text-${columns.find(c => c.Header === cell.column.Header).align || 'center'} ${theme.tableCell}` }>
+                            }) } className={ `text-${get(columns.find(c => c.Header === cell.column.Header), 'align') || 'center'} ${theme.tableCell}` }>
                               { (ii > 0) || ((row.subRows.length === 0) && (expand.length === 0)) ?
                                   cell.render('Cell')
                                 :

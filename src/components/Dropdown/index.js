@@ -24,7 +24,7 @@ const Dropdown = ({ control, children, className, openType='hover' }) => {
         >
             {control}
             {open ?
-                <div className={ `shadow fixed w-full max-w-[300px] rounded-b-lg ${open ? `block` : `hidden`} z-10` }>
+                <div className={ `shadow fixed w-full max-w-[200px] rounded-b-lg ${open ? `block` : `hidden`} z-10` }>
                     { children }
                 </div> : ''
                 

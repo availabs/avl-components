@@ -2,6 +2,8 @@ import React from "react"
 
 import debounce from "lodash.debounce"
 
+import get from 'lodash.get'
+
 export * from "./falcorGraph"
 
 const FalcorContext = React.createContext();
@@ -47,7 +49,7 @@ export const avlFalcor = (Component, options = {}) => {
     <FalcorContext.Consumer>
       { falcor =>
           <Component { ...props } { ...falcor }
-            { ...mapCacheToProps(falcor.falcorCache, props) }/>
+            { ...mapCacheToProps(get(falcor, 'falcorCache', {}), props) }/>
       }
     </FalcorContext.Consumer>
   )
