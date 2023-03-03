@@ -18,7 +18,7 @@ const NavItem = ({
 	subMenuActivate = 'onClick',
 	subMenuOpen = false
 }) => {
-	console.log('renderMenu')
+	// console.log('renderMenu')
 	const theme = useTheme()[type === 'side' ? 'sidenav' : 'topnav'](themeOptions);
 
 	const history = useHistory();
