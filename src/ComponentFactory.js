@@ -72,7 +72,7 @@ const processConfig = (config, i = [0], outerConfig = {}) => {
     return processConfig(Component, i, config);
   }
   Component = applyWrappers(applyWrappers(Component, outerConfig), config);
-
+  console.log('comp', Component)
   const children = [
     ...get(outerConfig, "children", []),
     ...get(config, "children", [])
