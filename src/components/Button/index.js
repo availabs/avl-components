@@ -1,8 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
-
 import { useTheme } from "../../wrappers/with-theme";
-import { composeOptions } from "../utils";
 
 
 const ConfirmButton = ({
@@ -96,7 +94,6 @@ export const LinkButton = ({
   disabled,
   ...props
 }) => {
-  const theme = useTheme();
   const fullTheme = useTheme();
   let buttonTheme = fullTheme['button'](themeOptions)
   return (

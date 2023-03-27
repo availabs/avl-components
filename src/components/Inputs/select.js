@@ -2,13 +2,13 @@ import React, {
   useEffect,
   useState,
   useCallback,
-  KeyboardEvent,
+  // KeyboardEvent,
 
 } from "react";
 
 import Input from "./input";
 import { hasValue } from "./utils";
-import { ValueContainer } from "./parts";
+// import { ValueContainer } from "./parts";
 
 import { useTheme } from "../../wrappers/with-theme";
 
@@ -78,23 +78,23 @@ const Dropdown = React.forwardRef(
   }
 );
 
-const DropdownItem = ({ children, isActive, themeOptions={}, ...props }) => {
-  const theme = useTheme()['select'](themeOptions);
-  return (
-    <div
-      {...props}
-      className={`
-        ${
-          isActive
-            ? `${theme.menuItemActive}`
-            : `${theme.menuItem}`
-        }
-      `}
-    >
-      {children}
-    </div>
-  );
-};
+// const DropdownItem = ({ children, isActive, themeOptions={}, ...props }) => {
+//   const theme = useTheme()['select'](themeOptions);
+//   return (
+//     <div
+//       {...props}
+//       className={`
+//         ${
+//           isActive
+//             ? `${theme.menuItemActive}`
+//             : `${theme.menuItem}`
+//         }
+//       `}
+//     >
+//       {children}
+//     </div>
+//   );
+// };
 
 const Identity = (i) => i;
 
@@ -107,9 +107,9 @@ const Select = (props) => {
     value = null,
     placeholder = "Select a value...",
     accessor = Identity,
-    displayAccessor = null,
+    // displayAccessor = null,
     listAccessor = null,
-    id = "avl-select",
+    // id = "avl-select",
     autoFocus = false,
     disabled = false,
     removable = false,
@@ -123,30 +123,28 @@ const Select = (props) => {
   const node = React.useRef();
   const vcNode = React.useRef();
   const dropdown = React.useRef();
-  const optionRefs = React.useRef(new Array())
+  const optionRefs = React.useRef([])
 
   const [opened, setOpened] = useState(false)
   const [direction, setDirection] = useState('down')
-  const [hasFocus, setHasFocus] = useState(false)
+  const [/*hasFocus*/, setHasFocus] = useState(false)
   const [search, setSearch] = useState('')
-  const [optionFocus, setOptionFocus] = useState(false)
+  // const [optionFocus, setOptionFocus] = useState(false)
 
 
-  const checkOutside = (e) => {
-    if (node && node.current && node.current.contains(e.target)) {
-      return;
-    }
-    closeDropdown();
-  };
+  
   const openDropdown = (e) => {
     e.stopPropagation();
     setOpened(true)
     setHasFocus(true)
   };
+  
   const closeDropdown = (e) => {
     opened && vcNode && vcNode.current.focus();
     setOpened(false)
   };
+
+  
 
   const focus = () => {
     vcNode && vcNode.focus();
@@ -154,9 +152,21 @@ const Select = (props) => {
 
   useEffect(() => {
     autoFocus && focus();
-  },[])
+  },[autoFocus])
 
   useEffect(() => {
+     const closeDropdownEffect = (e) => {
+        opened && vcNode && vcNode.current.focus();
+        setOpened(false)
+      };
+
+    const checkOutside = (e) => {
+      if (node && node.current && node.current.contains(e.target)) {
+        return;
+      }
+      closeDropdownEffect();
+    };
+
     document.addEventListener("mousedown", checkOutside);
     if (dropdown && dropdown.current && opened && direction === "down") {
       const rect = dropdown.current.getBoundingClientRect();
@@ -165,7 +175,7 @@ const Select = (props) => {
       }
     }
     return () => {document.removeEventListener("mousedown", checkOutside)};
-  },[])
+  },[ direction, opened])
   /*componentWillUnmount() {
 
   }*/
@@ -265,7 +275,8 @@ const Select = (props) => {
         //   e.preventDefault()
         //   e.stopPropagation()
         //   break
-
+        default:
+          break
 
       }
 
@@ -311,7 +322,7 @@ const Select = (props) => {
                   </ValueItem>
                 ))
               ) : (
-                <ValueItem key="placeholder" isPlaceholder={true}>
+                <ValueItem key="placeholder" isPlaceholder={true} themeOptions={themeOptions}>
                   {placeholder}
                 </ValueItem>
               )}
