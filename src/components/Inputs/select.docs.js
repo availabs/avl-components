@@ -1,4 +1,4 @@
-import Select from "./Select";
+import Select from "./select";
 import React from 'react'
 //import { useTheme } from "../../wrappers";
 
