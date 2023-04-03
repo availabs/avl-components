@@ -27,7 +27,7 @@ export const ValueItem = ({ isPlaceholder, children, remove, edit, disabled = fa
             mr-1 pl-2 ${ (!disabled && (remove || edit)) ? "pr-1" : "pr-4" }
           ` }
         ${theme.itemText}
-         mt-1 flex items-center max-w-full
+         flex items-center max-w-full
       ` }>
       <span className={theme.valueItem}>{ children }</span>
       { isPlaceholder || disabled || !edit ? null :
@@ -132,19 +132,19 @@ const Select = (props) => {
   // const [optionFocus, setOptionFocus] = useState(false)
 
 
-  
+
   const openDropdown = (e) => {
     e.stopPropagation();
     setOpened(true)
     setHasFocus(true)
   };
-  
+
   const closeDropdown = (e) => {
     opened && vcNode && vcNode.current.focus();
     setOpened(false)
   };
 
-  
+
 
   const focus = () => {
     vcNode && vcNode.focus();
@@ -241,7 +241,7 @@ const Select = (props) => {
           if(!opened) {
             setOpened(true)
           }
-          console.log('set option focus', optionRefs)
+          // console.log('set option focus', optionRefs)
 
           if(optionRefs[0] && optionRefs[0].current) {
             optionRefs[0].current.focus()
@@ -258,7 +258,7 @@ const Select = (props) => {
             setOpened(true)
           }
           if(optionRefs[0] && optionRefs[0].current) {
-            console.log('set option focus',  optionRefs[0].current, optionRefs)
+            // console.log('set option focus',  optionRefs[0].current, optionRefs)
             optionRefs[0].current.focus()
           }
           break
