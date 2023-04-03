@@ -12,14 +12,12 @@ import get from "lodash.get"
 import layouts from "./components/Layouts";
 
 const DefaultLayout = ({ component, path, exact, layoutSettings, isAuthenticating, layout, key, ...props  }) => {
-  // const location = useLocation();
-
-  const LayoutWrapper = () => {
+    const LayoutWrapper = () => {
     const Layout =  typeof layout === 'string' ?
       get(Layouts, layout, Layouts["Fixed"]) :
       layout;
 
-    return <Layout {...layoutSettings} > <Outlet /> <ComponentFactory config={component} /> </Layout>
+    return <Layout {...layoutSettings} > <Outlet /> </Layout>
   }
 
   if (isAuthenticating) {
@@ -36,15 +34,17 @@ const DefaultLayout = ({ component, path, exact, layoutSettings, isAuthenticatin
   }
 
   return (
-  // sendToLogin(props) ?
-  //   ( <Route path={ "/auth/login" } render={() => <Navigate
-  //       to={ { pathname: "/auth/login" } }
-  //       state={{ from: get(location, "pathname") }}
-  //     />}/>
-  //   ) :
+  sendToLogin(props) ?
+    ( <Route path={ "/auth/login" } render={() => {
+        // const location = useLocation();
+        return <Navigate to={{ pathname: "/auth/login" }} state={{ from: '/'/*get(location, "pathname")*/ }} />;
+      }}/>
+    ) :
     sendToHome(props) ? <Route path={ "/" } render={() =>  <Navigate to="/"/>} /> :
       (
-        <Route key={key} path={path} exact={exact} element={<LayoutWrapper />} />
+        <Route key={key} path={path} element={<LayoutWrapper />} >
+          <Route path={path} element={<ComponentFactory config={component} />} />
+        </Route>
       ))
 
 }
