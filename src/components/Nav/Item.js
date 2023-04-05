@@ -62,7 +62,7 @@ const NavItem = ({
 	      // If null set the localStorage key/value as a string.
 	      localStorage.setItem(`${to}_toggled`, `${showSubMenu}`);
 	    }
-	}, []);
+	}, [routeMatch,showSubMenu,to]);
 
 	return (
 		<div className={type === "side" ? theme.subMenuParentWrapper : null}>
