@@ -9,7 +9,7 @@ import {
 } from 'react-table'
 
 import { Button } from "../Button"
-import Select from "../Inputs/Select"
+import {Select} from "../Inputs"
 import get from 'lodash.get'
 import { matchSorter } from 'match-sorter'
 

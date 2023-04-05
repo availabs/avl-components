@@ -8,7 +8,7 @@ export default React.forwardRef(({ large, small, className = "", children, onCha
     inputTheme = theme[`input${ composeOptions({ large, small }) }`];
   return (
     <textarea { ...props } onChange={ e => onChange(e.target.value) } value={ value || "" }
-      className={ `${ inputTheme } ${ className }` } ref={ ref } rows={ 6 }>
+      className={ `${ inputTheme() } ${ className }` } ref={ ref } rows={ 6 }>
       { children }
     </textarea>
   )
