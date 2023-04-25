@@ -5,9 +5,9 @@ export * from "./components"
 
 export * from "./wrappers"
 
-export * from "./redux-falcor"
+// export * from "./redux-falcor"
 
-export * from "./avl-falcor"
+// export * from "./avl-falcor"
 
 export * as Themes from "./Themes"
 export * as Compositions from "./Themes/compositions"
