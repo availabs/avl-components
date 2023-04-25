@@ -141,7 +141,8 @@ export default ({ columns = EMPTY_ARRAY,
 
     const filters = React.useMemo(
       () => ({
-          dropdown: DropDownColumnFilter
+          dropdown: DropDownColumnFilter,
+          text: DefaultColumnFilter
       }), []
     );
 
