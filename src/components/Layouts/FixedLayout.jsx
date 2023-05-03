@@ -8,7 +8,7 @@ import {useComponents} from "../index"
 
 import HeaderComponent from "../Header/HeaderComponent"
 
-import get from "lodash.get"
+import get from "lodash/get"
 
 
 const FixedLayout = ({ headerBar = true,

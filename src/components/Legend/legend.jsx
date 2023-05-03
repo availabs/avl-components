@@ -2,8 +2,8 @@ import React from "react"
 
 import { BooleanInput, Select } from "../Inputs"
 
-import deepequal from "deep-equal"
-import get from "lodash.get"
+import isEqual from "lodash/isEqual"
+import get from "lodash/get"
 import { format as d3format } from "d3-format"
 import { groups, extent } from "d3-array"
 import {
@@ -198,7 +198,7 @@ const ColorType = ({ type, ranges, current, opened, setOpen, reverse, update }) 
           if (reverse) {
             colors = colors.slice().reverse();
           }
-          const active = deepequal(colors, current);
+          const active = isEqual(colors, current);
           return (
             <div key={ name }
               onClick={ e => update({ range: colors }) }
