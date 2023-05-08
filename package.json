@@ -1,6 +1,10 @@
 {
   "name": "@availabs/avl-components",
+<<<<<<< HEAD
   "version": "1.2.0",
+=======
+  "version": "1.1.21",
+>>>>>>> e8218c211a3f77c5b6daf0c6f7d894e26d2b870f
   "description": "Reusable components styled by tailwind css for use in AVAIL projects.",
   "main": "dist/index.js",
   "scripts": {
@@ -55,13 +59,14 @@
     "eslint-plugin-react-hooks": "^4.0.8",
     "eslint-plugin-testing-library": "^3.9.0"
   },
+
   "dependencies": {
     "bluebird": "^3.7.2",
     "colorbrewer": "^1.4.0",
     "d3-array": "^2.12.0",
-    "d3-brush": "2.x",
+    "d3-brush": "^3.0.0",
     "d3-format": "^2.0.0",
-    "d3-scale": "^3.2.3",
+    "d3-scale": "^4.0.2",
     "d3-selection": "2.x",
     "deep-equal": "2.x",
     "falcor": "^2.2.0",
@@ -70,7 +75,7 @@
     "lodash": "4.x",
     "match-sorter": "5.x",
     "prop-types": "^15.7.2",
-    "react": "^17.0.1",
+    "react": "16.x || 17.x",
     "react-beautiful-dnd": "13.x",
     "react-color": "^2.19.3",
     "react": "^18.2.0",
