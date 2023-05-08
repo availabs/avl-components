@@ -1,18 +1,19 @@
 import { Model } from 'falcor'
 import ModelRoot from "falcor/lib/ModelRoot"
-import HttpDataSource from 'falcor-http-datasource'
-import {Promise} from "bluebird";
+import HttpDataSource from './falcor-http-datasource'
+//import HttpDataSource from 'falcor-http-datasource'
+import { Promise } from "bluebird";
 
 import throttle from "lodash/throttle"
 
 class CustomSource extends HttpDataSource {
  onBeforeRequest (config) {
-   if (window.localStorage) {
-     const userToken = window.localStorage.getItem('userToken');
-     if (userToken) {
-       config.headers['Authorization'] = userToken;
-     }
-   }
+   // if (window && window.localStorage) {
+   //   const userToken = window.localStorage.getItem('userToken');
+   //   if (userToken) {
+   //     config.headers['Authorization'] = userToken;
+   //   }
+   // }
  }
 }
 
@@ -76,8 +77,6 @@ const falcorChunker = (requests, options = {}) => {
           throttledCB(++progress, total);
         })
     , { concurrency })
-
-
 }
 
 const getArgs = args =>
@@ -156,9 +155,6 @@ class MyModel extends Model {
  get(...args) {
    return super.get(...args).then(res => res);
  }
- call(...args) {
-   return super.call(...args).then(res => res);
- }
  chunk(...args) {
    const [requests, options] = getArgs(args);
    return falcorChunkerNice(...requests, { falcor: this, ...options });
@@ -179,3 +175,6 @@ export const falcorGraph = API_HOST =>
     },
     cache: cacheFromStorage()
   })//.batch()
+
+
+export const falcor = falcorGraph('https://graph.availabs.org')
