@@ -11,8 +11,7 @@ const Wrappers = {
   "with-auth": withAuth,
   connect,
   "show-loading": showLoading,
-  "share-props": shareProps,
-  "avl-falcor": avlFalcor
+  "share-props": shareProps
 }
 export {
   Wrappers,
