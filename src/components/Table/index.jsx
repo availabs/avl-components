@@ -10,7 +10,7 @@ import {
 
 import { Button } from "../Button"
 import Select from "../Inputs/Select"
-import get from 'lodash.get'
+import get from 'lodash/get'
 import { matchSorter } from 'match-sorter'
 
 import { useTheme } from "../../wrappers/with-theme"

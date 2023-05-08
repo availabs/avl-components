@@ -8,17 +8,17 @@ import LoadingPage from "./components/Loading"
 import withTheme from "./wrappers/with-theme"
 import { ComponentFactory } from "./ComponentFactory"
 
-import get from "lodash.get"
+import get from "lodash/get"
 import layouts from "./components/Layouts";
 
 const DefaultLayout = ({ component, path, exact, layoutSettings, isAuthenticating, layout, key, ...props  }) => {
     const LayoutWrapper = () => {
-    const Layout =  typeof layout === 'string' ?
-      get(Layouts, layout, Layouts["Fixed"]) :
-      layout;
+      const Layout =  typeof layout === 'string' ?
+        get(Layouts, layout, Layouts["Fixed"]) :
+        layout;
 
-    return <Layout {...layoutSettings} > <Outlet /> </Layout>
-  }
+      return <Layout {...layoutSettings} > <Outlet /> </Layout>
+    }
 
   if (isAuthenticating) {
     return (

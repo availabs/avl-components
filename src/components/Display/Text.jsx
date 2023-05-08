@@ -1,7 +1,5 @@
 import React from "react"
 
-
-
 const Text = ({data,...rest}) => (
   <p {...rest}>
     {data}
