@@ -1,10 +1,6 @@
 {
   "name": "@availabs/avl-components",
-<<<<<<< HEAD
   "version": "1.2.0",
-=======
-  "version": "1.1.21",
->>>>>>> e8218c211a3f77c5b6daf0c6f7d894e26d2b870f
   "description": "Reusable components styled by tailwind css for use in AVAIL projects.",
   "main": "dist/index.js",
   "scripts": {
