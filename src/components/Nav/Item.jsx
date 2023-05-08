@@ -41,7 +41,7 @@ const NavItem = ({
 		return [...To, ...subs];
 	}, [To, subMenus]);
 
-	const routeMatch = Boolean(useMatch({ path: subTos[0], end: true }));
+	const routeMatch = Boolean(useMatch({ path: subTos[0] || '', end: true }));
 
 	const linkClasses = type === "side" ? theme.navitemSide : theme.navitemTop;
 	const activeClasses =
