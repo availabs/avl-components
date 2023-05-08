@@ -10,7 +10,7 @@ import {
 
 import { Button } from "../Button"
 import {Select} from "../Inputs"
-import get from 'lodash.get'
+import get from 'lodash/get'
 import { matchSorter } from 'match-sorter'
 
 import { useTheme } from "../../wrappers/with-theme"
@@ -141,7 +141,8 @@ export default ({ columns = EMPTY_ARRAY,
 
     const filters = React.useMemo(
       () => ({
-          dropdown: DropDownColumnFilter
+          dropdown: DropDownColumnFilter,
+          text: DefaultColumnFilter
       }), []
     );
 

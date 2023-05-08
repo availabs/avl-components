@@ -1,5 +1,5 @@
 import React, {useEffect} from "react";
-import { useRouteMatch, useHistory } from "react-router-dom";
+import { useMatch, useNavigate } from "react-router-dom";
 
 import Icon from "../Icons";
 
@@ -21,7 +21,7 @@ const NavItem = ({
 	// console.log('renderMenu')
 	const theme = useTheme()[type === 'side' ? 'sidenav' : 'topnav'](themeOptions);
 
-	const history = useHistory();
+	const navigate = useNavigate();
 	const To = React.useMemo(() => {
 		if (!Array.isArray(to)) {
 			return [to];
@@ -41,7 +41,7 @@ const NavItem = ({
 		return [...To, ...subs];
 	}, [To, subMenus]);
 
-	const routeMatch = Boolean(useRouteMatch({ path: subTos, exact: true }));
+	const routeMatch = Boolean(useMatch({ path: subTos[0], end: true }));
 
 	const linkClasses = type === "side" ? theme.navitemSide : theme.navitemTop;
 	const activeClasses =
@@ -72,7 +72,7 @@ const NavItem = ({
 
 					if (onClick) return onClick;
 
-					if (To[0]) history.push(To[0]);
+					if (To[0]) navigate(To[0]);
 				}}
 				onMouseLeave={() => subMenuActivate === 'onHover' ? setShowSubMenu(false) : ''}
 			 	onMouseOver={() => subMenuActivate === 'onHover' ? setShowSubMenu(true) : ''}

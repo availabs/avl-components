@@ -1,8 +1,8 @@
 import React from "react"
 
-import debounce from "lodash.debounce"
+import debounce from "lodash/debounce"
 
-import get from 'lodash.get'
+import get from 'lodash/get'
 
 export * from "./falcorGraph"
 
