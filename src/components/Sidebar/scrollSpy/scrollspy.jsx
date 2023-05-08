@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types'
 import React from 'react'
-import classNames from 'classnames'
+import {classNames} from '../../utils'
 import throttle from './throttle'
 
 function isEqualArray(a, b) {

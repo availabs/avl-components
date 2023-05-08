@@ -6,7 +6,7 @@ import {
   Hue
 } from 'react-color/lib/components/common';
 
-import deepequal from "deep-equal"
+import isEqual from "lodash/isEqual"
 
 import Input from "./input"
 import { useTheme } from "../../wrappers/with-theme"
@@ -274,9 +274,9 @@ const RgbInput = ({ id, value, onChange, small = false, large = false, showLabel
 
   React.useEffect(() => {
     if (
-      !deepequal(value, state.value) &&
-      (!deepequal(prevValue.current, value) ||
-        !deepequal(prevState.current, state.value)
+      !isEqual(value, state.value) &&
+      (!isEqual(prevValue.current, value) ||
+        !isEqual(prevState.current, state.value)
       )
     ) {
       const inputs = [
