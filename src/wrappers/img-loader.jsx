@@ -5,7 +5,7 @@ import get from "lodash/get"
 
 import withAuth from "./with-auth"
 
-// import { API_HOST } from "config"
+// import { API_HOST } from "~/config"
 
 export default (Component, options = {}) => {
   // const {
