@@ -68,7 +68,7 @@ export const DesktopMenu = ({
           {/*<!-- Mobile menu button -->*/}
           <button
             type="button"
-            className={`${theme.mobileButton} border-2`}
+            className={`${theme.mobileButton}`}
             onClick={() => toggle(!open)}
           >
             <span className="sr-only">Open main menu</span>
