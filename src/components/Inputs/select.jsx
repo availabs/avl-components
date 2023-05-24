@@ -119,7 +119,9 @@ const Select = (props) => {
     className = ''
   } =  props;
 
+  //console.log('what is the theme', useTheme())
   const theme = useTheme()['select'](themeOptions);
+  // console.log('do I crash?')
   const node = React.useRef();
   const vcNode = React.useRef();
   const dropdown = React.useRef();
