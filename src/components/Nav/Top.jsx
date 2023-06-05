@@ -40,6 +40,7 @@ export const DesktopMenu = ({
   menuItems = [],
   rightMenu = null,
   leftMenu = null,
+  subMenuActivate,
   themeOptions={}
 }) => {
   let theme = useTheme()['topnav'](themeOptions);
@@ -54,6 +55,7 @@ export const DesktopMenu = ({
               type="top"
               to={page.path}
               icon={page.icon}
+              subMenuActivate={subMenuActivate}
               themeOptions={themeOptions}
               subMenus={get(page, "subMenus", [])}
             >
