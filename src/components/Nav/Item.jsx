@@ -39,7 +39,7 @@ const NavItem = ({
 		}, []);
 		return [...To, ...subs];
 	}, [To, subMenus]);
-	console.log('pathmatch', subTos, To)
+	// console.log('pathmatch', subTos, To)
 	const routeMatch = Boolean(useMatch({ path: `${subTos[0]}/*` || '', end: true }));
 
 	const linkClasses = type === "side" ? theme.navitemSide : theme.navitemTop;
@@ -60,7 +60,7 @@ const NavItem = ({
 	return (
 			<div className={type === "side" ? theme.subMenuParentWrapper : null}>
 				<div
-					className={`w-fit ${className ? className : navClass}`}
+					className={`${className ? className : navClass}`}
 					onClick={(e) => {
 						e.stopPropagation();
 						if (onClick) return onClick;
