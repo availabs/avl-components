@@ -39,7 +39,7 @@ const NavItem = ({
 		}, []);
 		return [...To, ...subs];
 	}, [To, subMenus]);
-	console.log('pathmatch', subTos, To)
+
 	const routeMatch = Boolean(useMatch({ path: `${subTos[0]}/*` || '', end: true }));
 
 	const linkClasses = type === "side" ? theme.navitemSide : theme.navitemTop;
@@ -143,7 +143,7 @@ const SubMenu = ({ showSubMenu, subMenus, type, hovering, subMenuActivate, activ
 			>
 				{subMenus.map((sm, i) => (
 					<NavItem 
-						key={i} 
+						key={i}
 						to={sm.path}
 						icon={sm.icon} 
 						type={type} 
