@@ -39,7 +39,7 @@ const NavItem = ({
 		}, []);
 		return [...To, ...subs];
 	}, [To, subMenus]);
-	console.log('pathmatch', subTos, To)
+
 	const routeMatch = Boolean(useMatch({ path: `${subTos[0]}/*` || '', end: true }));
 
 	const linkClasses = type === "side" ? theme.navitemSide : theme.navitemTop;
@@ -138,6 +138,7 @@ const SubMenu = ({ showSubMenu, subMenus, type, hovering, subMenuActivate, activ
 			<div
 				className={`${theme.contentBg}
 							${inactiveHoveing && theme.subMenuWrapperInactiveFlyoutDirection}
+							${!inactiveHoveing && theme.subMenuWrapperChild}
 					flex ${(type === "side" || inactiveHoveing ? "flex-col" : "flex-row")}
 				`}
 			>
