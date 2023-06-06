@@ -46,7 +46,8 @@ const NavItem = ({
 	const activeClasses =
 		type === "side" ? theme.navitemSideActive : theme.navitemTopActive;
 
-	const navClass = routeMatch || active ? activeClasses : linkClasses;
+	const isActive = routeMatch || active
+	const navClass = isActive ? activeClasses : linkClasses;
 
 	const [showSubMenu, setShowSubMenu] = React.useState(subMenuOpen || routeMatch);
 
@@ -60,7 +61,7 @@ const NavItem = ({
 	return (
 			<div className={type === "side" ? theme.subMenuParentWrapper : null}>
 				<div
-					className={`w-fit ${className ? className : navClass}`}
+					className={`${className ? className : navClass}`}
 					onClick={(e) => {
 						e.stopPropagation();
 						if (onClick) return onClick;
@@ -76,11 +77,16 @@ const NavItem = ({
 					}
 				>
 					<div className={'flex'}>
-						<div className='flex-1 flex'>
+						<div className='flex-1 flex' >
 							{!icon ? null : (
 								<Icon
 									icon={icon}
-									className={type === "side" ? theme.menuIconSide : theme.menuIconTop}
+									className={
+										type === "side" ? 
+											(isActive ? theme.menuIconSideActive : theme.menuIconSide)
+											: (isActive ? theme.menuIconTopActive : theme.menuIconTop)
+
+									}
 								/>
 							)}
 							<div className={theme.navItemContent}>
