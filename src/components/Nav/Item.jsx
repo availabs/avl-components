@@ -64,7 +64,7 @@ const NavItem = ({
 					className={`${className ? className : navClass}`}
 					onClick={(e) => {
 						e.stopPropagation();
-						if (onClick) return onClick;
+						if (onClick) return onClick(To[0]);
 						if (To[0]) navigate(To[0]);
 					}}
 					onMouseOutCapture={() =>
