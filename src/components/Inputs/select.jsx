@@ -12,8 +12,8 @@ import { hasValue } from "./utils";
 
 import { useTheme } from "../../wrappers/with-theme";
 
-import deepequal from "deep-equal";
-import get from "lodash.get";
+import isEqual from "lodash/isEqual";
+import get from "lodash/get";
 import { matchSorter } from "match-sorter";
 
 
@@ -193,7 +193,7 @@ const Select = (props) => {
     return getOptions().filter(option => {
       // return values.includes(this.props.valueAccessor(option));
       return values.reduce((a, c) => {
-        return a || deepequal(valueAccessor(option), c);
+        return a || isEqual(valueAccessor(option), c);
       }, false)
     });
   }
@@ -208,7 +208,7 @@ const Select = (props) => {
       if (!hasValue(value)) {
         onChange([v]);
       } else if (
-        value.reduce((a, c) => a && !deepequal(c, v), true)
+        value.reduce((a, c) => a && !isEqual(c, v), true)
       ) {
         onChange([...value, v]);
       }
@@ -220,7 +220,7 @@ const Select = (props) => {
     e.stopPropagation();
     v = valueAccessor(v);
     if (multi) {
-      onChange(value.filter((d) => !deepequal(d, v)));
+      onChange(value.filter((d) => !isEqual(d, v)));
     } else {
       onChange(null);
     }

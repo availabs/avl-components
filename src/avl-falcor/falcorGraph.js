@@ -3,7 +3,7 @@ import ModelRoot from "falcor/lib/ModelRoot"
 import HttpDataSource from 'falcor-http-datasource'
 import {Promise} from "bluebird";
 
-import throttle from "lodash.throttle"
+import throttle from "lodash/throttle"
 
 class CustomSource extends HttpDataSource {
  onBeforeRequest (config) {

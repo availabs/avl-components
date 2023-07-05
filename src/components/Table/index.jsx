@@ -15,8 +15,6 @@
       import { useState, useEffect } from "react";
       import  {  useCallback, useMemo } from 'react';
       import { useTheme } from "../../wrappers/with-theme"
-import boolean from 'modules/vite-dmstest/src/modules/dms/data-types/boolean'
-import ReactDatePicker from 'react-datepicker'
 
       const DefaultColumnFilter = ({ column }) => {
         const {
