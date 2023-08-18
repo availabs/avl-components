@@ -10,11 +10,11 @@
 
       import { Button } from "../Button"
       import {Select} from "../Inputs"
-      import get from 'lodash.get'
+      import get from 'lodash/get'
       import { matchSorter } from 'match-sorter'
       import { useState, useEffect } from "react";
       import  {  useCallback, useMemo } from 'react';
-      import { useTheme } from "../../wrappers/with-theme"
+      import { useTheme } from "../../wrappers"
 
       const DefaultColumnFilter = ({ column }) => {
         const {
@@ -251,13 +251,11 @@ const onPageSelect = useCallback((pageNo) => {
           if (!(columns.length && pageData.length)) return null;
 
           if (!preFilteredRows.length) return null;
-          console.log('testing 2')
 
           const filterLocationToClass = {
               inline: 'flex-row',
               [undefined]: 'flex-col'
           }
-          console.log('comes here!')
 
           return (
             <div className='w-full'>
@@ -274,14 +272,24 @@ const onPageSelect = useCallback((pageNo) => {
                                   }) }
                                 className={ theme.tableHeader }>
                                 <div className={'flex flex-col'}>
-                                    <div className={`flex justify-between`}>
-                                        <div className="flex-1 pr-1">{ column.render("Header") }</div>
-
-                                        { !column.canSort ? null :
-                                            !column.isSorted ? <i className={`ml-2 pt-1 ${theme.sortIconIdeal}`}/> :
-                                                column.isSortedDesc ? <i className={`ml-2 pt-1 ${theme.sortIconDown}`}/> :
-                                                    <i className={`ml-2 pt-1 ${theme.sortIconUp}`}/>
-                                        }
+                                    <div className={`flex justify-between items-center`}>
+                                        <div className="flex-1 pr-1">
+                                            { column.render("Header") }
+                                        </div>
+                                        <>
+                                            {
+                                                column.info &&
+                                                <i
+                                                    className={`${theme.infoIcon}`}
+                                                    title={column.info}
+                                                />
+                                            }
+                                            { !column.canSort ? null :
+                                                !column.isSorted ? <i className={`ml-2 pt-1 ${theme.sortIconIdeal}`}/> :
+                                                    column.isSortedDesc ? <i className={`ml-2 pt-1 ${theme.sortIconDown}`}/> :
+                                                        <i className={`ml-2 pt-1 ${theme.sortIconUp}`}/>
+                                            }
+                                        </>
                                     </div>
                                     <div>
                                         { !column.canFilter ? null : <div>{ column.render(filters[column.filter] || 'Filter') }</div> }
