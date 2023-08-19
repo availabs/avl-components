@@ -1,424 +1,282 @@
-      import React from 'react'
-      import {
+import React from 'react'
+import {
+    useFilters,
+    useGlobalFilter,
+    useSortBy,
+    useTable,
+    usePagination,
+    useExpanded
+} from 'react-table'
+import Loading from '../Loading';
+import {Button} from "../Button"
+import {Select} from "../Inputs"
+import get from 'lodash/get'
+import {matchSorter} from 'match-sorter'
+import {useState, useEffect} from "react";
+import {useCallback, useMemo} from 'react';
+import {useTheme} from "../../wrappers"
+import {DefaultColumnFilter} from "./components/DefaultColumnFIlter";
+import {DropDownColumnFilter} from "./components/DropDownColumnFilter"
+import {fuzzyTextFilterFn} from "./utils/fuzzyTextFilterFn";
+import {DropDownFilterFn} from "./utils/dropdownFilterFn";
+import {getPageSpread} from "./utils/getPageSpread";
+import {DefaultExpandedRow} from "./components/DefaultExpandedRow";
+import {Pagination} from "./components/Pagination";
+import {RenderExpandedRow} from "./components/RenderExpandedRow";
+import {RenderCell} from "./components/RenderCell";
+
+const EMPTY_ARRAY = [];
+
+export default ({
+                    columns = EMPTY_ARRAY,
+                    data = EMPTY_ARRAY,
+                    sortBy, sortOrder = "",
+                    initialPageSize = 10,
+                    fetchData, // added new code here
+                    pageSize = 5,
+                    onRowClick,
+                    onRowEnter,
+                    onRowLeave,
+                    ExpandRow = DefaultExpandedRow,
+                    disableFilters = false,
+                    disableSortBy = false,
+                    themeOptions = {},
+                    ...props
+                }) => {
+    const [pageData, setPageData] = React.useState(data || []);
+    const [totalRecords, setTotalRecords] = React.useState(0);
+    const [currentPage, setCurrentPage] = useState(0);
+    const [pageValue, setPageValue] = useState(0);
+    const [loading, setLoading] = useState(false);
+
+    const theme = useTheme().table(themeOptions);
+
+
+    const filterTypes = React.useMemo(
+        () => ({
+            fuzzyText: fuzzyTextFilterFn, dropdown: DropDownFilterFn
+        }), []
+    );
+
+    const filters = React.useMemo(
+        () => ({
+            dropdown: DropDownColumnFilter,
+            text: DefaultColumnFilter
+        }), []
+    );
+
+    const defaultColumn = React.useMemo(
+        () => ({Filter: false}), []
+    );
+
+    const {
+        getTableProps,
+        getTableBodyProps,
+        headerGroups,
+        page,
+        rows,
+        preFilteredRows,
+        prepareRow,
+        canPreviousPage,
+        canNextPage,
+        gotoPage,
+        previousPage,
+        nextPage,
+        pageCount,
+        visibleColumns,
+        toggleRowExpanded,
+        setPageSize,
+        state: {
+            pageSize: statePageSize,
+            pageIndex,
+            expanded
+        }
+    } = useTable(
+        {
+            columns,
+            data: pageData, // changes needed here
+            manualPagination: Boolean(fetchData),
+            ...Boolean(fetchData) && {pageCount: Math.ceil(totalRecords / pageSize)},
+            defaultColumn,
+            filterTypes,
+            disableFilters,
+            disableSortBy,
+            initialState: {
+                pageSize: pageSize || initialPageSize,
+                sortBy: [{id: sortBy, desc: sortOrder.toLowerCase() === "desc"}]
+            }
+        },
         useFilters,
         useGlobalFilter,
         useSortBy,
-        useTable,
-        usePagination,
-        useExpanded
-      } from 'react-table'
+        useExpanded,
+        usePagination
+    );
 
-      import { Button } from "../Button"
-      import {Select} from "../Inputs"
-      import get from 'lodash/get'
-      import { matchSorter } from 'match-sorter'
-      import { useState, useEffect } from "react";
-      import  {  useCallback, useMemo } from 'react';
-      import { useTheme } from "../../wrappers"
-
-      const DefaultColumnFilter = ({ column }) => {
-        const {
-            filterValue = "",
-            // preFilteredRows,
-            setFilter
-          } = column;
-          // count = preFilteredRows.length;
-          const theme = useTheme().table();
-        return (
-          <div className="w-3/4">
-            <input className={ theme.inputSmall }
-              value={ filterValue } onChange={ e => setFilter(e.target.value) }
-              onClick= { e => e.stopPropagation() }
-              placeholder={ `Search...` }/>
-          </div>
-        )
-      }
-
-      const DropDownColumnFilter = ({
-                                          column: { filterValue, setFilter, preFilteredRows, id , filterMeta, filterDomain, onFilterChange, customValue, filterThemeOptions, filterClassName, filterMulti, filterRemovable = true},
-                                      }) => {
-          // Calculate the options for filtering
-          // using the preFilteredRows
-          const options = React.useMemo(() => {
-              const options = new Set()
-              if (filterMeta){
-                  return filterMeta
-              }
-              preFilteredRows.forEach(row => {
-                  options.add(row.values[id])
-              })
-              return [...options.values()]
-          }, [filterMeta, id, preFilteredRows])
-              .filter(d => d)
-
-          const count = preFilteredRows.length;
-          // Render a multi-select box
-          return (
-              <div className="">
-                  <Select
-                      domain = {filterDomain || options}
-                      value = {filterValue || customValue || []}
-                      // value = {['row2']}
-                      onChange={(e) => {
-                          setFilter(e || undefined)
-                          onFilterChange(e || undefined) // Set undefined to remove the filter entirely
-                      }}
-                      placeHolder={`Search ${count} records...`}
-                      removable={filterRemovable}
-                      multi={filterMulti}
-                      themeOptions = {filterThemeOptions}
-                      className={`${filterClassName}`}
-                  />
-              </div>
-          )
-      }
-
-      function fuzzyTextFilterFn(rows, id, filterValue) {
-        return matchSorter(rows, filterValue, { keys: [row => row.values[id]] });
-      }
-
-      function DropDownFilterFn(rows, id, filterValue) {
-        return rows.filter(row => {
-              const rowValue = row.values[id];
-              return rowValue !== undefined && Array.isArray(filterValue) && filterValue.length
-                  ? filterValue.includes(rowValue)
-                  : rowValue !== undefined && filterValue.length ? rowValue === filterValue : true
-          })
-      }
-
-      const getPageSpread = (page, maxPage) => {
-        let low = page - 2,
-          high = page + 2;
-
-        if (low < 0) {
-          high += -low;
-          low = 0;
+    React.useEffect(() => {
+        if ((pageSize !== null) && (pageSize !== statePageSize)) {
+            setPageSize(pageSize);
         }
-        if (high > maxPage) {
-          low -= (high - maxPage);
-          high = maxPage;
-        }
-        const spread = [];
-        for (let i = Math.max(0, low); i <= Math.min(maxPage, high); ++i) {
-          spread.push(i);
-        }
-        return spread;
-      }
+    }, [pageSize, statePageSize, setPageSize]);
 
-      const DefaultExpandedRow = ({ values }) =>
-        <div className="flex">
-          { values.map(({ key, value }, i) =>
-              <div key={ key || `key-${ i }` } className="flex-1">
-                { key ? <b>{ key }:</b> : null }
-                <span className="ml-1">{ value }</span>
-              </div>
-            )
-          }
-        </div>
-
-      // new code
-
-      // end 
-
-      const EMPTY_ARRAY = [];
-
-      export default ({ columns = EMPTY_ARRAY,
-                        data = EMPTY_ARRAY,
-                        sortBy, sortOrder = "",
-                        initialPageSize = 10,
-                        fetchData, // added new code here
-                        pageSize = 5,
-                        onRowClick, 
-                        onRowEnter,
-                        onRowLeave,
-                        ExpandRow = DefaultExpandedRow,
-                        disableFilters = false,
-                        disableSortBy = false,
-                        themeOptions = {},
-                        ...props }) => {
-          const [pageData, setPageData] = React.useState(data || []); 
-          const [totalRecords, setTotalRecords]=React.useState(0);   
-          const [currentPage, setCurrentPage] = useState(0);
-          const [pageValue, setPageValue] = useState(0);
-
-          const theme = useTheme().table(themeOptions);
-
-          
-          const filterTypes = React.useMemo(
-            () => ({
-              fuzzyText: fuzzyTextFilterFn, dropdown: DropDownFilterFn
-            }), []
-          );
-
-          const filters = React.useMemo(
-            () => ({
-                dropdown: DropDownColumnFilter,
-                text: DefaultColumnFilter
-            }), []
-          );
-
-          const defaultColumn = React.useMemo(
-            () => ({ Filter: false }), []
-          );
-
-          const {
-            getTableProps,
-            getTableBodyProps,
-            headerGroups,
-            page,
-            rows,
-            preFilteredRows,
-            prepareRow,
-            canPreviousPage,
-            canNextPage,
-            gotoPage,
-            previousPage,
-            nextPage,
-            pageCount,
-            visibleColumns,
-            toggleRowExpanded,
-            setPageSize,
-            state: {
-              pageSize: statePageSize,
-              pageIndex,
-              expanded
-            }
-          } = useTable(
-            { columns,
-              data: pageData, // changes needed here
-              manualPagination: Boolean(fetchData),
-              ...Boolean(fetchData)  && {pageCount : Math.ceil(totalRecords / pageSize)},
-              defaultColumn,
-              filterTypes,
-              disableFilters,
-              disableSortBy,
-              initialState: {
-                pageSize: pageSize || initialPageSize,
-                sortBy: [{ id: sortBy, desc: sortOrder.toLowerCase() === "desc" }]
-              }
-            },
-            useFilters,
-            useGlobalFilter,
-            useSortBy,
-            useExpanded,
-            usePagination
-          );
-          React.useEffect(() => {
-            if ((pageSize !== null) && (pageSize !== statePageSize)) {
-              setPageSize(pageSize);
-            }
-          }, [pageSize, statePageSize, setPageSize]);
-
-          React.useEffect(() => {
-            if(fetchData){
+    React.useEffect(() => {
+        if (fetchData) {
             const appData1 = async () => {
-              const { data, length } = await fetchData({currentPage, pageSize});
-              return { data, length };
+                setLoading(true);
+
+                const {data, length} = await fetchData({currentPage, pageSize});
+                return {data, length};
             };
 
             appData1().then((result) => {
-              setPageData(result?.data || []);
-              setTotalRecords(result?.length || 0);
+                setPageData(result?.data || []);
+                setTotalRecords(result?.length || 0);
+                setLoading(false);
             });
-          }
-          }, [fetchData, pageSize, currentPage]);
+        }
+    }, [fetchData, pageSize, currentPage]);
 
-          React.useEffect(() => {
-            if(!fetchData){
-              setPageData(data)
-            }
-          }, [data, pageCount])
+    React.useEffect(() => {
+        if (!fetchData) {
+            setPageData(data)
+        }
+    }, [data, pageCount, fetchData])
 
-          React.useEffect(() => {
-            setPageValue(fetchData ? currentPage : pageIndex)
-          }, [pageIndex, currentPage]);
+    React.useEffect(() => {
+        setPageValue(fetchData ? currentPage : pageIndex)
+    }, [pageIndex, currentPage]);
 
-      const onNextPage = useCallback(() => {
+    // pagination utils
+    const onNextPage = useCallback(() => {
         setCurrentPage((prevPage) => prevPage + 1);
-      }, []);
-      const onPrevPage = useCallback(() => {
+    }, []);
+    const onPrevPage = useCallback(() => {
         setCurrentPage((prevPage) => prevPage - 1);
-      }, []);
+    }, []);
 
-const onPageSelect = useCallback((pageNo) => {
-    if (currentPage !== pageNo) {
-      setCurrentPage(pageNo);
-    }
-  },
-  [currentPage]
-);
+    const onPageSelect = useCallback((pageNo) => {
+            if (currentPage !== pageNo) {
+                setCurrentPage(pageNo);
+            }
+        },
+        [currentPage]
+    );
 
-          if (!(columns.length && pageData.length)) return null;
+    if (!(columns.length && pageData.length)) return null;
 
-          if (!preFilteredRows.length) return null;
-
-          const filterLocationToClass = {
-              inline: 'flex-row',
-              [undefined]: 'flex-col'
-          }
-
-          return (
-            <div className='w-full'>
+    if (!preFilteredRows.length) return null;
+    return (
+        <div className='w-full'>
             <div className="overflow-auto scrollbar-sm">
-              <table { ...getTableProps() } className="w-full">
-                <thead>
-                  { headerGroups.map(headerGroup =>
-                      <tr { ...headerGroup.getHeaderGroupProps() }>
-                        { headerGroup.headers
-                            .map(column =>
-                              <th { ...column.getHeaderProps({
-                                  ...column.getSortByToggleProps(),
-                                      style: { minWidth: column.minWidth, width: column.width, maxWidth: column.maxWidth },
-                                  }) }
-                                className={ theme.tableHeader }>
-                                <div className={'flex flex-col'}>
-                                    <div className={`flex justify-between items-center`}>
-                                        <div className="flex-1 pr-1">
-                                            { column.render("Header") }
+                {loading &&
+                    <div className={'z-10 absolute float-center text-center align-middle items-center w-full'}
+                      style={{
+                          backgroundColor: 'rgba(255,255,255,0.38)',
+                          // height: '75%',
+                          width: '100%',
+                    }}>
+                    <Loading width={'100%'} height={'100%'}/>
+                </div>}
+                <table {...getTableProps()} className="w-full">
+                    <thead>
+                    {headerGroups.map(headerGroup =>
+                        <tr {...headerGroup.getHeaderGroupProps()}>
+                            {headerGroup.headers
+                                .map(column =>
+                                    <th {...column.getHeaderProps({
+                                        ...column.getSortByToggleProps(),
+                                        style: {
+                                            minWidth: column.minWidth,
+                                            width: column.width,
+                                            maxWidth: column.maxWidth
+                                        },
+                                    })}
+                                        className={theme.tableHeader}>
+                                        <div className={'flex flex-col'}>
+                                            <div className={`flex justify-between items-center`}>
+                                                <div className="flex-1 pr-1">
+                                                    {column.render("Header")}
+                                                </div>
+                                                <>
+                                                    {
+                                                        column.info &&
+                                                        <i
+                                                            className={`${theme.infoIcon}`}
+                                                            title={column.info}
+                                                        />
+                                                    }
+                                                    {!column.canSort ? null :
+                                                        !column.isSorted ?
+                                                            <i className={`ml-2 pt-1 ${theme.sortIconIdeal}`}/> :
+                                                            column.isSortedDesc ?
+                                                                <i className={`ml-2 pt-1 ${theme.sortIconDown}`}/> :
+                                                                <i className={`ml-2 pt-1 ${theme.sortIconUp}`}/>
+                                                    }
+                                                </>
+                                            </div>
+                                            <div>
+                                                {!column.canFilter ? null :
+                                                    <div>{column.render(filters[column.filter] || 'Filter')}</div>}
+                                            </div>
                                         </div>
-                                        <>
-                                            {
-                                                column.info &&
-                                                <i
-                                                    className={`${theme.infoIcon}`}
-                                                    title={column.info}
-                                                />
-                                            }
-                                            { !column.canSort ? null :
-                                                !column.isSorted ? <i className={`ml-2 pt-1 ${theme.sortIconIdeal}`}/> :
-                                                    column.isSortedDesc ? <i className={`ml-2 pt-1 ${theme.sortIconDown}`}/> :
-                                                        <i className={`ml-2 pt-1 ${theme.sortIconUp}`}/>
-                                            }
-                                        </>
-                                    </div>
-                                    <div>
-                                        { !column.canFilter ? null : <div>{ column.render(filters[column.filter] || 'Filter') }</div> }
-                                    </div>
-                                </div>
-                              </th>
-                            )
-                        }
-                      </tr>
-                    )
-                  }
-
-                </thead>
-                <tbody { ...getTableBodyProps() }>
-                  { page.map((row) => {
-                      const { onClick, expand = [] } = row.original;
-                      prepareRow(row);
-                      return (
-                        <React.Fragment key={ row.getRowProps().key }>
-                          <tr { ...row.getRowProps() }
-                            onMouseEnter={ typeof onRowEnter === "function" ? e => onRowEnter(e, row) : null }
-                            onMouseLeave={ typeof onRowLeave === "function" ? e => onRowLeave(e, row) : null }
-                            className={ `
-                              ${ props.striped ? theme.tableRowStriped : theme.tableRow }
-                              ${ (onClick || onRowClick) ? "cursor-pointer" : "" }
-                            ` }
-                            onClick={ e => {
-                              (typeof onRowClick === "function") && onRowClick(e, row);
-                              (typeof onClick === "function") && onClick(e, row);
-                            } }>
-                              { row.cells.map((cell, ii) =>
-                                  <td { ...cell.getCellProps({
-                                      style: {
-                                          minWidth: cell.column.minWidth,
-                                          maxWidth: cell.column.maxWidth,
-                                          width: cell.column.width,
-                                      },
-                                  }) } className={ `text-${get(columns.find(c => c.Header === cell.column.Header), 'align') || 'center'} ${theme.tableCell}` }>
-                                    { (ii > 0) || ((row.subRows.length === 0) && (expand.length === 0)) ?
-                                        cell.render('Cell')
-                                      :
-                                        <div className="flex items-center">
-                                          <div className="flex-1">{ cell.render('Cell') }</div>
-                                          <div onClick={ e => {
-                                            e.stopPropagation();
-                                            e.preventDefault();
-                                            Object.keys(expanded).filter(k => k !== row.id)
-                                              .forEach(toggleRowExpanded);
-                                            row.toggleRowExpanded(!row.isExpanded);
-                                          } } className={ `
-                                              flex item-center justify-center
-                                              rounded cursor-pointer py-1 px-2
-                                              hover:${ theme.accent3 } ${ theme.transition }
-                                            ` }>
-                                            { row.isExpanded ?
-                                              <i className="fas fa-chevron-up"/> :
-                                              <i className="fas fa-chevron-down"/>
-                                            }
-                                          </div>
-                                        </div>
-                                    }
-                                  </td>
+                                    </th>
                                 )
-                              }
-                          </tr>
-                          { !row.isExpanded || !expand.length ? null :
-                            <tr className={ theme.tableRow }>
-                              <td colSpan={ visibleColumns.length } className={ theme.tableCell }>
-                                <ExpandRow values={ expand }/>
-                              </td>
-                            </tr>
-                          }
-                        </React.Fragment>
-                      )
-                    })
-                  }
+                            }
+                        </tr>
+                    )
+                    }
 
-                </tbody>
-              </table>
+                    </thead>
+                    <tbody {...getTableBodyProps()}>
+                    {page.map((row) => {
+                        const {onClick, expand = []} = row.original;
+                        prepareRow(row);
+                        return (
+                            <React.Fragment key={row.getRowProps().key}>
+                                <tr {...row.getRowProps()}
+                                    onMouseEnter={typeof onRowEnter === "function" ? e => onRowEnter(e, row) : null}
+                                    onMouseLeave={typeof onRowLeave === "function" ? e => onRowLeave(e, row) : null}
+                                    className={`
+                                        ${props.striped ? theme.tableRowStriped : theme.tableRow}
+                                        ${(onClick || onRowClick) ? "cursor-pointer" : ""}
+                                    `}
+                                    onClick={e => {
+                                        (typeof onRowClick === "function") && onRowClick(e, row);
+                                        (typeof onClick === "function") && onClick(e, row);
+                                    }}>
+                                    {row.cells.map((cell, ii) =>
+                                        <RenderCell
+                                            {...{
+                                                ii, cell, row, columns,
+                                                expand, expanded, toggleRowExpanded,
+                                                theme
+                                            }}
+                                        />
+                                    )
+                                    }
+                                </tr>
+                                <RenderExpandedRow {...{row, expand, visibleColumns, ExpandRow, theme}} />
+                            </React.Fragment>
+                        )
+                    })
+                    }
+
+                    </tbody>
+                </table>
             </div>
 
             <div className='w-full p-2'>
-
-            { pageCount <= 1 ? null :
-               <div className={ `flex items-center ${ theme.textInfo }` }>
-            <div className="flex-0">
-              Page { pageValue + 1} of { pageCount }
-              <br />{/*<span className="font-extrabold">&nbsp; | &nbsp;</span>*/}
-              Rows { pageValue * pageSize + 1 } -
-              { 
-                !fetchData ? 
-                Math.min(rows.length, pageIndex * statePageSize + statePageSize) :
-                Math.min(totalRecords, pageValue * pageSize + pageSize)
-              } of { !fetchData ? rows.length : totalRecords }
+                <Pagination
+                    {...{
+                        fetchData, theme,
+                        pageValue, pageCount, pageSize, pageIndex,
+                        statePageSize, totalRecords, rows,
+                        canNextPage,
+                        onPageSelect, onPrevPage, onNextPage,
+                        previousPage, gotoPage, nextPage
+                    }}
+                />
             </div>
-            <div className={ `flex-1 flex justify-end items-center` }>
-              <Button disabled={ (pageValue) === 0 } themeOptions={{size:'sm'}}
-                onClick={ e => !fetchData ? gotoPage(0) : onPageSelect(0)}>
-                { "<<" }
-              </Button>
-              <Button disabled={ pageValue === 0 } themeOptions={{size:'sm'}}
-                onClick={ e => !fetchData ? previousPage() : onPrevPage() }>
-                { "<" }
-              </Button>
-              { getPageSpread(pageValue, pageCount - 1)
-                  .map(p => {
-                    const active = (p === (pageValue));
-                    return (
-                      <Button key={ p } themeOptions={{size:'sm', color: active ? 'primary' : 'white' }}
-                        onClick={active ? null : e => !fetchData ? gotoPage(p) : onPageSelect(p)}>
-                        { p + 1 }
-                      </Button>
-                    )
-                  })
-              }
-              <Button disabled={ !fetchData ? !canNextPage : (pageValue === pageCount - 1) } 
-              themeOptions={{size:'sm'}}
-                onClick={ e => !fetchData ? nextPage(0) : onNextPage(e) }>
-                { ">" }
-              </Button>
-              <Button disabled={ (pageValue === (pageCount - 1)) } 
-              themeOptions={{size:'sm'}}
-                onClick={ e => !fetchData ? gotoPage(pageCount - 1) : onPageSelect(pageCount - 1) }>
-                { ">>" }
-              </Button>
-            </div>
-          </div>
-          }
-          </div>
-      </div>
-      )
+        </div>
+    )
 }
