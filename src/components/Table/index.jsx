@@ -246,6 +246,7 @@ export default ({
                                     }}>
                                     {row.cells.map((cell, ii) =>
                                         <RenderCell
+                                            key ={ii}
                                             {...{
                                                 ii, cell, row, columns,
                                                 expand, expanded, toggleRowExpanded,
