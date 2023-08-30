@@ -32,7 +32,11 @@ export default ({
                     data = EMPTY_ARRAY,
                     sortBy, sortOrder = "",
                     initialPageSize = 10,
-                    fetchData, // added new code here
+                    manualPagination, // manual pagination, provide data if not providing fetchData fn
+                    fetchData, // manual pagination, fetch data using this function
+                    onPageChange, // custom function to execute
+                    numRecords, // should be used in case of manual pagination
+                    manualCurrentPage,
                     pageSize = 5,
                     onRowClick,
                     onRowEnter,
@@ -44,13 +48,12 @@ export default ({
                     ...props
                 }) => {
     const [pageData, setPageData] = React.useState(data || []);
-    const [totalRecords, setTotalRecords] = React.useState(0);
-    const [currentPage, setCurrentPage] = useState(0);
+    const [totalRecords, setTotalRecords] = React.useState(numRecords || 0);
+    const [currentPage, setCurrentPage] = useState(manualCurrentPage || 0);
     const [pageValue, setPageValue] = useState(0);
     const [loading, setLoading] = useState(false);
 
     const theme = useTheme().table(themeOptions);
-
 
     const filterTypes = React.useMemo(
         () => ({
@@ -95,8 +98,8 @@ export default ({
         {
             columns,
             data: pageData, // changes needed here
-            manualPagination: Boolean(fetchData),
-            ...Boolean(fetchData) && {pageCount: Math.ceil(totalRecords / pageSize)},
+            manualPagination: Boolean(manualPagination) || Boolean(fetchData),
+            ...(Boolean(fetchData) || Boolean(manualPagination)) && {pageCount: Math.ceil(totalRecords / pageSize)},
             defaultColumn,
             filterTypes,
             disableFilters,
@@ -143,21 +146,30 @@ export default ({
     }, [data, pageCount, fetchData])
 
     React.useEffect(() => {
-        setPageValue(fetchData ? currentPage : pageIndex)
+        if (!fetchData && totalRecords !== numRecords) {
+            setTotalRecords(numRecords)
+        }
+    }, [numRecords])
+
+    React.useEffect(() => {
+        setPageValue(fetchData || manualPagination ? currentPage : pageIndex)
     }, [pageIndex, currentPage]);
 
     // pagination utils
     const onNextPage = useCallback(() => {
         setCurrentPage((prevPage) => prevPage + 1);
+        onPageChange(currentPage + 1)
     }, []);
     const onPrevPage = useCallback(() => {
         setCurrentPage((prevPage) => prevPage - 1);
+        onPageChange(currentPage - 1)
     }, []);
 
     const onPageSelect = useCallback((pageNo) => {
             if (currentPage !== pageNo) {
                 setCurrentPage(pageNo);
             }
+            onPageChange(pageNo)
         },
         [currentPage]
     );
@@ -165,6 +177,7 @@ export default ({
     if (!(columns.length && pageData.length)) return null;
 
     if (!preFilteredRows.length) return null;
+
     return (
         <div className='w-full'>
             <div className="overflow-auto scrollbar-sm">
@@ -269,12 +282,13 @@ export default ({
             <div className='w-full p-2'>
                 <Pagination
                     {...{
-                        fetchData, theme,
+                        fetchData, manualPagination, theme,
                         pageValue, pageCount, pageSize, pageIndex,
                         statePageSize, totalRecords, rows,
                         canNextPage,
                         onPageSelect, onPrevPage, onNextPage,
-                        previousPage, gotoPage, nextPage
+                        previousPage, gotoPage, nextPage,
+                        onPageChange
                     }}
                 />
             </div>
