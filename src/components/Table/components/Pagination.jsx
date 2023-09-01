@@ -12,7 +12,7 @@ export const Pagination = ({
                            }) => {
     if(pageCount <= 1) return null;
     return (
-        <div className={`flex items-center ${theme.textInfo}`}>
+        <div className={`flex items-center flex-wrap ${theme.textInfo}`}>
             <div className="flex-0">
                 Page {pageValue + 1} of {pageCount}
                 <br/>{/*<span className="font-extrabold">&nbsp; | &nbsp;</span>*/}
