@@ -142,7 +142,7 @@ const SubMenu = ({ showSubMenu, subMenus, type, hovering, subMenuActivate, activ
 		>
 			
 			<div
-				className={`${theme.contentBg}
+				className={`
 							${inactiveHoveing && theme.subMenuWrapperInactiveFlyoutDirection}
 							${!inactiveHoveing && theme.subMenuWrapperChild}
 					flex ${(type === "side" || inactiveHoveing ? "flex-col" : "flex-row")}
