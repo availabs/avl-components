@@ -1,5 +1,5 @@
 import React, {useEffect} from "react";
-import { useMatch, useNavigate } from "react-router-dom";
+import { useMatch, useNavigate, Link } from "react-router-dom";
 
 import Icon from "../Icons";
 
@@ -39,7 +39,7 @@ const NavItem = ({
 		}, []);
 		return [...To, ...subs];
 	}, [To, subMenus]);
-	// console.log('pathmatch', subTos, To)
+
 	const routeMatch = Boolean(useMatch({ path: `${subTos[0]}/*` || '', end: true }));
 
 	const linkClasses = type === "side" ? theme.navitemSide : theme.navitemTop;
@@ -60,11 +60,13 @@ const NavItem = ({
 
 	return (
 			<div className={type === "side" ? theme.subMenuParentWrapper : null}>
-				<div
+				
+				<Link
 					className={`${className ? className : navClass}`}
+					
 					onClick={(e) => {
 						e.stopPropagation();
-						if (onClick) return onClick;
+						if (onClick) return onClick(To[0]);
 						if (To[0]) navigate(To[0]);
 					}}
 					onMouseOutCapture={() =>
@@ -122,7 +124,7 @@ const NavItem = ({
 							className={className}
 						/> : ''
 					}
-				</div>
+				</Link>
 			</div>
 	);
 };
@@ -142,14 +144,15 @@ const SubMenu = ({ showSubMenu, subMenus, type, hovering, subMenuActivate, activ
 		>
 			
 			<div
-				className={`${theme.contentBg}
+				className={`
 							${inactiveHoveing && theme.subMenuWrapperInactiveFlyoutDirection}
+							${!inactiveHoveing && theme.subMenuWrapperChild}
 					flex ${(type === "side" || inactiveHoveing ? "flex-col" : "flex-row")}
 				`}
 			>
 				{subMenus.map((sm, i) => (
 					<NavItem 
-						key={i} 
+						key={i}
 						to={sm.path}
 						icon={sm.icon} 
 						type={type} 
