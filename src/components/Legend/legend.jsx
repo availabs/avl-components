@@ -231,8 +231,9 @@ const LinearScale = ({ scale, format, size, ticks = 5 }) => {
     </div>
   )
 }
-const OrdinalScale = ({ scale, format, height = 3, direction = "vertical" }) => {
+const OrdinalScale = ({ scale, format, height = 3, direction = "vertical", rangeType = null }) => {
   const range = scale.range();
+
   return (
     <div>
       { direction === "horizontal" ?
@@ -265,13 +266,27 @@ const OrdinalScale = ({ scale, format, height = 3, direction = "vertical" }) => 
               <div key={ i }
                 className={ `${ i > 0 ? "ml-6" : "" } flex-1` }>
                 { d.map(dd =>
-                    <div className="flex items-center" key={ dd }>
-                      <div className="h-6 w-6 rounded mr-1 mb-1"
-                        style={ {
-                          backgroundColor: scale(dd)
-                        } }/>
-                      <div>{ format(dd) }</div>
-                    </div>
+                    {
+                      if(rangeType === 'image'){
+                        return (
+                          <div className="flex items-center" key={ dd }>
+                            <div className="h-6 w-6 rounded mr-1 mb-1">
+                              <img src={scale(dd)}/>
+                            </div>
+                            <div>{ format(dd) }</div>
+                          </div>)
+                      }
+                      else {
+                        return  (
+                          <div className="flex items-center" key={ dd }>
+                            <div className="h-6 w-6 rounded mr-1 mb-1"
+                              style={ {
+                                backgroundColor: scale(dd)
+                              }}/>
+                            <div>{ format(dd) }</div>
+                          </div>)
+                      }
+                    }
                   )
                 }
               </div>
