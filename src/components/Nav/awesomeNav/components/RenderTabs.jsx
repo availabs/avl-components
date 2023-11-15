@@ -27,36 +27,21 @@ export const RenderTabs = ({
         return (
             <div
                 key={tab.name}
-                className={'flex flex-col'}
+                className={isActive ? activeRootTabStyle : rootTabStyle}
                 onClick={e => onClick ? e.stopPropagation() && onClick({tab, flyout, setFlyout}) : navigate(tab.path)} //for mobile on div click setFlyout
                 onMouseOver={e => setFlyout(tab.name)}
                 onMouseLeave={e => setFlyout(undefined)}
                 onMouseOut={e => setFlyout(undefined)}
             >
-                <div className={isActive ? activeRootTabStyle : rootTabStyle}>
                     <div onClick={e => navigate(tab.path)}>
-                        {tab.name} {subMenus?.length ? <i className={flyoutDownIcon} onClick={() => {setFlyout(tab.name)}}/> : null}
+                        {tab.name}
+                        {subMenus?.length ? <i className={flyoutDownIcon} onClick={() => {setFlyout(tab.name)}}/> : null}
                     </div>
                     {
                         subMenus?.length && flyout === tab.name && mode === 'desktop' ?
                             <RenderFlyout tabs={subMenus} display={true} tabStyle={childTabStyle}
                                           activeTabStyle={activeChildTabStyle} {...rest} /> : null
                     }
-                </div>
-
-                {
-                    subMenus?.length && flyout === tab.name && mode === 'mobile' ?
-                        <div className={mobileSubNavWrapper}>
-                            <RenderTabs activeTab={tab}
-                                        tabsToRender={subMenus}
-                                        rootTabStyle={rootTabStyle}
-                                        activeRootTabStyle={activeRootTabStyle}
-                                        childTabStyle={childTabStyle}
-                                        activeChildTabStyle={activeChildTabStyle}
-                                        flyoutDownIcon={flyoutDownIcon}
-                                        onClick={onClick} {...rest} />
-                        </div>: null
-                }
             </div>)
     })
 }
