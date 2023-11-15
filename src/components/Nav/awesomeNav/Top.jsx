@@ -40,7 +40,7 @@ const RenderNavBar = ({
     // }, []);
     //
     // console.log('w?', width)
-    const numTabsToDisplay = useMemo(() => width > 1800 ? 6 : width > 1100 ? 5 : width > 750 ? 3 : 7, [width]);
+    const numTabsToDisplay = 100 //useMemo(() => width > 1800 ? 6 : width > 1100 ? 5 : width > 750 ? 3 : 7, [width]);
     const tabsToRender = useMemo(() => menuItems.slice(0, numTabsToDisplay), [width]);
     const extraTabs = useMemo(() => menuItems.slice(numTabsToDisplay, menuItems.length), [width]);
 
@@ -112,15 +112,15 @@ export const DesktopNav = ({
         navWrapper: 'hidden lg:block shadow-sm',
         rootNavWrapper: 'flex flex-row h-full justify-between border-b-2 shadow-sm bg-slate-100',
         leftMenuAndMenuItemsWrapper: 'flex flex-row w-3/4',
-        tabsWrapper: 'block w-full shrink-0 flex flex-row items-center divide-x-2 shadow-sm border-b overflow-hidden ',
+        tabsWrapper: 'block w-full shrink-0 flex flex-row items-center divide-x-2 shadow-sm border-b overflow-x-auto ',
 
-        rootTabStyle: 'flex p-2 h-12 pt-4 uppercase self-center text-sm font-medium tracking-wider hover:bg-white text-gray-900 whitespace-nowrap cursor-pointer transition ease-in',
-        activeRootTabStyle: 'flex p-2 h-12 pt-4 uppercase self-center text-sm font-medium tracking-wider bg-white text-blue-500 whitespace-nowrap cursor-pointer transition ease-in',
+        rootTabStyle: 'p-2 h-12 pt-4 uppercase self-center text-sm font-medium tracking-wider hover:bg-white text-gray-900 whitespace-nowrap cursor-pointer transition ease-in',
+        activeRootTabStyle: 'p-2 h-12 pt-4 uppercase self-center text-sm font-medium tracking-wider bg-white text-blue-500 whitespace-nowrap cursor-pointer transition ease-in',
 
         childTabStyle: 'px-4 py-2 w-full uppercase text-sm font-medium tracking-wider hover:bg-slate-100 bg-white text-gray-900 cursor-pointer whitespace-nowrap transition ease-in',
         activeChildTabStyle: 'px-4 py-2 w-full uppercase text-sm font-medium tracking-wider hover:bg-slate-100 bg-white text-blue-500 cursor-pointer whitespace-nowrap transition ease-in',
 
-        flyoutWrapper: 'flex flex-col absolute bg-slate-100 divide-y shadow-md top-10',
+        flyoutWrapper: 'flex flex-col absolute bg-slate-100 divide-y shadow-md',
         flyoutDownIcon: 'text-xs fa-thin fa-chevron-down px-1 py-0.5',
         flyoutRightIcon: 'text-xs fa-thin fa-chevron-right px-1 py-0.5',
         ...theme
@@ -169,7 +169,7 @@ export const MobileNav = ({
         mobileMenuBarWrapper: 'flex lg:hidden flex-row justify-between w-full bg-slate-100 shadow-md',
         mobileMenuButton: 'fa fa-bars float-right p-2 text-2xl',
         mobileMenuCloseButton: 'fa fa-close text-red-500 p-2 text-2xl',
-        mobileMenuContentWrapper: 'w-full overflow-y-auto bg-slate-100 z-10',
+        mobileMenuContentWrapper: 'w-full h-screen overflow-y-auto bg-slate-100 z-10',
         mobileMenuWrapper: 'flex flex-col',
         mobileSubNavWrapper: 'flex flex-col p-4 bg-white',
 
