@@ -6,6 +6,7 @@ import Icon from "../Icons";
 import { useTheme } from "../../wrappers";
 
 const NavItem = ({
+	i = 0,
 	children,
 	icon,
 	to,
@@ -59,9 +60,18 @@ const NavItem = ({
 	}, [routeMatch,showSubMenu,to]);
 
 	return (
-			<div className={type === "side" ? theme.subMenuParentWrapper : null}>
+			<div className={type === "side" ? theme.subMenuParentWrapper : null}
+				 onMouseOutCapture={() =>
+					 (subMenuActivate === 'onHover' && setShowSubMenu(false)) ||
+					 (subMenuActivate !== 'onHover' && setHovering(false) && setShowSubMenu(false))
+				 }
+				 onMouseMove={() =>
+					 (subMenuActivate === 'onHover' && setShowSubMenu(true)) ||
+					 (subMenuActivate !== 'onHover' && setHovering(true) && setShowSubMenu(true))
+				 }
+			>
 				
-				<Link
+				<div
 					className={`${className ? className : navClass}`}
 					
 					onClick={(e) => {
@@ -69,14 +79,6 @@ const NavItem = ({
 						if (onClick) return onClick(To[0]);
 						if (To[0]) navigate(To[0]);
 					}}
-					onMouseOutCapture={() =>
-						(subMenuActivate === 'onHover' && setShowSubMenu(false)) ||
-						(subMenuActivate !== 'onHover' && setHovering(false) && setShowSubMenu(false))
-					}
-					onMouseMove={() =>
-						(subMenuActivate === 'onHover' && setShowSubMenu(true)) ||
-						(subMenuActivate !== 'onHover' && setHovering(true) && setShowSubMenu(true))
-					}
 				>
 					<div className={'flex'}>
 						<div className='flex-1 flex' >
@@ -110,27 +112,28 @@ const NavItem = ({
 										icon={showSubMenu ? theme.indicatorIconOpen : theme.indicatorIcon}/>
 									: null
 							}
+							{	subMenus.length ?
+								<SubMenu
+									i={i}
+									showSubMenu={showSubMenu}
+									subMenuActivate={subMenuActivate}
+									active={routeMatch}
+									hovering={hovering}
+									subMenus={subMenus}
+									type={type}
+									themeOptions={themeOptions}
+									className={className}
+								/> : ''
+							}
 						</div>
 					</div>
-					{	subMenus.length ?
-						<SubMenu
-							showSubMenu={showSubMenu}
-							subMenuActivate={subMenuActivate}
-							active={routeMatch}
-							hovering={hovering}
-							subMenus={subMenus}
-							type={type}
-							themeOptions={themeOptions}
-							className={className}
-						/> : ''
-					}
-				</Link>
+				</div>
 			</div>
 	);
 };
 export default NavItem;
 
-const SubMenu = ({ showSubMenu, subMenus, type, hovering, subMenuActivate, active, themeOptions }) => {
+const SubMenu = ({ i, showSubMenu, subMenus, type, hovering, subMenuActivate, active, themeOptions }) => {
 	const theme = useTheme()[type === 'side' ? 'sidenav' : 'topnav'](themeOptions);
 
 	const inactiveHoveing = !active && subMenuActivate !== 'onHover' && hovering;
@@ -140,7 +143,12 @@ const SubMenu = ({ showSubMenu, subMenus, type, hovering, subMenuActivate, activ
 
 	return (
 		<div
-			className={ type === "side" ? theme.subMenuWrapper : inactiveHoveing ? theme.subMenuWrapperInactiveFlyout : theme.subMenuWrapperTop }
+			className={ type === "side" ?
+				theme.subMenuWrapper :
+				inactiveHoveing && i === 0 ? theme.subMenuWrapperInactiveFlyout :
+					inactiveHoveing && i > 0 ? theme.subMenuWrapperInactiveFlyoutBelow :
+					theme.subMenuWrapperTop
+		}
 		>
 			
 			<div
@@ -151,7 +159,8 @@ const SubMenu = ({ showSubMenu, subMenus, type, hovering, subMenuActivate, activ
 				`}
 			>
 				{subMenus.map((sm, i) => (
-					<NavItem 
+					<NavItem
+						i={i+1}
 						key={i}
 						to={sm.path}
 						icon={sm.icon} 
