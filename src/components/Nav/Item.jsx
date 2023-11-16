@@ -112,7 +112,9 @@ const NavItem = ({
 										icon={showSubMenu ? theme.indicatorIconOpen : theme.indicatorIcon}/>
 									: null
 							}
-							{	subMenus.length ?
+							
+						</div>
+						{	subMenus.length ?
 								<SubMenu
 									i={i}
 									showSubMenu={showSubMenu}
@@ -125,7 +127,6 @@ const NavItem = ({
 									className={className}
 								/> : ''
 							}
-						</div>
 					</div>
 				</div>
 			</div>

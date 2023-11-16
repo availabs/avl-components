@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import get from "lodash/get";
 
 import { useTheme } from "../../wrappers/with-theme";
+import { MobileNav } from './awesomeNav/Top'
 import NavItem from "./Item";
 
 export const MobileMenu = ({ open, toggle, menuItems = [], rightMenu = null,themeOptions={}}) => {
@@ -91,7 +92,7 @@ const TopNav = ({ ...props }) => {
   return (
     <nav>
       <DesktopMenu open={open} toggle={setOpen} {...props} />
-      <MobileMenu open={open} {...props} />
+      <MobileNav open={open} {...props} />
     </nav>
   );
 };
