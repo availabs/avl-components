@@ -61,7 +61,7 @@ export const Button = ({
   ...props
 }) => {
   const fullTheme = useTheme();
-  let theme = fullTheme['button'](themeOptions)
+  let theme = fullTheme?.['button'](themeOptions) || ''
 
   if (showConfirm) {
     return (
