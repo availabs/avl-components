@@ -28,25 +28,25 @@ import {RenderCell} from "./components/RenderCell";
 const EMPTY_ARRAY = [];
 
 export default ({
-                    columns = EMPTY_ARRAY,
-                    data = EMPTY_ARRAY,
-                    sortBy, sortOrder = "",
-                    initialPageSize = 10,
-                    manualPagination, // manual pagination, provide data if not providing fetchData fn
-                    fetchData, // manual pagination, fetch data using this function
-                    onPageChange, // custom function to execute
-                    numRecords, // should be used in case of manual pagination
-                    manualCurrentPage,
-                    pageSize = 5,
-                    onRowClick,
-                    onRowEnter,
-                    onRowLeave,
-                    ExpandRow = DefaultExpandedRow,
-                    disableFilters = false,
-                    disableSortBy = false,
-                    themeOptions = {},
-                    ...props
-                }) => {
+    columns = EMPTY_ARRAY,
+    data = EMPTY_ARRAY,
+    sortBy, sortOrder = "",
+    initialPageSize = 10,
+    manualPagination, // manual pagination, provide data if not providing fetchData fn
+    fetchData, // manual pagination, fetch data using this function
+    onPageChange, // custom function to execute
+    numRecords, // should be used in case of manual pagination
+    manualCurrentPage,
+    pageSize = 5,
+    onRowClick,
+    onRowEnter,
+    onRowLeave,
+    ExpandRow = DefaultExpandedRow,
+    disableFilters = false,
+    disableSortBy = false,
+    themeOptions = {},
+    ...props
+}) => {
     const [pageData, setPageData] = React.useState(data || []);
     const [totalRecords, setTotalRecords] = React.useState(numRecords || 0);
     const [currentPage, setCurrentPage] = useState(manualCurrentPage || 0);
