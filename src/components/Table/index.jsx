@@ -24,6 +24,7 @@ import {DefaultExpandedRow} from "./components/DefaultExpandedRow";
 import {Pagination} from "./components/Pagination";
 import {RenderExpandedRow} from "./components/RenderExpandedRow";
 import {RenderCell} from "./components/RenderCell";
+import {CSVLink} from "react-csv";
 
 const EMPTY_ARRAY = [];
 
@@ -44,6 +45,8 @@ export default ({
     ExpandRow = DefaultExpandedRow,
     disableFilters = false,
     disableSortBy = false,
+    csvDownload = false,
+    onCsvDownload,
     themeOptions = {},
     ...props
 }) => {
@@ -190,8 +193,21 @@ export default ({
                     }}>
                     <Loading width={'100%'} height={'100%'}/>
                 </div>}
+                {
+                    csvDownload ?
+                        <div className={'w-full text-right'}>
+                            <CSVLink
+                                data={pageData}
+                                headers={columns.map(c => ({label: c.Header, key: c.accessor}))}
+                                filename={'data.csv'}
+                                className={theme.downloadWrapper}
+                            >
+                                <i className={theme.downloadIcon || 'fa fa-download'} /> <label>csv</label>
+                            </CSVLink>
+                        </div> : null
+                }
                 <table {...getTableProps()} className="w-full">
-                    <thead>
+                <thead>
                     {headerGroups.map(headerGroup =>
                         <tr {...headerGroup.getHeaderGroupProps()}>
                             {headerGroup.headers
