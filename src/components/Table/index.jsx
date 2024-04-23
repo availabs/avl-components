@@ -109,7 +109,7 @@ export default ({
             disableSortBy,
             initialState: {
                 pageSize: +pageSize || +initialPageSize,
-                sortBy: [{id: sortBy, desc: sortOrder.toLowerCase() === "desc"}]
+                ...sortBy && {sortBy: [{id: sortBy, desc: sortOrder.toLowerCase() === "desc"}]}
             }
         },
         useFilters,
