@@ -1,6 +1,6 @@
 import React from "react"
 
-import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd"
+import { DragDropContext, Droppable, Draggable } from '@hello-pangea/dnd'// 'react-beautiful-dnd';
 
 import { useTheme } from "../../wrappers/with-theme"
 
