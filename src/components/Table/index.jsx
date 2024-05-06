@@ -109,7 +109,7 @@ export default ({
             disableSortBy,
             initialState: {
                 pageSize: +pageSize || +initialPageSize,
-                sortBy: [{id: sortBy, desc: sortOrder.toLowerCase() === "desc"}]
+                ...sortBy && {sortBy: [{id: sortBy, desc: sortOrder.toLowerCase() === "desc"}]}
             }
         },
         useFilters,
@@ -208,61 +208,68 @@ export default ({
                 }
                 <table {...getTableProps()} className="w-full">
                 <thead>
-                    {headerGroups.map(headerGroup =>
-                        <tr {...headerGroup.getHeaderGroupProps()}>
-                            {headerGroup.headers
-                                .map(column =>
-                                    <th {...column.getHeaderProps({
-                                        ...column.getSortByToggleProps(),
-                                        style: {
-                                            minWidth: column.minWidth,
-                                            width: column.width,
-                                            maxWidth: column.maxWidth
-                                        },
-                                    })}
-                                        className={theme.tableHeader}>
-                                        <div className={'flex flex-col'}>
-                                            <div className={`flex justify-between items-center`}>
-                                                <div className="flex-1 pr-1">
-                                                    {column.render("Header")}
+                    {headerGroups.map(headerGroup => {
+                        const { key: headerGroupKey, ...headerGroupProps } = headerGroup.getHeaderGroupProps();
+                        return (
+                            <tr key={ headerGroupKey } {...headerGroupProps}>
+                                {headerGroup.headers
+                                    .map(column => {
+                                        const { key: columnHeaderKey, ...columnHeaderProps } =
+                                          column.getHeaderProps({
+                                            ...column.getSortByToggleProps(),
+                                            style: {
+                                              minWidth: column.minWidth,
+                                              width: column.width,
+                                              maxWidth: column.maxWidth,
+                                            },
+                                          });
+                                        return (
+                                            <th key={ columnHeaderKey } { ...columnHeaderProps }
+                                                className={theme.tableHeader}>
+                                                <div className={'flex flex-col'}>
+                                                    <div className={`flex justify-between items-center`}>
+                                                        <div className="flex-1 pr-1">
+                                                            {column.render("Header")}
+                                                        </div>
+                                                        <>
+                                                            {
+                                                                column.info &&
+                                                                <i
+                                                                    className={`${theme.infoIcon}`}
+                                                                    title={column.info}
+                                                                />
+                                                            }
+                                                            {!column.canSort ? null :
+                                                                !column.isSorted ?
+                                                                    <i className={`ml-2 pt-1 ${theme.sortIconIdeal}`}/> :
+                                                                    column.isSortedDesc ?
+                                                                        <i className={`ml-2 pt-1 ${theme.sortIconDown}`}/> :
+                                                                        <i className={`ml-2 pt-1 ${theme.sortIconUp}`}/>
+                                                            }
+                                                        </>
+                                                    </div>
+                                                    <div>
+                                                        {!column.canFilter ? null :
+                                                            <div>{column.render(filters[column.filter] || 'Filter')}</div>}
+                                                    </div>
                                                 </div>
-                                                <>
-                                                    {
-                                                        column.info &&
-                                                        <i
-                                                            className={`${theme.infoIcon}`}
-                                                            title={column.info}
-                                                        />
-                                                    }
-                                                    {!column.canSort ? null :
-                                                        !column.isSorted ?
-                                                            <i className={`ml-2 pt-1 ${theme.sortIconIdeal}`}/> :
-                                                            column.isSortedDesc ?
-                                                                <i className={`ml-2 pt-1 ${theme.sortIconDown}`}/> :
-                                                                <i className={`ml-2 pt-1 ${theme.sortIconUp}`}/>
-                                                    }
-                                                </>
-                                            </div>
-                                            <div>
-                                                {!column.canFilter ? null :
-                                                    <div>{column.render(filters[column.filter] || 'Filter')}</div>}
-                                            </div>
-                                        </div>
-                                    </th>
-                                )
-                            }
-                        </tr>
+                                            </th>
+                                        )
+                                    })
+                                }
+                            </tr>
+                        )}
                     )
                     }
-
                     </thead>
                     <tbody {...getTableBodyProps()}>
                     {page.map((row) => {
                         const {onClick, expand = []} = row.original;
                         prepareRow(row);
+                        const { key: rowKey, ...rowProps } = row.getRowProps();
                         return (
-                            <React.Fragment key={row.getRowProps().key}>
-                                <tr {...row.getRowProps()}
+                            <React.Fragment key={ rowKey }>
+                                <tr { ...rowProps }
                                     onMouseEnter={typeof onRowEnter === "function" ? e => onRowEnter(e, row) : null}
                                     onMouseLeave={typeof onRowLeave === "function" ? e => onRowLeave(e, row) : null}
                                     className={`
