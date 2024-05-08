@@ -1,5 +1,6 @@
-import React, { useState, useEffect } from "react"
-import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd"
+import React from "react"
+
+import { DragDropContext, Droppable, Draggable } from '@hello-pangea/dnd'// 'react-beautiful-dnd';
 
 import { useTheme } from "../../wrappers/with-theme"
 
@@ -66,7 +67,7 @@ export const DndList = ({ onDrop, children, offset={x:0, y:0}, className = "" })
       <StrictModeDroppable droppableId={ makeId() } className="box-content">
         { (provided, snapshot) => {
           return (
-            
+
               <div ref={ provided.innerRef }
                 { ...provided.droppableProps }
                 className={ `flex flex-col
@@ -81,7 +82,7 @@ export const DndList = ({ onDrop, children, offset={x:0, y:0}, className = "" })
                 }
                 { provided.placeholder }
               </div>
-            
+
           )
         }
       }
