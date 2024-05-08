@@ -8,9 +8,9 @@ let id = -1;
 const makeId = () => `list-${ ++id }`;
 
 export const StrictModeDroppable = ({ children, ...props }) => {
-  const [enabled, setEnabled] = useState(false);
+  const [enabled, setEnabled] = React.useState(false);
 
-  useEffect(() => {
+  React.useEffect(() => {
     const animation = requestAnimationFrame(() => setEnabled(true));
     return () => {
       cancelAnimationFrame(animation);
