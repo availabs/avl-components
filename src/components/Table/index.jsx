@@ -263,7 +263,9 @@ export default ({
                     }
                     </thead>
                     <tbody {...getTableBodyProps()}>
-                    {page.map((row) => {
+                    {page
+                        .filter(row => !row.original.totalRow)
+                        .map((row) => {
                         const {onClick, expand = []} = row.original;
                         prepareRow(row);
                         const { key: rowKey, ...rowProps } = row.getRowProps();
@@ -297,7 +299,42 @@ export default ({
                         )
                     })
                     }
-
+                    {
+                        rows.filter(row => row.original.totalRow)
+                            .map(row => {
+                                const {onClick, expand = []} = row.original;
+                                prepareRow(row);
+                                const { key: rowKey, ...rowProps } = row.getRowProps();
+                                return (
+                                    <React.Fragment key={ rowKey }>
+                                        <tr { ...rowProps }
+                                            onMouseEnter={typeof onRowEnter === "function" ? e => onRowEnter(e, row) : null}
+                                            onMouseLeave={typeof onRowLeave === "function" ? e => onRowLeave(e, row) : null}
+                                            className={`
+                                        ${theme.totalRow}
+                                        ${(onClick || onRowClick) ? "cursor-pointer" : ""}
+                                    `}
+                                            onClick={e => {
+                                                (typeof onRowClick === "function") && onRowClick(e, row);
+                                                (typeof onClick === "function") && onClick(e, row);
+                                            }}>
+                                            {row.cells.map((cell, ii) =>
+                                                <RenderCell
+                                                    key ={ii}
+                                                    {...{
+                                                        ii, cell, row, columns,
+                                                        expand, expanded, toggleRowExpanded,
+                                                        theme
+                                                    }}
+                                                />
+                                            )
+                                            }
+                                        </tr>
+                                        <RenderExpandedRow {...{row, expand, visibleColumns, ExpandRow, theme}} />
+                                    </React.Fragment>
+                                )
+                            })
+                    }
                     </tbody>
                 </table>
             </div>
