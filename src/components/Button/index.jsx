@@ -55,6 +55,7 @@ const ConfirmButton = ({
 export const Button = ({
   children,
   type = "button",
+  className = "",
   showConfirm=false,
   confirmMessage = "click to confirm",
   themeOptions={},
@@ -69,7 +70,7 @@ export const Button = ({
         type={type}
         {...props}
         confirmMessage={confirmMessage}
-        className={`${theme.button}`}
+        className={`${theme.button} ${className}`}
       >
         {children}
       </ConfirmButton>
@@ -79,7 +80,7 @@ export const Button = ({
     <button
       type={type}
       {...props}
-      className={`${theme.button}`}
+      className={`${theme.button} ${className}`}
     >
       {children}
     </button>
