@@ -57,7 +57,7 @@ export default ({
     const [pageValue, setPageValue] = useState(0);
     const [loading, setLoading] = useState(false);
 
-    const theme = typeof useTheme === 'function' ? useTheme().table(themeOptions) : defaultTheme(themeOptions);
+    const theme = typeof useTheme === 'function' && useTheme()?.table ? useTheme().table(themeOptions) : defaultTheme(themeOptions);
 
     const filterTypes = React.useMemo(
         () => ({
