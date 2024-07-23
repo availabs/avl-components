@@ -25,6 +25,7 @@ import {Pagination} from "./components/Pagination";
 import {RenderExpandedRow} from "./components/RenderExpandedRow";
 import {RenderCell} from "./components/RenderCell";
 import {CSVLink} from "react-csv";
+import defaultTheme from './defaultTheme'
 
 const EMPTY_ARRAY = [];
 
@@ -56,7 +57,7 @@ export default ({
     const [pageValue, setPageValue] = useState(0);
     const [loading, setLoading] = useState(false);
 
-    const theme = useTheme().table(themeOptions);
+    const theme = typeof useTheme === 'function' ? useTheme().table(themeOptions) : defaultTheme(themeOptions);
 
     const filterTypes = React.useMemo(
         () => ({
