@@ -28,7 +28,12 @@ const defaultTheme = (opts = {}) => {
             border border-transparent shadow
             text-sm leading-4 text-white bg-blue-600 hover:bg-blue-700
             focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500`,
-        danger: ''
+        danger: `
+          border border-red-300 text-white bg-red-500 
+          focus:outline-none focus:shadow-outline-blue focus:border-blue-300
+          active:bg-red-600 hover:bg-red-700 transition duration-150 ease-in-out
+          disabled:cursor-not-allowed
+        `
     }
 
     let sizes  = {
