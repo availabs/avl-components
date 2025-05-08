@@ -1,6 +1,6 @@
 import {useState} from "react";
 import {RenderFlyout} from "./RenderFlyout";
-import {useMatch, useNavigate} from "react-router-dom";
+import {useMatch, useNavigate} from "react-router";
 
 export const RenderTabs = ({
                                mode = 'desktop',
@@ -30,8 +30,8 @@ export const RenderTabs = ({
                 className={isActive ? activeRootTabStyle : rootTabStyle}
                 onClick={e => onClick ? e.stopPropagation() && onClick({tab, flyout, setFlyout}) : navigate(tab.path)} //for mobile on div click setFlyout
                 onMouseOver={e => setFlyout(tab.name)}
-                // onMouseLeave={e => setFlyout(undefined)}
-                // onMouseOut={e => setFlyout(undefined)}
+                onMouseLeave={e => setFlyout(undefined)}
+                onMouseOut={e => setFlyout(undefined)}
             >
                     <div onClick={e => navigate(tab.path)}>
                         {tab.name}
