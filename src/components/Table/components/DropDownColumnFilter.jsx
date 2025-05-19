@@ -9,12 +9,14 @@ export const DropDownColumnFilter = ({
                                       id,
                                       filterMeta,
                                       filterDomain,
-                                      onFilterChange,
+                                      onFilterChange = () => {},
                                       customValue,
+                                      searchable = false,
                                       filterThemeOptions,
                                       filterClassName,
                                       filterMulti,
-                                      filterRemovable = true
+                                      filterRemovable = true,
+                                      filterPlaceholder = "Select a value...",
                                   },
                               }) => {
     // Calculate the options for filtering
@@ -37,13 +39,14 @@ export const DropDownColumnFilter = ({
         <div className="">
             <Select
                 domain={filterDomain || options}
+                searchable={searchable}
                 value={filterValue || customValue || []}
                 // value = {['row2']}
                 onChange={(e) => {
                     setFilter(e || undefined)
                     onFilterChange(e || undefined) // Set undefined to remove the filter entirely
                 }}
-                placeHolder={`Search ${count} records...`}
+                placeholder={filterPlaceholder}
                 removable={filterRemovable}
                 multi={filterMulti}
                 themeOptions={filterThemeOptions}
