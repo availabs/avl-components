@@ -1,5 +1,4 @@
 const compose = (themeType, theme) => {
-	console.log('avl-components - themes - utils - compose', themeType, theme)
 	const [base, ...rest] = themeType.split(/(?<!^)(?=[A-Z])/);
 	if (!theme.$compositions) return theme[base] || "";
 	if (!theme.$compositions[base]) return theme[base] || "";
