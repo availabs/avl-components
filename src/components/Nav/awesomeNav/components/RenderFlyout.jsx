@@ -7,7 +7,7 @@ export const RenderFlyout = ({display, tabs=[], tabStyle, activeTabStyle, flyout
 
     return (
         <>
-            <div className={`${display ? flyoutWrapper : `hidden`} ${depthLevel > 1 ? 'grid-cols-1' : ``}`} style={{ maxWidth: '500px'}}>
+            <div className={`${display ? flyoutWrapper : `hidden`} `}>
                 {
                     tabs.map(tab => {
                         const subMenus = tab.subMenus;
@@ -16,14 +16,14 @@ export const RenderFlyout = ({display, tabs=[], tabStyle, activeTabStyle, flyout
                         return (
                             <div
                                 key={tab.name}
-                                className={`${isActive ? activeTabStyle : tabStyle}`}
+                                className={`${isActive ? activeTabStyle : tabStyle} items-center ${depthLevel > 0 ? `left-full` : ``}`}
                                 onClick={e => {
                                     e.stopPropagation();
                                     navigate(tab.path)
                                 }}
                                 onMouseOver={e => setFlyout(tab.name)}
-                                // onMouseLeave={e => setFlyout(undefined)}
-                                // onMouseOut={e => setFlyout(undefined)}
+                                onMouseLeave={e => setFlyout(undefined)}
+                                onMouseOut={e => setFlyout(undefined)}
                             >
                                 {tab.name} {subMenus?.length ? <i className={`p-1 ${flyoutRightIcon}`} /> : null}
                                     {
@@ -32,9 +32,9 @@ export const RenderFlyout = ({display, tabs=[], tabStyle, activeTabStyle, flyout
                                                 <RenderFlyout
                                                     tabs={subMenus}
                                                     display={flyout?.length}
-                                                    tabStyle={`${tabStyle}`}
+                                                    tabStyle={`${tabStyle} border-2`}
                                                     activeTabStyle={activeTabStyle}
-                                                    flyoutWrapper={flyoutWrapper.replace('cols-3', 'cols-1')}
+                                                    flyoutWrapper={flyoutWrapper}
                                                     flyoutRightIcon={flyoutRightIcon}
                                                     depthLevel={depthLevel + 1}
                                                 />
