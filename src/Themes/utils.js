@@ -1,4 +1,5 @@
 const compose = (themeType, theme) => {
+	if(typeof themeType !== 'string') return {};
 	const [base, ...rest] = themeType.split(/(?<!^)(?=[A-Z])/);
 	if (!theme.$compositions) return theme[base] || "";
 	if (!theme.$compositions[base]) return theme[base] || "";
