@@ -44,6 +44,7 @@ export const DesktopMenu = ({
   themeOptions={}
 }) => {
   let theme = useTheme()['topnav'](themeOptions);
+  console.log('hola top nav', menuItems)
   return (
     <div className={`${theme.topnavWrapper}`}>
       <div className={`${theme.topnavContent} justify-between`}>

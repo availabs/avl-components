@@ -63,12 +63,12 @@ const NavItem = ({
 				
 				<Link
 					className={`${className ? className : navClass}`}
-					
-					onClick={(e) => {
+					to={To[0]}
+					/*onClick={(e) => {
 						e.stopPropagation();
 						if (onClick) return onClick(To[0]);
 						if (To[0]) navigate(To[0]);
-					}}
+					}}*/
 					onMouseOutCapture={() =>
 						(subMenuActivate === 'onHover' && setShowSubMenu(false)) ||
 						(subMenuActivate !== 'onHover' && setHovering(false) && setShowSubMenu(false))
